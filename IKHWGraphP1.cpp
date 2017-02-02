@@ -46,7 +46,7 @@ int printAllPathsInAGraphUtil(vi& g, vector<int>& v, int &src, int& dest, vvi& p
 
 /* Problem: Print all paths.
  * Example:
- * Approach:
+ * Approach:Do a DFS search
  * Complexity:
  * Space Complexity:
  * Any other better approach:
@@ -786,3 +786,14 @@ int IKSolution::countNoOfIslands(vvi matrix)
 }
 
 /*****************************************************************************************************/
+
+
+int BloomFilter::addAnItem(vector<int> data)
+{
+    return 0;
+}
+
+bool BloomFilter::isPossiblyPresent(int data)
+{
+    return 0;
+}
