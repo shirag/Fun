@@ -5,6 +5,9 @@
 
 using namespace std;
 
+int countBitsUsingLookUp(int);
+
+
 struct ListNode
 {
     int val;

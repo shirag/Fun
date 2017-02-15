@@ -11,9 +11,12 @@
 #include <string.h>
 #include <vector>
 #include <map>
-#include "IKSolution.hpp"
 #include <algorithm>
 #include <queue>
+#include "murmur3.h"
+
+#define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
+#include "IKSolution.hpp"
 
 
 /************************************************************************************************/
@@ -344,7 +347,6 @@ bool oneDiff(string& s1, string& s2)
 
     while((index < size1) && (index < size2))
     {
-
         if( (s1[index] != s2[index]) && (ondiffFound == false))
             ondiffFound = true;
         else if( (s1[index] != s2[index]) && ondiffFound == true)
@@ -364,7 +366,6 @@ int getNextLevelStrings(ls& dict, string& begin, ls& l, map<string,string>& mp)
     {
         if(oneDiff(begin,*it) == 1)
         {
-            //cout << "oneDiff " <<  begin << " "  << *it << "\n";
             l.push_back(*it);
             if(mp.find(*it) == mp.end())
                 mp[*it] = begin;
@@ -373,6 +374,7 @@ int getNextLevelStrings(ls& dict, string& begin, ls& l, map<string,string>& mp)
 
     return 0;
 }
+
 
 
 /* Problem:
@@ -396,7 +398,7 @@ int getNextLevelStrings(ls& dict, string& begin, ls& l, map<string,string>& mp)
  * Take away:
  *        Identify the connection function.
  */
-int IKSolution::convertAString(ls& dict, string& begin, string& end)
+vector<string> IKSolution::convertAString(ls& dict, string& begin, string& end)
 {
     unsigned int level = 0;
     int index = 0;
@@ -426,12 +428,13 @@ int IKSolution::convertAString(ls& dict, string& begin, string& end)
             if(it1 != flags.end())
                 continue;
 
-            cout << "level:" << level << " index: " << index++;
-            cout << " string = " << begin << "\n";
+            DEBUG_DEBUG(cout << "line# "<< __LINE__<< ": "; cout << "level:" << level << " index: " << index++);
+            DEBUG_DEBUG(cout << "line# "<< __LINE__<< ": "; cout << " string = " << begin << "\n");
+
 
             if(begin == end)
             {
-                cout<< " We found the destination at level = " << level << "\n";
+                DEBUG_DEBUG(cout << "line# "<< __LINE__<< ": "; cout<< " We found the destination at level = " << level << "\n");
                 break;
             }
 
@@ -453,7 +456,6 @@ int IKSolution::convertAString(ls& dict, string& begin, string& end)
 
     while(1)
     {
-        //cout << " " << toF;
         if(!toF.empty())
             s.push(toF);
 
@@ -466,12 +468,17 @@ int IKSolution::convertAString(ls& dict, string& begin, string& end)
     }
     cout << "\n";
 
+    vector<string> ret;
+
     do{
         cout << s.top();
+        ret.push_back(s.top());
         s.pop();
-    }while(!s.empty() && (cout << " --> "));
+    }while(!s.empty() && (cout << " --> ") );
 
-    return level;
+    cout << "\n";
+
+    return ret;
 }
 /*******************************************************************************************************/
 struct topNode
@@ -487,7 +494,7 @@ int topologicalSortUtilDFS(vector<lnp>& g, int i, set<char>& visited, stack<char
     topNode tn = g[i].front();
     visited.insert(tn.val);
 
-    cout << "processing node val " << tn.val << "\n";
+    DEBUG_TRACE(cout << "processing node val " << tn.val << "\n");
 
     for(auto it = (++(g[i].begin())); it != g[i].end(); it++)
     {
@@ -786,14 +793,61 @@ int IKSolution::countNoOfIslands(vvi matrix)
 }
 
 /*****************************************************************************************************/
-
-
-int BloomFilter::addAnItem(vector<int> data)
+/* http://www.maxburstein.com/blog/creating-a-simple-bloom-filter/ */
+/* http://blog.michaelschmatz.com/2016/04/11/how-to-write-a-bloom-filter-cpp/ */
+/* Imagine black boxes with multiple labels indicating what can be stored inside them. e.g. In one box you
+ * would store shoe/jacket. In another one you would store jacket/sweater etc. When somebody asks if I have an
+ * item, the way I would answer is by weighing the corresponding box, and depending on the weight I say "NO" or "MAY BE".
+ * So, if all corresponding boxes are empty then I know for sure that item is not present. But if one of the
+ * boxes is non empty then I come back and say that item is present. I might be totally wrong in here. But, its OK.
+ * I saved space by storing multiple items in one box.
+ *
+ * Assignement is to create a bloom filter of dictionary, and then words. Look up for words. Compare times
+ * against linear search and hash-table.
+ */
+array<uint64_t, 2> hashF(const uint8_t *data, size_t len)
 {
-    return 0;
+    array<uint64_t, 2> hashValue;
+    MurmurHash3_x64_128(data, len, 0, hashValue.data());
+    return hashValue;
 }
 
-bool BloomFilter::isPossiblyPresent(int data)
+inline uint64_t nthHash(uint8_t n,
+                        uint64_t hashA,
+                        uint64_t hashB,
+                        uint64_t filterSize)
 {
-    return 0;
+    return (hashA + n * hashB) % filterSize;
 }
+
+
+
+void BloomFilter::add(const uint8_t *data, std::size_t len)
+{
+    array<uint64_t, 2> hashValues = hashF(data, len);
+
+    for (int n = 0; n < m_numHashes; n++)
+    {
+        m_bits[nthHash(n, hashValues[0], hashValues[1], m_bits.size())] = true;
+    }
+}
+
+bool BloomFilter::possiblyContains(const uint8_t *data, std::size_t len) const
+{
+    array<uint64_t, 2>  hashValues = hashF(data, len);
+
+    for (int n = 0; n < m_numHashes; n++)
+    {
+        if (!m_bits[nthHash(n, hashValues[0], hashValues[1], m_bits.size())])
+        {
+            DEBUG_DEBUG(cout << "line# "<< __LINE__<< " returning false \n");
+            return false;
+        }
+    }
+
+    DEBUG_DEBUG(cout << "line# "<< __LINE__<< " returning true \n");
+    return true;
+}
+/*****************************************************************************************************/
+
+
