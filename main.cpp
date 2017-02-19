@@ -996,6 +996,31 @@ TEST_CASE( "Intersection of two lists", "Intersection" )
     REQUIRE(soln.interSectionOfTwoLists(L1, L1) == L1.begin());
 }
 
+TEST_CASE( "Levenstein Problem", "editDistance" )
+{
+    cout << "Levenstein Problem for source string to destination string \n\n";
+
+    string str1("ki");
+    string str2("si");
+    //REQUIRE(soln.editDistance(str1, str2) == 1);
+
+
+    str1 = "kit";
+    str2 = "kat";
+    //cout << "str1 = " << str1 << "str2 = " << str2 << "\n";
+    //REQUIRE(soln.editDistance(str1, str2) == 1);
+
+    str1 = "kit";
+    str2 = "kab";
+    cout << "str1 = " << str1 << " str2 = " << str2 << " \n";
+    REQUIRE(soln.editDistance(str1, str2) == 2);
+
+
+    str1 = "kitten";
+    str2 = "sitting";
+    //REQUIRE(soln.editDistance(str1, str2) == 3);
+}
+
 
 TEST_CASE( "Initial tests", "Inits" )
 {
