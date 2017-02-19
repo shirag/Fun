@@ -117,13 +117,10 @@ void NQueensUtil(vector<char>& arr, unsigned int index, long& count)
 {
     if(index == arr.size())
     {
-#if 1
         for(unsigned int i = 0; i < (arr.size()-1); i++)
             for(unsigned int j = i + 1; j < (arr.size()); j++)
                 if(canIKeepAQueenAtThisLocation(arr[i],i,arr[j],j) == false)
                     return;
-#endif
-
         count++;
         DEBUG_DEBUG(cout << "We have a new permutation to print: ");
         string s(arr.begin(),arr.end());
@@ -167,14 +164,12 @@ void NQueensUtil(vector<char>& arr, unsigned int index, long& count)
           ".Q.."]
         ]
     Approach:
+        We have location/index --> columns and
+                        values --> rows
+        Approach is at all locations you have to place all values and find out if there is a valid permutation.
     Time Complexity:
     Space Complexity:
-
 */
-/* We have location/index --> columns and
-      *            values --> rows
- * Approach is at all locations you have to place all values and find out if there is a valid permutation.
- *          */
 long IKSolution::NQueens(int n)
 {
     vector<char> arr;
@@ -191,15 +186,6 @@ long IKSolution::NQueens(int n)
 
 }
 /****************************************************************************************/
-
-
-/*
- * Im going to create two substrings. One with one chars, Another with all chars onto the right of that one char.
- * Ask my subordinate to repeat the same process.
- * Im going to create two substrings. One with two chars, Another with all chars onto the right of those two chars.
- * Ask my subordinate to repeat the same process.
- * Repeat the above process for all chars in the string.
- * */
 void giveMeAllSubStringsfromIndex(int sindex, string& strInput, vector<string>&res, vector<string>& fr)
 {
 
@@ -236,7 +222,7 @@ void giveMeAllSubStringsfromIndex(int sindex, string& strInput, vector<string>&r
         {
             string s(strInput.c_str() + sindex, i + 1 );
             res.push_back(s);
-            giveMeAllSubStringsfromIndex(sindex + i + 1, strInput, res, fr); //request the next guy to provide with all palindromes.
+            giveMeAllSubStringsfromIndex(sindex + i + 1, strInput, res, fr); //request the next guy to provide with all palindrome.
             res.pop_back();
         }
         if(sindex == 0)
@@ -250,7 +236,7 @@ void giveMeAllSubStringsfromIndex(int sindex, string& strInput, vector<string>&r
 
 /*
  * Problem:
-     * Palindrome Decomposition
+     * Palindromic Decomposition
        A "Palindrome Decomposition" of string S, is a decomposition of the string into
        substrings, such that all those substrings are valid palindromes. A single character is
        considered a valid palindrome for this problem. Print out all possible palindromic
@@ -264,6 +250,11 @@ void giveMeAllSubStringsfromIndex(int sindex, string& strInput, vector<string>&r
         "a|b|r|a|c|ada|b|r|a|",
         "a|b|r|aca|d|a|b|r|a|"
    Approach:
+       Im going to create two substrings. One with one chars, Another with all chars onto the right of that one char.
+ *     Ask my subordinate to repeat the same process.
+ *     Im going to create two substrings. One with two chars, Another with all chars onto the right of those two chars.
+ *     Ask my subordinate to repeat the same process.
+ *     Repeat the above process for all chars in the string.
    Time Complexity:
    Space Complexity:
 

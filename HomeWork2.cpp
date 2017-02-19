@@ -291,54 +291,6 @@ Node* IKSolution::treeToDoubleLL(Node* root)
     return head;
 }
 
-#if 0
-# Try the divide and conquer
-Node* Solution::treeToDoubleLL(Node* root)
-{
-
-    if(root == NULL)
-        return NULL;
-
-    Node* headLeftLL = NULL;
-    Node* headRightLL = NULL;
-
-    cout << "\n*************************************************\n";
-    if(root->left)
-    {
-        headLeftLL = treeToDoubleLL(root->left);
-        root->left->right = root;
-        cout << "\n Connecting " << root->left->val <<  "'s right to " << root->val ;
-    }
-    else
-        headLeftLL = root;
-
-
-    if(root->right)
-    {
-        headRightLL = treeToDoubleLL(root->right);
-        root->right->left = root;
-        cout << "\n Connecting R LL " << root->right->val <<  "'s left to " << root->val ;
-    }
-    else
-        headRightLL = root;
-
-
-    if(headLeftLL)
-    {
-        headLeftLL->left = headRightLL;
-        cout << "\n Connecting L LL " << headLeftLL->val <<  "'s left to " << headRightLL->val ;
-    }
-
-    if(headRightLL)
-    {
-        headRightLL->right = headLeftLL;
-        cout << "\n Connecting " <<  headRightLL->val <<  "'s right to " << headLeftLL->val ;
-    }
-
-    return headLeftLL;
-
-}
-#endif
 
 /****************************************************************************************************************/
 int lcaUtilRec(Node* node, vector<Node*>&v, int n)

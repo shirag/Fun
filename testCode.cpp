@@ -7,6 +7,13 @@
 #include <stdlib.h>
 #include <vector>
 
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"Solution.h"
+#include<map>
+#include "IKSolution.hpp"
+
 using namespace std;
 
 
@@ -34,6 +41,110 @@ map<pair <int, int> , int> myMatrix;
 int findKthLargest(vector<int> &v1, vector<int> &v2, int k,int& val);
 int getMiddleValue(vector<int> &v,int low,int high);
 int findKthLargestRecursive(vector<int> &v1, int low1, int high1, vector<int> &v2, int low2, int high2, int k);
+Solution mySolution;
+
+
+int testZigZagConversion();
+int testAddTwoNos();
+int understandStringFuncs();
+void reverseWordsInAString(string &s);
+
+#if 0
+int main()
+{
+    cout << "Hello World!!!\n";
+
+
+
+    //testAddTwoNos();
+
+    //testZigZagConversion();
+
+    //understandStringFuncs();
+
+    //int maxLen;
+
+    //string s("rag\n\tflf.txt");
+    //maxLen = longestStringFunction(s);
+
+    vi W(10);
+
+
+    //cout << "\n W.size() " << W.size() <<"\n";
+    //cout << " W[0].size() " << W[0].size() <<"\n";
+    //cout << " W[1].size() " << W[1].size() <<"\n";
+
+    //cout << "Max lengthVal = " << maxLen;
+    vector< pair<int, int> > edges;
+    edges.push_back(make_pair(0,1));
+    edges.push_back(make_pair(1,2));
+    edges.push_back(make_pair(3,4));
+
+    //edges.push_back(make_pair(0,1));
+    //edges.push_back(make_pair(0,2));
+    //edges.push_back(make_pair(0,3));
+    //edges.push_back(make_pair(1,4));
+    //edges.push_back(make_pair(1,5));
+    //edges.push_back(make_pair(1,6));
+    //edges.push_back(make_pair(1,2));
+    //edges.push_back(make_pair(2,7));
+    //edges.push_back(make_pair(2,8));
+    //edges.push_back(make_pair(2,9));
+    //edges.push_back(make_pair(3,10));
+    //edges.push_back(make_pair(3,11));
+    //edges.push_back(make_pair(3,12));
+
+
+    //int counter = countComponents(13,edges);
+    //int counter = countComponents(5,edges);
+
+    //cout << "counter " << counter << "\n";
+
+
+#if  0
+    soln.setVal("raghav", 100);
+    soln.setVal("raghav", 200);
+
+    int val = soln.getValue("raghav");
+    cout << "Get val = " << val << "\n";
+
+    soln.setVal("shivani", 1000);
+    soln.setVal("shourya", 2000);
+
+    val = soln.deleteVal("shivani");
+    soln.setVal("lakshmi",5000);
+
+
+    val = soln.getValue("raghav");
+    cout << "Get val = " << val << "\n";
+
+    val = soln.getValue("shourya");
+    cout << "Get val = " << val << "\n";
+
+    val = soln.getValue("lakshmi");
+    cout << "Get val = " << val << "\n";
+
+    val = soln.getValue("shivani");
+    cout << "Get val = " << val << "\n";
+
+    for (int j = 0; j < 1000; j++)
+    {
+        soln.getRandomVal();
+    }
+#endif
+
+
+    cout << "\n\n*********** End of IKMain *******************\n";
+
+    return 0;
+
+
+    cout << "End of Main";
+
+    return 0;
+}
+#endif
+
 
 #if 0
 int main (int argc, char *argv[])
@@ -444,6 +555,115 @@ int addNodeToList(linkedList *headOfList,int data)
  
 }
 #endif
+
+
+void reverseWordsInAString(string &s)
+{
+    reverse(s.begin(),s.end());
+
+    string::iterator itB = s.begin();
+    string::iterator itE = s.begin();
+
+    while(itE != s.end())
+    {
+        if((*itB == 32) && (*itE == 32))
+        {
+            s.erase(itB);
+            continue;
+        }
+
+        if((*itB != 32) && (*itE == 32))
+        {
+           reverse(itB,itE);
+           itB = itE + 1;
+        }
+
+        itE++;
+
+    }
+
+    if((itB != s.end()) && (*itB != 32))
+    {
+        reverse(itB,itE);
+    }
+
+}
+
+
+int understandStringFuncs()
+{
+    string myString;
+
+    myString.assign("raghav");
+    string::iterator itB = myString.begin();
+    string::iterator itE = myString.end()-1;
+
+    cout<< "First char before erase is = "<<*itB << "\n";
+    cout<< "Last char before erase is = "<<*itE << "\n";
+
+    //myString.erase(myString.begin());
+    std::reverse(myString.begin(),myString.end());
+
+    cout<< "First char after erase is = "<<*itB << "\n";
+    cout<< "Last char after erase is = "<<*itE << "\n";
+
+    return 0;
+
+}
+
+int testZigZagConversion()
+{
+    string resultString = mySolution.zigZagConvert("PAYPALISHIRING",3);
+    cout << " \n The zigZagged string is " << resultString << "\n";
+
+    return 0;
+}
+
+
+int testAddTwoNos()
+{
+
+    ListNode node1;
+    ListNode node2;
+    ListNode node3;
+    ListNode node4;
+    ListNode node5;
+    ListNode node6;
+
+    ListNode *resultNode;
+
+
+    node1.val = 2;
+    node1.next = &node2;
+
+    node2.val = 4;
+    node2.next = &node3;
+
+    node3.val = 3;
+    node3.next = 0x00;
+
+
+    node4.val = 5;
+    node4.next = &node5;
+
+    node5.val = 6;
+    node5.next = &node6;
+
+    node6.val = 4;
+    node6.next = 0x00;
+
+    resultNode = mySolution.addTwoNumbers(&node1, &node4);
+
+    while (resultNode != 0x00)
+    {
+        cout << "\n resultNode->val = " << resultNode->val;
+        resultNode = resultNode->next;
+    }
+
+    cout << "\n End of program ..\n ";
+
+    return 0;
+}
 
 
 

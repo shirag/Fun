@@ -7,44 +7,12 @@
 
 #define CATCH_CONFIG_MAIN
 #include "Catch.hpp"
-
-int testZigZagConversion();
-int testAddTwoNos();
-
-Solution mySolution;
-int understandStringFuncs();
-void reverseWordsInAString(string &s);
-
-
 using namespace std;
-
-
-
-int testIKWork();
-
-#if 0
-int main()
-{
-    cout << "Hello World!!!\n";
-
-    //testAddTwoNos();
-
-    //testZigZagConversion();
-
-    //understandStringFuncs();
-
-    testIKWork();
-
-    cout << "End of Main";
-
-    return 0;
-}
-#endif
 
 
 IKSolution soln;
 
-#if 0
+
 TEST_CASE( "Count the number of islands", "[Islands]" ) {
 
 
@@ -70,9 +38,8 @@ TEST_CASE( "Count the number of islands", "[Islands]" ) {
     REQUIRE( soln.countNoOfIslands(b) == 1 );
     REQUIRE( soln.countNoOfIslands(c) == 0 );
 }
-#endif
 
-#if 0
+
 TEST_CASE( "Convert a string from src to dest", "[Convert a string]" ) {
 
 
@@ -94,10 +61,10 @@ TEST_CASE( "Convert a string from src to dest", "[Convert a string]" ) {
     REQUIRE( soln.convertAString(dict1, s11, s12) == dest1);
 
 }
-#endif
 
-#if 0
-TEST_CASE( "Bloom filter tests", "[Bloom]" ) {
+
+TEST_CASE( "Bloom filter tests", "[Bloom]" )
+{
 
    BloomFilter bf(100,2); //size = 5, hash function 2;
    uint8_t data[] = {1,2,3,4,5};
@@ -119,9 +86,9 @@ TEST_CASE( "Bloom filter tests", "[Bloom]" ) {
 
 
 }
-#endif
-#if 0
-TEST_CASE( "Print all subsets", "subsets" ) {
+
+TEST_CASE( "Print all subsets", "subsets" )
+{
 
    vector<int> value0 = {1,2,3};
    ssi res0 = {{1,2,3},{1,2},{1,3},{1},{2,3},{2},{3},{}};
@@ -134,9 +101,8 @@ TEST_CASE( "Print all subsets", "subsets" ) {
               };
    REQUIRE(soln.provideSubSets(value1) == res1);
 }
-#endif
 
-#if 0
+
 TEST_CASE( "Expression Evaluator", "EV" ) {
 
 
@@ -168,7 +134,6 @@ TEST_CASE( "Expression Evaluator", "EV" ) {
    REQUIRE(soln.expressionEvaluator(s5, res5) == ress5);
 
 }
-#endif
 
 TEST_CASE( "Palindromic Decomposition", "PV" )
 {
@@ -398,7 +363,7 @@ TEST_CASE( "Find the head of the loop in a LL", "Linked List" )
 
     int size = is.size();
     int startIndex = 0;
-    int endIndex = 0;
+    int endIndex = size;
 
     for(int i = startIndex; i < endIndex; i++)
     {
@@ -419,9 +384,16 @@ TEST_CASE( "Longest substring with matching parentheses", "Longest substring" )
     is.push_back("((())((()");
     res.push_back(4);
 
+    is.push_back("((())(((())");
+    res.push_back(4);
+
+    is.push_back("((())(((())))");
+    res.push_back(12);
+
+
     int size = is.size();
     int startIndex = 0;
-    int endIndex = 0;
+    int endIndex = size;
 
     for(int i = startIndex; i < endIndex; i++)
     {
@@ -439,7 +411,6 @@ TEST_CASE( "Find the middle of a Linked List", "Middle List" )
     vector<int> res;
 
     List *ptr1 = nullptr;
-
     is.push_back(ptr1);
     res.push_back(0);
 
@@ -456,7 +427,6 @@ TEST_CASE( "Find the middle of a Linked List", "Middle List" )
     List node13; node13.next = &node12; node13.val = 13;
     List node14; node14.next = &node13; node14.val = 14;
     List node15; node15.next = &node14; node15.val = 15;
-
     is.push_back(&node15);
     res.push_back(9);
 
@@ -474,14 +444,26 @@ TEST_CASE( "Find the middle of a Linked List", "Middle List" )
     List nod14; nod14.next = &nod13; nod14.val = 14;
     List nod15; nod15.next = &nod14; nod15.val = 15;
     List nod16; nod16.next = &nod15; nod16.val = 16;
-
-
     is.push_back(&nod16);
     res.push_back(9);
 
+
+    //Test Case: One element.
+    List node1; node1.val = 100; node1.next = nullptr;
+    is.push_back(&node1);
+    res.push_back(100);
+
+    //Test Case: Two elements.
+    List node1a; node1a.val = 100;
+    List node1b; node1b.val = 200;
+    node1a.next = &node1b;
+    node1b.next = nullptr;
+    is.push_back(&node1a);
+    res.push_back(200);
+
     int size = is.size();
     int startIndex = 0;
-    int endIndex = 0;
+    int endIndex = size;
 
     for(int i = startIndex; i < endIndex; i++)
     {
@@ -490,6 +472,62 @@ TEST_CASE( "Find the middle of a Linked List", "Middle List" )
     }
 }
 
+
+
+TEST_CASE( "Find the median of a sorted circular linked list", "Median" )
+{
+    cout << "Find the median of a sorted circular linked list \n\n";
+
+    vector<List*> is;
+    vector<int> res;
+
+    List *ptr1 = nullptr;
+    is.push_back(ptr1);
+    res.push_back(0);
+
+    //Test Case: One element.
+    List node1; node1.val = 100; node1.next = &node1;
+    is.push_back(&node1);
+    res.push_back(100);
+
+    //Test Case: Two elements.
+    List node1a; node1a.val = 100;
+    List node1b; node1b.val = 200;
+    node1a.next = &node1b;
+    node1b.next = &node1a;
+    is.push_back(&node1b);
+    res.push_back(100);
+
+    //Test Case: Odd no of elements.
+    List n1; List n2; List n3; List n4; List n5; List n6;
+    n1.val = 100; n1.next = &n2;
+    n2.val = 200; n2.next = &n3;
+    n3.val = 300; n3.next = &n4;
+    n4.val = 400; n4.next = &n5;
+    n5.val = 500; n5.next = &n1;
+    is.push_back(&n3);
+    res.push_back(300);
+
+    //Test Case: Even no of elements.
+    n1.val = 100; n1.next = &n2;
+    n2.val = 200; n2.next = &n3;
+    n3.val = 300; n3.next = &n4;
+    n4.val = 400; n4.next = &n5;
+    n5.val = 500; n5.next = &n6;
+    n6.val = 600; n6.next = &n1;
+    is.push_back(&n3);
+    res.push_back(300);
+
+    int size = is.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "Next test \n\n";
+        REQUIRE(soln.Median(is[i]) == res[i]);
+    }
+}
 
 TEST_CASE( "Implement the min stack", "Min Stack" )
 {
@@ -520,7 +558,6 @@ TEST_CASE( "Implement the min stack", "Min Stack" )
         REQUIRE(soln.getMinMS() == 1);
 }
 
-#if 1
 TEST_CASE( "Swap Kth Node", "Swap Nodes" )
 {
     cout << "Swap Kth Node \n\n";
@@ -649,9 +686,7 @@ TEST_CASE( "Swap Kth Node", "Swap Nodes" )
     }
     cout << "\n";
 }
-#endif
 
-#if 0
 TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
 {
     cout << "Reverse a linked list in groups \n\n";
@@ -784,9 +819,7 @@ TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
 
 
 }
-#endif
 
-#if 0
 TEST_CASE( "Zip A Linked List from its two ends", "Zip List" )
 {
     cout << "Zip list from its two ends  \n\n";
@@ -884,8 +917,6 @@ TEST_CASE( "Zip A Linked List from its two ends", "Zip List" )
     }
     cout << "\n";
 }
-#endif
-
 
 TEST_CASE( "LRU Cache", "LRU" )
 {
@@ -900,91 +931,82 @@ TEST_CASE( "LRU Cache", "LRU" )
     cache.set(4, 4);            // evicts key 1
     REQUIRE(cache.get(1) == -1);//not found
     REQUIRE(cache.get(3) ==  3);
-    REQUIRE(cache.get(4) ==  4);
+    REQUIRE(cache.get(4) ==  4);//4 is followed by 3
+    cache.set(4, 5);            //evicts key 1
+    REQUIRE(cache.get(4) ==  5);//4 is followed by 3
+    cache.remove(4);
+    REQUIRE(cache.get(4) ==  -1);
+    REQUIRE(cache.get(3) ==  3);
+    cache.remove(10);
+
+
 }
 
-int maxLenMatchingParen(string strParenExpression);
-
-
-int testIKWork()
+TEST_CASE( "Sliding Window Problem", "Sliding Window" )
 {
+    cout << "Sliding Window Problem \n\n";
+    vector<vector<int>> is;
+    vector<unsigned int> window;
+    vector<vector<int>> res;
 
-    //int maxLen;
+    vector<int> temp = {1, 3, -1, -3, 5, 3, 6, 7};
+    vector<int> restemp = {3, 3, 5, 5, 6, 7};
+    is.push_back(temp);
+    res.push_back(restemp);
 
-    //string s("rag\n\tflf.txt");
-    //maxLen = longestStringFunction(s);
+    vector<int> temp1(temp.rbegin(),temp.rend());
+    vector<int> restemp1 =  {7, 6, 5, 5, 3, 3};
+    is.push_back(temp1);
+    res.push_back(restemp1);
 
-    vi W(10);
-
-
-    //cout << "\n W.size() " << W.size() <<"\n";
-    //cout << " W[0].size() " << W[0].size() <<"\n";
-    //cout << " W[1].size() " << W[1].size() <<"\n";
-
-    //cout << "Max lengthVal = " << maxLen;
-    vector< pair<int, int> > edges;
-    edges.push_back(make_pair(0,1));
-    edges.push_back(make_pair(1,2));
-    edges.push_back(make_pair(3,4));
-
-    //edges.push_back(make_pair(0,1));
-    //edges.push_back(make_pair(0,2));
-    //edges.push_back(make_pair(0,3));
-    //edges.push_back(make_pair(1,4));
-    //edges.push_back(make_pair(1,5));
-    //edges.push_back(make_pair(1,6));
-    //edges.push_back(make_pair(1,2));
-    //edges.push_back(make_pair(2,7));
-    //edges.push_back(make_pair(2,8));
-    //edges.push_back(make_pair(2,9));
-    //edges.push_back(make_pair(3,10));
-    //edges.push_back(make_pair(3,11));
-    //edges.push_back(make_pair(3,12));
+    vector<int> temp2 = {1,2,3};
+    vector<int> restemp2 = {3};
+    is.push_back(temp2);
+    res.push_back(restemp2);
 
 
-    //int counter = countComponents(13,edges);
-    //int counter = countComponents(5,edges);
+    int size = is.size();
+    int startIndex = 0;
+    int endIndex = size;
 
-    //cout << "counter " << counter << "\n";
-
-
-#if  0
-    soln.setVal("raghav", 100);
-    soln.setVal("raghav", 200);
-
-    int val = soln.getValue("raghav");
-    cout << "Get val = " << val << "\n";
-
-    soln.setVal("shivani", 1000);
-    soln.setVal("shourya", 2000);
-
-    val = soln.deleteVal("shivani");
-    soln.setVal("lakshmi",5000);
-
-
-    val = soln.getValue("raghav");
-    cout << "Get val = " << val << "\n";
-
-    val = soln.getValue("shourya");
-    cout << "Get val = " << val << "\n";
-
-    val = soln.getValue("lakshmi");
-    cout << "Get val = " << val << "\n";
-
-    val = soln.getValue("shivani");
-    cout << "Get val = " << val << "\n";
-
-    for (int j = 0; j < 1000; j++)
+    for(int i = startIndex; i < endIndex; i++)
     {
-        soln.getRandomVal();
+        cout << "Next test \n\n";
+        REQUIRE(soln.slidingWindowMax(is[i],3) == res[i]);
     }
-#endif
+}
 
-    //soln.prLR();
-    //soln.mergeIntervals();
-    //soln.findLargestRectangle();
 
-#if 0
+TEST_CASE( "Intersection of two lists", "Intersection" )
+{
+    cout << "Intersection of two Lists \n\n";
+
+    list<int> L1;
+    list<int> L2;
+
+    L1.push_back(1);
+    L1.push_back(2);
+    L1.push_back(3);
+
+    L2.push_back(21);
+    L2.push_back(22);
+    L2.push_back(23);
+
+    REQUIRE(soln.interSectionOfTwoLists(L1, L2) == L1.end());
+    REQUIRE(soln.interSectionOfTwoLists(L1, L1) == L1.begin());
+}
+
+
+TEST_CASE( "Initial tests", "Inits" )
+{
+    cout << "Initial tests \n\n";
+
+    soln.prLR();
+
+    soln.mergeIntervals();
+
+    soln.findLargestRectangle();
+
     //Sum Zero
     //vi intArr = {1,2,3,-10,8,-8,6,10};
     //vi intArr = {1,2,3,-10,8,6,10};
@@ -1003,15 +1025,7 @@ int testIKWork()
         cout << vs[i] << "\n";
     }
 
-#endif
-
-    //soln.printPascal(6);
-
-    //checkIfPalindromeRotate
-
-#if 0
-    //Node node;
-    vi v;
+    soln.printPascal(6);
 
     Node node1; node1.val = 5; Node node2; node2.val = 5;
     Node node3; node3.val = 5; Node node4; node4.val = 5;
@@ -1022,36 +1036,24 @@ int testIKWork()
     node4.left = NULL;   node4.right = NULL;
     node5.left = NULL;   node5.right = NULL;
     node6.left = NULL;   node6.right = NULL;
-
     soln.countUniValSubtrees(&node1);
-#endif
 
+#if 1
     //Node node1; node1.val = 100;
     //node1.left = NULL; node1.right = NULL;
-
     //Node node2; node2.val = 50; node2.left = NULL; node2.right = NULL;
     //Node node3; node3.val = 150;node3.left = NULL; node3.right = NULL;
     //Node node1; node1.val = 100;
     //node1.left = &node2; node1.right = &node3;
-#if 1
-    Node node4; node4.val = 25;node4.left = NULL; node4.right = NULL;
-    Node node5; node5.val = 75;node5.left = NULL; node5.right = NULL;
-
-    Node node6; node6.val = 125;node6.left = NULL; node6.right = NULL;
-    Node node7; node7.val = 175;node7.left = NULL; node7.right = NULL;
-
-
-    Node node2; node2.val = 50; node2.left = &node4; node2.right = &node5;
-    Node node3; node3.val = 150;node3.left = &node6; node3.right = &node7;
-
-    Node node1; node1.val = 100;
-
-
-    node1.left = &node2; node1.right = &node3;
-#endif
-#if 0
-    Node* ret = soln.treeToDoubleLL(&node1);
-
+    Node node41; node41.val = 25;node41.left = NULL; node41.right = NULL;
+    Node node51; node51.val = 75;node51.left = NULL; node51.right = NULL;
+    Node node61; node61.val = 125;node61.left = NULL; node61.right = NULL;
+    Node node71; node71.val = 175;node71.left = NULL; node71.right = NULL;
+    Node node21; node21.val = 50; node21.left = &node41; node21.right = &node51;
+    Node node31; node31.val = 150;node31.left = &node61; node31.right = &node71;
+    Node node11; node11.val = 100;
+    node11.left = &node21; node11.right = &node31;
+    Node* ret = soln.treeToDoubleLL(&node11);
     Node* temp = ret;
     cout << "\n ";
     do
@@ -1066,134 +1068,25 @@ int testIKWork()
 
 #endif
 
-#if 0
-    //unsigned int counter = 0;
-    //unsigned int k = 3;
-    //soln.findKThSmallestUtil(&node1, k, counter);
+    unsigned int counter = 0;
+    unsigned int k = 3;
+    soln.findKThSmallestUtil(&node1, k, counter);
+
     //int rows = 8; int columns = 8; int sx = 0; int sy = 0; int ex = 7; int ey = 7;
     //int rows = 6; int columns = 6; int sx = 0; int sy = 0; int ex = 5; int ey = 5;
-    //int rows = 3; int columns = 3; int sx = 0; int sy = 0; int ex = 2; int ey = 2;
-    //soln.knightsTourOnChessBoard(rows, columns, sx, sy, ex, ey);
-#endif
-
-    //vector<string> strDict = {"caa", "aaa", "aab"};
-    //vector<string> strDict = {"baa","abcd","abca","cab","cad"};
-    //vector<string> strDict = {"aa", "bb", "cc", "dd", "ee"};
-    //soln.topologicalSort(strDict); //m is the no of strings and n is the no of chars in string
+    int rows = 3; int columns = 3; int sx = 0; int sy = 0; int ex = 2; int ey = 2;
+    soln.knightsTourOnChessBoard(rows, columns, sx, sy, ex, ey);
 
 
-    cout << "\n\n*********** End of IKMain *******************\n";
-
-    return 0;
-}
-
-
-
-void reverseWordsInAString(string &s)
-{
-    reverse(s.begin(),s.end());
-
-    string::iterator itB = s.begin();
-    string::iterator itE = s.begin();
-
-    while(itE != s.end())
-    {
-        if((*itB == 32) && (*itE == 32))
-        {
-            s.erase(itB);
-            continue;
-        }
-
-        if((*itB != 32) && (*itE == 32))
-        {
-           reverse(itB,itE);
-           itB = itE + 1;
-        }
-
-        itE++;
-
-    }
-
-    if((itB != s.end()) && (*itB != 32))
-    {
-        reverse(itB,itE);
-    }
+    vector<string> strDict1 = {"caa", "aaa", "aab"};
+    vector<string> strDict2 = {"baa","abcd","abca","cab","cad"};
+    vector<string> strDict3 = {"aa", "bb", "cc", "dd", "ee"};
+    soln.topologicalSort(strDict1); //m is the no of strings and n is the no of chars in string
+    soln.topologicalSort(strDict2); //m is the no of strings and n is the no of chars in string
+    soln.topologicalSort(strDict3); //m is the no of strings and n is the no of chars in string
 
 }
 
 
-int understandStringFuncs()
-{
-    string myString;
 
-    myString.assign("raghav");
-    string::iterator itB = myString.begin();
-    string::iterator itE = myString.end()-1;
-
-    cout<< "First char before erase is = "<<*itB << "\n";
-    cout<< "Last char before erase is = "<<*itE << "\n";
-
-    //myString.erase(myString.begin());
-    std::reverse(myString.begin(),myString.end());
-
-    cout<< "First char after erase is = "<<*itB << "\n";
-    cout<< "Last char after erase is = "<<*itE << "\n";
-
-    return 0;
-
-}
-
-int testZigZagConversion()
-{
-    string resultString = mySolution.zigZagConvert("PAYPALISHIRING",3);
-    cout << " \n The zigZagged string is " << resultString << "\n";
-
-    return 0;
-}
-
-
-int testAddTwoNos()
-{
-
-    ListNode node1;
-    ListNode node2;
-    ListNode node3;
-    ListNode node4;
-    ListNode node5;
-    ListNode node6;
-
-    ListNode *resultNode;
-
-
-    node1.val = 2;
-    node1.next = &node2;
-
-    node2.val = 4;
-    node2.next = &node3;
-
-    node3.val = 3;
-    node3.next = 0x00;
-
-
-    node4.val = 5;
-    node4.next = &node5;
-
-    node5.val = 6;
-    node5.next = &node6;
-
-    node6.val = 4;
-    node6.next = 0x00;
-
-    resultNode = mySolution.addTwoNumbers(&node1, &node4);
-
-    while (resultNode != 0x00)
-    {
-        cout << "\n resultNode->val = " << resultNode->val;
-        resultNode = resultNode->next;
-    }
-
-    cout << "\n End of program ..\n ";
-
-    return 0;
-}
 

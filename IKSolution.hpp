@@ -198,6 +198,9 @@ class IKSolution
 	    /* Tree time test problem */
 	    void createBalancedBST(vector<int> iArray);
 	    int findKThSmallestUtil(Node* root, unsigned int& k, unsigned int& counter);
+	    /* K' successor problem */
+	    /* Interval trees? */
+	    /* Segment trees? */
 
 	    /* Graph/Homework3 */
         int printAllPathsInAGraph(vvi& g, int src, int dest);
@@ -226,22 +229,34 @@ class IKSolution
 	    bool sumOfIntegers(vector<int> IntArr, int iTarget); /*If there is a group of integers whose sum is K(may or may not be contigous)*/
 	    int wellFormedBrackComb(int n);
 
-        /* StackQueueLinkedList */
+        /* LinkedList */
 	    List *pointerToCycle(List *); /* Given  a pointer to the head of */
-	    int maxLenMatchingParen(string strParenExpression);
+	    list<int>::iterator interSectionOfTwoLists(list<int>& L1, list<int>& L2);
+	    int Median(List *l1);
 	    int findMiddleNode(List *head);
-
+	    List* swapKthNodes(List*, int k);
+	    List* myListreverseAListInGroupsOfGivenSize(List *myList, int k);
+	    List* zipAList(List *myList);
+	    //Stack
 	    void pushMS(int x);
 	    int popMS();
 	    int getMinMS();
 	    bool emptyMS();
-
-	    List* swapKthNodes(List*, int k);
-	    List* myListreverseAListInGroupsOfGivenSize(List *myList, int k);
-	    List* zipAList(List *myList);
-
-
+	    int maxLenMatchingParen(string strParenExpression);
+        //Prio Queue
+	    vector<int> slidingWindowMax(vector<int>, int w);
         int dutchFlag(); /* Done during class. */
+        /* Implement Queue using Stacks */ /* http://www.geeksforgeeks.org/queue-using-stacks/ */
+
+        /* Dynamic Programming */
+        int editDistance(string, string);
+        vector<string> wordBreak(string strWord, vector < string > strDict);
+        void makeChange(int C, vector < int > intDenominations);
+        int maxWin(vector < int > intCoins);
+        int numPhoneNumbers(int startdigit, int phonenumberlength);
+        int numWaysToClimb(vector < int > numSteps, int numStairs);
+        int maxStolenValue(vector < int > arrHouseValues);
+
 
 };
 
