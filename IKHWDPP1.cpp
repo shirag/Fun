@@ -11,112 +11,130 @@
 
 
 /*
- * Contract:
  *
- *      Return the min no steps from a string's given index to dest.
+ * I replace/delete/insert at an index. I ask my right index to give the min.
+ * Take the min returned by all my subordinates and return the val.
  *
- *      I replace/delete/insert.
- *      I ask my right index to give the mini
+ * At an index,
+ *    If leaf:
+ *       Try matching the string with dest. If the dest and src match, return 0.
+ *       Else return -1, indicating we could not reach the dest after all combinations.
  *
- *      Take the min returned by all my subordinates and return th
+      Replacing it with all chars(a to z).
+ *    Request the subordinate to use the string provided and next index and provide the min no steps.
  *
+ *    Delete the char at the index.
+ *    Request the subordinate to use the string provided and next index and provide the min no steps.
  *
- * */
+ *    Insert a char at the  next index.
+ *    Request the subordinate to use the string provided and next index and provide the min no steps.
+ *
+ *    Return the min of all values returned by all recursive cases.
+ *    Add one to the distance before returning.
+ *
+ */
 int editDistanceUtil(string& str1, int index, string& dest)
 {
-    /*
-     * If leaf:
-     *    Try matching the string with dest
-     *    If the dest and src match, return depth.
-     * At an index,
-     * If it already has a character, try replacing it with all chars.
-     *    Request the next index to perform the same.
-     * Else
-     *     for characters a to z:
-     *         insert a character
-     *         Request the next index to perform the same.
-     *         delete a character.
-     *         Request the next index to perform the same.
-     *
-     * Return the min of all values returned by all recursive cases.
-     * Add one to the distance before returning.
-     */
+    int dist = -1;
+    int minD = -1;
+
     if(index >= str1.size())
     {
-        DEBUG_TRACE(cout << "Hit the base case \n";)
-        return -1;
+        if(str1 == dest)
+        {
+            DEBUG_DEBUG(cout << "Index = " << index << " After replace str = " << str1 << " \n";)
+            return 0;
+        }
+        else
+        {
+
+            DEBUG_DEBUG(cout << "Base case: Index = " << index << " After replace str = " << str1 << " \n";)
+            return -1;
+        }
     }
 
-    int d3 = 1;
-    int dist = 1;
-    int d = 1;
-    int maxD = 1;
 
-    DEBUG_DEBUG(cout << "Index = " << index << " After replace str = " << str1 << " \n";)
-
-    char temp = str1[index];
     //Replace the char at index
+    char temp = str1[index];
     for(int i = 0; i < 26; i++)
     {
+        str1[index] = 'a' + i;
+        if(str1[index] != dest[index])
+        {
+            continue;
 
-        //if( ('a' + i) != temp)
-        //{
-            str1[index] = 'a' + i;
-            DEBUG_TRACE(cout << "Index = " << index << " After replace str = " << str1 << " \n";)
-            if(str1 == dest)
+        }
+        dist = editDistanceUtil(str1, (index + 1), dest);
+        if(dist != -1)
+        {
+            if( ('a' + i) != temp)
             {
-                DEBUG_DEBUG(cout << "Index = " << index << " After replace str = " << str1 << " \n";)
-                DEBUG_DEBUG(cout << " SRC = DEST \n";)
-                return 0;
+                dist = dist + 1;
             }
-            else
-            {
-                dist = editDistanceUtil(str1, (index + 1), dest);
-                if(dist != -1)
-                {
-                    cout << "incrementing distance \n";
-                    dist = dist + 1;
-                    cout << "dist = " << dist << " \n";
-                    maxD = dist > maxD ? dist : maxD;
-                }
-            }
-
-        //}
-
+            minD = dist;
+        }
     }
     str1[index] = temp;
 
-#if 0
     //Delete the char at index
     str1.erase(str1.begin() + index);
-    dist = editDistanceUtil(str1, (index + 1), dest);
-    str1.insert(str1.begin() + index, temp);
-    maxD = dist > maxD ? dist : maxD;
+    if(str1[index] == dest[index])
+    {
+        dist = editDistanceUtil(str1, (index + 1), dest);
+        if(dist != -1)
+        {
+            DEBUG_TRACE(cout << "incrementing distance \n");
+            dist = dist + 1;
+            if(minD != -1)
+                minD = dist < minD ? dist : minD;
+            else
+                minD = dist;
 
+        }
+    }
+    str1.insert(str1.begin() + index, temp);
 
     //Insert to a location next to the char
     for(int i = 0; i < 26; i++)
     {
-        str1.insert(str1.begin() + index + 1, 'a' + i);
-        if(str1 == dest)
-            return d3;
-        else
+        str1.insert(str1.begin() + index + 1, ('a' + i));
+        if(str1[index] != dest[index])
         {
-            dist = editDistanceUtil(str1, (index + 2), dest);
-            str1.erase(str1.begin() + index);
-            maxD = dist > maxD ? dist : maxD;
-
+           str1.erase(str1.begin() + index + 1);
+           continue;
         }
+        dist = editDistanceUtil(str1, (index + 2), dest);
+        if(dist != -1)
+        {
+            dist = dist + 1;
+            if(minD != -1)
+                minD = dist < minD ? dist : minD;
+            else
+                minD = dist;
+        }
+        str1.erase(str1.begin() + index + 1);
     }
-#endif
 
 
-    return maxD;
+    return minD;
 
 }
 
 /* Problem:
+ *    Given two strings str1 and str2 and below operations that can performed on str1. Find minimum number of
+ *    edits (operations) required to convert ‘str1’ into ‘str2’. YOu have following three operations allowed
+      Insert, Remove, and Replace
+
  * Example:
+ *    Input:   str1 = "geek", str2 = "gesek"
+      Output:  1
+      We can convert str1 into str2 by inserting a 's'.
+      Input:   str1 = "cat", str2 = "cut"
+      Output:  1
+      We can convert str1 into str2 by replacing 'a' with 'u'.
+      Input:   str1 = "sunday", str2 = "saturday"
+      Output:  3
+
  * Approach:
  * Time Complexity:
  * Space Complexity:

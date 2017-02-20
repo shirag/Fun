@@ -1000,25 +1000,80 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
 {
     cout << "Levenstein Problem for source string to destination string \n\n";
 
-    string str1("ki");
-    string str2("si");
-    //REQUIRE(soln.editDistance(str1, str2) == 1);
+    vector<string> is1;
+    vector<string> is2;
+    vector<int> res;
+
+    //Case 1:
+    is1.push_back("ki");
+    is2.push_back("si");
+    res.push_back(1);
+
+    //Case 2:
+    is1.push_back("kit");
+    is2.push_back("bat");
+    res.push_back(2);
+
+    //Case 3:
+    is1.push_back("kit");
+    is2.push_back("kat");
+    res.push_back(1);
+
+    ////Case 4:Insert test
+    is1.push_back("kith");
+    is2.push_back("kaui");
+    res.push_back(3);
+
+    //Case 5: Delete tests
+    is1.push_back("kit");
+    is2.push_back("ka");
+    res.push_back(2);
+
+    //Case 6:
+    is1.push_back("kith");
+    is2.push_back("kui");
+    res.push_back(3);
+
+    //Case 7: No path found
+    is1.push_back("kit");
+    is2.push_back("kjitt");
+    res.push_back(2);
+
+    //Case 8: Insert next to i
+    is1.push_back("kit");
+    is2.push_back("kijt");
+    res.push_back(1);
+
+    //Case 9:
+    is1.push_back("kitten");
+    is2.push_back("sitting");
+    res.push_back(3);
+
+    //Case 10:
+    is1.push_back("geek");
+    is2.push_back( "gesek");
+    res.push_back(1);
+
+    is1.push_back("cat");
+    is2.push_back( "cut");
+    res.push_back(1);
+
+    is1.push_back("sunday");
+    is2.push_back( "saturday");
+    res.push_back(3);
 
 
-    str1 = "kit";
-    str2 = "kat";
-    //cout << "str1 = " << str1 << "str2 = " << str2 << "\n";
-    //REQUIRE(soln.editDistance(str1, str2) == 1);
+    int size = is1.size();
+    int startIndex = 0;
+    int endIndex = size;
 
-    str1 = "kit";
-    str2 = "kab";
-    cout << "str1 = " << str1 << " str2 = " << str2 << " \n";
-    REQUIRE(soln.editDistance(str1, str2) == 2);
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "Test" << i <<": str1 = " << is1[i] << " str2 = " << is2[i] << "\n";
+        REQUIRE(soln.editDistance(is1[i],is2[i]) == res[i]);
+    }
 
 
-    str1 = "kitten";
-    str2 = "sitting";
-    //REQUIRE(soln.editDistance(str1, str2) == 3);
 }
 
 
