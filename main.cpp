@@ -1077,6 +1077,40 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
 }
 
 
+TEST_CASE( "Word Break", "Word Break" )
+{
+    cout << "Word break using DP problem \n\n";
+
+    vector<string> is1;
+    vector<vector<string>> is2;
+    vector<vector<string>> res;
+
+    is1.push_back("catbat");
+    vector<string> is11 = {"cat", "bat"};
+    is2.push_back(is11);
+    vector<string> res1 = {"cat", "bat"};
+    res.push_back(res1);
+
+    is1.push_back("chocoapplepie");
+    is11 = {"pie", "apple","raghav", "choco", "app"};
+    is2.push_back(is11);
+    res1 = {"choco","apple", "pie"};
+    res.push_back(res1);
+
+
+    int size = is1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "Test" << i <<": str1 = " << is1[i] << " \n";
+        REQUIRE(soln.wordBreak(is1[i],is2[i]) == res[i]);
+    }
+
+}
+
+
 TEST_CASE( "Initial tests", "Inits" )
 {
     cout << "Initial tests \n\n";

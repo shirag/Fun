@@ -147,19 +147,91 @@ int IKSolution::editDistance(string strWord1, string strWord2)
     return editDistanceUtil(strWord1, index, strWord2);
 }
 
+/**************************************************************************************************/
+
+bool dictLookUp(vector<string>&res, vector<string>& fr, set<string>& strDict)
+{
+
+    int j;
+
+    //Check if all strings in the decomposition are palindromes.
+    for(j = 0; j < res.size(); j++)
+    {
+        if(strDict.find(res[j]) == strDict.end())
+        {
+            return false;
+        }
+    }
+
+    //Format return values.
+    if( j == res.size())
+    {
+        DEBUG_DEBUG(cout << "\n All string in the following decomposition are found in dictionary \n");
+        for(int k = 0; k < res.size(); k++)
+        {
+            fr.push_back(res[k]);
+            DEBUG_DEBUG(cout << " " << res[k]);
+        }
+
+        DEBUG_DEBUG(cout << "\n");
+
+    }
+    return true;
+}
+
+void giveMeAllSStringsfromIndex(int sindex, string& strInput, vector<string>&res, vector<string>& fr, set<string>& dict)
+{
+
+    if(sindex == strInput.size())
+    {
+        dictLookUp(res,fr,dict);
+        return;
+    }
+
+    for(int i = 0; i < (strInput.size()); i++ )
+    {
+        if((sindex + i) < (strInput.size()))
+        {
+            string s(strInput.c_str() + sindex, i + 1 );
+            res.push_back(s);
+            giveMeAllSStringsfromIndex(sindex + i + 1, strInput, res, fr, dict);
+            res.pop_back();
+        }
+        if(sindex == 0)
+        {
+            res.clear();
+        }
+     }
+
+     return;
+}
 
 /* Problem:
  * Example:
  * Approach:
+       Exactly similar to palindromic decomposition
  * Time Complexity:
  * Space Complexity:
  * Take Away:
  */
-vector<string>IKSolution::wordBreak(string strWord, vector < string > strDict)
+vector<string>IKSolution::wordBreak(string strWord, vector<string> strDict)
 {
-    vector<string> vs;
 
-    return vs;
+    vector<string> res;
+    int index = 0;
+    vector <string> fr;
+    set<string> dict;
+
+    for(auto it : strDict)
+    {
+        dict.insert(it);
+    }
+
+    /* Form the string */
+    giveMeAllSStringsfromIndex(index, strWord, res, fr, dict);
+
+
+    return fr;
 }
 
 /* Problem:
