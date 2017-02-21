@@ -1179,8 +1179,75 @@ TEST_CASE( "Make Change", "Make Change" )
         cout << "Test" << i <<": C = " << i1[i] << " \n";
         REQUIRE(soln.makeChange(i1[i],i2[i]) == res[i]);
     }
-
 }
+
+//int IKSolution::numPhoneNumbers(int startdigit, int phonenumberlength)
+TEST_CASE( "Number of phone no combinations", "Number of phone no combinations" )
+{
+    cout << "Test: Number of phone no combinations using Knight's tour \n\n";
+
+    vector<int> i1;
+    vector<int> i2;
+    vector<int> res;
+
+    //0
+    i1.push_back(1);
+    i2.push_back(10);
+    res.push_back(1424);
+
+    //1
+    i1.push_back(1);
+    i2.push_back(5);
+    res.push_back(26);
+
+    //2
+    i1.push_back(6);
+    i2.push_back(10);
+    res.push_back(2304);
+
+    //3
+    i1.push_back(6);
+    i2.push_back(20);
+    res.push_back(9068032);
+
+    //4
+    i1.push_back(5);
+    i2.push_back(20);
+    res.push_back(0);
+
+    //5
+    i1.push_back(9);
+    i2.push_back(13);
+    res.push_back(19520);
+
+    //6
+    i1.push_back(6);
+    i2.push_back(30);
+    res.push_back(1329676288);
+
+    i1.push_back(1);
+    i2.push_back(30);
+    res.push_back(582434816);
+
+    i1.push_back(3);
+    i2.push_back(25);
+    res.push_back(402264064);
+
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "Test" << i <<": Start digit = " << i1[i] << " no of digits " << i2[i] << " \n";
+        REQUIRE(soln.numPhoneNumbers(i1[i],i2[i]) == res[i]);
+    }
+}
+
+
+
+
 
 TEST_CASE( "Initial tests", "Inits" )
 {

@@ -173,10 +173,6 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
     int nx = startx + 1;
     int ny = starty + 2;
 
-#if 1
-    cout << "\n" << " anx  = "  << nx ;
-    cout << " ny  = "  << ny ;
-#endif
 
     if((nx < columns) && (ny < rows))
         vt.push_back(make_pair(nx,ny));
@@ -185,10 +181,6 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
 
     nx = startx + 2;
     ny = starty + 1;
-#if 1
-    cout << "\n" << " bnx  = "  << nx ;
-    cout << " ny  = "  << ny << "\n" ;
-#endif
 
     if((nx < columns) && (ny < rows))
         vt.push_back(make_pair(nx,ny));

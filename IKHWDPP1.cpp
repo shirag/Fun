@@ -258,7 +258,6 @@ vector<string>IKSolution::wordBreak(string strWord, vector<string> strDict)
 }
 
 /*********************************************************************************************************************************/
-#define ENABLE_DP 1
 /* Give me a vector of all mins */
 bool makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, vector<int>& minDenom, map<int, vector<int>>& cache)
 {
@@ -345,18 +344,91 @@ int IKSolution::maxWin(vector < int > intCoins)
     return 0;
 
 }
+/***********************************************************************************************************/
 
-/* Problem:
+vector<vector<int>> lupt = {
+                        {4, 6},    //0
+                        {6, 8},    //1
+                        {9, 7},    //2
+                        {4, 8},    //3
+                        {3, 9, 0}, //4
+                        {},        //5
+                        {1,7,0},   //6
+                        {6, 2},    //7
+                        {1, 3},    //8
+                        {2, 4},    //9
+                      };
+
+vector<int> getNextKnightLocation(int startdigit)
+{
+    return lupt[startdigit];
+}
+
+#define ENABLE_DP 1
+
+
+int numPhoneNumbersUtil(int startdigit, int& phonenumberlength, int currCount, map< pair<int,int>,int>& memT)
+{
+    int noOfCombs = 0;
+    if(startdigit == 1 && currCount == 7)
+    DEBUG_DEBUG(cout << "Starting digit: " << startdigit << " currCount " << currCount << " \n");
+
+#if ENABLE_DP
+    auto it = memT.find(make_pair(startdigit,currCount));
+    if(it != memT.end())
+    {
+        DEBUG_DEBUG(cout << "cache Read: Starting digit: " << startdigit << " currCount " << currCount << " \n");
+        noOfCombs = it->second;
+        return noOfCombs;
+    }
+#endif
+
+    vector<int> enddigits;
+    if(currCount == phonenumberlength)
+    {
+        DEBUG_TRACE(cout << "Base Case: \n");
+        return 1;
+    }
+
+    enddigits = getNextKnightLocation(startdigit);
+    for(auto it : enddigits)
+    {
+        noOfCombs += numPhoneNumbersUtil(it, phonenumberlength, currCount + 1, memT);
+        DEBUG_TRACE(cout << " noOfCombos = " << noOfCombs <<  " \n");
+    }
+
+#if ENABLE_DP
+    DEBUG_TRACE(cout << "Cache Write: Starting digit: " << startdigit << " currCount " << currCount << " \n");
+    memT.insert(make_pair(make_pair(startdigit,currCount), noOfCombs));
+    return memT[make_pair(startdigit,currCount)];
+#endif
+
+    return noOfCombs;
+
+}
+
+
+/* Problem: Knight's tour
  * Example:
  * Approach:
+ *     Recursive call contract:
+ *     Starting at startdigit, tell me how may ways phonenumberlength no can be formed? I have already collect currCount digits  until now.
+       startdigit: Starting digit
+       phonenumberlength: No of digits in a valid no.
+       currCount: No of collected numbers until now.
+       I go over all my neighbours, ank ask the same question. Add all their answers. Report it to my manager.
+
  * Time Complexity:
  * Space Complexity:
  * Take Away:
  */
 int IKSolution::numPhoneNumbers(int startdigit, int phonenumberlength)
 {
-    return 0;
+    map<pair<int,int>,int> memT;
+    int currentCount = 1; //the first digit has already been added
+    return  numPhoneNumbersUtil(startdigit, phonenumberlength, currentCount, memT);
 }
+/******************************************************************************************************************************/
 
 /* Problem:
  * Example:
@@ -371,6 +443,8 @@ int IKSolution::numWaysToClimb(vector < int > numSteps, int numStairs)
     return 0;
 
 }
+/******************************************************************************************************************************/
+
 /* Problem:
  * Example:
  * Approach:

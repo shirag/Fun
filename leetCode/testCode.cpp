@@ -10,9 +10,9 @@
 #include<iostream>
 #include<string>
 #include<algorithm>
-#include"Solution.h"
+#include"../Solution.h"
 #include<map>
-#include "IKSolution.hpp"
+#include "../IKSolution.hpp"
 
 using namespace std;
 
