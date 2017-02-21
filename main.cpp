@@ -1004,60 +1004,63 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
     vector<string> is2;
     vector<int> res;
 
-    //Case 1:
+    //Case 0:
     is1.push_back("ki");
     is2.push_back("si");
     res.push_back(1);
 
-    //Case 2:
+    //Case 1:
     is1.push_back("kit");
     is2.push_back("bat");
     res.push_back(2);
 
-    //Case 3:
+    //Case 2:
     is1.push_back("kit");
     is2.push_back("kat");
     res.push_back(1);
 
-    ////Case 4:Insert test
+    //Case 3:Insert test
     is1.push_back("kith");
     is2.push_back("kaui");
     res.push_back(3);
 
-    //Case 5: Delete tests
+    //Case 4: Delete tests
     is1.push_back("kit");
     is2.push_back("ka");
     res.push_back(2);
 
-    //Case 6:
+    //Case 5:
     is1.push_back("kith");
     is2.push_back("kui");
     res.push_back(3);
 
-    //Case 7: No path found
+    //Case 6: No path found
     is1.push_back("kit");
     is2.push_back("kjitt");
+    //res.push_back(-1);
     res.push_back(2);
 
-    //Case 8: Insert next to i
+    //Case 7: Insert next to i
     is1.push_back("kit");
     is2.push_back("kijt");
     res.push_back(1);
 
-    //Case 9:
+    //Case 8:
     is1.push_back("kitten");
     is2.push_back("sitting");
     res.push_back(3);
 
-    //Case 10:
+    //Case 9:
     is1.push_back("geek");
     is2.push_back( "gesek");
     res.push_back(1);
 
+    //Case 10:
     is1.push_back("cat");
     is2.push_back( "cut");
     res.push_back(1);
 
+    //Case 11;
     is1.push_back("sunday");
     is2.push_back( "saturday");
     res.push_back(3);
@@ -1069,8 +1072,9 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
 
     for(int i = startIndex; i < endIndex; i++)
     {
-        cout << "Test" << i <<": str1 = " << is1[i] << " str2 = " << is2[i] << "\n";
+        cout << "Test " << i <<": str1 = " << is1[i] << " str2 = " << is2[i] << "\n";
         REQUIRE(soln.editDistance(is1[i],is2[i]) == res[i]);
+        cout << "Test " << i <<": Pass \n";
     }
 
 
@@ -1110,6 +1114,35 @@ TEST_CASE( "Word Break", "Word Break" )
 
 }
 
+TEST_CASE( "Make Change", "Make Change" )
+{
+    cout << "Make Change \n\n";
+
+    vector<int> i1;
+    vector<vector<int>> i2;
+    vector<int> i2t;
+    vector<vector<int>> res;
+    vector<int> rest;
+
+    //Case 0
+    i1.push_back(4);
+    i2t = {1,2,3};
+    i2.push_back(i2t);
+    rest = {1,3};
+    res.push_back(rest);
+
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "Test" << i <<": C = " << i1[i] << " \n";
+        REQUIRE(soln.makeChange(i1[i],i2[i]) == res[i]);
+    }
+
+}
 
 TEST_CASE( "Initial tests", "Inits" )
 {

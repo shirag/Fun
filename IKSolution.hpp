@@ -184,7 +184,6 @@ class IKSolution
 	    Node* bSTTreeInsert(Node *root, int key);
 	    int deleteANode(Node *root, int key); /* 3:20 at Gayathri vid */
 	    int findSuccessor(Node*, int key); //Recursive DFS inrder soln. when you hit a value lesser print the last one.
-
 	    int checkIfPalindromeRotate(string&); //time test problem
 
 	    /* Homework2 - Trees */
@@ -204,7 +203,7 @@ class IKSolution
 
 	    /* Graph/Homework3 */
         int printAllPathsInAGraph(vvi& g, int src, int dest);
-	    int cloneAGraph(); /* You have to ensure cycles are taken care of properly */
+        int cloneAGraph(); /* You have to ensure cycles are taken care of properly */
 	                       /* Not just a set. You have to use a hash map */
         int findTheBasin(); /* Rainfal problem. Find the basin to which the water flows. */
         vector<string> convertAString(ls&, string& begin, string& end); /* Convert string a to b using a dictionary of words*/
@@ -245,13 +244,12 @@ class IKSolution
 	    int maxLenMatchingParen(string strParenExpression);
         //Prio Queue
 	    vector<int> slidingWindowMax(vector<int>, int w);
-        int dutchFlag(); /* Done during class. */
         /* Implement Queue using Stacks */ /* http://www.geeksforgeeks.org/queue-using-stacks/ */
 
         /* Dynamic Programming */
         int editDistance(string, string);
         vector<string> wordBreak(string strWord, vector < string > strDict);
-        void makeChange(int C, vector < int > intDenominations);
+        vector<int> makeChange(int C, vector < int > intDenominations);
         int maxWin(vector < int > intCoins);
         int numPhoneNumbers(int startdigit, int phonenumberlength);
         int numWaysToClimb(vector < int > numSteps, int numStairs);

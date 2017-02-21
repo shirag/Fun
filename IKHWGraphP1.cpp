@@ -13,7 +13,7 @@
 #include <map>
 #include <algorithm>
 #include <queue>
-#include "murmur3.h"
+#include "IKMurmur.h"
 
 #define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "IKSolution.hpp"

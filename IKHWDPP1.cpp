@@ -38,82 +38,95 @@ int editDistanceUtil(string& str1, int index, string& dest)
     int dist = -1;
     int minD = -1;
 
-    if(index >= str1.size())
+    //if(index >= str1.size())
+    if((index >= str1.size()) && (index >= dest.size()))
     {
         if(str1 == dest)
         {
-            DEBUG_DEBUG(cout << "Index = " << index << " After replace str = " << str1 << " \n";)
+            DEBUG_DEBUG(cout << "Index = " << index << " str = " << str1 << " \n";)
             return 0;
         }
         else
         {
-
-            DEBUG_DEBUG(cout << "Base case: Index = " << index << " After replace str = " << str1 << " \n";)
+            DEBUG_DEBUG(cout << "Base case: Index = " << index << " str = " << str1 << " \n";)
             return -1;
         }
     }
 
+    DEBUG_DEBUG(cout << "Index = " << index << " str = " << str1 << " \n";)
 
     //Replace the char at index
-    char temp = str1[index];
-    for(int i = 0; i < 26; i++)
+    if(index < str1.size())
     {
-        str1[index] = 'a' + i;
-        if(str1[index] != dest[index])
+        char temp = str1[index];
+        for(int i = 0; i < 26; i++)
         {
-            continue;
+            str1[index] = 'a' + i;
+            if(str1[index] != dest[index])
+            {
+                continue;
 
+            }
+            DEBUG_DEBUG(cout << "Index = " << index << " str1  " << str1 << "  After replace \n";);
+            dist = editDistanceUtil(str1, (index + 1), dest);
+            if(dist != -1)
+            {
+                if( ('a' + i) != temp)
+                {
+                    dist = dist + 1;
+                }
+                minD = dist;
+            }
         }
-        dist = editDistanceUtil(str1, (index + 1), dest);
-        if(dist != -1)
+        str1[index] = temp;
+
+
+        //Delete the char at index
+        str1.erase(str1.begin() + index);
+        if(str1[index] == dest[index])
         {
-            if( ('a' + i) != temp)
+            DEBUG_DEBUG(cout << "Index = " << index << " str1  " << str1  << " After delete \n";);
+            dist = editDistanceUtil(str1, (index + 1), dest);
+            if(dist != -1)
+            {
+                DEBUG_TRACE(cout << "incrementing distance \n");
+                dist = dist + 1;
+                if(minD != -1)
+                    minD = dist < minD ? dist : minD;
+                else
+                    minD = dist;
+
+            }
+        }
+        str1.insert(str1.begin() + index, temp);
+    }
+
+#if 1
+    if(index < str1.size())
+    {
+        //Insert to a location next to the char
+        for(int i = 0; i < 26; i++)
+        {
+            str1.insert(str1.begin() + index + 1, ('a' + i));
+            if(str1[index + 1] != dest[index + 1])
+            {
+                str1.erase(str1.begin() + index + 1);
+                continue;
+            }
+            DEBUG_DEBUG(cout << "Index = " << index << " str1  " << str1  << " After insert \n";);
+            dist = editDistanceUtil(str1, (index + 2), dest);
+            if(dist != -1)
             {
                 dist = dist + 1;
+                if(minD != -1)
+                    minD = dist < minD ? dist : minD;
+                else
+                    minD = dist;
             }
-            minD = dist;
+            str1.erase(str1.begin() + index + 1);
         }
     }
-    str1[index] = temp;
-
-    //Delete the char at index
-    str1.erase(str1.begin() + index);
-    if(str1[index] == dest[index])
-    {
-        dist = editDistanceUtil(str1, (index + 1), dest);
-        if(dist != -1)
-        {
-            DEBUG_TRACE(cout << "incrementing distance \n");
-            dist = dist + 1;
-            if(minD != -1)
-                minD = dist < minD ? dist : minD;
-            else
-                minD = dist;
-
-        }
-    }
-    str1.insert(str1.begin() + index, temp);
-
-    //Insert to a location next to the char
-    for(int i = 0; i < 26; i++)
-    {
-        str1.insert(str1.begin() + index + 1, ('a' + i));
-        if(str1[index] != dest[index])
-        {
-           str1.erase(str1.begin() + index + 1);
-           continue;
-        }
-        dist = editDistanceUtil(str1, (index + 2), dest);
-        if(dist != -1)
-        {
-            dist = dist + 1;
-            if(minD != -1)
-                minD = dist < minD ? dist : minD;
-            else
-                minD = dist;
-        }
-        str1.erase(str1.begin() + index + 1);
-    }
+#endif
 
 
     return minD;
@@ -234,6 +247,47 @@ vector<string>IKSolution::wordBreak(string strWord, vector<string> strDict)
     return fr;
 }
 
+int makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, vector<int>& minDenom)
+{
+    //vector<int> minChange;
+    int minChange = 1;
+    int minChangeDenom = 0;
+
+    if(currSum == C)
+        return 0;
+
+    if(currSum > C)
+        return -1;
+
+    for(auto it : intDenominations)
+    {
+        DEBUG_DEBUG(cout << "Added denomination: " << it << " \n");
+        currSum += it;
+
+        int ret = makeChangeUtil(C, intDenominations, currSum, minDenom);
+        if( ret != -1)
+        {
+            ret = ret + 1;
+            DEBUG_DEBUG(cout << "Looks like we have a valid sum: " << it << " \n");
+            if(ret < minChange)
+            {
+                DEBUG_DEBUG(cout << "" << it << " \n");
+                minChange = ret;
+                minChangeDenom = it;
+            }
+        }
+        currSum -= it;
+    }
+
+    if(minChangeDenom != 0)
+    {
+        minDenom.push_back(minChangeDenom);
+    }
+
+    return 0;
+
+}
+
 /* Problem:
  * Example:
  * Approach:
@@ -241,9 +295,12 @@ vector<string>IKSolution::wordBreak(string strWord, vector<string> strDict)
  * Space Complexity:
  * Take Away:
  */
-void IKSolution::makeChange(int C, vector < int > intDenominations)
+vector<int> IKSolution::makeChange(int C, vector <int> intDenominations)
 {
-    return;
+    int currSum = 0;
+    vector<int> minDenom;
+    makeChangeUtil(C, intDenominations, currSum, minDenom);
+    return minDenom;
 }
 
 /* Problem:
