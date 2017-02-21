@@ -1065,7 +1065,6 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
     is2.push_back( "saturday");
     res.push_back(3);
 
-
     int size = is1.size();
     int startIndex = 0;
     int endIndex = size;
@@ -1125,12 +1124,51 @@ TEST_CASE( "Make Change", "Make Change" )
     vector<int> rest;
 
     //Case 0
+    i1.push_back(0);
+    i2t = {1,2,3};
+    i2.push_back(i2t);
+    rest = {};
+    res.push_back(rest);
+
+    i1.push_back(100);
+    i2t = {};
+    i2.push_back(i2t);
+    rest = {};
+    res.push_back(rest);
+
+
     i1.push_back(4);
     i2t = {1,2,3};
+    i2.push_back(i2t);
+    rest = {3,1};
+    res.push_back(rest);
+
+    i1.push_back(10);
+    i2t.clear();
+    i2t = {2, 5, 3, 6};
+    i2.push_back(i2t);
+    rest = {5,5};
+    res.push_back(rest);
+
+    i1.push_back(4);
+    i2t = {3,1,2,3};
     i2.push_back(i2t);
     rest = {1,3};
     res.push_back(rest);
 
+    i1.push_back(67);
+    i2t.clear();
+    i2t = {2, 5, 3, 6};
+    i2.push_back(i2t);
+    rest = { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 2 };
+    res.push_back(rest);
+
+    i1.push_back(151);
+    i2t.clear();
+    i2t = {2, 5, 3, 6, 100};
+    i2.push_back(i2t);
+    rest =  { 100, 6, 6, 6, 6, 6, 6, 5, 5, 5 };
+    res.push_back(rest);
 
     int size = i1.size();
     int startIndex = 0;

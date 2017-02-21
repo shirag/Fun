@@ -38,22 +38,32 @@ int editDistanceUtil(string& str1, int index, string& dest)
     int dist = -1;
     int minD = -1;
 
-    //if(index >= str1.size())
-    if((index >= str1.size()) && (index >= dest.size()))
+    if(str1 == dest)
     {
-        if(str1 == dest)
-        {
-            DEBUG_DEBUG(cout << "Index = " << index << " str = " << str1 << " \n";)
-            return 0;
-        }
-        else
-        {
-            DEBUG_DEBUG(cout << "Base case: Index = " << index << " str = " << str1 << " \n";)
-            return -1;
-        }
+        //DEBUG_DEBUG(cout << "Index = " << index << " str = " << str1 << " \n";)
+        return 0;
     }
 
-    DEBUG_DEBUG(cout << "Index = " << index << " str = " << str1 << " \n";)
+    if( (abs(dest.size() - str1.size()) != 1) ||  (dest.size() == str1.size()) )
+    {
+    }
+    else
+    {
+        return -1;
+    }
+
+    ////if(index >= str1.size())
+    //if((index >= str1.size()) && (index >= dest.size()))
+    //{
+
+      //  else
+       // {
+            //DEBUG_DEBUG(cout << "Base case: Index = " << index << " str = " << str1 << " \n";)
+          //  return -1;
+        //}
+    //}
+
+    //DEBUG_DEBUG(cout << "Index = " << index << " str = " << str1 << " \n";)
 
     //Replace the char at index
     if(index < str1.size())
@@ -67,7 +77,7 @@ int editDistanceUtil(string& str1, int index, string& dest)
                 continue;
 
             }
-            DEBUG_DEBUG(cout << "Index = " << index << " str1  " << str1 << "  After replace \n";);
+            DEBUG_DEBUG(cout << "Replace: Index = " << index << " str1  " << str1 << "  \n";);
             dist = editDistanceUtil(str1, (index + 1), dest);
             if(dist != -1)
             {
@@ -85,7 +95,7 @@ int editDistanceUtil(string& str1, int index, string& dest)
         str1.erase(str1.begin() + index);
         if(str1[index] == dest[index])
         {
-            DEBUG_DEBUG(cout << "Index = " << index << " str1  " << str1  << " After delete \n";);
+            DEBUG_DEBUG(cout << "Delete: Index = " << index << " str1  " << str1  << " \n";);
             dist = editDistanceUtil(str1, (index + 1), dest);
             if(dist != -1)
             {
@@ -104,6 +114,7 @@ int editDistanceUtil(string& str1, int index, string& dest)
 #if 1
     if(index < str1.size())
     {
+        cout << "About to insert AT " << (index + 1)  << " \n";
         //Insert to a location next to the char
         for(int i = 0; i < 26; i++)
         {
@@ -113,7 +124,7 @@ int editDistanceUtil(string& str1, int index, string& dest)
                 str1.erase(str1.begin() + index + 1);
                 continue;
             }
-            DEBUG_DEBUG(cout << "Index = " << index << " str1  " << str1  << " After insert \n";);
+            DEBUG_DEBUG(cout << "Insert: Index = " << index + 1 << " str1  " << str1  << " \n";);
             dist = editDistanceUtil(str1, (index + 2), dest);
             if(dist != -1)
             {
@@ -167,7 +178,6 @@ bool dictLookUp(vector<string>&res, vector<string>& fr, set<string>& strDict)
 
     int j;
 
-    //Check if all strings in the decomposition are palindromes.
     for(j = 0; j < res.size(); j++)
     {
         if(strDict.find(res[j]) == strDict.end())
@@ -247,46 +257,64 @@ vector<string>IKSolution::wordBreak(string strWord, vector<string> strDict)
     return fr;
 }
 
-int makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, vector<int>& minDenom)
+/*********************************************************************************************************************************/
+#define ENABLE_DP 1
+/* Give me a vector of all mins */
+bool makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, vector<int>& minDenom, map<int, vector<int>>& cache)
 {
-    //vector<int> minChange;
-    int minChange = 1;
-    int minChangeDenom = 0;
+    int minChange = -1;
+    vector<int> minBt;
+
+#if ENABLE_DP
+    auto it = cache.find(currSum);
+    if(it != cache.end())
+    {
+        minDenom = it->second;
+        return true;
+    }
+#endif
 
     if(currSum == C)
-        return 0;
+        return true;
 
     if(currSum > C)
-        return -1;
+        return false;
 
+
+    vector<int> bt;
     for(auto it : intDenominations)
     {
-        DEBUG_DEBUG(cout << "Added denomination: " << it << " \n");
+        DEBUG_TRACE(cout << "currSum = " << currSum << " Added denomination: " << it << " \n");
         currSum += it;
 
-        int ret = makeChangeUtil(C, intDenominations, currSum, minDenom);
-        if( ret != -1)
+        if(makeChangeUtil(C, intDenominations, currSum, bt, cache) == true)
         {
-            ret = ret + 1;
-            DEBUG_DEBUG(cout << "Looks like we have a valid sum: " << it << " \n");
-            if(ret < minChange)
+            DEBUG_TRACE(cout << "currSum = " << currSum << " Added denomination: " << it << " returned true \n");
+            if(minChange == -1 || (bt.size() < minChange))
             {
-                DEBUG_DEBUG(cout << "" << it << " \n");
-                minChange = ret;
-                minChangeDenom = it;
+                minChange = bt.size();
+                bt.push_back(it);
+                minBt = bt;
             }
         }
+
+        bt.clear();
         currSum -= it;
     }
+    if(minChange == -1)
+        return false;
 
-    if(minChangeDenom != 0)
-    {
-        minDenom.push_back(minChangeDenom);
-    }
+#if ENABLE_DP
+    cache.insert(make_pair(currSum,minBt));
+    minDenom = cache[currSum];
+    return true;
+#endif
 
-    return 0;
+    minDenom = minBt;
+    return true;
 
 }
+
 
 /* Problem:
  * Example:
@@ -299,7 +327,8 @@ vector<int> IKSolution::makeChange(int C, vector <int> intDenominations)
 {
     int currSum = 0;
     vector<int> minDenom;
-    makeChangeUtil(C, intDenominations, currSum, minDenom);
+    map<int,vector<int>> cache;
+    makeChangeUtil(C, intDenominations, currSum, minDenom, cache);
     return minDenom;
 }
 
