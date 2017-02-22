@@ -346,34 +346,14 @@ int IKSolution::maxWin(vector < int > intCoins)
 }
 /***********************************************************************************************************/
 
-vector<vector<int>> lupt = {
-                        {4, 6},    //0
-                        {6, 8},    //1
-                        {9, 7},    //2
-                        {4, 8},    //3
-                        {3, 9, 0}, //4
-                        {},        //5
-                        {1,7,0},   //6
-                        {6, 2},    //7
-                        {1, 3},    //8
-                        {2, 4},    //9
-                      };
-
-vector<int> getNextKnightLocation(int startdigit)
-{
-    return lupt[startdigit];
-}
-
-#define ENABLE_DP 1
-
+vector<vector<int>> lupt = { {4, 6}, {6, 8}, {9, 7}, {4, 8}, {3, 9, 0},
+                             {},     {1,7,0}, {6, 2}, {1, 3}, {2, 4} };
 
 int numPhoneNumbersUtil(int startdigit, int& phonenumberlength, int currCount, map< pair<int,int>,int>& memT)
 {
     int noOfCombs = 0;
-    if(startdigit == 1 && currCount == 7)
-    DEBUG_DEBUG(cout << "Starting digit: " << startdigit << " currCount " << currCount << " \n");
+    vector<int> enddigits;
 
-#if ENABLE_DP
     auto it = memT.find(make_pair(startdigit,currCount));
     if(it != memT.end())
     {
@@ -381,29 +361,24 @@ int numPhoneNumbersUtil(int startdigit, int& phonenumberlength, int currCount, m
         noOfCombs = it->second;
         return noOfCombs;
     }
-#endif
 
-    vector<int> enddigits;
+
     if(currCount == phonenumberlength)
     {
         DEBUG_TRACE(cout << "Base Case: \n");
         return 1;
     }
 
-    enddigits = getNextKnightLocation(startdigit);
+    enddigits = lupt[startdigit];
     for(auto it : enddigits)
     {
         noOfCombs += numPhoneNumbersUtil(it, phonenumberlength, currCount + 1, memT);
         DEBUG_TRACE(cout << " noOfCombos = " << noOfCombs <<  " \n");
     }
 
-#if ENABLE_DP
     DEBUG_TRACE(cout << "Cache Write: Starting digit: " << startdigit << " currCount " << currCount << " \n");
     memT.insert(make_pair(make_pair(startdigit,currCount), noOfCombs));
     return memT[make_pair(startdigit,currCount)];
-#endif
-
-    return noOfCombs;
 
 }
 

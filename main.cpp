@@ -1,7 +1,7 @@
 #include<iostream>
 #include<string>
 #include<algorithm>
-#include"Solution.h"
+//#include"Solution.h"
 #include<map>
 #include "IKSolution.hpp"
 
@@ -242,27 +242,6 @@ TEST_CASE( "How many tree with N nodes", "NNodes" )
     {
         cout << "Next test \n\n";
         REQUIRE(soln.howManyTrees(is[i]) == res[i]);
-    }
-}
-
-TEST_CASE( "How Many bits set", "bitsset" )
-{
-    cout << "How many bits \n\n";
-
-    vector<int> is;
-    vector <long> res;
-
-    is = {0,1,2,3};
-    res = {0,1,1,2};
-
-    int size = is.size();
-    int startIndex = 0;
-    int endIndex = 0;
-
-    for(int i = startIndex; i < endIndex; i++)
-    {
-        cout << "Next test \n\n";
-        REQUIRE(countBitsUsingLookUp(is[i]) == res[i]);
     }
 }
 

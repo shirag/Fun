@@ -121,93 +121,9 @@ int toRoman(string strRoman)
 
 }
 
-#define  PRE_ORDER   1
-#define   IN_OPDER   2
-#define POST_ORDER   3
-
-#define ORDER_OF_TRAVERSAL PRE_ORDER
-/*
- * A tree BFS implementation using Queue
- */
-void IKSolution::treeBFS(Node *root)
-{
-	queue<Node *> mQ;
-	Node* tn;
-
-	if(root == NULL)
-		return;
-
-	mQ.push(root);
-
-	while(!mQ.empty())
-	{
-		tn = mQ.front();
-        mQ.pop();
-
-        if(ORDER_OF_TRAVERSAL == PRE_ORDER)
-            cout << "Value of the node = " <<  tn->val << "\n";
-
-        if(tn->left)
-            mQ.push(tn->left);
-
-        if(ORDER_OF_TRAVERSAL == IN_OPDER)
-                   cout << "Value of the node = " <<  tn->val << "\n";
-
-        if(tn->right)
-            mQ.push(tn->right);
-
-        if(ORDER_OF_TRAVERSAL == POST_ORDER)
-                           cout << "Value of the node = " <<  tn->val << "\n";
-
-	}
-
-}
 
 
 
-bool isP(string str)
-{
-
-    int l = 0;
-    int h = str.length() - 1;
-
-    while (h > l)
-        if (str[l++] != str[h--])
-           return false;
-
-    return true;
-}
-
-/* Problem: Check if the string is rotated it will generate a Palindrome
- * Example:  bbaa
- * Approach: Generate a pointer that splits the strings into two substrings. Concatenate the first substring
- *           to the end of the second and see if its a Palindrome. Repeat the process until you move the pointer
- *           till end of the string.
- * Complexity: O(n^2)
- * Space Complexity: O(n)
- * Any other better approach:
- *           Constant space solution can be produced by doing everything in place
- *           and by two utility functions getLeft() and getRight()
- */
-int IKSolution::checkIfPalindromeRotate(string& str)
-{
-
-    if(isP(str))
-        return true;
-
-    int n = str.length();
-    for (int i = 0; i < n-1; i++)
-    {
-        string str1 = str.substr(i+1, n-i-1);
-        string str2 = str.substr(0, i+1);
-
-        if (isP(str1.append(str2)))
-            return true;
-    }
-
-    return false;
-
-}
 
 
 
@@ -308,28 +224,7 @@ Node* createTreeNode(int key)
     return node;
 }
 
-/************************************************************************************************************************************/
-/* Its OK to make the tree unbalanced during the process.
- * Function that creates a new and returns its pointer.
- * Each node returns its pointer.
- *  */
-Node* IKSolution::bSTTreeInsert(Node *root, int key)
-{
-    if (root == NULL)
-        return createTreeNode(key);
 
-    if(key == root->val)
-        return root;
-
-    if(key < root->val)
-        root->left = bSTTreeInsert(root->left, key);
-    else
-        root->right = bSTTreeInsert(root->right, key);
-
-    return root;
-
-
-}
 
 #if 0
 // What is latch in here?
