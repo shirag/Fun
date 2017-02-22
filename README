@@ -1,4 +1,6 @@
 
 This folder has solutions to homework assignments provided at Interview KickStart.
 
-Please look at IKSolution.hpp for declarations of all problems.
+Please look at IKSolution.hpp for declarations of all problems. 
+
+Third party unit test framework called Catch(found in catch.hpp) used for unit testing. 

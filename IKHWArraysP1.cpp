@@ -3,7 +3,7 @@
  * HomeWork1P1.cpp
  *
  *  Created on: Jan 10, 2017
- *      Author: GouriShivani
+ *      Author: Raghav Navada
  */
 
 

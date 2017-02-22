@@ -418,17 +418,88 @@ int IKSolution::numWaysToClimb(vector < int > numSteps, int numStairs)
     return 0;
 
 }
+
+
 /******************************************************************************************************************************/
+vector<int> getAllHomesYouCanVisitFromHere(int index, vector<int>& arrHouseValues)
+{
+    vector<int> res;
+
+    for(int i = index + 1; i < arrHouseValues.size(); i++)
+    {
+        if(i == index + 1)
+            continue;
+        res.push_back(i);
+    }
+
+    return res;
+}
+
+int maxStolenValueUtil(vector<int>& arrHouseValues, int index, map<int,int>& memo)
+{
+    DEBUG_TRACE(cout << "House Index = " << index << " House val = " << arrHouseValues[index] << "\n");
+    int maxSum = 0;
+
+    auto it = memo.find(index);
+    if(it != memo.end())
+    {
+        DEBUG_DEBUG(cout << "cache Read: index: " << index << " \n");
+        return it->second;
+    }
+
+    if(index >= arrHouseValues.size())
+    {
+        DEBUG_DEBUG(cout << "Base Case \n");
+        return 0;
+    }
+
+    for(int i = index; i < arrHouseValues.size(); i++)
+    {
+        int sum = arrHouseValues[i];
+        if(sum > maxSum)
+            maxSum = sum;
+
+        vector<int> homes = getAllHomesYouCanVisitFromHere(i, arrHouseValues);
+        for(auto it : homes)
+        {
+            int val = maxStolenValueUtil(arrHouseValues, it, memo);
+            if(val + sum > maxSum)
+            {
+                maxSum = val + sum;
+            }
+        }
+    }
+
+    DEBUG_DEBUG(cout << "Cache Write: index: " << index << " maxSum " << maxSum << " \n");
+    memo.insert(make_pair(index, maxSum));
+    return memo[index];
+
+}
 
 /* Problem:
+ *     There are n houses built in a line, each of which contains some value in it. A thief is going to steal the
+ *     maximal value in these houses, but he cannot steal in two adjacent houses because the owner of a stolen
+ *     house will tell his two neighbors on the left and right side. What is the maximal stolen value?
+ *
  * Example:
+ *     if there are four houses with values {6, 1, 2, 7}, the maximal stolen value is 13 when the first and fourth houses are stolen.
+ *
  * Approach:
+ *     If I start at a particular house what would be the max return?
+ *     for all homes
+ *       for all the traversable neighbours
+ *       Give me the value.
+ *       Ill find the max value and store it.
+ *
+ *     After all the compuation I return the max value.
+ *
  * Time Complexity:
  * Space Complexity:
  * Take Away:
  */
-int maxStolenValue(vector<int> arrHouseValues)
+int IKSolution::maxStolenValue(vector<int> arrHouseValues)
 {
-    return 0;
+    map<int,int> memo;
+    return maxStolenValueUtil(arrHouseValues, 0, memo);
 }
 

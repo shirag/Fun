@@ -2,7 +2,7 @@
  * IKHWGraphP1.cpp
  *
  *  Created on: Jan 23, 2017
- *      Author: GouriShivani
+ *      Author: Raghav Navada
  */
 
 

@@ -2,7 +2,7 @@
  * Solution.hpp
  *
  *  Created on: Jan 9, 2017
- *      Author: GouriShivani
+ *      Author: Raghav Navada
  */
 
 #ifndef IK_SOLUTION_HPP_

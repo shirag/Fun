@@ -1160,7 +1160,7 @@ TEST_CASE( "Make Change", "Make Change" )
     }
 }
 
-//int IKSolution::numPhoneNumbers(int startdigit, int phonenumberlength)
+
 TEST_CASE( "Number of phone no combinations", "Number of phone no combinations" )
 {
     cout << "Test: Number of phone no combinations using Knight's tour \n\n";
@@ -1224,6 +1224,50 @@ TEST_CASE( "Number of phone no combinations", "Number of phone no combinations" 
     }
 }
 
+int maxStolenValue(vector < int > arrHouseValues);
+TEST_CASE( "Max Stolen Value", "Max Stolen Value")
+{
+    cout << "Test: Max Stolen Value \n\n";
+
+    vector<vector<int>> i1;
+    vector<int> res;
+    vector<int> itemp;
+
+    //0
+    itemp = {6,1,2,7};
+    i1.push_back(itemp);
+    res.push_back(13);
+
+    //1
+    itemp = {4,6,1,2,7};
+    i1.push_back(itemp);
+    res.push_back(13);
+
+    //2
+    itemp = {1,2,3,4,5};
+    i1.push_back(itemp);
+    res.push_back(9);
+
+    //3
+    itemp = {99,99,99,99};
+    i1.push_back(itemp);
+    res.push_back(198);
+
+    //4
+    itemp = {4,6,1,2,7,100,3,51,23,34};
+    i1.push_back(itemp);
+    res.push_back(193);
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.maxStolenValue(i1[i]) == res[i]);
+    }
+}
 
 
 

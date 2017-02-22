@@ -2,7 +2,7 @@
  * magicMap.cpp
  *
  *  Created on: Jan 9, 2017
- *      Author: GouriShivani
+ *      Author: Raghav Navada
  *
  *  Provide interfaces.
  */

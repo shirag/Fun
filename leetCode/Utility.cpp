@@ -10,7 +10,6 @@ Monkei miles * Utility.cpp
 #include <string.h>
 #include <vector>
 #include <map>
-#include "IKSolution.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <queue>
@@ -213,16 +212,6 @@ vector<int> mergeVector(vector<int> v1, vector<int> v2)
     return mergedVec;
 }
 
-
-Node* createTreeNode(int key)
-{
-    Node* node = new(Node);
-    node->val = key;
-    node->left = NULL;
-    node->right = NULL;
-
-    return node;
-}
 
 
 

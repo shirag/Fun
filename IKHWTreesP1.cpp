@@ -2,7 +2,7 @@
  * HomeWork2.cpp
  *
  *  Created on: Jan 16, 2017
- *      Author: GouriShivani
+ *      Author: Raghav Navada
  */
 
 
@@ -14,6 +14,17 @@
 #define POST_ORDER   3
 
 #define ORDER_OF_TRAVERSAL PRE_ORDER
+
+Node* createTreeNode(int key)
+{
+    Node* node = new(Node);
+    node->val = key;
+    node->left = NULL;
+    node->right = NULL;
+
+    return node;
+}
+
 
 /*
  * A tree BFS implementation using Queue
