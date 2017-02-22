@@ -2,7 +2,7 @@
  * IKHWStackQueueLLP1.cpp
  *
  *  Created on: Feb 10, 2017
- *      Author: raghav
+ *      Author: Raghav Navada
  */
 
 #define DEBUG_LEVEL DEBUG_LEVEL_DEBUG

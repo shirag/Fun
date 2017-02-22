@@ -455,19 +455,20 @@ int maxStolenValueUtil(vector<int>& arrHouseValues, int index, map<int,int>& mem
 
     for(int i = index; i < arrHouseValues.size(); i++)
     {
-        int sum = arrHouseValues[i];
-        if(sum > maxSum)
-            maxSum = sum;
-
+        int maxForAllNeighbours = 0;
         vector<int> homes = getAllHomesYouCanVisitFromHere(i, arrHouseValues);
         for(auto it : homes)
         {
             int val = maxStolenValueUtil(arrHouseValues, it, memo);
-            if(val + sum > maxSum)
+            if(val > maxForAllNeighbours)
             {
-                maxSum = val + sum;
+                maxForAllNeighbours = val;
             }
         }
+
+        if(maxForAllNeighbours + arrHouseValues[i] > maxSum)
+            maxSum = maxForAllNeighbours + arrHouseValues[i];
+
     }
 
     DEBUG_DEBUG(cout << "Cache Write: index: " << index << " maxSum " << maxSum << " \n");
