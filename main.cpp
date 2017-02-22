@@ -1224,7 +1224,6 @@ TEST_CASE( "Number of phone no combinations", "Number of phone no combinations" 
     }
 }
 
-int maxStolenValue(vector < int > arrHouseValues);
 TEST_CASE( "Max Stolen Value", "Max Stolen Value")
 {
     cout << "Test: Max Stolen Value \n\n";
@@ -1271,16 +1270,146 @@ TEST_CASE( "Max Stolen Value", "Max Stolen Value")
 
 
 
+TEST_CASE( "Count ways to reach the Nth Stair", "Count ways to reach the Nth Stair")
+{
+    cout << "Test: Count ways to reach the Nth Stair\n\n";
+
+    vector<vector<int>> i1; //numSteps
+    vector<int> i2;
+    vector<int> res;
+    vector<int> itemp;
+
+    //0
+    itemp = {1};
+    i1.push_back(itemp);
+    i2.push_back(0); //reach 0th step
+    res.push_back(1);
+
+    //1
+    itemp = {1};
+    i1.push_back(itemp);
+    i2.push_back(1);
+    res.push_back(1);
+
+    //2
+    itemp = {1};
+    i1.push_back(itemp);
+    i2.push_back(2);
+    res.push_back(1);
+
+    //3
+    itemp = {1,2};
+    i1.push_back(itemp);
+    i2.push_back(4);
+    res.push_back(5);
+
+    //4
+    itemp = {1,2};
+    i1.push_back(itemp);
+    i2.push_back(2);
+    res.push_back(2);
+
+    //5
+    itemp = {1,2};
+    i1.push_back(itemp);
+    i2.push_back(10);
+    res.push_back(89);
+
+    //6
+    itemp = {1,2};
+    i1.push_back(itemp);
+    i2.push_back(25);
+    res.push_back(121393);
+
+    //7
+    itemp = {2, 3};
+    i1.push_back(itemp);
+    i2.push_back(6);
+    res.push_back(2);
+
+    //8
+    itemp = {2, 3};
+    i1.push_back(itemp);
+    i2.push_back(9);
+    res.push_back(5);
+
+    //9
+    itemp = {2, 3, 5};
+    i1.push_back(itemp);
+    i2.push_back(25);
+    res.push_back(2652);
+
+    //10
+    itemp = {1, 2};
+    i1.push_back(itemp);
+    i2.push_back(15);
+    res.push_back(987);
+
+    //11
+    itemp = {3, 4, 7};
+    i1.push_back(itemp);
+    i2.push_back(20);
+    res.push_back(42);
+
+    //12
+    itemp = {4, 4};
+    i1.push_back(itemp);
+    i2.push_back(22);
+    res.push_back(0);
+
+    //13
+    itemp = {2, 3, 5};
+    i1.push_back(itemp);
+    i2.push_back(50);
+    res.push_back(19908673);
+
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.numWaysToClimb(i1[i],i2[i]) == res[i]);
+    }
+}
+
+//int maxWin(vector < int > intCoins);
+TEST_CASE( "Coin Play: Max money", "Coin Play: Max money")
+{
+    cout << "Test: Coin Play: Max money\n\n";
+
+    vector<vector<int>> i1;
+    vector<int> res;
+    vector<int> itemp;
+
+    //0
+    itemp = {6,1,2,7};
+    i1.push_back(itemp);
+    res.push_back(13);
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.maxWin(i1[i]) == res[i]);
+    }
+}
+
+
 
 TEST_CASE( "Initial tests", "Inits" )
 {
     cout << "Initial tests \n\n";
 
     soln.prLR();
-
     soln.mergeIntervals();
-
     soln.findLargestRectangle();
+    soln.printPascal(6);
 
     //Sum Zero
     //vi intArr = {1,2,3,-10,8,-8,6,10};
@@ -1292,7 +1421,6 @@ TEST_CASE( "Initial tests", "Inits" )
     //vi intArr = {1,2,3};
     //vi intArr = {1,2,5,-7,10};
     //vi intArr = {1,2,-3};
-
     vector<string> vs = soln.sumZero(intArr);
     cout << "final o/p is \n";
     for(unsigned int i = 0; i < vs.size(); i++)
@@ -1300,7 +1428,6 @@ TEST_CASE( "Initial tests", "Inits" )
         cout << vs[i] << "\n";
     }
 
-    soln.printPascal(6);
 
     Node node1; node1.val = 5; Node node2; node2.val = 5;
     Node node3; node3.val = 5; Node node4; node4.val = 5;
@@ -1313,7 +1440,6 @@ TEST_CASE( "Initial tests", "Inits" )
     node6.left = NULL;   node6.right = NULL;
     soln.countUniValSubtrees(&node1);
 
-#if 1
     //Node node1; node1.val = 100;
     //node1.left = NULL; node1.right = NULL;
     //Node node2; node2.val = 50; node2.left = NULL; node2.right = NULL;
@@ -1341,27 +1467,32 @@ TEST_CASE( "Initial tests", "Inits" )
 
     }while(temp && (temp != ret));
 
-#endif
 
     unsigned int counter = 0;
     unsigned int k = 3;
     soln.findKThSmallestUtil(&node1, k, counter);
 
+
+
+}
+
+TEST_CASE( "knights Tour On Chess Board", "knights Tour On Chess Board")
+{
     //int rows = 8; int columns = 8; int sx = 0; int sy = 0; int ex = 7; int ey = 7;
     //int rows = 6; int columns = 6; int sx = 0; int sy = 0; int ex = 5; int ey = 5;
     int rows = 3; int columns = 3; int sx = 0; int sy = 0; int ex = 2; int ey = 2;
     soln.knightsTourOnChessBoard(rows, columns, sx, sy, ex, ey);
+}
 
-
+TEST_CASE( "Topological Sort", "Topological Sort")
+{
     vector<string> strDict1 = {"caa", "aaa", "aab"};
     vector<string> strDict2 = {"baa","abcd","abca","cab","cad"};
     vector<string> strDict3 = {"aa", "bb", "cc", "dd", "ee"};
     soln.topologicalSort(strDict1); //m is the no of strings and n is the no of chars in string
     soln.topologicalSort(strDict2); //m is the no of strings and n is the no of chars in string
     soln.topologicalSort(strDict3); //m is the no of strings and n is the no of chars in string
-
 }
-
 
 
 

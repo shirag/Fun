@@ -405,18 +405,64 @@ int IKSolution::numPhoneNumbers(int startdigit, int phonenumberlength)
 }
 /******************************************************************************************************************************/
 
+vector<int> getAllStairsFromHere(vector<int>& numSteps,  int& numStairs, int currentStair)
+{
+    vector<int> res;
+
+    for(auto it : numSteps)
+        if(it + currentStair <= numStairs)
+            res.push_back(it + currentStair);
+
+    return res;
+}
+
+// You ask the stair how many ways you can reach the top if I select you?
+// If its the top, then its going to say there is one way to do it.
+int numWaysToClimbUtil(vector<int>& numSteps, int& numStairs, int currentStair, map<int,int>& memT)
+{
+
+    DEBUG_TRACE(cout << "currentStair = " << currentStair << "\n");
+
+    auto it = memT.find(currentStair);
+    if(it != memT.end())
+    {
+        DEBUG_DEBUG(cout << "cache Read: current stair: " << currentStair << " \n");
+        return it->second;
+    }
+
+    if(currentStair >= numStairs)
+    {
+        DEBUG_TRACE(cout << "Base Case: We have reached the last stair \n");
+        return 1;
+    }
+
+    int numWaysToClimb = 0;
+    auto choices = getAllStairsFromHere(numSteps,  numStairs, currentStair);
+    for(auto it : choices)
+        numWaysToClimb += numWaysToClimbUtil(numSteps, numStairs, it, memT);
+
+    DEBUG_DEBUG(cout << "Cache Write: currentStair " << currentStair << " numWaysToClimb "<< numWaysToClimb << "\n");
+
+    memT.insert(make_pair(currentStair, numWaysToClimb));
+    return memT[currentStair];
+}
+
+
 /* Problem:
  * Example:
  * Approach:
+ *     You ask a stair how many ways we can go to top?
+ *     a. If its not the topmost stair, its going to ask all its neighbors and sum it up and return you the result.
+ *     b. If its the topmost  stair its going to say 1.
  * Time Complexity:
  * Space Complexity:
  * Take Away:
  */
-int IKSolution::numWaysToClimb(vector < int > numSteps, int numStairs)
+int IKSolution::numWaysToClimb(vector<int>numSteps, int numStairs)
 {
-
-    return 0;
-
+    map<int,int> memT;
+    int currentStair = 0;
+    return numWaysToClimbUtil(numSteps, numStairs, currentStair, memT);
 }
 
 

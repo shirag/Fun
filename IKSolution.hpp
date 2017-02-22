@@ -165,14 +165,14 @@ class IKSolution
         stack<int> minS;
 
     public:
+        /* Magic Map: Found in IKHWArraysP1.cpp */
+        int getValue(string s);
+        int setVal(string str, int val);
+        int deleteVal(string s);
+        int getRandomVal();
 
-	    int getValue(string s);
-	    int setVal(string str, int val);
-	    int deleteVal(string s);
-	    int getRandomVal();
-
-	    /* HomeWork1/Arrays and Ad hoc */
-	    int prLR();
+	   	/* HomeWork1/Arrays and Ad hoc */
+        int prLR();
 	    int mergeIntervals();
 	    int twoDArraySearch();
 	    int findLargestRectangle();
