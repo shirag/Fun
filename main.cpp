@@ -1080,6 +1080,24 @@ TEST_CASE( "Word Break", "Word Break" )
     res.push_back(res1);
 
 
+    is1.push_back("applepie");
+    is11 = {"pie", "app","apple", "let", "pie"};
+    is2.push_back(is11);
+    res1 = {"apple", "pie"};
+    res.push_back(res1);
+
+    is1.push_back("interviewkickstart");
+    is11 =  {"a", "e", "i", "int", "inter", "interview", "kick", "kicker", "kickstart", "star", "start", "view"};
+    is2.push_back(is11);
+    res1 = { "inter", "view", "kick", "start" };
+    res.push_back(res1);
+
+    is1.push_back("interviewkickstart");
+    is11 =  {"interview", "kick", "kstart", "kicks"};
+    is2.push_back(is11);
+    res1 = {};
+    res.push_back(res1);
+
     int size = is1.size();
     int startIndex = 0;
     int endIndex = size;
@@ -1385,9 +1403,22 @@ TEST_CASE( "Coin Play: Max money", "Coin Play: Max money")
     vector<int> itemp;
 
     //0
-    itemp = {6,1,2,7};
+    itemp = {8, 15, 3, 7};
     i1.push_back(itemp);
-    res.push_back(13);
+    res.push_back(22);
+
+    itemp = {1, 5};
+    i1.push_back(itemp);
+    res.push_back(5);
+
+    itemp = {5, 3, 7, 10};
+    i1.push_back(itemp);
+    res.push_back(15);
+
+
+    itemp = {149, 154, 63, 242, 12, 72, 65};
+    i1.push_back(itemp);
+    res.push_back(289);
 
     int size = i1.size();
     int startIndex = 0;

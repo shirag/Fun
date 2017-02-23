@@ -173,7 +173,7 @@ int IKSolution::editDistance(string strWord1, string strWord2)
 
 /**************************************************************************************************/
 
-bool dictLookUp(vector<string>&res, vector<string>& fr, set<string>& strDict)
+bool dictLookUp(vector<string>&res, set<string>& strDict, vector<string>& fr)
 {
 
     int j;
@@ -202,22 +202,31 @@ bool dictLookUp(vector<string>&res, vector<string>& fr, set<string>& strDict)
     return true;
 }
 
-void giveMeAllSStringsfromIndex(int sindex, string& strInput, vector<string>&res, vector<string>& fr, set<string>& dict)
+/* For the given index and present set of strings, give me all strings that makes a set in which all words end up being a part of
+ * dictionary  */
+vector<string> giveMeAllSStringsfromIndex(string strWord, set<string>& strDict, int sindex, vector<string>&res)
 {
 
-    if(sindex == strInput.size())
+    DEBUG_TRACE(cout << "sindex = " << sindex <<  " \n");
+    vector<string> fr;
+
+    if(sindex == strWord.size())
     {
-        dictLookUp(res,fr,dict);
-        return;
+        dictLookUp(res, strDict, fr);
+        return fr;
     }
 
-    for(int i = 0; i < (strInput.size()); i++ )
+    for(int i = 0; i < (strWord.size()); i++ )
     {
-        if((sindex + i) < (strInput.size()))
+        if((sindex + i) < (strWord.size()))
         {
-            string s(strInput.c_str() + sindex, i + 1 );
+            string s(strWord.c_str() + sindex, i + 1);
             res.push_back(s);
-            giveMeAllSStringsfromIndex(sindex + i + 1, strInput, res, fr, dict);
+            fr = giveMeAllSStringsfromIndex(strWord, strDict, sindex + i + 1, res);
+            if(fr.size() > 0)
+            {
+                return fr;
+            }
             res.pop_back();
         }
         if(sindex == 0)
@@ -226,7 +235,7 @@ void giveMeAllSStringsfromIndex(int sindex, string& strInput, vector<string>&res
         }
      }
 
-     return;
+     return fr;
 }
 
 /* Problem:
@@ -244,6 +253,7 @@ vector<string>IKSolution::wordBreak(string strWord, vector<string> strDict)
     int index = 0;
     vector <string> fr;
     set<string> dict;
+    vector <string> fr1;
 
     for(auto it : strDict)
     {
@@ -251,10 +261,8 @@ vector<string>IKSolution::wordBreak(string strWord, vector<string> strDict)
     }
 
     /* Form the string */
-    giveMeAllSStringsfromIndex(index, strWord, res, fr, dict);
+    return giveMeAllSStringsfromIndex(strWord, dict, index, res);
 
-
-    return fr;
 }
 
 /*********************************************************************************************************************************/
@@ -264,7 +272,7 @@ bool makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, vector<
     int minChange = -1;
     vector<int> minBt;
 
-#if ENABLE_DP
+#if 1
     auto it = cache.find(currSum);
     if(it != cache.end())
     {
@@ -303,7 +311,7 @@ bool makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, vector<
     if(minChange == -1)
         return false;
 
-#if ENABLE_DP
+#if 1
     cache.insert(make_pair(currSum,minBt));
     minDenom = cache[currSum];
     return true;
@@ -330,18 +338,96 @@ vector<int> IKSolution::makeChange(int C, vector <int> intDenominations)
     makeChangeUtil(C, intDenominations, currSum, minDenom, cache);
     return minDenom;
 }
+/***********************************************************************************************************/
 
-/* Problem:
+int maxWinUtil(vector<int>& intCoins, int p1Index, int beginIndex, int endIndex)
+{
+    DEBUG_DEBUG(cout << "p1 val = " << intCoins[p1Index] << " beginIndex  = " << beginIndex << " endIndex = " << endIndex << " \n");
+    int maxVal = 0;
+
+    if(endIndex <= beginIndex)
+    {
+        DEBUG_DEBUG(cout << "Base case \n");
+        return maxVal;
+    }
+
+    int p2SelectIndex = 0;
+    if(intCoins[beginIndex] > intCoins[endIndex])
+    {
+        p2SelectIndex = beginIndex;
+        beginIndex = beginIndex + 1;
+    }
+    else
+    {
+        p2SelectIndex = endIndex;
+        endIndex = endIndex - 1;
+    }
+    cout << "p2 select Val = " << intCoins[p2SelectIndex] << "\n";
+
+    int p1SeletIndex;
+    if(intCoins[beginIndex] > intCoins[endIndex])
+    {
+        p1SeletIndex = beginIndex;
+        beginIndex = beginIndex + 1;
+    }
+    else
+    {
+        p1SeletIndex = endIndex;
+        endIndex = endIndex - 1;
+    }
+
+    //int val = maxWinUtil(intCoins, p1SeletIndex, beginIndex + 1, endIndex - 1);
+    int val = maxWinUtil(intCoins, p1SeletIndex, beginIndex, endIndex);
+    val += intCoins[p1SeletIndex];
+
+    DEBUG_DEBUG(cout << "Val = " << val << " \n");
+
+
+    //
+    //int val = maxWinUtil(intCoins, beginIndex + 1, endIndex - 1);
+    //int valF = val + intCoins[beginIndex];
+    //int valL = val + intCoins[endIndex];
+    //maxVal = valF > valL ? valF : valL;
+
+    //val = maxWinUtil(intCoins, beginIndex + 2, endIndex);
+    //valF = val + intCoins[beginIndex];
+    //valL = val + intCoins[endIndex];
+    //maxVal = valF > valL ? valF : valL;
+
+    return val;
+}
+
+
+/* Problem: Coin Play
  * Example:
  * Approach:
  * Time Complexity:
  * Space Complexity:
  * Take Away:
  */
-int IKSolution::maxWin(vector < int > intCoins)
+int IKSolution::maxWin(vector<int> intCoins)
 {
 
-    return 0;
+    int beginIndex = 0;
+    int endIndex = intCoins.size() - 1;
+
+    int val1 = maxWinUtil(intCoins, 0, beginIndex + 1, endIndex);
+    val1 = val1 + intCoins[0];
+
+    int val2 = maxWinUtil(intCoins, endIndex, beginIndex, endIndex - 1);
+    val2 = val2 + intCoins[endIndex];
+
+    cout << "val1 = " << val1 << " \n";
+    cout << "val2 = " << val2 << " \n";
+
+#if 1
+    if(val1 > val2)
+    {
+        return val1;
+    }
+    else return val2;
+#endif
+
 
 }
 /***********************************************************************************************************/
@@ -549,4 +635,9 @@ int IKSolution::maxStolenValue(vector<int> arrHouseValues)
     map<int,int> memo;
     return maxStolenValueUtil(arrHouseValues, 0, memo);
 }
+
+
+
+
+
 
