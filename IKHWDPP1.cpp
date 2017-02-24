@@ -202,40 +202,60 @@ bool dictLookUp(vector<string>&res, set<string>& strDict, vector<string>& fr)
     return true;
 }
 
+bool dictLookUpStr(string str, set<string>& strDict)
+{
+    if(strDict.find(str) == strDict.end())
+    {
+        DEBUG_TRACE(cout << "Match Not Found " << " \n");
+        return false;
+    }
+
+    DEBUG_TRACE(cout << "Match Found " << str << " \n");
+    return true;
+}
+
 /* For the given index and present set of strings, give me all strings that makes a set in which all words end up being a part of
  * dictionary  */
-vector<string> giveMeAllSStringsfromIndex(string strWord, set<string>& strDict, int sindex, vector<string>&res)
+vector<string> giveMeAllSStringsfromIndex(string strWord, set<string>& strDict, int sindex, map<int,vector<string>>& memo)
 {
 
     DEBUG_TRACE(cout << "sindex = " << sindex <<  " \n");
     vector<string> fr;
 
+    auto it = memo.find(sindex);
+    if(it != memo.end())
+    {
+        DEBUG_DEBUG(cout << "cache Read:sindex: " << sindex << " \n");
+        return it->second;
+    }
+
     if(sindex == strWord.size())
     {
-        dictLookUp(res, strDict, fr);
+        DEBUG_TRACE(cout << "Base case " << " \n");
+        fr.push_back(strWord); //Hack here to differentiate between base case and a case where strings from an index don't return valid words.
         return fr;
     }
 
-    for(int i = 0; i < (strWord.size()); i++ )
+    for(int i = 0; i < (strWord.size()); i++)
     {
         if((sindex + i) < (strWord.size()))
         {
             string s(strWord.c_str() + sindex, i + 1);
-            res.push_back(s);
-            fr = giveMeAllSStringsfromIndex(strWord, strDict, sindex + i + 1, res);
-            if(fr.size() > 0)
+            fr = giveMeAllSStringsfromIndex(strWord, strDict, (sindex + i + 1), memo);
+            if((fr.size() != 0) && (dictLookUpStr(s, strDict) == true))
             {
-                return fr;
+                DEBUG_DEBUG(cout << "i = " << sindex << " pushing " << s << " to stack \n");
+                fr.push_back(s);
+                break;
             }
-            res.pop_back();
+            else
+                fr.clear();
         }
-        if(sindex == 0)
-        {
-            res.clear();
-        }
-     }
+    }
 
-     return fr;
+    memo.insert(make_pair(sindex,fr));
+    return memo[sindex];
+
 }
 
 /* Problem:
@@ -248,21 +268,19 @@ vector<string> giveMeAllSStringsfromIndex(string strWord, set<string>& strDict, 
  */
 vector<string>IKSolution::wordBreak(string strWord, vector<string> strDict)
 {
-
-    vector<string> res;
     int index = 0;
-    vector <string> fr;
     set<string> dict;
-    vector <string> fr1;
+    map<int, vector<string>> memo;
 
     for(auto it : strDict)
-    {
         dict.insert(it);
-    }
 
     /* Form the string */
-    return giveMeAllSStringsfromIndex(strWord, dict, index, res);
+    vector<string>fr = giveMeAllSStringsfromIndex(strWord, dict, index, memo);
+    if(fr.size())
+        fr.erase(fr.begin()); //I have written a dummy in the beginning. Get rid of that.
 
+    return fr;
 }
 
 /*********************************************************************************************************************************/

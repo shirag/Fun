@@ -1070,26 +1070,26 @@ TEST_CASE( "Word Break", "Word Break" )
     is1.push_back("catbat");
     vector<string> is11 = {"cat", "bat"};
     is2.push_back(is11);
-    vector<string> res1 = {"cat", "bat"};
+    vector<string> res1 = {"bat", "cat"};
     res.push_back(res1);
 
     is1.push_back("chocoapplepie");
     is11 = {"pie", "apple","raghav", "choco", "app"};
     is2.push_back(is11);
-    res1 = {"choco","apple", "pie"};
+    res1 =  { "pie", "apple", "choco" };
     res.push_back(res1);
 
 
     is1.push_back("applepie");
     is11 = {"pie", "app","apple", "let", "pie"};
     is2.push_back(is11);
-    res1 = {"apple", "pie"};
+    res1 = {"pie", "apple"};
     res.push_back(res1);
 
     is1.push_back("interviewkickstart");
     is11 =  {"a", "e", "i", "int", "inter", "interview", "kick", "kicker", "kickstart", "star", "start", "view"};
     is2.push_back(is11);
-    res1 = { "inter", "view", "kick", "start" };
+    res1 = { "start", "kick", "view", "inter" };
     res.push_back(res1);
 
     is1.push_back("interviewkickstart");
