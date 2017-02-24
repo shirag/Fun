@@ -33,6 +33,7 @@
  *    Add one to the distance before returning.
  *
  */
+#if 0
 int editDistanceUtil(string& str1, int index, string& dest)
 {
     int dist = -1;
@@ -138,9 +139,115 @@ int editDistanceUtil(string& str1, int index, string& dest)
         }
     }
 #endif
-
-
     return minD;
+
+}
+#endif
+
+
+bool giveMeAllCombinationStrings(string str, int index, vector<string>& vs)
+{
+    //vector<string> vs;
+
+    char temp = str[index];
+    for(int i = 0; i < 26; i++)
+    {
+        str[index] = 'a' + i;
+        vs.push_back(str);
+    }
+    str[index] = temp;
+
+
+    str.erase(str.begin() + index);
+    vs.push_back(str);
+    str.insert(str.begin() + index, temp);
+
+    for(int i = 0; i < 26; i++)
+    {
+        str.insert(str.begin() + index + 1, ('a' + i));
+        vs.push_back(str);
+        str.erase(str.begin() + index + 1);
+    }
+
+
+    return true;
+}
+
+int editDistanceUtil(string& src, string& dest, int index, map<int,int>& memo)
+{
+
+    int minDistance = -1;
+#if 0
+    auto it = memo.find(index);
+    if(it != memo.end())
+    {
+        DEBUG_DEBUG(cout << "cache Read:sindex: " << index << " \n");
+        return it->second;
+    }
+#endif
+
+    if(index == src.size())
+    {
+        /*If there is a match */
+        if(src == dest)
+            return 0;
+        else
+            return minDistance;
+    }
+
+    vector<string> combos;
+    giveMeAllCombinationStrings(src, index, combos);
+    int i = 0;
+    for(auto it : combos)
+    {
+        cout << "next string = " << it << " src is " << src << " \n";
+        int distance;
+        if(it.size() < src.size())//delete
+        {
+            //if(it[index] != dest[index])
+                //continue;
+            distance = editDistanceUtil(it, dest, index, memo);
+        }
+        else if(it.size() == src.size())//replace
+        {
+            if(it[index] != dest[index])
+                continue;
+            else
+                distance = editDistanceUtil(it, dest, index + 1, memo);
+        }
+        else//insert
+        {
+            if(it[index + 1] != dest[index + 1])
+                continue;
+            else
+                distance = editDistanceUtil(it, dest, index + 2, memo);
+        }
+
+        if(distance != -1)
+        {
+            if(it != src)
+                distance++;
+
+            if(minDistance == -1)
+            {
+                cout << "match found \n";
+                minDistance = distance;
+            }
+            else
+            {
+                cout << "match found \n";
+                minDistance = distance < minDistance ? distance : minDistance;
+            }
+        }
+
+    }
+
+#if 0
+    memo.insert(make_pair(index,minDistance));
+    return memo[index];
+#endif
+
+    return minDistance;
 
 }
 
@@ -168,7 +275,8 @@ int IKSolution::editDistance(string strWord1, string strWord2)
 {
 
     int index = 0;
-    return editDistanceUtil(strWord1, index, strWord2);
+    map<int,int> memo;
+    return editDistanceUtil(strWord1, strWord2, index, memo);
 }
 
 /**************************************************************************************************/
@@ -225,14 +333,15 @@ vector<string> giveMeAllSStringsfromIndex(string strWord, set<string>& strDict, 
     auto it = memo.find(sindex);
     if(it != memo.end())
     {
-        DEBUG_DEBUG(cout << "cache Read:sindex: " << sindex << " \n");
+        DEBUG_TRACE(cout << "cache Read:sindex: " << sindex << " \n");
         return it->second;
     }
 
     if(sindex == strWord.size())
     {
         DEBUG_TRACE(cout << "Base case " << " \n");
-        fr.push_back(strWord); //Hack here to differentiate between base case and a case where strings from an index don't return valid words.
+        fr.push_back(strWord); //Trick here to differentiate between base case and a case where strings from an index
+                               //don't return valid words. Somewhat similar to stairs problem.
         return fr;
     }
 

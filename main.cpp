@@ -1025,24 +1025,27 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
     res.push_back(1);
 
     //Case 8:
-    is1.push_back("kitten");
-    is2.push_back("sitting");
-    res.push_back(3);
-
-    //Case 9:
     is1.push_back("geek");
     is2.push_back( "gesek");
     res.push_back(1);
 
-    //Case 10:
+    //Case 9:
     is1.push_back("cat");
     is2.push_back( "cut");
     res.push_back(1);
+
+
+    //Case 10:
+    is1.push_back("kitten");
+    is2.push_back("sitting");
+    res.push_back(3);
 
     //Case 11;
     is1.push_back("sunday");
     is2.push_back( "saturday");
     res.push_back(3);
+
+
 
     int size = is1.size();
     int startIndex = 0;
