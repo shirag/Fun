@@ -1016,7 +1016,6 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
     //Case 6: No path found
     is1.push_back("kit");
     is2.push_back("kjitt");
-    //res.push_back(-1);
     res.push_back(2);
 
     //Case 7: Insert next to i
@@ -1045,7 +1044,10 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
     is2.push_back( "saturday");
     res.push_back(3);
 
-
+    //Case 11;
+    is1.push_back("sunday");
+    is2.push_back( "sunday");
+    res.push_back(0);
 
     int size = is1.size();
     int startIndex = 0;
@@ -1053,7 +1055,7 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
 
     for(int i = startIndex; i < endIndex; i++)
     {
-        cout << "Test " << i <<": str1 = " << is1[i] << " str2 = " << is2[i] << "\n";
+        cout << "\n\n******************Test " << i <<": str1 = " << is1[i] << " str2 = " << is2[i] << "*****************\n";
         REQUIRE(soln.editDistance(is1[i],is2[i]) == res[i]);
         cout << "Test " << i <<": Pass \n";
     }
@@ -1112,7 +1114,10 @@ TEST_CASE( "Word Break", "Word Break" )
     }
 
 }
-
+/*
+186, 119, 83, 408
+6249
+*/
 TEST_CASE( "Make Change", "Make Change" )
 {
     cout << "Make Change \n\n";
@@ -1166,6 +1171,15 @@ TEST_CASE( "Make Change", "Make Change" )
     i1.push_back(151);
     i2t.clear();
     i2t = {2, 5, 3, 6, 100};
+    i2.push_back(i2t);
+    rest =  { 100, 6, 6, 6, 6, 6, 6, 5, 5, 5 };
+    res.push_back(rest);
+
+    //186, 119, 83, 408
+    //6249
+    i1.push_back(6249);
+    i2t.clear();
+    i2t = {186, 419, 83, 408};
     i2.push_back(i2t);
     rest =  { 100, 6, 6, 6, 6, 6, 6, 5, 5, 5 };
     res.push_back(rest);
@@ -1384,6 +1398,11 @@ TEST_CASE( "Count ways to reach the Nth Stair", "Count ways to reach the Nth Sta
     i2.push_back(50);
     res.push_back(19908673);
 
+
+    itemp = {1, 2};
+    i1.push_back(itemp);
+    i2.push_back(35);
+    res.push_back(14930352);
 
     int size = i1.size();
     int startIndex = 0;

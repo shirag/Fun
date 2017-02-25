@@ -10,6 +10,68 @@
 #include "IKSolution.hpp"
 
 
+
+bool giveMeAllCombinationStrings(string str, int index, vector<string>& vs, string& dest)
+{
+
+
+    if(index < str.size())
+    {
+        DEBUG_TRACE(cout << "Trying to replace at index : " << index << " \n");
+        char temp = str[index];
+        for(int i = 0; i < 26; i++)
+        {
+            str[index] = 'a' + i;
+            if(str[index] != dest[index])
+                continue;
+            vs.push_back(str);
+        }
+        str[index] = temp;
+
+        str.erase(str.begin() + index);
+        if(str.size() == dest.size())
+        {
+            vs.push_back(str);
+        }
+        str.insert(str.begin() + index, temp);
+
+    }
+
+    DEBUG_TRACE(cout << "About to insert at index : " << index << " \n");
+    for(int i = 0; i < 26; i++)
+    {
+        if(!((str.size() + 1) <= dest.size() ))
+        {
+            continue;
+
+        }
+        if(index < str.size())
+        {
+            str.insert(str.begin() + index + 1, ('a' + i));
+
+            if(str[index + 1] != dest[index + 1])
+            {
+                str.erase(str.begin() + index + 1);
+                continue;
+            }
+
+            vs.push_back(str);
+            str.erase(str.begin() + index + 1);
+        }
+        else
+        {
+            str.push_back('a' + i);
+            if(str[index + 1] != dest[index + 1])
+            {
+                str.erase(str.end()-1);
+                continue;
+            }
+            vs.push_back(str);
+            str.erase(str.end()-1);
+        }
+    }
+    return true;
+}
 /*
  *
  * I replace/delete/insert at an index. I ask my right index to give the min.
@@ -33,221 +95,71 @@
  *    Add one to the distance before returning.
  *
  */
-#if 0
-int editDistanceUtil(string& str1, int index, string& dest)
+int countt = 0;
+int editDistanceUtil(string& src, string& dest, int index, map<string,int>& memo)
 {
-    int dist = -1;
-    int minD = -1;
 
-    if(str1 == dest)
+    int minChanges = INT_MAX;
+    vector<string> combos;
+
+    string s(src.begin() + index, src.end());
+    DEBUG_TRACE(cout << "string " << s << " cache Read: index " << index << " \n");
+    auto it = memo.find(s);
+    if(it != memo.end())
     {
-        //DEBUG_DEBUG(cout << "Index = " << index << " str = " << str1 << " \n";)
+        DEBUG_DEBUG(cout << "Cache Read: string " << s << " minDistance " << index << " \n");
+        //return it->second;
+    }
+
+    if(src == dest)
+    {
+        DEBUG_TRACE(cout << "index = " << index << "Base case \n");
         return 0;
     }
 
-    if( (abs(dest.size() - str1.size()) != 1) ||  (dest.size() == str1.size()) )
+    if(index > src.size() || (index > dest.size()))
     {
-    }
-    else
-    {
-        return -1;
+        return minChanges;
     }
 
-    ////if(index >= str1.size())
-    //if((index >= str1.size()) && (index >= dest.size()))
-    //{
-
-      //  else
-       // {
-            //DEBUG_DEBUG(cout << "Base case: Index = " << index << " str = " << str1 << " \n";)
-          //  return -1;
-        //}
-    //}
-
-    //DEBUG_DEBUG(cout << "Index = " << index << " str = " << str1 << " \n";)
-
-    //Replace the char at index
-    if(index < str1.size())
+    giveMeAllCombinationStrings(src, index, combos, dest);
+    for(auto it : combos)
     {
-        char temp = str1[index];
-        for(int i = 0; i < 26; i++)
+        DEBUG_DEBUG(cout << "count " << countt << " index:" << index << " src is " << src << " next string = " << it << " \n");
+        countt++;
+        int changes = 0;
+        int offset = 0;
+
+        if(it.size() >= src.size())//replace/insert
+            offset = 1;
+        changes = editDistanceUtil(it, dest, index + offset, memo);
+        if(changes != INT_MAX)
         {
-            str1[index] = 'a' + i;
-            if(str1[index] != dest[index])
-            {
-                continue;
+            DEBUG_TRACE(cout << "index:" << index << " src is " << src << " next string = " << it << " \n");
+            if(it != src)
+                changes++;
+            minChanges = changes < minChanges ? changes : minChanges;
 
-            }
-            DEBUG_DEBUG(cout << "Replace: Index = " << index << " str1  " << str1 << "  \n";);
-            dist = editDistanceUtil(str1, (index + 1), dest);
-            if(dist != -1)
-            {
-                if( ('a' + i) != temp)
-                {
-                    dist = dist + 1;
-                }
-                minD = dist;
-            }
+            //string s1(src.begin() + index, src.end());
+            //DEBUG_DEBUG(cout << "Cache Write: For string : " << s1 << " index = " << index << " minChanges = " << minChanges << " \n");
+            //memo.insert(make_pair(s1, minChanges));
+
+
         }
-        str1[index] = temp;
-
-
-        //Delete the char at index
-        str1.erase(str1.begin() + index);
-        if(str1[index] == dest[index])
-        {
-            DEBUG_DEBUG(cout << "Delete: Index = " << index << " str1  " << str1  << " \n";);
-            dist = editDistanceUtil(str1, (index + 1), dest);
-            if(dist != -1)
-            {
-                DEBUG_TRACE(cout << "incrementing distance \n");
-                dist = dist + 1;
-                if(minD != -1)
-                    minD = dist < minD ? dist : minD;
-                else
-                    minD = dist;
-
-            }
-        }
-        str1.insert(str1.begin() + index, temp);
     }
 
 #if 1
-    if(index < str1.size())
+    if(minChanges != INT_MAX)
     {
-        cout << "About to insert AT " << (index + 1)  << " \n";
-        //Insert to a location next to the char
-        for(int i = 0; i < 26; i++)
-        {
-            str1.insert(str1.begin() + index + 1, ('a' + i));
-            if(str1[index + 1] != dest[index + 1])
-            {
-                str1.erase(str1.begin() + index + 1);
-                continue;
-            }
-            DEBUG_DEBUG(cout << "Insert: Index = " << index + 1 << " str1  " << str1  << " \n";);
-            dist = editDistanceUtil(str1, (index + 2), dest);
-            if(dist != -1)
-            {
-                dist = dist + 1;
-                if(minD != -1)
-                    minD = dist < minD ? dist : minD;
-                else
-                    minD = dist;
-            }
-            str1.erase(str1.begin() + index + 1);
-        }
+        string s1(src.begin() + index, src.end());
+        DEBUG_DEBUG(cout << "Cache Write: For string : " << s1 << " index = " << index << " minChanges = " << minChanges << " \n");
+        memo.insert(make_pair(s1, minChanges));
     }
-#endif
-    return minD;
-
-}
+    //memo.insert(make_pair(index,minDistance));
+    //return memo[index];
 #endif
 
-
-bool giveMeAllCombinationStrings(string str, int index, vector<string>& vs)
-{
-    //vector<string> vs;
-
-    char temp = str[index];
-    for(int i = 0; i < 26; i++)
-    {
-        str[index] = 'a' + i;
-        vs.push_back(str);
-    }
-    str[index] = temp;
-
-
-    str.erase(str.begin() + index);
-    vs.push_back(str);
-    str.insert(str.begin() + index, temp);
-
-    for(int i = 0; i < 26; i++)
-    {
-        str.insert(str.begin() + index + 1, ('a' + i));
-        vs.push_back(str);
-        str.erase(str.begin() + index + 1);
-    }
-
-
-    return true;
-}
-
-int editDistanceUtil(string& src, string& dest, int index, map<int,int>& memo)
-{
-
-    int minDistance = -1;
-#if 0
-    auto it = memo.find(index);
-    if(it != memo.end())
-    {
-        DEBUG_DEBUG(cout << "cache Read:sindex: " << index << " \n");
-        return it->second;
-    }
-#endif
-
-    if(index == src.size())
-    {
-        /*If there is a match */
-        if(src == dest)
-            return 0;
-        else
-            return minDistance;
-    }
-
-    vector<string> combos;
-    giveMeAllCombinationStrings(src, index, combos);
-    int i = 0;
-    for(auto it : combos)
-    {
-        cout << "next string = " << it << " src is " << src << " \n";
-        int distance;
-        if(it.size() < src.size())//delete
-        {
-            //if(it[index] != dest[index])
-                //continue;
-            distance = editDistanceUtil(it, dest, index, memo);
-        }
-        else if(it.size() == src.size())//replace
-        {
-            if(it[index] != dest[index])
-                continue;
-            else
-                distance = editDistanceUtil(it, dest, index + 1, memo);
-        }
-        else//insert
-        {
-            if(it[index + 1] != dest[index + 1])
-                continue;
-            else
-                distance = editDistanceUtil(it, dest, index + 2, memo);
-        }
-
-        if(distance != -1)
-        {
-            if(it != src)
-                distance++;
-
-            if(minDistance == -1)
-            {
-                cout << "match found \n";
-                minDistance = distance;
-            }
-            else
-            {
-                cout << "match found \n";
-                minDistance = distance < minDistance ? distance : minDistance;
-            }
-        }
-
-    }
-
-#if 0
-    memo.insert(make_pair(index,minDistance));
-    return memo[index];
-#endif
-
-    return minDistance;
+    return minChanges;
 
 }
 
@@ -275,7 +187,7 @@ int IKSolution::editDistance(string strWord1, string strWord2)
 {
 
     int index = 0;
-    map<int,int> memo;
+    map<string, int> memo;
     return editDistanceUtil(strWord1, strWord2, index, memo);
 }
 
