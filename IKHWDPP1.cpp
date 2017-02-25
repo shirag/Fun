@@ -663,7 +663,7 @@ int maxStolenValueUtil(vector<int>& arrHouseValues, int index, map<int,int>& mem
  *       Give me the value.
  *       Ill find the max value and store it.
  *
- *     After all the compuation I return the max value.
+ *     After all the computation I return the max value.
  *
  * Time Complexity:
  * Space Complexity:
