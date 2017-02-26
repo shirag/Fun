@@ -319,7 +319,7 @@ vector<int> makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, 
     }
     if(currSum == C)
     {
-        minBt.push_back(10000); // dummy value to differentiate between valid and invalid results
+        minBt.push_back(0); // dummy value to differentiate between valid and invalid results
         return minBt;
     }
 
