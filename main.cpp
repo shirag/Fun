@@ -1145,7 +1145,7 @@ TEST_CASE( "Make Change", "Make Change" )
     i1.push_back(4);
     i2t = {1,2,3};
     i2.push_back(i2t);
-    rest = {3,1};
+    rest = {3, 1};
     res.push_back(rest);
 
     i1.push_back(10);
@@ -1161,6 +1161,7 @@ TEST_CASE( "Make Change", "Make Change" )
     rest = {1,3};
     res.push_back(rest);
 
+    //5
     i1.push_back(67);
     i2t.clear();
     i2t = {2, 5, 3, 6};
@@ -1168,6 +1169,7 @@ TEST_CASE( "Make Change", "Make Change" )
     rest = { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 2 };
     res.push_back(rest);
 
+    //6
     i1.push_back(151);
     i2t.clear();
     i2t = {2, 5, 3, 6, 100};
@@ -1175,13 +1177,12 @@ TEST_CASE( "Make Change", "Make Change" )
     rest =  { 100, 6, 6, 6, 6, 6, 6, 5, 5, 5 };
     res.push_back(rest);
 
-    //186, 119, 83, 408
-    //6249
     i1.push_back(6249);
     i2t.clear();
     i2t = {186, 419, 83, 408};
     i2.push_back(i2t);
-    rest =  { 100, 6, 6, 6, 6, 6, 6, 5, 5, 5 };
+    rest =  { 408, 408, 408, 408, 408 , 408, 408 , 408, 83, 83, 83, 83, 419, 419,
+      419, 419, 419, 186, 186, 186};
     res.push_back(rest);
 
     int size = i1.size();

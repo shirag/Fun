@@ -306,59 +306,54 @@ vector<string>IKSolution::wordBreak(string strWord, vector<string> strDict)
 
 /*********************************************************************************************************************************/
 /* Give me a vector of all mins */
-bool makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, vector<int>& minDenom, map<int, vector<int>>& cache)
+int count1 = 0; // Just to see how many times the recursive function is called.
+vector<int> makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, map<int, vector<int>>& cache)
 {
-    int minChange = -1;
     vector<int> minBt;
+    bool minBtInit = false;
 
-#if 1
     auto it = cache.find(currSum);
     if(it != cache.end())
     {
-        minDenom = it->second;
-        return true;
+        return it->second;;
     }
-#endif
-
     if(currSum == C)
-        return true;
+    {
+        minBt.push_back(10000); // dummy value to differentiate between valid and invalid results
+        return minBt;
+    }
 
-    if(currSum > C)
-        return false;
-
+    DEBUG_DEBUG(cout << "count = " << count1++ << " \n");
 
     vector<int> bt;
     for(auto it : intDenominations)
     {
-        DEBUG_TRACE(cout << "currSum = " << currSum << " Added denomination: " << it << " \n");
+        DEBUG_TRACE(cout << " currSum = " << currSum << " Added denomination: " << it << " \n");
         currSum += it;
 
-        if(makeChangeUtil(C, intDenominations, currSum, bt, cache) == true)
+        if(currSum <= C)
         {
+            bt = makeChangeUtil(C, intDenominations, currSum, cache);
             DEBUG_TRACE(cout << "currSum = " << currSum << " Added denomination: " << it << " returned true \n");
-            if(minChange == -1 || (bt.size() < minChange))
+            if( (bt.size() >= 1) &&  (minBtInit == false) )
             {
-                minChange = bt.size();
+                bt.push_back(it);
+                minBt = bt;
+                minBtInit = true;
+            }
+            else if( (bt.size() >= 1) && (((bt.size() + 1) < minBt.size())))
+            {
                 bt.push_back(it);
                 minBt = bt;
             }
         }
 
-        bt.clear();
         currSum -= it;
+
     }
-    if(minChange == -1)
-        return false;
 
-#if 1
     cache.insert(make_pair(currSum,minBt));
-    minDenom = cache[currSum];
-    return true;
-#endif
-
-    minDenom = minBt;
-    return true;
-
+    return cache[currSum];
 }
 
 
@@ -371,10 +366,13 @@ bool makeChangeUtil(int C, vector <int>& intDenominations, int& currSum, vector<
  */
 vector<int> IKSolution::makeChange(int C, vector <int> intDenominations)
 {
+    count1 = 0;
     int currSum = 0;
     vector<int> minDenom;
     map<int,vector<int>> cache;
-    makeChangeUtil(C, intDenominations, currSum, minDenom, cache);
+    minDenom = makeChangeUtil(C, intDenominations, currSum,  cache);
+    if(minDenom.size())
+        minDenom.erase(minDenom.begin());
     return minDenom;
 }
 /***********************************************************************************************************/
@@ -663,7 +661,7 @@ int maxStolenValueUtil(vector<int>& arrHouseValues, int index, map<int,int>& mem
  *       Give me the value.
  *       Ill find the max value and store it.
  *
- *     After all the computation I return the max value.
+ *     After all the computaton I return the max value.
  *
  * Time Complexity:
  * Space Complexity:
