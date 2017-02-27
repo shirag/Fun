@@ -448,6 +448,7 @@ int IKSolution::maxWin(vector<int> intCoins)
     int beginIndex = 0;
     int endIndex = intCoins.size() - 1;
 
+#if 0
     int val1 = maxWinUtil(intCoins, 0, beginIndex + 1, endIndex);
     val1 = val1 + intCoins[0];
 
@@ -457,7 +458,7 @@ int IKSolution::maxWin(vector<int> intCoins)
     cout << "val1 = " << val1 << " \n";
     cout << "val2 = " << val2 << " \n";
 
-#if 1
+
     if(val1 > val2)
     {
         return val1;
@@ -673,8 +674,102 @@ int IKSolution::maxStolenValue(vector<int> arrHouseValues)
     return maxStolenValueUtil(arrHouseValues, 0, memo);
 }
 
+/***************************************************************************************/
+
+int maxProductFromCutPiecesUtil(int ropelength, int currentLength, map<int,int>& memo)
+{
+
+    auto it = memo.find(currentLength);
+    if( it != memo.end())
+        return it->second;
+
+    int maxProduct = INT_MIN;
+    if((ropelength == currentLength) || (ropelength == 2)) //Please note: Additional exit condition(min rope length).
+        return 1;
+
+    if(currentLength > ropelength)
+        return maxProduct;
 
 
+    for(int i = 1; i <= ropelength; i++)
+    {
+        currentLength += i;
+        int currProduct = maxProductFromCutPiecesUtil(ropelength, currentLength, memo);
+        if(currProduct > INT_MIN)
+            if((currProduct * i) > maxProduct)
+                maxProduct = currProduct * i;
+        currentLength -= i;
+    }
+
+    memo.insert(make_pair(currentLength, maxProduct));
+    return memo[currentLength];
+
+}
+
+/* Problem:
+ *     Rope cutting problem. Get the max product you can get from various lengths.
+ *
+ * Example:
+ *
+ * Approach:
+ *
+ * Time Complexity:
+ * Space Complexity:
+ * Take Away:
+ */
+int IKSolution::maxProductFromCutPieces(int ropelength)
+{
+    map<int,int> memo;
+    int currentLen = 0;
+    return maxProductFromCutPiecesUtil(ropelength, currentLen, memo);
+}
 
 
+/******************************************************************************************************************************/
 
+int totalNoOfRows = 0;
+int totalNoOfColumns = 0;
+
+vector<pair<int,int>> numberOfPathsFromHere(vector<vector<int>> a,  int currRow, int currCol)
+{
+    vector<pair<int,int>> res;
+
+    int nextRow = currRow + 1;
+    int nextCol = currCol + 1;
+
+    if((nextRow < totalNoOfRows) && (nextCol < totalNoOfColumns))
+    {
+        if(a[nextRow][nextCol])
+        {
+            res.push_back(make_pair(nextRow, nextCol));
+        }
+    }
+    return res;
+}
+
+int numberOfPathsUtil(vector<vector<int>>& a, int currRow, int currCol)
+{
+
+    DEBUG_TRACE(cout << "currentStair = " << currentStair << "\n");
+    if( (currRow == (totalNoOfRows - 1)) && (currCol == (totalNoOfColumns - 1)))
+        return 1;
+
+    int numOfPaths = 0;
+    auto choices = numberOfPathsFromHere(a, currRow, currCol);
+    for(auto it : choices)
+        numOfPaths += numberOfPathsUtil(a, it.first, it.second);
+
+    return numOfPaths;
+}
+
+//This is totally untested code.
+//DP timed test problem. No of paths in a matrix, Please look at snap shots for explanation of the probelm
+int IKSolution::numberOfPaths(vector<vector<int>> a)
+{
+    int currRow = 0;
+    int currColumn = 0;
+    totalNoOfRows = 2;
+    totalNoOfColumns = 3;
+    return numberOfPathsUtil(a, currRow, currColumn);
+}
+/******************************************************************************************************************************/

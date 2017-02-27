@@ -254,7 +254,8 @@ class IKSolution
         int numPhoneNumbers(int startdigit, int phonenumberlength);
         int numWaysToClimb(vector < int > numSteps, int numStairs);
         int maxStolenValue(vector < int > arrHouseValues);
-
+        int maxProductFromCutPieces(int ropelength);
+        int numberOfPaths(vector<vector<int>> a);
 
 };
 

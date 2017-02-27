@@ -1455,6 +1455,36 @@ TEST_CASE( "Coin Play: Max money", "Coin Play: Max money")
 }
 
 
+TEST_CASE( "Max Product for rope", "Max Product for rope")
+{
+    cout << "Test: Max Product for rope\n\n";
+
+    vector<int> i1;
+    vector<int> res;
+
+    //0
+    i1.push_back(4);
+    res.push_back(4);
+
+    i1.push_back(10);
+    res.push_back(36);
+
+    i1.push_back(2);
+    res.push_back(1);
+
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.maxProductFromCutPieces(i1[i]) == res[i]);
+    }
+
+
+}
 
 TEST_CASE( "Initial tests", "Inits" )
 {
