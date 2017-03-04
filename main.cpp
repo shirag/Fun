@@ -983,71 +983,82 @@ TEST_CASE( "Levenstein Problem", "editDistance" )
     vector<string> is2;
     vector<int> res;
 
-    //Case 0:
+    is1.push_back("k");
+    is2.push_back("k");
+    res.push_back(0);
+
+    is1.push_back("k");
+    is2.push_back("s");
+    res.push_back(1);
+
+
+    //Case 2:
     is1.push_back("ki");
     is2.push_back("si");
     res.push_back(1);
 
-    //Case 1:
+    //Case 3:
     is1.push_back("kit");
     is2.push_back("bat");
     res.push_back(2);
 
-    //Case 2:
+    //Case 4:
     is1.push_back("kit");
     is2.push_back("kat");
     res.push_back(1);
 
-    //Case 3:Insert test
+    //Case 5:Insert test
     is1.push_back("kith");
     is2.push_back("kaui");
     res.push_back(3);
 
-    //Case 4: Delete tests
+    //Case 6: Delete tests
     is1.push_back("kit");
     is2.push_back("ka");
     res.push_back(2);
 
-    //Case 5:
+    //Case 7:
     is1.push_back("kith");
     is2.push_back("kui");
     res.push_back(3);
 
-    //Case 6: No path found
+    //Case 8:
     is1.push_back("kit");
     is2.push_back("kjitt");
     res.push_back(2);
 
-    //Case 7: Insert next to i
+    //Case 9: Insert next to i
     is1.push_back("kit");
     is2.push_back("kijt");
     res.push_back(1);
 
-    //Case 8:
+    //Case 10:
     is1.push_back("geek");
     is2.push_back( "gesek");
     res.push_back(1);
 
-    //Case 9:
+    //Case 11:
     is1.push_back("cat");
     is2.push_back( "cut");
     res.push_back(1);
 
 
-    //Case 10:
+    //Case 12:
     is1.push_back("kitten");
     is2.push_back("sitting");
     res.push_back(3);
 
-    //Case 11;
+    //Case 13;
+    is1.push_back("sunday");
+    is2.push_back( "sunday");
+    res.push_back(0);
+
+    //Case 14;
     is1.push_back("sunday");
     is2.push_back( "saturday");
     res.push_back(3);
 
-    //Case 11;
-    is1.push_back("sunday");
-    is2.push_back( "sunday");
-    res.push_back(0);
+
 
     int size = is1.size();
     int startIndex = 0;
@@ -1438,10 +1449,55 @@ TEST_CASE( "Coin Play: Max money", "Coin Play: Max money")
     i1.push_back(itemp);
     res.push_back(15);
 
-
+    //3
     itemp = {149, 154, 63, 242, 12, 72, 65};
     i1.push_back(itemp);
     res.push_back(289);
+
+    //4
+    itemp =  { 135, 174, 220, 51, 88, 212, 162, 132, 97, 163, 54, 185};
+    i1.push_back(itemp);
+    res.push_back(917);
+
+    //5
+    itemp =  { 218, 64, 128, 239, 188, 193, 221, 217,
+               159, 97, 91, 140, 11, 54, 206, 227,
+               48, 102, 121, 221, 68, 174, 79, 39,
+               113, 72, 108, 144, 98, 249, 100, 188,
+               165, 18, 64, 159, 186, 30, 199, 192,
+               130, 26, 188, 62, 81, 234, 97, 82, 95};
+    i1.push_back(itemp);
+    res.push_back(3149);
+
+    //6
+    itemp =  { 56, 190, 138, 31, 17, 163,
+      226, 27, 45, 108, 150, 75,
+      69, 139, 28, 103, 21, 9,
+      31, 139, 97, 76, 18, 186, 125, 174, 235, 95, 185, 36, 152, 236, 48, 85, 43, 58, 21, 138,
+      40, 138, 29, 240, 73, 162, 239, 90, 46, 160, 185 };
+    i1.push_back(itemp);
+    res.push_back(2317);
+
+
+    itemp =  {69, 164, 249, 247, 219, 105, 94, 194, 200, 146, 0, 180, 78};
+    i1.push_back(itemp);
+    res.push_back(909);
+
+
+    itemp =  {73, 220, 192, 205, 25, 187, 51, 214, 11,
+    147, 102, 212, 67, 107, 11, 65, 116, 41,
+    73, 96, 135, 142, 156, 162};
+    i1.push_back(itemp);
+    res.push_back(1798);
+
+
+
+    itemp = {120, 194, 81, 197, 58, 224, 10,
+    67, 29, 177, 71, 59, 178, 139, 1, 54, 210, 194, 172, 156, 144, 14, 117,  172, 89, 132, 138, 7, 95, 181, 226, 108, 69,
+    224, 42, 103};
+    i1.push_back(itemp);
+    res.push_back(2402);
+
 
     int size = i1.size();
     int startIndex = 0;
@@ -1485,6 +1541,227 @@ TEST_CASE( "Max Product for rope", "Max Product for rope")
 
 
 }
+
+
+
+TEST_CASE( "Longest Substring Length", "Longest Substring Length")
+{
+    cout << "Test: Longest Substring Length\n\n";
+
+    vector<string> i1;
+    vector<string> res;
+
+    //0
+    i1.push_back("ABBB");
+    res.push_back("ABBB");
+
+    //1
+    i1.push_back("ABBBC");
+    res.push_back("ABBB");
+
+    //2
+    i1.push_back("ABBBCCCCC");
+    res.push_back("BBBCCCCC");
+
+    //3
+    i1.push_back("ABBBCCCCCDDDD");
+    res.push_back("CCCCCDDDD");
+
+    //4
+    i1.push_back("ABBBCCCCCDDDDE");
+    res.push_back("CCCCCDDDD");
+
+    //5
+    i1.push_back("ABC");
+    res.push_back("AB");
+
+    //6
+    i1.push_back("ECEBA");
+    res.push_back("ECE");
+
+    //7
+    i1.push_back("AAAAAA");
+    res.push_back("");
+
+    //8
+    i1.push_back("AAAAAB");
+    res.push_back("AAAAAB");
+
+    //9
+    i1.push_back("A");
+    res.push_back("");
+
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.longestSub(i1[i]) == res[i]);
+    }
+}
+
+TEST_CASE( "Join words to make palindrome", "Join words to make palindrome")
+{
+    cout << "Test: Join words to make palindrome\n\n";
+
+    vector< vector<string> > i1;
+    vector<vector<pair<string,string>>>  res;
+
+    //0
+    vector<string> i = {"bat", "tab", "cat"};
+    i1.push_back(i);
+    vector<pair<string,string>> r;
+
+    //1
+     i = {"bat", "tab", "cat", "tac"};
+    i1.push_back(i);
+
+
+    pair<string,string> s = make_pair("bat", "tab");
+    r.push_back(s);
+    s =  make_pair("cat", "tac");
+    r.push_back(s);
+    res.push_back(r);
+
+
+    i = {"ab", "deedba"};
+    i1.push_back(i);
+
+    i = {"ant", "cat", "dog"};
+    i1.push_back(i);
+
+
+    i = {"abcd", "dcba", "lls", "s", "sssll"};
+    i1.push_back(i);
+    //Return [[0, 1], [1, 0], [3, 2], [2, 4]]
+    //The palindromes are ["dcbaabcd", "abcddcba", "slls", "llssssll"]
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        soln.joinWordToMakePali(i1[i]);
+    }
+}
+
+TEST_CASE( "Regular Expression Matcher", "Regular Expression Matcher")
+{
+    cout << "Test: Regular Expression Matcher\n\n";
+
+
+    vector<string> i1;
+    vector<string> i2;
+    vector<bool>  res;
+
+    //0
+    i1.push_back("aab");
+    i2.push_back("c*a*b");
+    res.push_back(true);
+
+    //1
+    i1.push_back("aa");
+    i2.push_back("a");
+    res.push_back(false);
+
+    //2
+    i1.push_back("aa");
+    i2.push_back("aa");
+    res.push_back(true);
+
+    //3
+    i1.push_back("ab");
+    i2.push_back("a*b");
+    res.push_back(true);
+
+    //4
+    i1.push_back("aaa");
+    i2.push_back("aa");
+    res.push_back(false);
+
+    //5
+    i1.push_back("aa");
+    i2.push_back("a*");
+    res.push_back(true);
+
+    //6
+    i1.push_back("aa");
+    i2.push_back("ab");
+    res.push_back(false);
+
+    //7
+    i1.push_back("aac");
+    i2.push_back("aab");
+    res.push_back(false);
+
+    //8
+    i1.push_back("aabc");
+    i2.push_back("aabc");
+    res.push_back(true);
+
+    //9
+    i1.push_back("aabc");
+    i2.push_back("aab");
+    res.push_back(false);
+
+    //10
+    i1.push_back("aab");
+    i2.push_back("aabc");
+    res.push_back(false);
+
+    //11
+    i1.push_back("aab");
+    i2.push_back("aa.");
+    res.push_back(true);
+
+    //12
+    i1.push_back("aabc");
+    i2.push_back("aa.c");
+    res.push_back(true);
+
+    //13
+    i1.push_back("aab");
+    i2.push_back("aa.");
+    res.push_back(true);
+
+    //14
+    i1.push_back("abc");
+    i2.push_back(".*c");
+    res.push_back(true);
+
+    //15
+    i1.push_back("aa");
+    i2.push_back(".*");
+    res.push_back(true);
+
+    //16
+    i1.push_back("aaaaaa");
+    i2.push_back(".a*");
+    res.push_back(true);
+
+
+    i1.push_back("caab");
+    i2.push_back("c*a*b");
+    res.push_back(true);
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.regExMatcher(i1[i], i2[i]) == res[i]);
+    }
+
+
+}
+
 
 TEST_CASE( "Initial tests", "Inits" )
 {

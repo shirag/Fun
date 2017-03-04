@@ -9,8 +9,13 @@
 #define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "IKSolution.hpp"
 
+int min(int a, int b)
+{
+    return (a < b ? a : b);
+}
 
 
+#if 0
 bool giveMeAllCombinationStrings(string str, int index, vector<string>& vs, string& dest)
 {
 
@@ -72,44 +77,12 @@ bool giveMeAllCombinationStrings(string str, int index, vector<string>& vs, stri
     }
     return true;
 }
-/*
- *
- * I replace/delete/insert at an index. I ask my right index to give the min.
- * Take the min returned by all my subordinates and return the val.
- *
- * At an index,
- *    If leaf:
- *       Try matching the string with dest. If the dest and src match, return 0.
- *       Else return -1, indicating we could not reach the dest after all combinations.
- *
-      Replacing it with all chars(a to z).
- *    Request the subordinate to use the string provided and next index and provide the min no steps.
- *
- *    Delete the char at the index.
- *    Request the subordinate to use the string provided and next index and provide the min no steps.
- *
- *    Insert a char at the  next index.
- *    Request the subordinate to use the string provided and next index and provide the min no steps.
- *
- *    Return the min of all values returned by all recursive cases.
- *    Add one to the distance before returning.
- *
- */
-int countt = 0;
+
 int editDistanceUtil(string& src, string& dest, int index, map<string,int>& memo)
 {
 
     int minChanges = INT_MAX;
     vector<string> combos;
-
-    string s(src.begin() + index, src.end());
-    DEBUG_TRACE(cout << "string " << s << " cache Read: index " << index << " \n");
-    auto it = memo.find(s);
-    if(it != memo.end())
-    {
-        DEBUG_DEBUG(cout << "Cache Read: string " << s << " minDistance " << index << " \n");
-        //return it->second;
-    }
 
     if(src == dest)
     {
@@ -139,56 +112,96 @@ int editDistanceUtil(string& src, string& dest, int index, map<string,int>& memo
             if(it != src)
                 changes++;
             minChanges = changes < minChanges ? changes : minChanges;
-
-            //string s1(src.begin() + index, src.end());
-            //DEBUG_DEBUG(cout << "Cache Write: For string : " << s1 << " index = " << index << " minChanges = " << minChanges << " \n");
-            //memo.insert(make_pair(s1, minChanges));
-
-
         }
     }
-
-#if 1
-    if(minChanges != INT_MAX)
-    {
-        string s1(src.begin() + index, src.end());
-        DEBUG_DEBUG(cout << "Cache Write: For string : " << s1 << " index = " << index << " minChanges = " << minChanges << " \n");
-        memo.insert(make_pair(s1, minChanges));
-    }
-    //memo.insert(make_pair(index,minDistance));
-    //return memo[index];
-#endif
 
     return minChanges;
 
 }
+#endif
 
+
+int editDistanceUtil(string s1, string s2, map<pair<string,string>,int>& minDest)
+{
+    DEBUG_DEBUG(cout << "len1 = " << s1.size() << " len2  = " << s2.size() << " \n");
+
+    auto it = minDest.find(make_pair(s1,s2));
+    if(it != minDest.end())
+        return it->second;
+
+    if(s1.size()  == 0)
+        return s2.size();
+
+    if(s2.size()  == 0)
+        return s1.size();
+
+    if(s1[0] == s2[0])
+    {
+        string ns1 =  string(s1.begin() + 1, s1.end());
+        string ns2 =  string(s2.begin() + 1, s2.end());
+        return editDistanceUtil(ns1, ns2, minDest);
+    }
+
+    int insertChars = INT_MAX;
+    int deleteChars = INT_MAX;
+    int replaceChars = INT_MAX;
+
+    {   //Insert a char at the src[0] beginning and assume it matches the content of the corresponding dest location.
+        string ns1 =  string(s1.begin(), s1.end());
+        string ns2 =  string(s2.begin() + 1, s2.end());
+        insertChars = editDistanceUtil(ns1, ns2, minDest);
+    }
+
+    {
+        //Assume that inserted char at dest[0] matches the current src index string and move on.
+        string ns1 =  string(s1.begin() + 1, s1.end());
+        string ns2 =  string(s2.begin(), s2.end());
+        deleteChars = editDistanceUtil(ns1, ns2, minDest);
+    }
+
+    {
+        string ns1 =  string(s1.begin() + 1, s1.end()); cout << " ns1 = " << ns1 << "\n";
+        string ns2 =  string(s2.begin() + 1, s2.end()); cout << " ns2 = " << ns2 << "\n";
+
+        replaceChars = editDistanceUtil(ns1, ns2, minDest);
+        DEBUG_DEBUG(cout << " replaceChars = " << replaceChars << " \n");
+    }
+
+    int minVal = min(min(insertChars, deleteChars), replaceChars);
+    DEBUG_TRACE(cout << " minVal = " << minVal << " \n");
+
+    minDest.insert( make_pair(make_pair(s1,s2), (minVal + 1)) );
+    return minDest[make_pair(s1,s2)];
+
+}
 /* Problem:
  *    Given two strings str1 and str2 and below operations that can performed on str1. Find minimum number of
  *    edits (operations) required to convert ‘str1’ into ‘str2’. YOu have following three operations allowed
       Insert, Remove, and Replace
 
  * Example:
- *    Input:   str1 = "geek", str2 = "gesek"
-      Output:  1
-      We can convert str1 into str2 by inserting a 's'.
-      Input:   str1 = "cat", str2 = "cut"
-      Output:  1
-      We can convert str1 into str2 by replacing 'a' with 'u'.
       Input:   str1 = "sunday", str2 = "saturday"
       Output:  3
 
  * Approach:
+ *    We have to find the distance between two srings.
+ *    Memoization: For any source and destination string pair, give me the distance.
+ *    https://en.wikipedia.org/wiki/Levenshtein_distance
+ *
  * Time Complexity:
  * Space Complexity:
  * Take Away:
+ * 1. In my initial approach, I had tried to actually place strings at different locations and find out the
+ *    distance. Actually, this is not needed. You can calculate it without actually generating combinations.
+ * 2. I tried passing in the index instead of passing in the length. In this case also solution is
+ *    very confusing.
+ * 3. Key to the solution is to understand that we insert/delete at index 0 and not 1.
+ *
  */
 int IKSolution::editDistance(string strWord1, string strWord2)
 {
-
-    int index = 0;
-    map<string, int> memo;
-    return editDistanceUtil(strWord1, strWord2, index, memo);
+    map<pair<string,string>, int> minDest;
+    return editDistanceUtil(strWord1, strWord2, minDest);
 }
 
 /**************************************************************************************************/
@@ -434,6 +447,40 @@ int maxWinUtil(vector<int>& intCoins, int p1Index, int beginIndex, int endIndex)
     return val;
 }
 
+int maxWinUtil(vector<int>& intCoins, int startIndex, int endIndex, map<pair<int, int>, int>& memo)
+{
+
+    auto it = memo.find(make_pair(startIndex, endIndex));
+    if(it != memo.end())
+    {
+        return it->second;
+    }
+
+
+    if(endIndex == startIndex + 1)
+    {
+        return (intCoins[endIndex] > intCoins[startIndex] ? intCoins[endIndex] : intCoins[startIndex]);
+    }
+
+    if(endIndex == startIndex)
+    {
+        return intCoins[startIndex];
+    }
+
+    int a = maxWinUtil(intCoins, startIndex + 2, endIndex, memo); // player 2's first choice
+    int b = maxWinUtil(intCoins, startIndex + 1, endIndex - 1, memo); //// player 2's second choice
+    int myMaxIfIselectFirstIndex = intCoins[startIndex] + min(a, b);
+
+    a = maxWinUtil(intCoins, startIndex + 1, endIndex - 1, memo);
+    b = maxWinUtil(intCoins, startIndex, endIndex -2, memo);
+    int myMaxIfIselectLastIndex = intCoins[endIndex] + min(a, b);
+
+    int myMaxForSure =  (myMaxIfIselectFirstIndex > myMaxIfIselectLastIndex ? myMaxIfIselectFirstIndex : myMaxIfIselectLastIndex);
+
+    memo.insert(make_pair(make_pair(startIndex, endIndex), myMaxForSure));
+    return memo[make_pair(startIndex, endIndex)];
+
+}
 
 /* Problem: Coin Play
  * Example:
@@ -447,6 +494,9 @@ int IKSolution::maxWin(vector<int> intCoins)
 
     int beginIndex = 0;
     int endIndex = intCoins.size() - 1;
+    map<pair<int, int>, int> memo;
+
+    return maxWinUtil(intCoins, beginIndex,  endIndex, memo);
 
 #if 0
     int val1 = maxWinUtil(intCoins, 0, beginIndex + 1, endIndex);
@@ -631,9 +681,7 @@ int maxStolenValueUtil(vector<int>& arrHouseValues, int index, map<int,int>& mem
         {
             int val = maxStolenValueUtil(arrHouseValues, it, memo);
             if(val > maxForAllNeighbours)
-            {
                 maxForAllNeighbours = val;
-            }
         }
 
         if(maxForAllNeighbours + arrHouseValues[i] > maxSum)
@@ -687,18 +735,16 @@ int maxProductFromCutPiecesUtil(int ropelength, int currentLength, map<int,int>&
     if((ropelength == currentLength) || (ropelength == 2)) //Please note: Additional exit condition(min rope length).
         return 1;
 
-    if(currentLength > ropelength)
-        return maxProduct;
-
 
     for(int i = 1; i <= ropelength; i++)
     {
-        currentLength += i;
-        int currProduct = maxProductFromCutPiecesUtil(ropelength, currentLength, memo);
+        if((currentLength + i) > ropelength)
+            break;
+        int currProduct = maxProductFromCutPiecesUtil(ropelength, currentLength + i, memo);
         if(currProduct > INT_MIN)
             if((currProduct * i) > maxProduct)
                 maxProduct = currProduct * i;
-        currentLength -= i;
+
     }
 
     memo.insert(make_pair(currentLength, maxProduct));
@@ -757,7 +803,11 @@ int numberOfPathsUtil(vector<vector<int>>& a, int currRow, int currCol)
     int numOfPaths = 0;
     auto choices = numberOfPathsFromHere(a, currRow, currCol);
     for(auto it : choices)
-        numOfPaths += numberOfPathsUtil(a, it.first, it.second);
+    {
+        int paths = numberOfPathsUtil(a, it.first, it.second);
+        if(paths != 0)
+            numOfPaths++;
+    }
 
     return numOfPaths;
 }

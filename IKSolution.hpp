@@ -257,6 +257,13 @@ class IKSolution
         int maxProductFromCutPieces(int ropelength);
         int numberOfPaths(vector<vector<int>> a);
 
+        /* Strings */
+        string longestSub(string strText);
+        vector<pair<string,string>> joinWordToMakePali(vector<string> s);
+        bool regExMatcher(string strText, string strPattern);
+        bool KMP(string strText, string strPattern);
+
+
 };
 
 
