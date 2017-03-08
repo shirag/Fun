@@ -114,7 +114,12 @@ bool isPalindrome(string s)
    If a string is NOT a palindrome, then if you add strings as its wings(left and rigth), then there is NO chance that you
    will generate a new palindrome again.
 
-   TBD: TRy solving using Trie.
+   TBD: Try solving using Trie.
+   1. Create a try of reverse of all strings
+   2. Now walk in tandem one pointer pointing to the original string and the other pointer pointing to the trie.
+   3. Now when you find a match in trie, you have confirm whether rest of the original string is a palindrome.
+   4. Complexity is O(n * k * k)
+   5. Now if you use Mancher's algorithm after this, you will be able to reduce it to O(n * k)
 
    For O(n * k) solution where k is the length of string refer,
    https://www.quora.com/Given-a-list-of-words-can-two-words-be-joined-together-to-form-a-palindrome
@@ -173,7 +178,7 @@ vector<pair<string,string>> IKSolution::joinWordToMakePali(vector<string> s)
  * Approach:
  *    Check the second char. If its a * then you have to skip all chars in the source until you find a char that is not the preceding char of *
  *    These above are two tricky cases.
- *
+ *     http://articles.leetcode.com/regular-expression-matching/
  *
  *    "aab"
       "c*a*b"
@@ -189,11 +194,23 @@ vector<pair<string,string>> IKSolution::joinWordToMakePali(vector<string> s)
       (".*c");
        should return true
        In this case there is no preceding element. So, we dont have to match b?
-       I dont have  a stary for this part yet.
+       Why the regex pattern “.*” matches the string “ab”. “.*” means repeat the preceding element 0 or more times.
+       Here, the “preceding” element is the dot character in the pattern, which can match any characters.
+       Therefore, the regex pattern “.*” allows the dot to be repeated any number of times, which matches any string (even an empty string).
+
+       ["ab"]
+       [abc*]
+       should return true
+
+       [abc]
+       [abcd]
+       should return false
 
  * Time Complexity: O(n * k * k)
  * Space Complexity:
  * Take Away:
+ * Optimization:
+ *     We should be able to solve this using DP as a next step
  */
 
 bool regExMatcherUtil(string strText, string strPattern, int si, int pi)
@@ -227,10 +244,11 @@ bool regExMatcherUtil(string strText, string strPattern, int si, int pi)
     {
         if( ((strText[si] == strPattern[pi]) || (strPattern[pi] == '.')) )
         {
-            if(((si + 1) == strText.size()) && ((pi + 1) != strPattern.size()))
-                return false;
-            if(((pi + 1) == strPattern.size()) && ((si + 1) != strText.size()))
-                return false;
+            if(((si + 1) == strText.size()) && ((pi + 1) != strPattern.size())) //Some more chars in pattern but string has ended
+            {
+                if( (strPattern[pi + 1] != '*') && (strPattern[pi + 2] != '*') )
+                    return false;
+            }
             return regExMatcherUtil(strText, strPattern, si + 1, pi + 1);
         }
     }
@@ -247,186 +265,261 @@ bool IKSolution::regExMatcher(string strText, string strPattern)
     cout << strPattern << "\n";
     return regExMatcherUtil(strText, strPattern, 0, 0);
 }
+/************************************************************************************/
 
-
-bool IKSolution::KMP(string strText, string strPattern)
+void LongestProperSuffixTable(string p, vector<int>& lps)
 {
 
-
-}
-
-
-
-#if 0
-
-//Find the closest pair from two sorted arrays
-//Given two sorted arrays and a number x, find the pair whose sum is closest to x and the
-//pair has an element from each array.
-
-mergeTwoSortedArrays(vector<int> arr1, vector<int> arr2)
-{
-    vector<int> finalArray;
-
-    if(arr1[index1] < arr2[index2])
+    lps.push_back(0);
+    for(int i = 1; i < p.size(); i++)
     {
-        final[finalIndex] = arra1[index1]
-        index1++;
-    }
-    else
-    {
-        final[finalIndex] = arra1[index1]
-        index2++;
-
-    }
-    finalIndex++;
-
-}
-
-findTheRankOfTheElement(aray a, int k)
-{
-    for(int i = 0)
-    {
-
-    }
-
-    index = i;
-    val = a[index];
-
-    for(i = 0; i < size; i++)
-    {
-
-       if(a[i] < val)
-       {
-          swap(a[i], a[index]);
-          i++;
-       }
-       else
-       {
-          swap(a[size-1],a[index]);
-       }
-
-    }
-
-
-
-
-}
-
-/* Build the pivot logic*/
-int functionToPlace(vector<int> a)
-{
-    index = 0;
-    val = a[index];
-
-    for(i = 0; i < size; i++)
-    {
-
-         if(a[i] < val)
-         {
-             swap(a[i], a[index]);
-             i++;
-         }
-         else
-         {
-             swap(a[size-1],a[index]);
-         }
-
-    }
-}
-
-void quickSort(vector<int> a)
-{
-
-
-
-}
-
-
-void quickSort(vector<int> a)
-{
-    int elementToPick = 0;
-    quickSort(a, elementToPick);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Longest Palindrome
-Start from middle and then keep expanding onto left and right.
-Substrings in descending order of length.
-
-int index = 0;
-for(auto it : str)
-{
-    index++;
-    cout << it;
-    length = str.size() - index;
-}
-
-//Expanding frm middle
-int m = (low + high)/2
-nl = middle;
-nh = middle + 1;
-
-while(low < high)
-{
-
-}
-
-for(int i = 0; )
-{
-    //Check if the string is a palindrome
-}
-
-
-
-set<char> table
-string str;
-
-//Substring that controls the set
-for(int i = 0; i < str.size(); i++)
-{
-    for(int j = i; j < str.size() -1 ; j++
-    {
-        string s((str.begin + i), (str.end() + j));
-        for(auto it : s)
+        string s = p.substr(0, (i + 1));
+        DEBUG_TRACE(cout << " substring is " << s << "\n" );
+        unsigned int maxLength = 0;
+        for(int j = 0; j < s.size(); j++)
         {
-            table.insert(it)
+            string prefix = s.substr(0, j + 1);
+            string suffix = s.substr((s.size() - 1 - j), j + 1);
+            if((prefix != s) && ((suffix != s)) && (prefix == suffix))
+            {
+                DEBUG_TRACE(cout << " prefix is " << prefix << "\n" );
+                DEBUG_TRACE(cout << " suffix is " << suffix << "\n" );
+                maxLength =  prefix.size() > maxLength ? prefix.size() : maxLength;
+            }
+            DEBUG_TRACE(cout << " maxLength is " << maxLength << "\n" );
+        }
+        lps.push_back(maxLength);
+    }
+}
+
+
+bool KMPMain(string strText, string strPattern, vector<int> lps)
+{
+
+    int sindex = 0;
+    int pindex = 0;
+
+    while(sindex < strText.size())
+    {
+        if((pindex != strPattern.size()) && strText[sindex] == strPattern[pindex])
+        {
+            sindex++; pindex++;
+            DEBUG_DEBUG(cout << "Match at " << sindex << " \n");
+            continue;
+        }
+
+        if(pindex == strPattern.size())
+        {
+            DEBUG_DEBUG(cout << "Pattern found at index " << sindex << " \n");
+            pindex = lps[pindex - 1];
+            return true; //You dont do this if you want to continue looking for pattern match.
+        }
+        else
+        {
+            DEBUG_DEBUG(cout << "Mismatch at " << sindex << " \n");
+            if(pindex != 0)
+                pindex = lps[pindex - 1]; //For every mismatch after the first char in pattern lookup the table how much to skip in the next case.
+            else //case where was no match at all
+                sindex = sindex + 1;
+        }
+    }
+
+    return false;
+}
+
+
+
+void init_prefix_table(string pattern, int*& table) {
+    int prefix_count = 0;
+
+    //cout << "initializing prefix table: ";
+    for (int i = 1; i < pattern.size(); i++) {
+        if (pattern[i] == pattern[prefix_count]) {
+            prefix_count++;
+        } else {
+            prefix_count = 0;
+        }
+        table[i] = prefix_count;
+    }
+    //cout << endl;
+}
+
+/*
+ * http://jakeboxer.com/blog/2009/12/13/the-knuth-morris-pratt-algorithm-in-my-own-words/
+ * 1. Form the table for pattern that indicates the length of string where max prefix is equal to max suffix.
+ * 2. Keep going over the string looking for pattern. When it does not match set the index pattern string from the table.
+ * 3.
+ */
+
+//int IKSolution::KMP(string strText, string strPattern)
+int IKSolution::KMP(string text, string pattern)
+{
+#if 0
+    vector<int> lps;
+
+    DEBUG_DEBUG(cout << "strText is " << strText << " strPattern is " << strPattern << " \n");
+
+    LongestProperSuffixTable(strPattern, lps);
+
+    DEBUG_DEBUG(cout << "Table is: " );
+    for(auto it : lps)
+    {
+        DEBUG_DEBUG(cout << it << " " );
+    }
+    DEBUG_DEBUG(cout << "\n");
+
+    strText.push_back('$'); // Dummy val. This way in cases where the entire string itself matches the pattern we dont have to have additional
+                             // logic below the main loop to process it.
+    return KMPMain(strText, strPattern, lps);
+#endif
+
+
+    int *prefix_table = new int[pattern.size()];
+      init_prefix_table(pattern, prefix_table);
+
+      // check the prefix table
+      cout << "pattern: " << pattern << " size: " << pattern.size() << " len:" << pattern.length() << endl;
+      for (int i = 0; i < pattern.size(); i++) {
+          cout << prefix_table[i] ;
+      }
+      cout << endl;
+
+      int start, state;
+      start = state = 0;
+
+      for (int i = 0; i < text.size(); i++) {
+          while (state > 0 and text[i] != pattern[state]) {
+              state = prefix_table[state-1];
+              //cout << "state: " << state << endl;
+          }
+          start = i-state;
+
+          // At this point we should be in a valid state
+          // check if we have a match at the new pointer position
+          if (text[i] == pattern[state]) {
+              if (state == pattern.size()-1) {
+                  return start;
+              }
+              state++;
+          }
+      }
+
+      delete[] prefix_table;
+
+  return -1;
+
+}
+
+/****************************************************************************************************************/
+
+void NeuronymsUtil(string s, int count)
+{
+    if(count <= 1)
+       return;
+
+    for(int i = 0; i <= (s.size() - 2 - count); i++)
+    {
+        string preFix = s.substr(0,1) + s.substr(1, i);
+        string suffix = s.substr(i + count + 1);
+        string neur = preFix + to_string(count) + suffix;
+        DEBUG_DEBUG(cout << "Next Neuronym is " << neur << " \n");
+    }
+
+    NeuronymsUtil(s, count - 1);
+
+}
+
+void IKSolution::Neuronyms(string s)
+{
+
+    int count = s.size() - 2;
+    NeuronymsUtil(s, count);
+
+}
+/*
+ *    Problem: Print matrix in a spiral order.
+ *
+ */
+string IKSolution::printSpirally(vector<vector<char>> matrix)
+{
+    string ret;
+
+    int no_of_rows = matrix.size();
+    cout << "no_of_rows " << no_of_rows << " \n";
+
+    int no_of_columns = matrix[0].size();
+    cout << "no_of_columns " << no_of_columns << " \n";
+
+    int current_first_row = 0;
+    int current_first_column = 0;
+    int current_last_column = no_of_columns - 1;
+    int current_last_row = no_of_rows - 1;
+
+    while((current_first_column <= current_last_column) && (current_first_row <= current_last_row))
+    {
+        DEBUG_DEBUG(cout << "Next main iteration \n");
+        for(int i = current_first_column; i <= current_last_column; i++)
+        {
+            DEBUG_TRACE(cout << "Next main iteration1 \n");
+            ret.push_back(matrix[current_first_row][i]);
+        }
+
+        for(int i = (current_first_row + 1); i <= current_last_row; i++)
+        {
+            DEBUG_TRACE(cout << "Next main iteration2 \n");
+            ret.push_back(matrix[i][current_last_column]);
+        }
+
+        for(int i = (current_last_column - 1); i >= current_first_column; i--)
+        {
+            DEBUG_TRACE(cout << "Next main iteration3 \n");
+            if(current_last_row != current_first_row) //First for loop takes care of this.
+            {
+                ret.push_back(matrix[current_last_row][i]);
+            }
+        }
+
+        for(int i = (current_last_row - 1); i > current_first_row; i--)
+        {
+            DEBUG_TRACE(cout << "Next main iteration4 \n");
+            if(current_last_column != current_first_column) //Second for loop takes care of this.
+            {
+                ret.push_back(matrix[i][current_first_column]);
+            }
 
         }
 
-        /*if new set == controlled set then true*/
-        else
-           return false;
+        current_first_row++;
+        current_first_column++;
+        current_last_column--;
+        current_last_row--;
+
     }
 
+    return ret;
 }
 
 
-#endif
+string IKSolution::moveAllLettersToLeftSide(string s)
+{
+
+    int lastAlpaIndex = -1;
+    int currIndex = 0;
+    char *ptr = (char *)s.c_str();
+
+    for(int i = 0 ; i < s.size(); i++)
+    {
+        if( (ptr[currIndex] >= 97) && (ptr[currIndex] <= 122) ) //alpha
+        {
+            char temp = ptr[currIndex];
+            ptr[currIndex] = ptr[lastAlpaIndex + 1];
+            ptr[lastAlpaIndex + 1] = temp;;
+            lastAlpaIndex = lastAlpaIndex + 1;
+        }
+
+        currIndex++;
+    }
+
+    return s;
+
+}

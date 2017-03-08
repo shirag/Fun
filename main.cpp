@@ -1744,10 +1744,45 @@ TEST_CASE( "Regular Expression Matcher", "Regular Expression Matcher")
     i2.push_back(".a*");
     res.push_back(true);
 
-
+    //17
     i1.push_back("caab");
     i2.push_back("c*a*b");
     res.push_back(true);
+
+    //18
+    i1.push_back("abc");
+    i2.push_back("abcd");
+    res.push_back(false);
+
+    //19
+    i1.push_back("abcd");
+    i2.push_back("abc");
+    res.push_back(false);
+
+    //20
+    i1.push_back("aab");
+    i2.push_back("c*a*b");
+    res.push_back(true);
+
+    //21
+    i1.push_back("ab");
+    i2.push_back("ab*");
+    res.push_back(true);
+
+    //22
+    i1.push_back("ab");
+    i2.push_back("abc*");
+    res.push_back(true);
+    //23
+    i1.push_back("abbc");
+    i2.push_back("ab*bbc");
+    res.push_back(true);
+
+    //24
+    i1.push_back("abcbcd");
+    i2.push_back("a.*c.*d");
+    res.push_back(true);
+
 
     int size = i1.size();
     int startIndex = 0;
@@ -1759,9 +1794,176 @@ TEST_CASE( "Regular Expression Matcher", "Regular Expression Matcher")
         REQUIRE(soln.regExMatcher(i1[i], i2[i]) == res[i]);
     }
 
+}
+
+TEST_CASE( "KMP Algorithm for pattern search", "KMP Algorithm for pattern search")
+{
+    cout << "Test: KMP Algorithm for pattern search \n\n";
+
+
+    vector<string> i1;
+    vector<string> i2;
+    vector<int>  res;
+
+    //0
+    i1.push_back("AAAA");
+    i2.push_back("AAAA");
+    res.push_back(0);
+
+
+    //1
+    i1.push_back("ABCDEABCDE");
+    i2.push_back("ABCDE");
+    res.push_back(0);
+
+    //2
+    i1.push_back("ABC ABCDAB ABCDABCDABDE");
+    i2.push_back("ABCDABD");
+    res.push_back(15);
+
+    //3
+    i1.push_back("THIS IS A TEST TEXT TEST");
+    i2.push_back("TEST");
+    res.push_back(10);
+
+    //4
+    i1.push_back("SheSells SeaShells On SeaShore");
+    i2.push_back("See");
+    res.push_back(-1);
+
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.KMP(i1[i], i2[i]) == res[i]);
+    }
 
 }
 
+
+TEST_CASE( "Neuronyms", "Neuronyms")
+{
+    cout << "Test: :Neuronyms( \n\n";
+
+    soln.Neuronyms("nailed");
+    soln.Neuronyms("batch");
+
+}
+
+
+TEST_CASE( "Print Spirally", "Print Spirally")
+{
+    cout << "Test: Print Spirally\n\n";
+
+    vector<vector<vector<char>>> i1;
+    vector<string>  res;
+
+    //0
+    vector<vector<char> > matrix(1, vector<char>(1));
+    matrix[0][0] = 'x';
+    i1.push_back(matrix);
+    res.push_back("x");
+
+    //1
+    vector<vector<char> > matrix1(3, vector<char>(3));
+    matrix1[0] = {'A', 'B', 'C'};
+    matrix1[1] = {'D', 'E', 'F'};
+    matrix1[2] = {'G', 'H', 'I'};
+    i1.push_back(matrix1);
+    res.push_back("ABCFIHGDE");
+
+    //2
+    vector<vector<char> > matrix2(2, vector<char>(2));
+    matrix2[0] = {'A', 'A'};
+    matrix2[1] = {'A', 'A'};
+    i1.push_back(matrix2);
+    res.push_back("AAAA");
+
+    //3
+    vector<vector<char> > matrix3(4, vector<char>(4));
+    matrix3[0] = {'A', 'A', 'B', 'B'};
+    matrix3[1] = {'C', 'C', 'D', 'D'};
+    matrix3[2] = {'E', 'E', 'F', 'F'};
+    matrix3[3] = {'G', 'G', 'H', 'H'};
+    i1.push_back(matrix3);
+    res.push_back("AABBDFHHGGECCDFE");
+
+    //4
+    vector<vector<char> > matrix4(2, vector<char>(3));
+    matrix4[0] = {'1', 'Y', 'Z'};
+    matrix4[1] = {'A', 'B', 'C'};
+    i1.push_back(matrix4);
+    res.push_back("1YZCBA");
+
+    //5
+    vector<vector<char> > matrix5(3, vector<char>(2));
+    matrix5[0] = {'1', 'Y'};
+    matrix5[1] = {'A', 'B'};
+    matrix5[2] = {'C', 'D'};
+    i1.push_back(matrix5);
+    res.push_back("1YBDCA");
+
+    //6
+    vector<vector<char> > matrix6(3, vector<char>(6));
+    matrix6[0] = {'1','2','3','4','5','6'};
+    matrix6[1] = {'7','8','9','A','B','C'};
+    matrix6[2] = {'D','E','F','G','H','I'};
+    i1.push_back(matrix6);
+    res.push_back("123456CIHGFED789AB");
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.printSpirally(i1[i]) == res[i]);
+    }
+
+}
+
+
+
+TEST_CASE( "Move all letters to left", "Move all letters to left")
+{
+    cout << "Test: Move all letters to left\n\n";
+
+    vector<string> i1;
+    vector<string> res;
+
+    //0
+    i1.push_back("1234abc");
+    res.push_back("abc4123");
+
+    //1
+    i1.push_back("0a193zbr6");
+    res.push_back("azbr30196");
+
+    //2
+    i1.push_back("abcd");
+    res.push_back("abcd");
+
+    //3
+    i1.push_back("1234");
+    res.push_back("1234");
+
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
+    {
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.moveAllLettersToLeftSide(i1[i]) == res[i]);
+    }
+
+}
 
 TEST_CASE( "Initial tests", "Inits" )
 {

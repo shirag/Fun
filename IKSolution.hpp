@@ -261,7 +261,11 @@ class IKSolution
         string longestSub(string strText);
         vector<pair<string,string>> joinWordToMakePali(vector<string> s);
         bool regExMatcher(string strText, string strPattern);
-        bool KMP(string strText, string strPattern);
+        int KMP(string strText, string strPattern);
+        void Neuronyms(string s);
+        //Substring that controls the set
+        string printSpirally(vector<vector<char>> matrix);
+        string moveAllLettersToLeftSide(string s);
 
 
 };
