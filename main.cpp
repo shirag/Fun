@@ -1783,6 +1783,15 @@ TEST_CASE( "Regular Expression Matcher", "Regular Expression Matcher")
     i2.push_back("a.*c.*d");
     res.push_back(true);
 
+    //25
+    i1.push_back("b");
+    i2.push_back("b*a");
+    res.push_back(false);
+
+    i1.push_back("b");
+    i2.push_back("b.cdf");
+    res.push_back(false);
+
 
     int size = i1.size();
     int startIndex = 0;
@@ -1803,33 +1812,33 @@ TEST_CASE( "KMP Algorithm for pattern search", "KMP Algorithm for pattern search
 
     vector<string> i1;
     vector<string> i2;
-    vector<int>  res;
+    vector<bool>  res;
 
     //0
     i1.push_back("AAAA");
     i2.push_back("AAAA");
-    res.push_back(0);
+    res.push_back(true);
 
 
     //1
     i1.push_back("ABCDEABCDE");
     i2.push_back("ABCDE");
-    res.push_back(0);
+    res.push_back(true);
 
     //2
     i1.push_back("ABC ABCDAB ABCDABCDABDE");
     i2.push_back("ABCDABD");
-    res.push_back(15);
+    res.push_back(true);
 
     //3
     i1.push_back("THIS IS A TEST TEXT TEST");
     i2.push_back("TEST");
-    res.push_back(10);
+    res.push_back(true);
 
     //4
     i1.push_back("SheSells SeaShells On SeaShore");
     i2.push_back("See");
-    res.push_back(-1);
+    res.push_back(false);
 
 
     int size = i1.size();

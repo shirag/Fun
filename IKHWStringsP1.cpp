@@ -102,7 +102,7 @@ bool isPalindrome(string s)
 }
 
 /*
- * Problem:
+ * Problem: Try tp find
  * Approach:
 
    Brute force if O(n * n * k)
@@ -124,8 +124,6 @@ bool isPalindrome(string s)
    For O(n * k) solution where k is the length of string refer,
    https://www.quora.com/Given-a-list-of-words-can-two-words-be-joined-together-to-form-a-palindrome
    Using Mancher's algorithm.
-
-
 
  * Time Complexity: O(n * k * k)
  * Space Complexity:
@@ -171,11 +169,64 @@ vector<pair<string,string>> IKSolution::joinWordToMakePali(vector<string> s)
     }
     return res;
 }
+/***************************************************************************************************************************************************/
+
+bool regExMatcherUtil(string strText, string strPattern, int ti, int pi)
+{
+    DEBUG_DEBUG(cout << "text length " << strText.size() << " text index = " << ti << " Pattern size " << strPattern.size()  << " patterIndex = " << pi << " \n");
+
+    if(strPattern.size() == pi) //Process all chars in pattern
+    {
+        if(strText.size() == ti)
+            return true;
+        else
+            return false;
+    }
+
+    if(strPattern[pi + 1] == '*') //If the second char in the pattern is equal to *
+    {
+        DEBUG_DEBUG(cout << "About to process * \n");
+        while(
+               (ti < strText.size()) &&
+               ((strPattern[pi] == strText[ti]) || (strPattern[pi] == '.'))
+             )
+        {
+            DEBUG_DEBUG(cout << "skipping char " <<  strPattern[pi] << " \n");
+            /* If the next character of pattern is ‘*’, then we do a brute force exhaustive matching of 0, 1, or more
+             * repeats of current character of pattern until we could not match any more characters. */
+            if(regExMatcherUtil(strText, strPattern, ti, pi + 2) == true)
+            {
+                return true;
+            }
+            ti++;
+        }
+        return regExMatcherUtil(strText, strPattern, ti, pi + 2);
+    }
+    else
+    {
+        //assert(ti < strText.size());
+        /* If the next character of pattern is NOT ‘*’, then it must match the current character of text.
+         * Continue pattern matching with the next character of both text and pattern */
+        DEBUG_DEBUG(cout << "Non * char \n");
+        if(
+             (ti < strText.size()) &&
+             ((strPattern[pi] == strText[ti]) || (strPattern[pi] == '.'))
+          )
+        {
+            return regExMatcherUtil(strText, strPattern, ti + 1, pi + 1);
+        }
+    }
+
+    return false;
+}
 
 /*
  * Problem:
  *    Regular expression matching.
  * Approach:
+ *    Greedy approach does not work - that is you process the character just in front of you.
+ *    Non greedy approach is processing the char beyond the one in front of you. That would be the *
+ *
  *    Check the second char. If its a * then you have to skip all chars in the source until you find a char that is not the preceding char of *
  *    These above are two tricky cases.
  *     http://articles.leetcode.com/regular-expression-matching/
@@ -210,54 +261,10 @@ vector<pair<string,string>> IKSolution::joinWordToMakePali(vector<string> s)
  * Space Complexity:
  * Take Away:
  * Optimization:
- *     We should be able to solve this using DP as a next step
+ *     1. We should be able to solve this using DP as a next step
+ *     2. Start from the end and try greedy.
+ *     3. Build a autometa
  */
-
-bool regExMatcherUtil(string strText, string strPattern, int si, int pi)
-{
-    DEBUG_DEBUG(cout << "start index = " << si << " patterIndex = " << pi << " \n");
-
-
-    if(strText.size() == si)
-        return true;
-
-    if( (strText.size() > (si + 1))  && (strPattern[si + 1] == '*'))
-    {
-        char skipChar;
-
-        if(strPattern[si] == '.')
-            skipChar = strPattern[si + 1];
-        else
-            skipChar = strText[si];
-
-        while(skipChar != strPattern[pi - 1])
-        {
-            si++;
-            if(strText.size() == si)
-                return true;
-            skipChar = strText[si];
-            continue;
-        }
-        return regExMatcherUtil(strText, strPattern, si, pi + 2);
-    }
-    else
-    {
-        if( ((strText[si] == strPattern[pi]) || (strPattern[pi] == '.')) )
-        {
-            if(((si + 1) == strText.size()) && ((pi + 1) != strPattern.size())) //Some more chars in pattern but string has ended
-            {
-                if( (strPattern[pi + 1] != '*') && (strPattern[pi + 2] != '*') )
-                    return false;
-            }
-            return regExMatcherUtil(strText, strPattern, si + 1, pi + 1);
-        }
-    }
-
-    return false;
-
-}
-
-
 bool IKSolution::regExMatcher(string strText, string strPattern)
 {
 
@@ -291,7 +298,6 @@ void LongestProperSuffixTable(string p, vector<int>& lps)
         lps.push_back(maxLength);
     }
 }
-
 
 bool KMPMain(string strText, string strPattern, vector<int> lps)
 {
@@ -327,23 +333,6 @@ bool KMPMain(string strText, string strPattern, vector<int> lps)
     return false;
 }
 
-
-
-void init_prefix_table(string pattern, int*& table) {
-    int prefix_count = 0;
-
-    //cout << "initializing prefix table: ";
-    for (int i = 1; i < pattern.size(); i++) {
-        if (pattern[i] == pattern[prefix_count]) {
-            prefix_count++;
-        } else {
-            prefix_count = 0;
-        }
-        table[i] = prefix_count;
-    }
-    //cout << endl;
-}
-
 /*
  * http://jakeboxer.com/blog/2009/12/13/the-knuth-morris-pratt-algorithm-in-my-own-words/
  * 1. Form the table for pattern that indicates the length of string where max prefix is equal to max suffix.
@@ -351,10 +340,8 @@ void init_prefix_table(string pattern, int*& table) {
  * 3.
  */
 
-//int IKSolution::KMP(string strText, string strPattern)
-int IKSolution::KMP(string text, string pattern)
+bool IKSolution::KMP(string strText, string strPattern)
 {
-#if 0
     vector<int> lps;
 
     DEBUG_DEBUG(cout << "strText is " << strText << " strPattern is " << strPattern << " \n");
@@ -371,46 +358,20 @@ int IKSolution::KMP(string text, string pattern)
     strText.push_back('$'); // Dummy val. This way in cases where the entire string itself matches the pattern we dont have to have additional
                              // logic below the main loop to process it.
     return KMPMain(strText, strPattern, lps);
-#endif
 
-
-    int *prefix_table = new int[pattern.size()];
-      init_prefix_table(pattern, prefix_table);
-
-      // check the prefix table
-      cout << "pattern: " << pattern << " size: " << pattern.size() << " len:" << pattern.length() << endl;
-      for (int i = 0; i < pattern.size(); i++) {
-          cout << prefix_table[i] ;
-      }
-      cout << endl;
-
-      int start, state;
-      start = state = 0;
-
-      for (int i = 0; i < text.size(); i++) {
-          while (state > 0 and text[i] != pattern[state]) {
-              state = prefix_table[state-1];
-              //cout << "state: " << state << endl;
-          }
-          start = i-state;
-
-          // At this point we should be in a valid state
-          // check if we have a match at the new pointer position
-          if (text[i] == pattern[state]) {
-              if (state == pattern.size()-1) {
-                  return start;
-              }
-              state++;
-          }
-      }
-
-      delete[] prefix_table;
-
-  return -1;
 
 }
 
 /****************************************************************************************************************/
+
+/*
+ *    Problem:
+ *    For "nailed" you have to generate following strings:
+ *    "n4d" "n3ed" "na3d" "n2led" "na2ed" "nai2d"
+ *
+ *    Approach:
+ *    At each level, you have to generate all prefixes.
+ */
 
 void NeuronymsUtil(string s, int count)
 {
@@ -436,8 +397,11 @@ void IKSolution::Neuronyms(string s)
     NeuronymsUtil(s, count);
 
 }
+/****************************************************************************************************************/
+
 /*
  *    Problem: Print matrix in a spiral order.
+ *    Approach: Its a pure index manipulation problem.
  *
  */
 string IKSolution::printSpirally(vector<vector<char>> matrix)
@@ -499,6 +463,13 @@ string IKSolution::printSpirally(vector<vector<char>> matrix)
     return ret;
 }
 
+/* Problem:
+*  Move all letters to one side of the string and all numbers should be on other side of the string.
+*  Approach:
+*  Have two pointers. 1. To current processing char(index1).
+*                     2. To the last alphabet value(index2).
+*  Every time you come across a alphabet(index1) swap the alphabet with contents of index2.
+ */
 
 string IKSolution::moveAllLettersToLeftSide(string s)
 {
@@ -506,6 +477,7 @@ string IKSolution::moveAllLettersToLeftSide(string s)
     int lastAlpaIndex = -1;
     int currIndex = 0;
     char *ptr = (char *)s.c_str();
+    cout << s << "\n";
 
     for(int i = 0 ; i < s.size(); i++)
     {
@@ -520,6 +492,7 @@ string IKSolution::moveAllLettersToLeftSide(string s)
         currIndex++;
     }
 
+    cout << s << "\n";
     return s;
 
 }
