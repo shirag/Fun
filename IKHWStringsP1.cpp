@@ -171,9 +171,17 @@ vector<pair<string,string>> IKSolution::joinWordToMakePali(vector<string> s)
 }
 /***************************************************************************************************************************************************/
 
-bool regExMatcherUtil(string strText, string strPattern, int ti, int pi)
+bool regExMatcherUtil(string strText, string strPattern, int ti, int pi,  map<pair<int,int>,bool>& memo)
 {
-    DEBUG_DEBUG(cout << "text length " << strText.size() << " text index = " << ti << " Pattern size " << strPattern.size()  << " patterIndex = " << pi << " \n");
+    DEBUG_TRACE(cout << "text length " << strText.size() << " text index = " << ti << " Pattern size " << strPattern.size()  << " patterIndex = " << pi << " \n");
+    bool result = false;
+
+    auto res = memo.find(make_pair(ti, pi));
+    if(res != memo.end())
+    {
+        return res->second;
+    }
+
 
     if(strPattern.size() == pi) //Process all chars in pattern
     {
@@ -183,41 +191,48 @@ bool regExMatcherUtil(string strText, string strPattern, int ti, int pi)
             return false;
     }
 
+    /* If the next character of pattern is ‘*’, then we do a brute force exhaustive matching of 0, 1, or more
+     * repeats of current character of pattern until we could not match any more characters. */
     if(strPattern[pi + 1] == '*') //If the second char in the pattern is equal to *
     {
-        DEBUG_DEBUG(cout << "About to process * \n");
+        DEBUG_TRACE(cout << "About to process * \n");
         while(
                (ti < strText.size()) &&
                ((strPattern[pi] == strText[ti]) || (strPattern[pi] == '.'))
              )
         {
-            DEBUG_DEBUG(cout << "skipping char " <<  strPattern[pi] << " \n");
-            /* If the next character of pattern is ‘*’, then we do a brute force exhaustive matching of 0, 1, or more
-             * repeats of current character of pattern until we could not match any more characters. */
-            if(regExMatcherUtil(strText, strPattern, ti, pi + 2) == true)
+            DEBUG_TRACE(cout << "skipping char " <<  strPattern[pi] << " \n");
+
+            if(regExMatcherUtil(strText, strPattern, ti, pi + 2, memo) == true)
             {
-                return true;
+                result = true;
+                break;
             }
             ti++;
         }
-        return regExMatcherUtil(strText, strPattern, ti, pi + 2);
+        result = regExMatcherUtil(strText, strPattern, ti, pi + 2, memo);
     }
     else
     {
-        //assert(ti < strText.size());
         /* If the next character of pattern is NOT ‘*’, then it must match the current character of text.
          * Continue pattern matching with the next character of both text and pattern */
-        DEBUG_DEBUG(cout << "Non * char \n");
+        DEBUG_TRACE(cout << "Non * char \n");
         if(
              (ti < strText.size()) &&
              ((strPattern[pi] == strText[ti]) || (strPattern[pi] == '.'))
           )
         {
-            return regExMatcherUtil(strText, strPattern, ti + 1, pi + 1);
+            assert(ti < strText.size());
+            result = regExMatcherUtil(strText, strPattern, ti + 1, pi + 1, memo);
         }
     }
 
-    return false;
+    DEBUG_DEBUG(cout << " text index = " << ti  << " patterIndex = " << pi << " result = " << result <<  " \n");
+    memo.insert(make_pair(make_pair(ti, pi),result));
+    return memo[make_pair(ti, pi)];
+
+
+    return result;
 }
 
 /*
@@ -257,20 +272,39 @@ bool regExMatcherUtil(string strText, string strPattern, int ti, int pi)
        [abcd]
        should return false
 
+       ["abc"];
+       ["a*abc"];
+       should return true.
+       Here we compare we compare text's first a with pattern's first a and then pass in the entire abc of text and abc of pattern to the recursive call.
+       If returns true we return true. We return the overall result as true.
+
+       ["aabc"];
+       ["a*abc"];
+       should return true.
+       Here we compare we compare text's first a with pattern's first a and then pass in the entire aabc of text and abc of pattern to the recursive call.
+       It returns false. Then we pass in abc of text and abc of pattern to the recursive call. That returns true. Then we return overall result as true.
+       Using this example you can find out the repetitive sub problems.
+
+       Basically if you see a preceding char and * in pattern, you cannot skip all the matching chars in text and continue the search. This is a greedy approach.
+       You should first see at the index if the entire text matches the pattern(starting next to *). If it fails, then only you should try skipping chars in text.
+       This is where memoization comes into picture. We use memoization here to store the results of repeated subproblems in the case of *.
+
+       Memoization is useful in the case of non-greedy approaches.
+
  * Time Complexity: O(n * k * k)
  * Space Complexity:
  * Take Away:
  * Optimization:
- *     1. We should be able to solve this using DP as a next step
- *     2. Start from the end and try greedy.
- *     3. Build a autometa
+ *     1. Start from the end and try greedy.
+ *     2. Build a autometa.
  */
 bool IKSolution::regExMatcher(string strText, string strPattern)
 {
+    map<pair<int,int>,bool> memo;
 
     cout << strText << "\n";
     cout << strPattern << "\n";
-    return regExMatcherUtil(strText, strPattern, 0, 0);
+    return regExMatcherUtil(strText, strPattern, 0, 0, memo);
 }
 /************************************************************************************/
 

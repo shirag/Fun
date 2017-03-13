@@ -64,6 +64,9 @@ typedef set<string> ss;
 typedef set<int> si;
 typedef set< si > ssi;
 
+typedef pair<char,int> pci;
+
+
 #define DEBUG_LEVEL_FATAL       5    //Somebody is going to die if this happens
 #define DEBUG_LEVEL_ERROR       4    //Somebody is going to get very sick if this happens.
 #define DEBUG_LEVEL_MAINSTATUS  3    //Something very important is going on. Not so usual.
@@ -268,6 +271,15 @@ class IKSolution
         string printSpirally(vector<vector<char>> matrix);
         string moveAllLettersToLeftSide(string s);
         //Class problem: Substring that controls the set
+
+
+        /* Sorting */
+        vector<int> groupNumbers(vector<int> intArr);
+        vector<int> quickSort(vector<int>& a);
+        vector<pair<pci,pci>> nutsNBolts(vector<pci>& nuts, vector<pci>& bolts);
+        vector<int> mergearrays(vector<vector<int>> iarray);
+        vector<int> twitterTopK(vector<int>iStream, int iK);
+        vector<string> printTriplets(vector<int> intArr);
 
 
 };

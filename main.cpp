@@ -12,6 +12,100 @@ using namespace std;
 
 IKSolution soln;
 
+TEST_CASE( "Initial tests", "Inits" )
+{
+    cout << "Initial tests \n\n";
+
+    soln.prLR();
+    soln.mergeIntervals();
+    soln.findLargestRectangle();
+    soln.printPascal(6);
+
+    //Sum Zero
+    //vi intArr = {1,2,3,-10,8,-8,6,10};
+    //vi intArr = {1,2,3,-10,8,6,10};
+    //vi intArr = {};
+    //vi intArr = {0,1,2,3,4,-10};
+    //vi intArr = {0};
+    vi intArr = {0,1,2,-3};
+    //vi intArr = {1,2,3};
+    //vi intArr = {1,2,5,-7,10};
+    //vi intArr = {1,2,-3};
+    vector<string> vs = soln.sumZero(intArr);
+    cout << "final o/p is \n";
+    for(unsigned int i = 0; i < vs.size(); i++)
+    {
+        cout << vs[i] << "\n";
+    }
+
+
+    Node node1; node1.val = 5; Node node2; node2.val = 5;
+    Node node3; node3.val = 5; Node node4; node4.val = 5;
+    Node node5; node5.val = 5; Node node6; node6.val = 5;
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = &node5;
+    node3.left = NULL;   node3.right = &node6;
+    node4.left = NULL;   node4.right = NULL;
+    node5.left = NULL;   node5.right = NULL;
+    node6.left = NULL;   node6.right = NULL;
+    soln.countUniValSubtrees(&node1);
+
+    //Node node1; node1.val = 100;
+    //node1.left = NULL; node1.right = NULL;
+    //Node node2; node2.val = 50; node2.left = NULL; node2.right = NULL;
+    //Node node3; node3.val = 150;node3.left = NULL; node3.right = NULL;
+    //Node node1; node1.val = 100;
+    //node1.left = &node2; node1.right = &node3;
+    Node node41; node41.val = 25;node41.left = NULL; node41.right = NULL;
+    Node node51; node51.val = 75;node51.left = NULL; node51.right = NULL;
+    Node node61; node61.val = 125;node61.left = NULL; node61.right = NULL;
+    Node node71; node71.val = 175;node71.left = NULL; node71.right = NULL;
+    Node node21; node21.val = 50; node21.left = &node41; node21.right = &node51;
+    Node node31; node31.val = 150;node31.left = &node61; node31.right = &node71;
+    Node node11; node11.val = 100;
+    node11.left = &node21; node11.right = &node31;
+    Node* ret = soln.treeToDoubleLL(&node11);
+    Node* temp = ret;
+    cout << "\n ";
+    do
+    {
+        if(ret != temp)
+            cout << " --> ";
+
+        cout <<  temp->val;
+        temp = temp->right;
+
+    }while(temp && (temp != ret));
+
+
+    unsigned int counter = 0;
+    unsigned int k = 3;
+    soln.findKThSmallestUtil(&node1, k, counter);
+
+
+
+}
+
+TEST_CASE( "knights Tour On Chess Board", "knights Tour On Chess Board")
+{
+    //int rows = 8; int columns = 8; int sx = 0; int sy = 0; int ex = 7; int ey = 7;
+    //int rows = 6; int columns = 6; int sx = 0; int sy = 0; int ex = 5; int ey = 5;
+    int rows = 3; int columns = 3; int sx = 0; int sy = 0; int ex = 2; int ey = 2;
+    soln.knightsTourOnChessBoard(rows, columns, sx, sy, ex, ey);
+}
+
+TEST_CASE( "Topological Sort", "Topological Sort")
+{
+    vector<string> strDict1 = {"caa", "aaa", "aab"};
+    vector<string> strDict2 = {"baa","abcd","abca","cab","cad"};
+    vector<string> strDict3 = {"aa", "bb", "cc", "dd", "ee"};
+    soln.topologicalSort(strDict1); //m is the no of strings and n is the no of chars in string
+    soln.topologicalSort(strDict2); //m is the no of strings and n is the no of chars in string
+    soln.topologicalSort(strDict3); //m is the no of strings and n is the no of chars in string
+}
+
+
+
 
 TEST_CASE( "Count the number of islands", "[Islands]" ) {
 
@@ -1788,10 +1882,15 @@ TEST_CASE( "Regular Expression Matcher", "Regular Expression Matcher")
     i2.push_back("b*a");
     res.push_back(false);
 
+    //26
     i1.push_back("b");
     i2.push_back("b.cdf");
     res.push_back(false);
 
+    //27
+    i1.push_back("aabc");
+    i2.push_back("a*abc");
+    res.push_back(true);
 
     int size = i1.size();
     int startIndex = 0;
@@ -1974,97 +2073,351 @@ TEST_CASE( "Move all letters to left", "Move all letters to left")
 
 }
 
-TEST_CASE( "Initial tests", "Inits" )
+TEST_CASE( "Group Odd and Even Numbers", "Group Odd and Even Numbers")
 {
-    cout << "Initial tests \n\n";
+    cout << "Test: Group Odd and Even Numbers\n\n";
 
-    soln.prLR();
-    soln.mergeIntervals();
-    soln.findLargestRectangle();
-    soln.printPascal(6);
+    vector<vector<int>> i1;
+    vector<vector<int>> res;
 
-    //Sum Zero
-    //vi intArr = {1,2,3,-10,8,-8,6,10};
-    //vi intArr = {1,2,3,-10,8,6,10};
-    //vi intArr = {};
-    //vi intArr = {0,1,2,3,4,-10};
-    //vi intArr = {0};
-    vi intArr = {0,1,2,-3};
-    //vi intArr = {1,2,3};
-    //vi intArr = {1,2,5,-7,10};
-    //vi intArr = {1,2,-3};
-    vector<string> vs = soln.sumZero(intArr);
-    cout << "final o/p is \n";
-    for(unsigned int i = 0; i < vs.size(); i++)
+    //0
+    vector<int> tempi = {1,2,3,4,5};
+    i1.push_back(tempi);
+    vector<int> resi = {2,4,3,1,5};
+    res.push_back(resi);
+
+    //1
+    tempi = {1,2,3,4,5,6};
+    i1.push_back(tempi);
+    resi = {2,4,6,1,5,3};
+    res.push_back(resi);
+
+    //2
+    tempi = {2,4,6};
+    i1.push_back(tempi);
+    resi = {2,4,6};
+    res.push_back(resi);
+
+    //3
+    tempi = {1,3,5};
+    i1.push_back(tempi);
+    resi = {1,3,5};
+    res.push_back(resi);
+
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
     {
-        cout << vs[i] << "\n";
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.groupNumbers(i1[i]) == res[i]);
     }
+}
 
 
-    Node node1; node1.val = 5; Node node2; node2.val = 5;
-    Node node3; node3.val = 5; Node node4; node4.val = 5;
-    Node node5; node5.val = 5; Node node6; node6.val = 5;
-    node1.left = &node2; node1.right = &node3;
-    node2.left = &node4; node2.right = &node5;
-    node3.left = NULL;   node3.right = &node6;
-    node4.left = NULL;   node4.right = NULL;
-    node5.left = NULL;   node5.right = NULL;
-    node6.left = NULL;   node6.right = NULL;
-    soln.countUniValSubtrees(&node1);
+TEST_CASE( "Quick Sort", "Quick Sort")
+{
+    cout << "Test: Quick Sort \n\n";
 
-    //Node node1; node1.val = 100;
-    //node1.left = NULL; node1.right = NULL;
-    //Node node2; node2.val = 50; node2.left = NULL; node2.right = NULL;
-    //Node node3; node3.val = 150;node3.left = NULL; node3.right = NULL;
-    //Node node1; node1.val = 100;
-    //node1.left = &node2; node1.right = &node3;
-    Node node41; node41.val = 25;node41.left = NULL; node41.right = NULL;
-    Node node51; node51.val = 75;node51.left = NULL; node51.right = NULL;
-    Node node61; node61.val = 125;node61.left = NULL; node61.right = NULL;
-    Node node71; node71.val = 175;node71.left = NULL; node71.right = NULL;
-    Node node21; node21.val = 50; node21.left = &node41; node21.right = &node51;
-    Node node31; node31.val = 150;node31.left = &node61; node31.right = &node71;
-    Node node11; node11.val = 100;
-    node11.left = &node21; node11.right = &node31;
-    Node* ret = soln.treeToDoubleLL(&node11);
-    Node* temp = ret;
-    cout << "\n ";
-    do
+    vector<vector<int>> i1;
+    vector<vector<int>> res;
+
+
+    //0
+    vector<int> tempi = {1};
+    i1.push_back(tempi);
+    vector<int> resi = {1};
+    res.push_back(resi);
+
+    //1
+    tempi = {2, 1};
+    i1.push_back(tempi);
+    resi = {1, 2};
+    res.push_back(resi);
+
+    //2
+    tempi = {1,2,3,4,5};
+    i1.push_back(tempi);
+    resi = {1,2,3,4,5};
+    res.push_back(resi);
+
+    //3
+    tempi = {5,4,3,2,1};
+    i1.push_back(tempi);
+    resi = {1,2,3,4,5};
+    res.push_back(resi);
+
+    //4
+    tempi = {6,5,4,3,2,1};
+    i1.push_back(tempi);
+    resi = {1,2,3,4,5,6};
+    res.push_back(resi);
+
+    //5
+    tempi = {3,4,6,5,2,1};
+    i1.push_back(tempi);
+    resi = {1,2,3,4,5,6};
+    res.push_back(resi);
+
+    //6
+    tempi = {10, 80, 30, 90, 40, 50, 70};
+    i1.push_back(tempi);
+    resi = {10, 30, 40, 50, 70, 80, 90};
+    res.push_back(resi);
+
+    //7
+    tempi = {10, 80, 30, 90, 40, 40, 70};
+    i1.push_back(tempi);
+    resi = {10, 30, 40, 40, 70, 80, 90};
+    res.push_back(resi);
+
+    //8
+    tempi = {10, 10, 10, 10, 10, 10, 10};
+    i1.push_back(tempi);
+    resi = {10, 10, 10, 10, 10, 10, 10};
+    res.push_back(resi);
+
+     //9
+    tempi = {20, 30, 10, 10, 10, 10, 10};
+    i1.push_back(tempi);
+    resi = {10, 10, 10, 10, 10, 20, 30};
+    res.push_back(resi);
+
+    tempi = {20, 30, 10, 10, 5, 10, 10};
+    i1.push_back(tempi);
+    resi = {5, 10, 10, 10, 10, 20, 30};
+    res.push_back(resi);
+
+
+    int size = i1.size();
+    int startIndex = 0;
+    int endIndex = size;
+
+    for(int i = startIndex; i < endIndex; i++)
     {
-        if(ret != temp)
-            cout << " --> ";
-
-        cout <<  temp->val;
-        temp = temp->right;
-
-    }while(temp && (temp != ret));
-
-
-    unsigned int counter = 0;
-    unsigned int k = 3;
-    soln.findKThSmallestUtil(&node1, k, counter);
-
-
-
+        cout << "*********** Test" << i << " ******************** \n";
+        REQUIRE(soln.quickSort(i1[i]) == res[i]);
+    }
 }
 
-TEST_CASE( "knights Tour On Chess Board", "knights Tour On Chess Board")
+//vector<pair<pci,pci>> nutsNBolts();
+
+
+TEST_CASE( "Nuts n Bolts", "Nuts n Bolts")
 {
-    //int rows = 8; int columns = 8; int sx = 0; int sy = 0; int ex = 7; int ey = 7;
-    //int rows = 6; int columns = 6; int sx = 0; int sy = 0; int ex = 5; int ey = 5;
-    int rows = 3; int columns = 3; int sx = 0; int sy = 0; int ex = 2; int ey = 2;
-    soln.knightsTourOnChessBoard(rows, columns, sx, sy, ex, ey);
+    cout << "Test: Nuts n Bolts \n\n";
+
+    vector<pair<pci,pci>> res;
+
+    vector<pci> nuts;
+    vector<pci> bolts;
+
+    //0
+    nuts.push_back(make_pair('N',1));
+    nuts.push_back(make_pair('N',2));
+    nuts.push_back(make_pair('N',3));
+    nuts.push_back(make_pair('N',4));
+
+    bolts.push_back(make_pair('B',1));
+    bolts.push_back(make_pair('B',2));
+    bolts.push_back(make_pair('B',3));
+    bolts.push_back(make_pair('B',4));
+
+    res.push_back(make_pair(make_pair('N',1), make_pair('B',1)));
+    res.push_back(make_pair(make_pair('N',2), make_pair('B',2)));
+    res.push_back(make_pair(make_pair('N',3), make_pair('B',3)));
+    res.push_back(make_pair(make_pair('N',4), make_pair('B',4)));
+
+    REQUIRE(soln.nutsNBolts(nuts, bolts) == res);
+    nuts.clear(); bolts.clear(); res.clear();
+
+
+    //1
+    nuts.push_back(make_pair('N',4));
+    nuts.push_back(make_pair('N',1));
+    nuts.push_back(make_pair('N',2));
+    nuts.push_back(make_pair('N',3));
+
+    bolts.push_back(make_pair('B',1));
+    bolts.push_back(make_pair('B',3));
+    bolts.push_back(make_pair('B',4));
+    bolts.push_back(make_pair('B',2));
+
+    res.push_back(make_pair(make_pair('N',1), make_pair('B',1)));
+    res.push_back(make_pair(make_pair('N',2), make_pair('B',2)));
+    res.push_back(make_pair(make_pair('N',3), make_pair('B',3)));
+    res.push_back(make_pair(make_pair('N',4), make_pair('B',4)));
+
+    REQUIRE(soln.nutsNBolts(nuts, bolts) == res);
+    nuts.clear(); bolts.clear(); res.clear();
+
+
+    //2
+    nuts.push_back(make_pair('N',4));
+    nuts.push_back(make_pair('N',1));
+    nuts.push_back(make_pair('N',5));
+    nuts.push_back(make_pair('N',3));
+    nuts.push_back(make_pair('N',2));
+
+    bolts.push_back(make_pair('B',1));
+    bolts.push_back(make_pair('B',3));
+    bolts.push_back(make_pair('B',5));
+    bolts.push_back(make_pair('B',2));
+    bolts.push_back(make_pair('B',4));
+
+    res.push_back(make_pair(make_pair('N',1), make_pair('B',1)));
+    res.push_back(make_pair(make_pair('N',2), make_pair('B',2)));
+    res.push_back(make_pair(make_pair('N',3), make_pair('B',3)));
+    res.push_back(make_pair(make_pair('N',4), make_pair('B',4)));
+    res.push_back(make_pair(make_pair('N',5), make_pair('B',5)));
+
+    REQUIRE(soln.nutsNBolts(nuts, bolts) == res);
+    nuts.clear(); bolts.clear(); res.clear();
+
+
 }
 
-TEST_CASE( "Topological Sort", "Topological Sort")
+
+TEST_CASE( "Merge Sorted Arrays", "Merge Sorted Arrays")
 {
-    vector<string> strDict1 = {"caa", "aaa", "aab"};
-    vector<string> strDict2 = {"baa","abcd","abca","cab","cad"};
-    vector<string> strDict3 = {"aa", "bb", "cc", "dd", "ee"};
-    soln.topologicalSort(strDict1); //m is the no of strings and n is the no of chars in string
-    soln.topologicalSort(strDict2); //m is the no of strings and n is the no of chars in string
-    soln.topologicalSort(strDict3); //m is the no of strings and n is the no of chars in string
+    cout << "Test: Merge Sorted Arrays \n\n";
+
+    vector<vector<int>> i1;
+    vector<int> res;
+
+    //0
+    vector<int> v1 = {2,   7,  9,   17,   18, 27, 32};
+    vector<int> v2 = {3,   4,  8,    9,   17, 501, 1001};
+    vector<int> v3 = {100, 101, 102, 105, 111, 520, 750};
+    vector<vector<int>> iarray;
+    iarray.push_back(v1);
+    iarray.push_back(v2);
+    iarray.push_back(v3);
+    res = { 2, 3, 4, 7, 8, 9, 9, 17, 17, 18, 27, 32, 100, 101, 102, 105, 111, 501, 520, 750, 1001};
+    REQUIRE(soln.mergearrays(iarray) == res);
+    iarray.clear();
+
+    //1
+    v1 = {1, 3, 5, 7};
+    v2 = {2, 4, 6, 8};
+    v3 = {0, 9, 10, 11};
+    iarray.push_back(v1);
+    iarray.push_back(v2);
+    iarray.push_back(v3);
+    res = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    REQUIRE(soln.mergearrays(iarray) == res);
+    iarray.clear();
+
+    //2
+    v1 = {-1, -2, -3, -4};
+    v2 = {-5, -6, -7, -8};
+    iarray.push_back(v1);
+    iarray.push_back(v2);
+    res = {-8, -7, -6, -5, -4, -3, -2, -1};
+    REQUIRE(soln.mergearrays(iarray) == res);
+    iarray.clear();
+
+    //3
+    v1 = {-1, -2, -3, -5};
+    v2 = {-6, -7, -8, -10};
+    iarray.push_back(v1);
+    iarray.push_back(v2);
+    res = {-10, -8, -7, -6, -5, -3, -2, -1};
+    REQUIRE(soln.mergearrays(iarray) == res);
+
+}
+
+TEST_CASE( "Twitter Top K", "Twitter Top K")
+{
+    cout << "Test: Twitter Top K \n\n";
+
+    vector<int> res;
+
+    //0
+    vector<int> v1 = {2, 7,  9, 17, 18, 27, 32};
+    res = {18, 27, 32};
+    REQUIRE(soln.twitterTopK(v1, 3) == res);
+
+    //1
+    v1 = {2, 7,  9, 17, 18, 27, 32, 3};
+    res = {17, 18, 27, 32};
+    REQUIRE(soln.twitterTopK(v1, 4) == res);
+
+    //2
+    v1 = {2, 7, 9};
+    res = {2, 7, 9};
+    REQUIRE(soln.twitterTopK(v1, 4) == res);
+
+
 }
 
 
 
+TEST_CASE( "Print Triplets", "Print Triplets")
+{
+    cout << "Test: Print Triplets \n\n";
+
+    vector<string> res;
+
+    //0
+    vector<int> v1 = {0, 0, 0};
+    string rest = "0,0,0";
+    res.push_back(rest);
+    REQUIRE(soln.printTriplets(v1) == res);
+    res.clear();
+
+    //1
+    v1 = {2, -25, -10, -7, -3, 2, 4, 8, 10 };
+    rest = "-10,2,8";
+    res.push_back(rest);
+    rest = "-7,-3,10";
+    res.push_back(rest);
+    REQUIRE(soln.printTriplets(v1) == res);
+    res.clear();
+
+    //2
+    v1 = {6, 10, 3, -4, 1, -6, 4, 9};
+    rest = "-6,-4,10";
+    res.push_back(rest);
+    rest = "-4,1,3";
+    res.push_back(rest);
+    REQUIRE(soln.printTriplets(v1) == res);
+    res.clear();
+
+    //3
+    v1 = {12,24,-46};
+    rest.clear();
+    REQUIRE(soln.printTriplets(v1) == res);
+    res.clear();
+
+    //4
+    v1 = {-2, -1, 0, 1, 2};
+    rest = "-2,0,2";
+    res.push_back(rest);
+    rest = "-1,0,1";
+    res.push_back(rest);
+    REQUIRE(soln.printTriplets(v1) == res);
+    res.clear();
+
+    //5
+    v1 = {12,34,-46,31};
+    rest = "-46,12,34";
+    res.push_back(rest);
+    REQUIRE(soln.printTriplets(v1) == res);
+    res.clear();
+
+    //6
+    v1 = {6, 10, 3, -4, -4, -6, 1, 10, -6, 4, 9, 10};
+    rest = "-6,-4,10";
+    res.push_back(rest);
+    rest = "-4,1,3";
+    res.push_back(rest);
+    REQUIRE(soln.printTriplets(v1) == res);
+    res.clear();
+
+
+
+
+}
