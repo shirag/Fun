@@ -12,33 +12,198 @@ using namespace std;
 
 IKSolution soln;
 
-TEST_CASE( "Initial tests", "Inits" )
+TEST_CASE( "Arrays tests", "Arrays tests" )
 {
-    cout << "Initial tests \n\n";
+    cout << "Arrays tests \n\n";
 
     soln.prLR();
+
     soln.mergeIntervals();
+
     soln.findLargestRectangle();
+
     soln.printPascal(6);
 
-    //Sum Zero
-    //vi intArr = {1,2,3,-10,8,-8,6,10};
-    //vi intArr = {1,2,3,-10,8,6,10};
-    //vi intArr = {};
-    //vi intArr = {0,1,2,3,4,-10};
-    //vi intArr = {0};
-    vi intArr = {0,1,2,-3};
-    //vi intArr = {1,2,3};
-    //vi intArr = {1,2,5,-7,10};
-    //vi intArr = {1,2,-3};
+    cout << "********* Sum zero tests *****************\n";
+    vi intArr = {1,2,3,-10,8,-8,6,10};
     vector<string> vs = soln.sumZero(intArr);
-    cout << "final o/p is \n";
     for(unsigned int i = 0; i < vs.size(); i++)
-    {
-        cout << vs[i] << "\n";
-    }
+        cout << vs[i] << " ";
+    cout << "\n";
+
+    intArr = {1,2,3,-10,8,6,10};
+    vs = soln.sumZero(intArr);
+    for(unsigned int i = 0; i < vs.size(); i++)
+        cout << vs[i] <<  " ";
+    cout << "\n";
 
 
+    intArr = {};
+    vs = soln.sumZero(intArr);
+    for(unsigned int i = 0; i < vs.size(); i++)
+        cout << vs[i] <<  " ";
+    cout << "\n";
+
+    intArr = {0,1,2,3,4,-10};
+    vs = soln.sumZero(intArr);
+    for(unsigned int i = 0; i < vs.size(); i++)
+        cout << vs[i] <<  " ";
+    cout << "\n";
+
+
+    intArr = {0};
+    vs = soln.sumZero(intArr);
+    for(unsigned int i = 0; i < vs.size(); i++)
+        cout << vs[i] <<  " ";
+    cout << "\n";
+
+
+    intArr = {0,1,2,-3};
+    vs = soln.sumZero(intArr);
+    for(unsigned int i = 0; i < vs.size(); i++)
+        cout << vs[i] <<  " ";
+    cout << "\n";
+
+    intArr = {1,2,3};
+    vs = soln.sumZero(intArr);
+    for(unsigned int i = 0; i < vs.size(); i++)
+        cout << vs[i] <<  " ";
+    cout << "\n";
+
+    intArr = {1,2,5,-7,10};
+    vs = soln.sumZero(intArr);
+    for(unsigned int i = 0; i < vs.size(); i++)
+        cout << vs[i] <<  " ";
+    cout << "\n";
+
+    intArr = {1,2,-3};
+    vs = soln.sumZero(intArr);
+    for(unsigned int i = 0; i < vs.size(); i++)
+        cout << vs[i] <<  " ";
+    cout << "\n";
+}
+
+
+
+
+TEST_CASE( "Next Palindrome", "Next Palindrome" )
+{
+
+    //0
+    int i1 = 23545;
+    int res = 23632;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+    //1
+    i1 = 6789876;
+    res = 6790976;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+    //2
+    i1 = 4332;
+    res = 4334;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+    //3
+    i1 = 4336;
+    res = 4334;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+
+    //4
+    i1 = 8998;
+    res = 9009;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+    //5
+    i1 = 9999;
+    res = 10001;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+    //6
+    i1 = 99;
+    res = 101;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+    //7
+    i1 = 1234;
+    res = 1331;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+    //8
+    i1 = 1;
+    res = 2;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+    //9
+    i1 = 999;
+    res = 1001;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+
+}
+
+TEST_CASE( "Alternate Positive and Negative", "Alternate Positive and Negative" )
+{
+
+    //0
+    vector<int> i1 =  {2, 3, -4, -9, -1, -7, 1, -5, -6};
+    vector<int> res =  {2, -4, 3, -9, 1, -1, -7, -5, -6};
+    REQUIRE(soln.AlternatePosNegative(i1) == res);
+
+}
+
+//vector<pair<int,int>> skyLine(vvi vec);
+TEST_CASE( "Sky Line", "Sky Line" )
+{
+    vvi ip;
+    vector<pair<int,int>> res;
+
+    //0
+    ip = {{1, 11, 5}, {2, 6, 7}, {3, 13, 9}, {12, 7, 16}, {14, 3, 25},
+            {19, 18, 22}, {23, 13, 29}, {24, 4, 28}};
+    res.push_back(make_pair(1,11));
+    res.push_back(make_pair(3,13));
+    res.push_back(make_pair(9,0));
+    res.push_back(make_pair(12,7));
+    res.push_back(make_pair(16,3));
+    res.push_back(make_pair(19,18));
+    res.push_back(make_pair(22,3));
+    res.push_back(make_pair(23,13));
+    res.push_back(make_pair(29,0));
+    REQUIRE(soln.skyLine(ip) == res);
+    res.clear();
+
+    //1
+    ip = {{2,10,9},{3,15,7},{5,12,12},{15,10,20},{19,8,24}};
+    res.push_back(make_pair(2,10));
+    res.push_back(make_pair(3,15));
+    res.push_back(make_pair(7,12));
+    res.push_back(make_pair(12,0));
+    res.push_back(make_pair(15,10));
+    res.push_back(make_pair(20,8));
+    res.push_back(make_pair(24,0));
+    REQUIRE(soln.skyLine(ip) == res);
+    res.clear();
+
+    //2
+    ip = {{1,11,5}};
+    res.push_back(make_pair(1,11));
+    res.push_back(make_pair(5,0));
+
+    REQUIRE(soln.skyLine(ip) == res);
+    res.clear();
+
+
+}
+
+
+
+TEST_CASE( "Trees tests", "Trees tests" )
+{
+
+
+    cout << "********* Count uni val sub trees *****************\n";
     Node node1; node1.val = 5; Node node2; node2.val = 5;
     Node node3; node3.val = 5; Node node4; node4.val = 5;
     Node node5; node5.val = 5; Node node6; node6.val = 5;
@@ -88,20 +253,31 @@ TEST_CASE( "Initial tests", "Inits" )
 
 TEST_CASE( "knights Tour On Chess Board", "knights Tour On Chess Board")
 {
-    //int rows = 8; int columns = 8; int sx = 0; int sy = 0; int ex = 7; int ey = 7;
-    //int rows = 6; int columns = 6; int sx = 0; int sy = 0; int ex = 5; int ey = 5;
-    int rows = 3; int columns = 3; int sx = 0; int sy = 0; int ex = 2; int ey = 2;
-    soln.knightsTourOnChessBoard(rows, columns, sx, sy, ex, ey);
+    int rows = 8; int columns = 8; int sx = 0; int sy = 0; int ex = 7; int ey = 7;
+    REQUIRE(soln.knightsTourOnChessBoard(rows, columns, sx, sy, ex, ey) == 6);
+
+    rows = 6; columns = 6; sx = 0; sy = 0; ex = 5; ey = 5;
+    REQUIRE(soln.knightsTourOnChessBoard(rows, columns, sx, sy, ex, ey) == 4);
+
+    rows = 3; columns = 3; sx = 0; sy = 0; ex = 2; ey = 2;
+    REQUIRE(soln.knightsTourOnChessBoard(rows, columns, sx, sy, ex, ey) == 4);
+
 }
 
 TEST_CASE( "Topological Sort", "Topological Sort")
 {
     vector<string> strDict1 = {"caa", "aaa", "aab"};
+    string res = {"cab"};
+    REQUIRE(soln.topologicalSort(strDict1) == res);
+
+
     vector<string> strDict2 = {"baa","abcd","abca","cab","cad"};
+    res = {"bdac"};
+    REQUIRE(soln.topologicalSort(strDict2) == res);
+
     vector<string> strDict3 = {"aa", "bb", "cc", "dd", "ee"};
-    soln.topologicalSort(strDict1); //m is the no of strings and n is the no of chars in string
-    soln.topologicalSort(strDict2); //m is the no of strings and n is the no of chars in string
-    soln.topologicalSort(strDict3); //m is the no of strings and n is the no of chars in string
+    res = {"abcde"};
+    REQUIRE(soln.topologicalSort(strDict3) == res);
 }
 
 
@@ -181,6 +357,7 @@ TEST_CASE( "Bloom filter tests", "[Bloom]" )
 
 }
 
+/* Recursion */
 TEST_CASE( "Print all subsets", "subsets" )
 {
 
@@ -385,7 +562,7 @@ TEST_CASE( "Well Formed Brackets", "Well Formed Brackets" )
     }
 }
 
-
+/* Linked Lists */
 TEST_CASE( "Find the head of the loop in a LL", "Linked List" )
 {
     cout << "Head of the loop \n\n";

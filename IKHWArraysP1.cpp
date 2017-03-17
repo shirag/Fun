@@ -99,10 +99,11 @@ int IKSolution::getRandomVal()
  * Example:
  * Approach:
  * Complexity:
+ *     A O(n^2) time and O(1) extra space function for Pascal's Triangle
  * Space Complexity:
  * Any other better approach:
  */
-// A O(n^2) time and O(1) extra space function for Pascal's Triangle
+
 void IKSolution::printPascal(int n)
 {
     for (int line = 1; line <= n; line++)
@@ -147,7 +148,6 @@ vector<string> IKSolution::sumZero(vector < int > intArr)
 
     for(int i = 0; i < sz; i++)
     {
-        //cout << "value = " << intArr[i] << "\n";
         string s;
         cumS += intArr[i];
 
@@ -170,7 +170,7 @@ vector<string> IKSolution::sumZero(vector < int > intArr)
 
         if(it == m.end())
         {
-             cout << "CumS = " << cumS << "\n";
+             //cout << "CumS = " << cumS << "\n";
              m.insert(make_pair(cumS,i));
         }
         else
@@ -178,7 +178,6 @@ vector<string> IKSolution::sumZero(vector < int > intArr)
             if((cumS == 0) && (intArr[it->second] != 0))   //Case where there are zeroes in the beginning.
                 continue;
 
-            cout << "found cumS " << cumS << "\n";
             string s;
             for(int j = (it->second)+1; (j <= i) && (j != 0); j++)
             {
@@ -200,9 +199,9 @@ vector<string> IKSolution::sumZero(vector < int > intArr)
 }
 
 
-/* Problem:
+/* Problem:  All nearest smaller values problem.
  * Example:
- * Approach: all nearest smaller values problem.
+ * Approach:
  *           Push an index to the stack if its value is higher than the previous value in the stack. This determines LEFT of a value.
  *           Pop it out when you find something smaller than this value. Idea is we have found how far to the RIGHT this element can extend.
  *           After popping out, calculate the area and update the max value if its needed.
@@ -220,8 +219,6 @@ int IKSolution::findLargestRectangle()
     int maxVal = 0;
     int val = 0;
 
-   // v v1 = {1,2,4,0,4,6,4,2,1};
-	//v v1 = {6, 2, 5, 4, 5, 1, 6};
     vi v1 = {10,20,30};
 	int index = 0;
 
@@ -244,7 +241,6 @@ int IKSolution::findLargestRectangle()
         	cout << "popping " << v1[beginIn] << "\n";
 
         	/* If the value is lower, then end of the last value. */
-        	//val = (v1[beginIn]) * (index-beginIn);
         	if (s1.empty())
         		val = (v1[beginIn]) * (index);
         	else
@@ -364,12 +360,6 @@ int IKSolution::mergeIntervals()
 
 	vpii v1;
 	vpii vf;
-
-	//v1.push_back(make_pair(100,2));
-	//v1.push_back(make_pair(1,2));
-	//v1.push_back(make_pair(6,9));
-	//v1.push_back(make_pair(5,7));
-	//v1.push_back(make_pair(6,8));
 
 	v1.push_back(make_pair(1,3));
 	v1.push_back(make_pair(2,4));

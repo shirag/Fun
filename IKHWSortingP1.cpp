@@ -17,21 +17,33 @@
  *
  * In the following case lastEndIndex indicates the index below which(including) you have all even values.
  * In the quick sort problem lastEndIndex indicates the index below which(including) you have all values less than or equal to pivot val.
+ *
+ * Lomuto partition scheme is used.
  */
 vector<int> IKSolution::groupNumbers(vector<int> intArr)
 {
 
     int lastEndIndex = -1;
+    int currIndex = 0;
 
-    for(int currIndex = 0; currIndex < intArr.size(); currIndex++)
+    for(currIndex = 0; currIndex < intArr.size() - 1; currIndex++)
     {
         if(!(intArr[currIndex]%2))
         {
-            int temp = intArr[currIndex];
-            intArr[currIndex] = intArr[lastEndIndex + 1];
-            intArr[lastEndIndex + 1] = temp ;
             lastEndIndex++;
+            int temp = intArr[currIndex];
+            intArr[currIndex] = intArr[lastEndIndex];
+            intArr[lastEndIndex] = temp ;
         }
+
+    }
+
+    if(!(intArr[currIndex]%2))
+    {
+        lastEndIndex++;
+        int temp = intArr[currIndex];
+        intArr[currIndex] = intArr[lastEndIndex];
+        intArr[lastEndIndex] = temp ;
     }
 
     return intArr;
@@ -46,17 +58,25 @@ int partition(vector<int>& a, int low, int high)
     int lastEndIndex = low - 1;
 
     int pivot_loc = high;
+    int currIndex;
 
-    for(int currIndex = low; currIndex <= high; currIndex++)
+    for(currIndex = low; currIndex < high; currIndex++)
     {
         if( a[currIndex] <= a[pivot_loc] )
         {
-            int temp = a[currIndex];
-            a[currIndex] = a[lastEndIndex + 1];
-            a[lastEndIndex + 1] = temp;
             lastEndIndex++;
+            int temp = a[currIndex];
+            a[currIndex] = a[lastEndIndex];
+            a[lastEndIndex] = temp;
+
         }
     }
+
+    lastEndIndex++;
+    int temp = a[currIndex];
+    a[currIndex] = a[lastEndIndex];
+    a[lastEndIndex] = temp;
+
 
     DEBUG_DEBUG(cout << "Value at " << lastEndIndex << " " << a[lastEndIndex] << " is at its final location \n");
     return lastEndIndex;
@@ -76,6 +96,9 @@ void quickSortUtil(vector<int>& a, int low, int high)
 
 }
 
+/*
+ * For partitioning we use Lomuto partition scheme.  */
+
 vector<int> IKSolution::quickSort(vector<int>& a)
 {
     quickSortUtil(a, 0, (a.size() - 1));
@@ -85,44 +108,6 @@ vector<int> IKSolution::quickSort(vector<int>& a)
 
 
 /*******************************************************************************************************************************/
-
-int partitionNutsNBolts(vector<int>& container, int low, int high, int pivot_value)
-{
-
-    int lastEndIndex = low - 1;
-
-    for(int currIndex = low; currIndex < high; currIndex++)
-    {
-        int value =  container[currIndex];
-        if( value < pivot_value )
-        {
-
-            int temp = container[currIndex];
-            container[currIndex] = container[lastEndIndex + 1];
-            container[lastEndIndex + 1] = temp;
-
-            lastEndIndex++;
-        }
-        if( value == pivot_value )
-        {
-
-            int temp = container[currIndex];
-            container[currIndex] = container[high];
-            container[high] = temp;
-
-            currIndex--;
-        }
-
-    }
-
-    int temp = container[high];
-    container[high] = container[lastEndIndex + 1];
-    container[lastEndIndex + 1] = temp;
-    lastEndIndex++;
-
-    return lastEndIndex;
-}
-/*******************************************************************************************************************/
 
 void printNutsNBolts(vector<int> nutsa, vector<int> boltsa)
 {
@@ -140,6 +125,40 @@ void printNutsNBolts(vector<int> nutsa, vector<int> boltsa)
     }
     DEBUG_DEBUG(cout  << "\n");
 
+}
+
+int partitionNutsNBolts(vector<int>& container, int low, int high, int pivot_value)
+{
+
+    int lastEndIndex = low - 1;
+
+    for(int currIndex = low; currIndex < high; currIndex++)
+    {
+        int value = container[currIndex];
+        if( value < pivot_value )
+        {
+            lastEndIndex++;
+            int temp = container[currIndex];
+            container[currIndex] = container[lastEndIndex];
+            container[lastEndIndex] = temp;
+
+
+        }
+        if( value == pivot_value )
+        {
+            int temp = container[currIndex];
+            container[currIndex] = container[high];
+            container[high] = temp;
+            currIndex--;
+        }
+    }
+
+    lastEndIndex++;
+    int temp = container[high];
+    container[high] = container[lastEndIndex];
+    container[lastEndIndex] = temp;
+
+    return lastEndIndex;
 }
 
 
@@ -179,7 +198,9 @@ vector<pair<pci,pci>> nutsNBoltsUtil(vector<int>& nuts, vector<int>& bolts, int 
  * Now, you take the pivot returned by the previous partitioning and partition all nuts.
  * Repeat the above process for all elements to the right and left of the partition.
  *
- *
+ * Also look at the partitioning scheme very carefully. Lomuto partition scheme is used. One thing that we do different here is
+ * when we come across bolt for a nut, we place the bolt at the end and implicitly make it the pivot. so, after the loop pivot is at the end
+ * and all other items are partitioned properly. Now you can go ahead and place the pivot at the exact location it belongs to.
  *
  * Complexity:
  * Space Complexity:
@@ -200,6 +221,7 @@ vector<pair<pci,pci>> IKSolution::nutsNBolts(vector<pci>& nuts, vector<pci>& bol
     for(auto it : bolts)
     {
         boltsa.push_back(it.second);
+
     }
 
     printNutsNBolts(nutsa, boltsa);
@@ -214,6 +236,7 @@ vector<pair<pci,pci>> IKSolution::nutsNBolts(vector<pci>& nuts, vector<pci>& bol
     return res;
 }
 
+/***********************************************************************************************/
 
 vector<int> mergeSortedArrays(vector<int> a, vector<int> b)
 {

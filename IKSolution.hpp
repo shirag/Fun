@@ -176,13 +176,20 @@ class IKSolution
         int deleteVal(string s);
         int getRandomVal();
 
-	   	/* HomeWork1/Arrays and Ad hoc */
+	   	/* Arrays and Ad hoc; HomeWork1 Part */
         int prLR();
 	    int mergeIntervals();
 	    int twoDArraySearch();
 	    int findLargestRectangle();
 	    vector<string> sumZero(vector<int> intArr);
 	    void printPascal(int n);
+        /* Arrays and Ad hoc; HomeWork Part 2 */
+	    int nextPalindrome(int iInputNum);
+	    vector<int> AlternatePosNegative(vector<int> vec);
+	    vector<pair<int,int>> skyLine(vvi vec);
+
+
+
 
 	    /* Trees: Class problems */
 	    void treeBFS(Node *root);

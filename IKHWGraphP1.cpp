@@ -156,17 +156,7 @@ int countComponents(int n, vector< pair<int, int> >& edges)
     return counter;
 }
 
-/* Problem:
- * Example:
- * Approach:
- * Complexity:
- * Space Complexity:
- * Any other better approach:
- * Corner case:
- * Take away:
- */
-
-
+/******************************************************************************************************/
 int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
 {
 
@@ -552,6 +542,10 @@ int addEdges(vector<string>& words, int n, int alpha, vector<lnp>& g)
 }
 
 /* Problem: Topological sort. Given a sorted dictionary (array of words) of an alien language, find order of characters in the language.
+ *          Topological sorting for Directed Acyclic Graph (DAG) is a linear ordering of vertices such that for every
+ *          directed edge uv, vertex u comes before v in the ordering. Topological Sorting for a graph is not possible if the graph is not a DAG.
+ *
+ *          Topological sort is something similar to DFS.
  *
  * Example:
  *          Input:  words[] = {"baa", "abcd", "abca", "cab", "cad"}
@@ -563,10 +557,18 @@ int addEdges(vector<string>& words, int n, int alpha, vector<lnp>& g)
             Input:  words[] = {"caa", "aaa", "aab"}
             Output: Order of characters is 'c', 'a', 'b'
  * Approach:
- *          Generate the graph using input words:Compare eac word with the next one.
+ *          Generate the graph using input words. Compare each word with the next one.
  *          When you found a different char, build a graph vertex and connect corresponding edges.
+ *          Now you have a graph of all characters with directed edges.
             Once the graph is generated, do a DFS search and while doing the search push leaf to a stack.
             Print content of the stack.
+
+            1) Create a graph g with number of vertices equal to the size of alphabet in the given alien language.
+              For example, if the alphabet size is 5, then there can be 5 characters in words. Initially there are no edges in graph.
+            2) Do following for every pair of adjacent words in given sorted array.
+              …..a) Let the current pair of words be word1 and word2. One by one compare characters of both words and find the first mismatching characters.
+              …..b) Create an edge in g from mismatching character of word1 to that of word2.
+            3) Print topological sorting of the above created graph.
  *
  * Complexity:
  * Space Complexity:

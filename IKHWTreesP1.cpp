@@ -563,7 +563,7 @@ void IKSolution::createBalancedBST(vector < int > iArray)
 }
 
 /*
- * Approach: Inorder traversal prints no is sorting order. When you are done printing k nos just come out.
+ * Approach: Inorder traversal prints no in sorting order. When you are done printing k nos just come out.
  * */
 int IKSolution::findKThSmallestUtil(Node* root, unsigned int& k, unsigned int& counter)
 {
