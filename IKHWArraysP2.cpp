@@ -179,6 +179,23 @@ vector<int> IKSolution::AlternatePosNegative(vector<int> vec)
 }
 
 
+//Utility function for sorting before mergin intervals.
+/* Iterator points to a pair. So, use the pair to compare. */
+bool myComparefunc(vector<int> p1, vector<int> p2)
+{
+    if(p1[0] < p2[0])
+        return 1;
+    else if (p1[0] == p2[0])
+    {
+        if(p1[1] > p2[1])
+            return 1;
+        else
+            return 0;
+    }
+    else
+        return 0;
+}
+
 vector<pair<int,int>> IKSolution::skyLine(vvi buildings)
 {
     vector<pair<int,int>> res;
@@ -189,6 +206,9 @@ vector<pair<int,int>> IKSolution::skyLine(vvi buildings)
     int height;
     int xb;
     int xe;
+
+    //Sort by the first element. if all first elements are equal then sort by second element. But, the max one comes first.
+    sort(buildings.begin(), buildings.end(),myComparefunc);
 
     while(1)
     {
@@ -261,7 +281,242 @@ vector<pair<int,int>> IKSolution::skyLine(vvi buildings)
                 }
             }
         }
-        i++;
+
+
+        {
+            //Skip to the next x coordinate
+            int nextEnd = INT_MAX;
+            int nextX = INT_MAX;
+            if(!mypq.empty())
+            {
+                pair<int,int> p = mypq.top();
+                nextEnd = p.second;
+            }
+
+            if(index < buildings.size())
+                nextX = buildings[index][0];
+
+            i = nextX < nextEnd ? nextX : nextEnd;
+
+        }
     }
     return res;
 }
+/***************************************************************************************************************************/
+
+
+/* Problem: Run Length Encoding.
+ *
+ *
+ */
+string IKSolution::RLE(string strInput)
+{
+
+
+    char firstChar;
+    string res;
+
+#if 1
+    for(int i = 0; i < strInput.size(); i++)
+    {
+        int count = 1;
+        firstChar = strInput[i];
+
+        while(firstChar == (strInput[i + count]))
+        {
+            count++;
+        }
+
+        if(count > 2)
+        {
+            res = res + to_string(count);
+            res.push_back(firstChar);
+        }
+        else if(count == 2)
+        {
+            res.push_back(firstChar);
+            res.push_back(firstChar);
+        }
+        else
+            res.push_back(firstChar);
+
+        i += (count - 1);
+
+    }
+#endif
+    return res;
+
+#if 0
+    //Encode a string that has char and numbers in it. Basically compress a string.
+
+               // B       5      129  A    5     129     5      C         to "BAAAAA55555C"
+
+    //Assuming * does not appear in the string,
+    // B*5A*55C
+
+    char *s;
+    string ress;
+
+    int size = 8;
+    int index = 0;
+
+    while(index != size)
+    {
+        while((index != size) && s[index] != '*')
+        {
+            index++;
+            res.push_back(s[index]);
+
+            //push all those chars into the vector
+        }
+
+        if((index != size) && s[index] == '*')
+        {
+
+            index++;
+            int beginIndex = index;
+
+            while((index != size) && ((s[index] <= ) && (s[index] <= ) ))
+            {
+                index++;
+            }
+
+            if(index != size)
+            {
+                //Get the integer value from the string
+                //Push those many chars into a vector
+                char charToInsert;
+
+
+                if(s[index - 1] == ) //a number
+                {
+                    charToInsert = s[index - 1];
+                }
+                else
+                {
+                }
+
+                for(int i = 0; i < (beginIndex - index); i++)
+                {
+                    res.push_back(s[index]);
+                }
+            }
+        }
+    }
+
+    return res;
+#endif
+
+}
+
+/*********************************************************************************************************************/
+int findMinimumUtil(vector<int>& arr, int low, int high)
+{
+    DEBUG_DEBUG(cout << "low = " << low << " high = " << high << "\n");
+    if(low >= high)
+    {
+        if(low > high)
+            DEBUG_DEBUG(cout << "low > high \n"); //Non rotated case
+        else
+            DEBUG_DEBUG(cout <<  "low == high \n");
+
+        return arr[low];
+    }
+
+
+    int mid = (low + high)/2;
+
+    if(((arr[mid - 1] > arr[mid])  &&  (arr[mid] < arr[mid + 1])))
+    {
+        DEBUG_DEBUG(cout << "Tipping point middle is less than left and right \n");
+        return arr[mid];
+    }
+
+    if(arr[mid] < arr[high])
+        return findMinimumUtil(arr, low, (mid - 1));
+
+    if(arr[mid] >= arr[low])
+        return findMinimumUtil(arr, mid + 1, high);
+
+    assert(0);
+
+}
+
+
+/* Problem: find the minimum in a rotated sorted array
+ *
+ * Approach:
+ *          Base case: When there is one element in the array, its the min value[1,2 is a case that makes low > high].
+ *                     If the middle value is less than both right and left that is the min value.
+ *
+ *          Regular case:
+ *                    1. If the middle value is less than high index val then search onto left of middle.
+ *                    2. If the middle value is greater than or equal to** low index val then search onto right of middle.
+ *
+ *                    **  Note that 2,1 is a case that makes equal to important.
+ *          Standard binary search: Search the middle, if not search left or right depending upon certain criterion.
+ *
+ * Time Complexity: logn
+ */
+int IKSolution::findMinimum(vector<int> arr)
+{
+    int minVal;
+
+
+    minVal = findMinimumUtil(arr, 0, arr.size()-1);
+
+    return minVal;
+}
+
+/*********************************************************************************************************************/
+
+/* Problem: Given a large array of 4-byte integers. Find out how many total bits are turned ON in such an array?
+ *
+ *
+ */
+int IKSolution::printCountOfBitsSet(vector<int> intArr)
+{
+
+    int result = 0;
+    int count = 0;
+    map<int,int> table;
+
+    if(table.empty())
+    {
+        for(int i = 0; (i < 256); i++)
+        {
+            int mask = 0x01; count = 0;
+            for(int j = 0; j < 8; j++)
+            {
+                if(i & mask)
+                    count++;
+                mask <<= 1;
+            }
+            DEBUG_DEBUG(cout << "for val i = "<< i << " no of bits set " << count << "\n");
+            table.insert(make_pair(i,count));
+        }
+     }
+
+
+     for(auto it : intArr)
+     {
+         int mask = 0x000000FF;
+         for(int i = 0; i < 4; i++)
+         {
+             int temp = (it) & mask;
+             temp >>= (i * 8); //very important
+             auto it1 = table.find(temp);
+             result += (it1->second);
+             mask <<= 8;
+
+         }
+         DEBUG_DEBUG(cout << "returning " << result << "\n");
+     }
+     DEBUG_DEBUG(cout << "returning " << result << "\n");
+
+     return result;
+
+}
+
+
+

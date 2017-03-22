@@ -18,9 +18,25 @@ TEST_CASE( "Arrays tests", "Arrays tests" )
 
     soln.prLR();
 
-    soln.mergeIntervals();
+    vpii v1; vpii res;
+    v1.push_back(make_pair(1,3));
+    v1.push_back(make_pair(2,4));
+    v1.push_back(make_pair(5,7));
+    v1.push_back(make_pair(6,8));
+    res.push_back(make_pair(1,4));
+    res.push_back(make_pair(5,8));
+    soln.mergeIntervals(v1);
+    REQUIRE(soln.mergeIntervals(v1) == res);
 
-    soln.findLargestRectangle();
+    cout << "Largest rectangle test \n";
+    vi vr = {10,20,30};
+    REQUIRE(soln.findLargestRectangle(vr) == 40);
+
+    vr = {10,40,30};
+    REQUIRE(soln.findLargestRectangle(vr) == 60);
+
+    vr = {10,20,20,30,10};
+    REQUIRE(soln.findLargestRectangle(vr) == 60);
 
     soln.printPascal(6);
 
@@ -136,6 +152,11 @@ TEST_CASE( "Next Palindrome", "Next Palindrome" )
     REQUIRE(soln.nextPalindrome(i1) == res);
 
     //9
+    i1 = 1234; //Not a palindrome
+    res = 1331;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
+    //10
     i1 = 999;
     res = 1001;
     REQUIRE(soln.nextPalindrome(i1) == res);
@@ -190,11 +211,144 @@ TEST_CASE( "Sky Line", "Sky Line" )
     ip = {{1,11,5}};
     res.push_back(make_pair(1,11));
     res.push_back(make_pair(5,0));
+    REQUIRE(soln.skyLine(ip) == res);
+    res.clear();
 
+    //3
+    ip = {{0,2147483647,2147483647}};
+    res.push_back(make_pair(0,2147483647));
+    res.push_back(make_pair(2147483647,0));
     REQUIRE(soln.skyLine(ip) == res);
     res.clear();
 
 
+    //4
+    ip = {{1,1,2},{1,2,2},{1,3,2}};
+    //ip = {{1,3,2},{1,2,2},{1,1,2}};
+    res.push_back(make_pair(1,3));
+    res.push_back(make_pair(2,0));
+    REQUIRE(soln.skyLine(ip) == res);
+    res.clear();
+}
+
+
+TEST_CASE( "Run Length Encoding", "Run Length Encoding" )
+{
+    //0
+    string ip = "AAAAA";
+    string res = "5A";
+    REQUIRE(soln.RLE(ip) == res);
+
+    ip = "BAAAB";
+    res = "B3AB";
+    REQUIRE(soln.RLE(ip) == res);
+
+    ip = "ABAB";
+    res = "ABAB";
+    REQUIRE(soln.RLE(ip) == res);
+
+}
+
+TEST_CASE( "Find minimum in a rotated sorted array", "Find minimum in a rotated sorted array" )
+{
+    //0
+    vector<int> i1 = {85,87,88,98,99,55,56,57,58};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 55);
+    cout << "\n\n\n";
+
+    //1
+    i1 = {1,2,3};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //2
+    i1 = {3,1,2};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //3
+    i1 = {2,3,1};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //4
+    i1 = {1,2};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //5
+    i1 = {2,1};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //6
+    i1 = {5, 6, 1, 2, 3, 4};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //7
+    i1 = {5, 6, 1, 2, 3};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //8
+    i1 = {3, 5, 6, 1, 2};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //9
+    i1 = {5, 1, 2, 3, 4};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //10
+    i1 = {1, 2, 3, 4};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //11
+    i1 = {2, 3, 4, 1};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //12
+    i1 = {1, 2, 3, 4};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+    //13
+    i1 = {1, 2, 3, 4, 5};
+    cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
+    REQUIRE(soln.findMinimum(i1) == 1);
+    cout << "\n\n\n";
+
+
+}
+
+
+TEST_CASE( "How Many bits set(Hamming Weight)", "How Many bits set(Hamming Weight)" )
+{
+
+    //0
+    vector<int> i1 = {31, 51};
+    REQUIRE(soln.printCountOfBitsSet(i1) == 9);
+
+    i1 = {2147483647, 3};
+    REQUIRE(soln.printCountOfBitsSet(i1) == 33);
+    cout << "\n\n\n";
 }
 
 
@@ -202,10 +356,19 @@ TEST_CASE( "Sky Line", "Sky Line" )
 TEST_CASE( "Trees tests", "Trees tests" )
 {
 
+    Node node1; node1.val = 3; Node node2; node2.val = 4;
+    Node node3; node3.val = 5;
+
+    node2.left = &node1;
+    node2.right = &node3;
+    node1.left = NULL; node1.right = NULL;
+    node3.left = NULL; node3.right = NULL;
+    REQUIRE(soln.isBST(&node2) == true);
+
 
     cout << "********* Count uni val sub trees *****************\n";
-    Node node1; node1.val = 5; Node node2; node2.val = 5;
-    Node node3; node3.val = 5; Node node4; node4.val = 5;
+    node1.val = 5; node2.val = 5;
+    node3.val = 5; Node node4; node4.val = 5;
     Node node5; node5.val = 5; Node node6; node6.val = 5;
     node1.left = &node2; node1.right = &node3;
     node2.left = &node4; node2.right = &node5;
@@ -246,9 +409,6 @@ TEST_CASE( "Trees tests", "Trees tests" )
     unsigned int counter = 0;
     unsigned int k = 3;
     soln.findKThSmallestUtil(&node1, k, counter);
-
-
-
 }
 
 TEST_CASE( "knights Tour On Chess Board", "knights Tour On Chess Board")

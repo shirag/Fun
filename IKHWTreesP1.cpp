@@ -494,6 +494,12 @@ bool isBSTUtil(Node *node,int min, int max)
  *           For children you query specifying the 'max' and 'min' allowed. If children say they are not a binary search tree then
  *           its not a binary search tree. When you invoke the function for children on the left, specify val - 1 for max and inside
  *           children check for greater than condition.
+ *
+ *           Recursion:
+ *           Base case: Empty tree is BST.
+ *                      If I satify the condition:
+ *                      A node asks its left guy saying min you can go any value, But max is me - 1. If its true, you are good.
+ *                      A node asks its right guy saying max you can go any value, But min is me + 1 1. If its true, you are good.
  * Complexity:O(n) . You got to visit all nodes.
  * Space Complexity: O(logn). Considering the stack.
  * Any other better approach: Do a inorder traversal and place the contents in a array. If the array is sorted then its a BST.
@@ -584,3 +590,6 @@ int IKSolution::findKThSmallestUtil(Node* root, unsigned int& k, unsigned int& c
     return 0;
 
 }
+
+
+

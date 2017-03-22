@@ -7,8 +7,9 @@
  */
 
 
-#include "IKSolution.hpp"
 
+#define DEBUG_LEVEL DEBUG_LEVEL_MAINSTATUS
+#include "IKSolution.hpp"
 
 
 /* Implement a magic hash map */
@@ -202,24 +203,31 @@ vector<string> IKSolution::sumZero(vector < int > intArr)
 /* Problem:  All nearest smaller values problem.
  * Example:
  * Approach:
- *           Push an index to the stack if its value is higher than the previous value in the stack. This determines LEFT of a value.
+ *           Top of the stack represents a higher value that has begun and has not ended.
+ *           The one below it represents the starting index of the top of the stack.
+ *           val = (v1[beginIn]) * (index-s1.top()-1);
+ *
+ *           Push an index to the stack if its value is higher than or EQUAL to the previous value in the stack. This determines LEFT of a value.
  *           Pop it out when you find something smaller than this value. Idea is we have found how far to the RIGHT this element can extend.
- *           After popping out, calculate the area and update the max value if its needed.
+ *           * After popping out, calculate the area and update the max value if its needed.
+ *             * Look at the equation closely.
+ *             * DONT UPDATE the index for the loop. Because of this you will process the current index against the top of the stack again.
+ *
  *           area = h * (currnetIndex - st.top() - 1)
  *           https://www.quora.com/What-is-the-algorithmic-approach-to-find-the-maximum-rectangular-area-in-a-histogram
- * Complexity:
+ * Complexity: O(n)
  * Space Complexity:
  * Any other better approach:
  */
 
-int IKSolution::findLargestRectangle()
+int IKSolution::findLargestRectangle(vi v1)
 {
 
     stack<int> s1;
     int maxVal = 0;
     int val = 0;
 
-    vi v1 = {10,20,30};
+
 	int index = 0;
 
 	/* Iterate over all elements of the array */
@@ -229,7 +237,7 @@ int IKSolution::findLargestRectangle()
         if((s1.empty()) || (v1[s1.top()] <= (*it) ))
         {
         	/* Beginning of a new value */
-        	cout << "pushing " << *it << "\n";
+        	DEBUG_DEBUG(cout << "pushing " << *it << "\n");
         	s1.push(index);
         	it++, index++;
         }
@@ -238,22 +246,21 @@ int IKSolution::findLargestRectangle()
         	int beginIn = s1.top();
         	s1.pop();
 
-        	cout << "popping " << v1[beginIn] << "\n";
+        	DEBUG_DEBUG(cout << "popping " << v1[beginIn] << "\n");
 
         	/* If the value is lower, then end of the last value. */
         	if (s1.empty())
         		val = (v1[beginIn]) * (index);
         	else
         	    val = (v1[beginIn]) * (index-s1.top()-1); //element begins after s1.top()-1 and ends one before index.
-
-        	cout << "val = " << val << "\n";
+        	DEBUG_DEBUG(cout << "val = " << val << "\n");
 
            if(maxVal < val)
         		maxVal = val;
         }
 	}
 
-	cout << "Done with processing all elements of array. Now its time to pop rest of the stack \n";
+	DEBUG_DEBUG(cout << "Done with processing all elements of array. Now its time to pop rest of the stack \n");
 	while(!s1.empty())
 	{
 		int beginIn = s1.top();
@@ -263,15 +270,16 @@ int IKSolution::findLargestRectangle()
 		    val = (v1[beginIn]) * (index);
 		else
 		    val = (v1[beginIn]) * (index-s1.top()-1);
+		DEBUG_DEBUG(cout << "val = " << val << "\n");
 
 		if(maxVal < val)
 		    maxVal = val;
 
 	}
 
-    cout << "Found Max val = " << maxVal << "\n" ;
+    DEBUG_DEBUG(cout << "Found Max val = " << maxVal << "\n");
 
-	return 0;
+	return maxVal;
 }
 
 
@@ -349,27 +357,22 @@ bool myComparefunc(pair<int,int> p1, pair<int,int> p2)
  * Example:{1,3}, {2,4}, {5,7}, {6,8} }. should return {1, 4} and {5, 8}
  * Approach: is to first sort the intervals according to starting time.
  *         Once we have the sorted intervals, we can combine all intervals in a linear traversal.
- *         Use a stack store the new merged intervals. You always compare with top of the stack.
- *         If there is no merge at all then push a new interval to the stack.
+ *         Use a vector store the new merged intervals. You always compare with top of the stack.
+ *         If there is no merge at all then push a new interval to the vector.
+ *         Three type of the cases for the second step:
+ *         1. Second one's begin and end is within the first one.
+ *         2. Second one's begin is within the second but not the end.
+ *         3. Second one;s begin and end both are not inside the first one.
+ *
  * Complexity: (n)(logn)
  * Space Complexity: O(n) //for stack
  * Any other better approach:
  * */
-int IKSolution::mergeIntervals()
+vpii IKSolution::mergeIntervals(vpii v1)
 {
-
-	vpii v1;
 	vpii vf;
 
-	v1.push_back(make_pair(1,3));
-	v1.push_back(make_pair(2,4));
-	v1.push_back(make_pair(5,7));
-	v1.push_back(make_pair(6,8));
-
 	sort(v1.begin(), v1.end(),myComparefunc);
-
-	cout << "\n";
-
 
     vf.push_back(make_pair(v1.begin()->first,v1.begin()->second));
     vpii::iterator itf = vf.end()-1;
@@ -391,10 +394,10 @@ int IKSolution::mergeIntervals()
     cout << "\n" ;
     for(vpii::iterator it = (vf.begin()); it != vf.end(); it++)
     {
-    	cout << "pair->first = " << it->first << " pair->second = " << it->second << "\n";
+    	DEBUG_DEBUG(cout << "pair->first = " << it->first << " pair->second = " << it->second << "\n");
     }
 
-	return 0;
+	return vf;
 }
 
 /* Problem:
@@ -451,12 +454,12 @@ int IKSolution::prLR()
 		pr2 *= arr[size-i-1];
 	}
 
-	cout << "\n";
+	DEBUG_DEBUG(cout << "\n");
 
 	for(int i = 0; i < size; i++)
 	{
     	p2[i] = p1[i] * p2[i];
-        cout << p2[i] << " \n" ;
+        DEBUG_DEBUG(cout << p2[i] << " \n");
 	}
 
     return 0;

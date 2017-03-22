@@ -178,17 +178,18 @@ class IKSolution
 
 	   	/* Arrays and Ad hoc; HomeWork1 Part */
         int prLR();
-	    int mergeIntervals();
+	    vpii mergeIntervals(vpii v1);
 	    int twoDArraySearch();
-	    int findLargestRectangle();
+	    int findLargestRectangle(vi);
 	    vector<string> sumZero(vector<int> intArr);
 	    void printPascal(int n);
         /* Arrays and Ad hoc; HomeWork Part 2 */
 	    int nextPalindrome(int iInputNum);
 	    vector<int> AlternatePosNegative(vector<int> vec);
 	    vector<pair<int,int>> skyLine(vvi vec);
-
-
+	    string RLE(string strInput);
+	    int findMinimum(vector<int> arr);
+	    int printCountOfBitsSet(vector<int> intArr);
 
 
 	    /* Trees: Class problems */
