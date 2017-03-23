@@ -382,8 +382,8 @@ vector<int> IKSolution::twitterTopK(vector<int>iStream, int iK)
         q.pop();
 
     }
-    return res;
 
+    return res;
 
 }
 
@@ -486,7 +486,52 @@ vector<string> IKSolution::printTriplets(vector<int> intArr)
     return res;
 }
 
+/*
+ * Problem: Takes two arrays. Second one twice the size of first. Put everything into the second one.
+ * Approach: Classic application of merge sort merging.
+ * */
+vector<int> IKSolution::mergeFirstIntoAnother(vector<int> intArrShort, vector<int> intArrLong)
+{
 
+    int currntLongEndIndex = intArrLong.size() - 1;
+    int csi = intArrShort.size() - 1;
+    int cli = csi;
+
+    while((csi >= 0) && (cli >= 0))
+    {
+        if(intArrShort[csi] > intArrLong[cli])
+        {
+            intArrLong[currntLongEndIndex] = intArrShort[csi];
+            csi--;
+            printVector(intArrLong);
+        }
+        else
+        {
+            intArrLong[currntLongEndIndex] = intArrLong[cli];
+            cli--;
+            printVector(intArrLong);
+        }
+        currntLongEndIndex--;
+
+    }
+
+    while(csi >= 0)
+    {
+        intArrLong[currntLongEndIndex] = intArrShort[csi];
+        csi--;
+        currntLongEndIndex--;
+    }
+
+    while(cli >= 0)
+    {
+        intArrLong[currntLongEndIndex] = intArrLong[cli];
+        cli--;
+        currntLongEndIndex--;
+    }
+
+
+    return intArrLong;
+}
 
 /*******************************************************************************************************************************/
 #if 0

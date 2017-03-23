@@ -19,42 +19,6 @@ using namespace std;
 
 map<int,int> table;
 
-int countBitsUsingLookUp(int val)
-{
-    int result = 0;
-    int count = 0;
-
-    if(table.empty())
-    {
-        for(int i = 0; (i < 256); i++)
-        {
-            int mask = 0x01; count = 0;
-            for(int j = 0; j < 8; j++)
-            {
-                if(i & mask)
-                    count++;
-                mask <<= 1;
-            }
-            cout << "for val i = "<< i << " no of bits set " << count << "\n";
-            table.insert(make_pair(i,count));
-        }
-    }
-
-    int mask = 0x000F;
-
-    for(int i = 0; i < 4; i++)
-    {
-        int temp = val & mask;
-        auto it = table.find(temp);
-        result = result + it->second;
-        mask <<= 8;
-
-    }
-    cout << "returning " << result << "\n";
-
-    return result;
-
-}
 
 void StairCase(int n)
 {

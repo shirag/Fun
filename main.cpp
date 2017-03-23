@@ -161,6 +161,11 @@ TEST_CASE( "Next Palindrome", "Next Palindrome" )
     res = 1001;
     REQUIRE(soln.nextPalindrome(i1) == res);
 
+    //11
+    i1 = 8998;
+    res = 9009;
+    REQUIRE(soln.nextPalindrome(i1) == res);
+
 
 }
 
@@ -172,9 +177,20 @@ TEST_CASE( "Alternate Positive and Negative", "Alternate Positive and Negative" 
     vector<int> res =  {2, -4, 3, -9, 1, -1, -7, -5, -6};
     REQUIRE(soln.AlternatePosNegative(i1) == res);
 
+    //1
+    i1 =  { 1, 2, 3, -4, -1, 4};
+    res =  {1, -4, 2, -1, 3, 4};
+    REQUIRE(soln.AlternatePosNegative(i1) == res);
+
+
+    //2
+    i1 = {-5, -2, 5, 2, 4, 7, 1, 8, 0, -8};
+    res =  {5, -5, 2, -2, 4, 0, 7, -8, 1, 8};
+    REQUIRE(soln.AlternatePosNegative(i1) == res);
+
+
 }
 
-//vector<pair<int,int>> skyLine(vvi vec);
 TEST_CASE( "Sky Line", "Sky Line" )
 {
     vvi ip;
@@ -224,7 +240,6 @@ TEST_CASE( "Sky Line", "Sky Line" )
 
     //4
     ip = {{1,1,2},{1,2,2},{1,3,2}};
-    //ip = {{1,3,2},{1,2,2},{1,1,2}};
     res.push_back(make_pair(1,3));
     res.push_back(make_pair(2,0));
     REQUIRE(soln.skyLine(ip) == res);
@@ -2754,7 +2769,46 @@ TEST_CASE( "Print Triplets", "Print Triplets")
     REQUIRE(soln.printTriplets(v1) == res);
     res.clear();
 
+}
+
+//vector<int> IKSolution::mergeFirstIntoAnother(vector<int> intArrShort, vector<int> intArrLong)
+
+TEST_CASE( "Merge First Into Second", "Merge First Into Second")
+{
+    vector<int> v1;
+    vector<int> v2;
+    vector<int> res;
+
+    v1 =  {1,2,3};
+    v2 =  {4,5,6,0,0,0};
+    res = {1,2,3,4,5,6};
+    REQUIRE(soln.mergeFirstIntoAnother(v1,v2) == res);
+
+    v1 =  {4,5};
+    v2 =  {4,5,0,0};
+    res = {4,4,5,5};
+    REQUIRE(soln.mergeFirstIntoAnother(v1,v2) == res);
+
+    v1 =  {4};
+    v2 =  {1,0};
+    res = {1,4};
+    REQUIRE(soln.mergeFirstIntoAnother(v1,v2) == res);
+
+    v1 =  {4};
+    v2 =  {1,0};
+    res = {1,4};
+    REQUIRE(soln.mergeFirstIntoAnother(v1,v2) == res);
+
+    v1 =  {1};
+    v2 =  {1,0};
+    res = {1,1};
+    REQUIRE(soln.mergeFirstIntoAnother(v1,v2) == res);
 
 
+}
 
+
+TEST_CASE( "Producer Consumer", "Producer Consumer")
+{
+    soln.producerConsumerMain();
 }

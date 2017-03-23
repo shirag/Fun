@@ -16,6 +16,15 @@ bool isPali(string s)
     return false;
 }
 
+/*
+ * Problem:
+ *     Given a number, find the next smallest palindrome
+ *
+ * Approach:
+ *     http://www.geeksforgeeks.org/given-a-number-find-next-smallest-palindrome-larger-than-this-number/
+ *
+ */
+
 int IKSolution::nextPalindrome(int iInputNum)
 {
     DEBUG_DEBUG(cout << "iInputNum = " << iInputNum << "\n");
@@ -48,7 +57,6 @@ int IKSolution::nextPalindrome(int iInputNum)
         }
         else
         {
-
             string prefix = s.substr(0,middle + 1);
             string suffix = s.substr(middle + 1);
             DEBUG_DEBUG(cout << "prefix = " << prefix << " suffix = " << suffix << "\n");
@@ -64,24 +72,37 @@ int IKSolution::nextPalindrome(int iInputNum)
             DEBUG_DEBUG(cout << "ret = " << ret << "\n");
             nextPali = stoi(ret);
             return nextPali;
-
-
         }
     }
     else
     {
-
         if(s.size() % 2)
         {
             string prefix = s.substr(0,middle);
             string suffix = s.substr(middle + 1);
             DEBUG_DEBUG(cout << "prefix = " << prefix << " suffix = " << suffix << "\n");
 
-            if((suffix > prefix))
+            if((suffix >= prefix))
             {
+                int oldsize = prefix.size();
                 prefix = to_string(stoi(prefix) + 1);
+                cout << "aprefix = " << prefix   << " \n";
+
+                if(prefix.size() > oldsize)
+                {
+                    cout << "size greater \n";
+                    suffix = string(prefix.rbegin() + 1, prefix.rend());
+                }
+                else
+                {
+                    suffix = string(prefix.rbegin(), prefix.rend());
+                }
+
             }
-            suffix = string(prefix.rbegin(), prefix.rend());
+            else
+            {
+                suffix = string(prefix.rbegin(), prefix.rend());
+            }
 
             string ret = prefix + "0" + suffix;
             DEBUG_DEBUG(cout << "prefix = " << prefix << " suffix = " << suffix <<  "\n");
@@ -135,52 +156,64 @@ void printVector(vector<int> v)
     DEBUG_DEBUG(cout << "\n");
 }
 
+/*
+ * Problem:
+ *     Given an array of positive and negative numbers, arrange them in an alternate fashion such that every positive
+ *     number is followed by negative and vice-versa maintaining the order of appearance.
+       Number of positive and negative numbers need not be equal. If there are more positive numbers they appear at the
+       end of the array. If there are more negative numbers, they too appear in the end of the array.
+   Approach:
+       The idea is to process array from left to right. While processing, find the first out of place element in the
+       remaining unprocessed array. An element is out of place if it is negative and at odd index, or it is positive
+       and at even index. Once we find an out of place element, we find the first element after it with opposite sign.
+       We right rotate the subarray between these two elements (including these two).
+ * */
 
 vector<int> IKSolution::AlternatePosNegative(vector<int> vec)
 {
 
     int lastPosindex = 0;
     int lastNegindex = 0;
-    printVector(vec);
-    DEBUG_DEBUG(cout << " \n");
+    int count = 0;
 
-    for(int index = 1; index < vec.size(); index++)
+    for(int index = 0; index < vec.size(); index++)
     {
-        DEBUG_DEBUG(cout << "value processed =  " << vec[index] << "  ");
-        if(vec[index] < 0 && (vec[lastPosindex + 1] > 0)  )
+        if(index % 2) //negative
         {
-            int temp = vec[lastPosindex + 1];
-            vec[lastPosindex + 1] = vec[index];
-            for(int j = index; j > (lastPosindex + 2); j--)
+            if(vec[index] < 0)
+                continue;
+            while((index + count < vec.size()) && (vec[index + count] > 0))
+                count++;
+        }
+        else //positive
+        {
+            if(vec[index] > 0)
+                continue;
+            while((index + count < vec.size()) && (vec[index + count] < 0))
+                count++;
+        }
+
+        if(index + count < vec.size())
+        {
+            int temp = vec[index];
+            vec[index] = vec[index + count];
+            for(int j = index + count; j > index + 1; j--)
             {
                 vec[j] = vec[j-1];
             }
-            vec[lastPosindex + 2] = temp;
-            lastPosindex = lastPosindex + 2;
-            printVector(vec);
-            lastNegindex = index;
+            vec[index + 1] = temp;
         }
-        else if(vec[index] > 0 && (vec[lastNegindex + 1] < 0))
-        {
+        count = 0;
 
-            int temp = vec[lastNegindex + 1];
-                        vec[lastNegindex + 1] = vec[index];
-                        for(int j = index; j > (lastNegindex + 2); j--)
-                        {
-                            vec[j] = vec[j-1];
-                        }
-                        vec[lastNegindex + 2] = temp;
-                        lastNegindex = lastNegindex + 2;
-                        printVector(vec);
-                        lastPosindex = index;
-        }
     }
+
     return vec;
 }
+/**********************************************************************************************/
 
 
-//Utility function for sorting before mergin intervals.
-/* Iterator points to a pair. So, use the pair to compare. */
+/* Utility function for sorting before mergin intervals.
+   Iterator points to a pair. So, use the pair to compare.*/
 bool myComparefunc(vector<int> p1, vector<int> p2)
 {
     if(p1[0] < p2[0])
@@ -196,109 +229,121 @@ bool myComparefunc(vector<int> p1, vector<int> p2)
         return 0;
 }
 
+
+/*
+ * Problem:
+ *     The skyline problem.
+ *     https://leetcode.com/problems/the-skyline-problem/#/description
+ *     http://www.geeksforgeeks.org/divide-and-conquer-set-7-the-skyline-problem/
+ *     https://briangordon.github.io/2014/08/the-skyline-problem.html
+ *     A city's skyline is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance.
+ *     Now suppose you are given the locations and height of all the buildings, write a program to output the skyline formed by
+ *     these buildings collectively.
+ * Approach:
+ *     We use a heap to store all the processed buildings(height and end x coordinate). So, at any point the top of the heap represents the tallest building.
+ *     Use this information to produce the output array.
+ *     1. Sort by the first element(x). For equal start positions sort then by their height. But, the higher one's come first.
+ *     2. In a loop, process one of the following:
+ *        * Next beginning of a building. OR
+ *        * End of the building on the top of a heap.
+ *        whichever comes first.
+ *     3. If its the next beginning of a building, push it to heap and then see if the addition makes a difference.
+ *     4. If its the end of an existing building on the top of heap, then pop the building and all buildings that are
+ *        not relevant anymore from the the heap.
+ *
+ * Time Complexity:
+ *     O(n log n)
+ * Alternate approach:
+ *     There is a merge sort based approach in GeeksforGeeks.
+ *
+ *
+ */
 vector<pair<int,int>> IKSolution::skyLine(vvi buildings)
 {
     vector<pair<int,int>> res;
     priority_queue<pair<int,int>> mypq;
-    int omh = 0;
-    int index = 0;
-    int i = 0;
+    int heightOfTallest = 0;
+    int nextBuildToProcess = 0;
+    int nextXCordToProc = 0;
     int height;
-    int xb;
     int xe;
+    pair<int,int> p;
+    bool pushToHeap = false;
 
-    //Sort by the first element. if all first elements are equal then sort by second element. But, the max one comes first.
-    sort(buildings.begin(), buildings.end(),myComparefunc);
+    sort(buildings.begin(), buildings.end(), myComparefunc);
 
     while(1)
     {
-        if(index == buildings.size())
+        if(nextBuildToProcess == buildings.size())
         {
             if(mypq.empty())
                 break;
         }
 
-        if(index < buildings.size())
         {
-            height = buildings[index][1];
-            xb = buildings[index][0];
-            xe = buildings[index][2];
-        }
-
-        /* Check if there is a beginning */
-        if( (index < buildings.size()) && (i == xb) )
-        {
-            DEBUG_TRACE(cout << i << " Before Insert: next x = " << xb << height  << xe << " \n");
-            pair<int,int> p;
-
+            /* Generate the next nextXCordToProc to be processed.  */
+            int endXOfTallest = INT_MAX;
+            int startXOfNextBuilding = INT_MAX;
             if(!mypq.empty())
             {
                 p = mypq.top();
-                omh = p.first;
+                heightOfTallest = p.first;
+                endXOfTallest = p.second;
             }
             else
-                omh = 0;
+                heightOfTallest = 0;
 
+            if(nextBuildToProcess < buildings.size())
+            {
+                startXOfNextBuilding = buildings[nextBuildToProcess][0];
+                height = buildings[nextBuildToProcess][1];
+                xe = buildings[nextBuildToProcess][2];
+            }
+
+            if(startXOfNextBuilding < endXOfTallest)
+            {
+                nextXCordToProc = startXOfNextBuilding;
+                pushToHeap = true;
+            }
+            else
+                nextXCordToProc = endXOfTallest;
+
+        }
+
+        /* if the beginning X of the next building to be processed equal to nextX to be processed */
+        if( pushToHeap == true)
+        {
+            pushToHeap = false;
             mypq.push(make_pair(height,xe));
             p = mypq.top();
-            if(p.first > omh)
+            if(p.first > heightOfTallest) // If the newly added height is greater than the top height, time to insert a new pair to results
             {
-                DEBUG_DEBUG(cout << " New lining after Add " << i << " " << height << " \n");
-                res.push_back(make_pair(i,height) );
+                DEBUG_DEBUG(cout << " New lining after Add " << nextXCordToProc << " " << height << " \n");
+                res.push_back(make_pair(nextXCordToProc,height) );
             }
-            index++;
+            nextBuildToProcess++;
         }
         else
         {
-            if(index < buildings.size())
-                DEBUG_TRACE(cout << "Before delete: next x = " << xb <<  height  << xe << " \n");
-
             /* If there is an end to the top, pop all the one;s that are not valid anymore */
-            if(!mypq.empty())
+            while(p.second <= nextXCordToProc)
             {
-                pair<int,int> p = mypq.top();
-                bool popped = false;
-                int lastpopval = p.first;
-                while(p.second <= i)
+                mypq.pop();
+                if(!mypq.empty())
                 {
-                    popped = true;
-                    mypq.pop();
-                    if(!mypq.empty())
-                    {
-                        p = mypq.top();
-                        lastpopval = p.first;
-                    }
-                    else
-                    {
-                       lastpopval = 0;
-                       break;
-                    }
+                    p = mypq.top();
+                    heightOfTallest = p.first;
                 }
-                if(popped == true)
+                else
                 {
-                    DEBUG_DEBUG(cout << " New lining after Remove " << i << " " << lastpopval << " \n");
-                    res.push_back(make_pair(i,lastpopval));
+                    heightOfTallest = 0;
+                    break;
                 }
             }
+            DEBUG_DEBUG(cout << " New lining after Remove " << nextXCordToProc << " " << heightOfTallest << " \n");
+            res.push_back(make_pair(nextXCordToProc,heightOfTallest));
         }
 
-
-        {
-            //Skip to the next x coordinate
-            int nextEnd = INT_MAX;
-            int nextX = INT_MAX;
-            if(!mypq.empty())
-            {
-                pair<int,int> p = mypq.top();
-                nextEnd = p.second;
-            }
-
-            if(index < buildings.size())
-                nextX = buildings[index][0];
-
-            i = nextX < nextEnd ? nextX : nextEnd;
-
-        }
     }
     return res;
 }
@@ -470,9 +515,12 @@ int IKSolution::findMinimum(vector<int> arr)
 
 /*********************************************************************************************************************/
 
-/* Problem: Given a large array of 4-byte integers. Find out how many total bits are turned ON in such an array?
- *
- *
+/*
+ * Problem:
+ *     Given a large array of 4-byte integers. Find out how many total bits are turned ON in such an array?
+ * Approach:
+ *     Populate the hashmap for all values between 0 and 255(1 byte). Then use this lookup table to find the values for
+ *     all 4 bytes values by right shifting.
  */
 int IKSolution::printCountOfBitsSet(vector<int> intArr)
 {
@@ -517,6 +565,8 @@ int IKSolution::printCountOfBitsSet(vector<int> intArr)
      return result;
 
 }
+
+
 
 
 

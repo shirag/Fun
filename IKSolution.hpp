@@ -24,7 +24,10 @@
 #include <list>
 #include <unordered_map>
 #include <cassert>
-
+#include <condition_variable>
+#include <mutex>
+#include <thread>
+#include <unistd.h>
 
 
 using namespace std;
@@ -115,7 +118,7 @@ Node *createTreeNode(int key);
 vector<int> mergeVector(vector<int> v1, vector<int> v2);
 int depthFirstSearchUtil(vvi& W, int node, vector<bool>& flag);
 int countComponents(int n, vector< pair<int, int> >& edges);
-
+void printVector(vector<int> v);
 
 struct BloomFilter {
 
@@ -280,7 +283,6 @@ class IKSolution
         string moveAllLettersToLeftSide(string s);
         //Class problem: Substring that controls the set
 
-
         /* Sorting */
         vector<int> groupNumbers(vector<int> intArr);
         vector<int> quickSort(vector<int>& a);
@@ -288,7 +290,12 @@ class IKSolution
         vector<int> mergearrays(vector<vector<int>> iarray);
         vector<int> twitterTopK(vector<int>iStream, int iK);
         vector<string> printTriplets(vector<int> intArr);
+        vector<int> mergeFirstIntoAnother(vector<int> intArrShort, vector<int> intArrLong);
 
+        /* Concurrency */
+        void producer();
+        int consumer();
+        void producerConsumerMain();
 
 };
 
