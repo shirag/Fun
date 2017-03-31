@@ -15,6 +15,9 @@ IKSolution soln;
 TEST_CASE( "Arrays tests", "Arrays tests" )
 {
     cout << "Arrays tests \n\n";
+    vi vr;
+    vi intArr;
+    vector<string> vs;
 
     soln.prLR();
 
@@ -26,10 +29,11 @@ TEST_CASE( "Arrays tests", "Arrays tests" )
     res.push_back(make_pair(1,4));
     res.push_back(make_pair(5,8));
     soln.mergeIntervals(v1);
+
     REQUIRE(soln.mergeIntervals(v1) == res);
 
     cout << "Largest rectangle test \n";
-    vi vr = {10,20,30};
+    vr = {10,20,30};
     REQUIRE(soln.findLargestRectangle(vr) == 40);
 
     vr = {10,40,30};
@@ -41,8 +45,8 @@ TEST_CASE( "Arrays tests", "Arrays tests" )
     soln.printPascal(6);
 
     cout << "********* Sum zero tests *****************\n";
-    vi intArr = {1,2,3,-10,8,-8,6,10};
-    vector<string> vs = soln.sumZero(intArr);
+    vr = {1,2,3,-10,8,-8,6,10};
+    vs = soln.sumZero(intArr);
     for(unsigned int i = 0; i < vs.size(); i++)
         cout << vs[i] << " ";
     cout << "\n";
@@ -367,12 +371,19 @@ TEST_CASE( "How Many bits set(Hamming Weight)", "How Many bits set(Hamming Weigh
 }
 
 
+Node root;
+Node node1; Node node3; Node node2;
+Node node4; Node node5; Node node6; Node node7;
+Node node8; Node node9; Node node10; Node node11; Node node12; Node node13; Node node14; Node node15;
+Node node41; Node node51; Node node61; Node node71; Node node21; Node node31;
+
 
 TEST_CASE( "Trees tests", "Trees tests" )
 {
 
-    Node node1; node1.val = 3; Node node2; node2.val = 4;
-    Node node3; node3.val = 5;
+
+    node1.val = 3; node2.val = 4;
+    node3.val = 5;
 
     node2.left = &node1;
     node2.right = &node3;
@@ -380,11 +391,37 @@ TEST_CASE( "Trees tests", "Trees tests" )
     node3.left = NULL; node3.right = NULL;
     REQUIRE(soln.isBST(&node2) == true);
 
+    /***********************************************************/
+    REQUIRE(soln.findKThSmallest(&node2, 1) == 3);
+    REQUIRE(soln.findKThSmallest(&node2, 2) == 4);
+    REQUIRE(soln.findKThSmallest(&node2, 3) == 5);
+
+
+    node1.val = 8; node2.val = 20; node3.val = 22;
+    node4.val = 4; node5.val = 12; node6.val = 10; node7.val = 14;
+
+    node2.left = &node1; node2.right = &node3;
+    node1.left = &node4; node1.right = &node5;
+    node3.left = NULL; node3.right = NULL;
+    node4.left = NULL; node4.right = NULL;
+    node5.left = &node6; node5.right = &node7;
+    node6.left = NULL; node6.right = NULL;
+    node7.left = NULL; node7.right = NULL;
+
+    REQUIRE(soln.findKThSmallest(&node2, 3) == 10);
+    REQUIRE(soln.findKThSmallest(&node2, 5) == 14);
+    /***********************************************************/
+
+    cout << "Level Order Print test \n";
+    soln.treeLevelOrderPrint(&node2);
+    cout << "\n";
+    /************************************************************/
+
 
     cout << "********* Count uni val sub trees *****************\n";
     node1.val = 5; node2.val = 5;
-    node3.val = 5; Node node4; node4.val = 5;
-    Node node5; node5.val = 5; Node node6; node6.val = 5;
+    node3.val = 5; node4.val = 5;
+    node5.val = 5; node6.val = 5;
     node1.left = &node2; node1.right = &node3;
     node2.left = &node4; node2.right = &node5;
     node3.left = NULL;   node3.right = &node6;
@@ -393,20 +430,15 @@ TEST_CASE( "Trees tests", "Trees tests" )
     node6.left = NULL;   node6.right = NULL;
     soln.countUniValSubtrees(&node1);
 
-    //Node node1; node1.val = 100;
-    //node1.left = NULL; node1.right = NULL;
-    //Node node2; node2.val = 50; node2.left = NULL; node2.right = NULL;
-    //Node node3; node3.val = 150;node3.left = NULL; node3.right = NULL;
-    //Node node1; node1.val = 100;
-    //node1.left = &node2; node1.right = &node3;
-    Node node41; node41.val = 25;node41.left = NULL; node41.right = NULL;
-    Node node51; node51.val = 75;node51.left = NULL; node51.right = NULL;
-    Node node61; node61.val = 125;node61.left = NULL; node61.right = NULL;
-    Node node71; node71.val = 175;node71.left = NULL; node71.right = NULL;
-    Node node21; node21.val = 50; node21.left = &node41; node21.right = &node51;
-    Node node31; node31.val = 150;node31.left = &node61; node31.right = &node71;
-    Node node11; node11.val = 100;
-    node11.left = &node21; node11.right = &node31;
+    /*************************************************************/
+
+    node41.val = 25;  node41.left = NULL; node41.right = NULL;
+    node51.val = 75;  node51.left = NULL; node51.right = NULL;
+    node61.val = 125; node61.left = NULL; node61.right = NULL;
+    node71.val = 175; node71.left = NULL; node71.right = NULL;
+    node21.val = 50;  node21.left = &node41; node21.right = &node51;
+    node31.val = 150; node31.left = &node61; node31.right = &node71;
+    node11.val = 100; node11.left = &node21; node11.right = &node31;
     Node* ret = soln.treeToDoubleLL(&node11);
     Node* temp = ret;
     cout << "\n ";
@@ -420,10 +452,118 @@ TEST_CASE( "Trees tests", "Trees tests" )
 
     }while(temp && (temp != ret));
 
+    cout << "\n\n\n";
+}
 
-    unsigned int counter = 0;
-    unsigned int k = 3;
-    soln.findKThSmallestUtil(&node1, k, counter);
+TEST_CASE( "Flip a Tree", "Flip a Tree")
+{
+
+
+    node1.val = 1;
+    node1.left = &node2;  //3
+    node1.right = &node3; //5
+
+    node2.val = 2;
+    node2.left = NULL; node2.right = NULL;
+
+    node3.val = 3;
+    node3.left = NULL; node3.right = NULL;
+
+    soln.flipATree(&node1);
+    REQUIRE(node1.val == 1);
+    REQUIRE(node1.left->val == 3);
+    REQUIRE(node1.right->val == 2);
+
+    /*
+    //              1
+    //             /  \
+    //            /    \
+    //           /      \
+    //          2        3
+    //         / \      / \
+    //        /   \    /   \
+    //       4     5  6     7
+    */
+
+    node1.val = 1;
+    node2.val = 2; node3.val = 3;
+    node4.val = 4; node5.val = 5; node6.val = 6; node7.val = 7;
+
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = &node5;
+    node3.left = &node6; node3.right = &node7;
+
+    node4.left = NULL; node4.right = NULL;
+    node5.left = NULL; node5.right = NULL;
+    node6.left = NULL; node6.right = NULL;
+    node7.left = NULL; node7.right = NULL;
+
+    soln.flipATree(&node1);
+    REQUIRE(node1.val == 1);
+    REQUIRE(node1.left->val == 3);
+    REQUIRE(node1.right->val == 2);
+
+    REQUIRE(node2.left->val == 7);
+    REQUIRE(node2.right->val == 6);
+    REQUIRE(node3.left->val == 5);
+    REQUIRE(node3.right->val == 4);
+
+    /*
+    //                1
+    //               /  \
+    //              /    \
+    //             /      \
+                  /        \
+   //            2          3
+   //          / \          / \
+   //         /   \        /   \
+   //        4     5       6    7
+   //       /\    / \      /\     / \
+   //      /  \  /   \    /  \   /   \
+   //     8   9  10  11  12   13 14   15
+   */
+    node1.val = 1;
+    node2.val = 2; node3.val = 3;
+    node4.val = 4; node5.val = 5; node6.val = 6; node7.val = 7;
+    node8.val = 8; node9.val = 9; node10.val = 10; node11.val = 11; node12.val = 12; node13.val = 13; node14.val = 14; node15.val = 15;
+
+    node4.left = &node8; node4.right = &node9;
+    node5.left = &node10; node5.right = &node11;
+    node6.left = &node12; node6.right = &node13;
+    node7.left = &node14; node7.right = &node15;
+
+    node8.left = NULL; node8.right = NULL;
+    node9.left = NULL; node9.right = NULL;
+    node10.left = NULL; node10.right = NULL;
+    node11.left = NULL; node11.right = NULL;
+    node12.left = NULL; node12.right = NULL;
+    node13.left = NULL; node13.right = NULL;
+    node14.left = NULL; node14.right = NULL;
+    node15.left = NULL; node15.right = NULL;
+
+    soln.flipATree(&node1);
+    REQUIRE(node1.val == 1);
+    REQUIRE(node1.left->val == 3);
+    REQUIRE(node1.right->val == 2);
+
+    REQUIRE(node2.left->val == 7);
+    REQUIRE(node2.right->val == 6);
+    REQUIRE(node3.left->val == 5);
+    REQUIRE(node3.right->val == 4);
+
+    REQUIRE(node4.left->val == 15);
+    REQUIRE(node4.right->val == 10 );
+    REQUIRE(node5.left->val == 9);
+    REQUIRE(node5.right->val == 12 );
+
+    REQUIRE(node6.left->val == 11);
+    REQUIRE(node6.right->val == 14 );
+    REQUIRE(node7.left->val == 13);
+    REQUIRE(node7.right->val == 8 );
+
+
+
+
 }
 
 TEST_CASE( "knights Tour On Chess Board", "knights Tour On Chess Board")
@@ -824,6 +964,52 @@ TEST_CASE( "Longest substring with matching parentheses", "Longest substring" )
     {
         cout << "Next test \n\n";
         REQUIRE(soln.maxLenMatchingParen(is[i]) == res[i]);
+    }
+
+}
+
+
+TEST_CASE( "Add Two Linked Lists", "Add Two Linked Lists" )
+{
+    List* l1;
+    List* l2;
+    List* l3;
+
+    List node1; List node2; List node3;
+    node3.next = nullptr; node3.val = 9;
+    node2.next = &node3; node2.val = 9;
+    node1.next = &node2; node1.val = 9;
+
+    List nodea; List nodeb; List nodec;
+    nodec.next = nullptr; nodec.val = 9;
+    nodeb.next = &nodec; nodeb.val = 9;
+    nodea.next = &nodeb; nodea.val = 9;
+
+    List node5; List node6; List node7;
+    node7.next = nullptr; node7.val = 8;
+    node6.next = &node7; node6.val = 9;
+    node5.next = &node6; node5.val = 9;
+
+    List *res = soln.AddTwoLists(&node1, &nodea);
+    while(res)
+    {
+        cout << " Next val = " << res->val << " \n";
+        res = res->next;
+    }
+
+    node3.next = nullptr; node3.val = 3;
+    node2.next = &node3; node2.val = 2;
+    node1.next = &node2; node1.val = 1;
+
+    nodec.next = nullptr; nodec.val = 3;
+    nodeb.next = &nodec; nodeb.val = 5;
+    nodea.next = &nodeb; nodea.val = 4;
+
+    res = soln.AddTwoLists(&node1, &nodea);
+    while(res)
+    {
+        cout << " Next val = " << res->val << " \n";
+        res = res->next;
     }
 
 }
@@ -2811,4 +2997,16 @@ TEST_CASE( "Merge First Into Second", "Merge First Into Second")
 TEST_CASE( "Producer Consumer", "Producer Consumer")
 {
     soln.producerConsumerMain();
+}
+
+TEST_CASE( "Print Even Odd in two different threads", "Print Even Odd in two different threads")
+{
+    soln.oddEvenMain();
+}
+
+
+
+TEST_CASE( "Synchronous Request Dispatcher", "Synchronous Request Dispatcher")
+{
+    soln.synchrnousRequestDispatcher();
 }

@@ -157,7 +157,7 @@ int countComponents(int n, vector< pair<int, int> >& edges)
 }
 
 /******************************************************************************************************/
-int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
+int getNextLocation(int rows, int columns, int startx, int starty, lpii& lt)
 {
 
     int nx = startx + 1;
@@ -165,18 +165,14 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
 
 
     if((nx < columns) && (ny < rows))
-        vt.push_back(make_pair(nx,ny));
-    //else
-        //cout << " Invalid location \n";
+        lt.push_back(make_pair(nx,ny));
 
     nx = startx + 2;
     ny = starty + 1;
 
     if((nx < columns) && (ny < rows))
-        vt.push_back(make_pair(nx,ny));
-    //else
-        //cout << " Invalid location \n";
-#if 1
+        lt.push_back(make_pair(nx,ny));
+
    nx = startx - 1;
    ny = starty - 2;
 
@@ -184,9 +180,7 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
    cout << " ny  = "  << ny ;
 
    if((nx >= 0) && (ny >= 0))
-       vt.push_back(make_pair(nx,ny));
-   //else
-       //cout << " Invalid location \n";
+       lt.push_back(make_pair(nx,ny));
 
    nx = startx - 2;
    ny = starty - 1;
@@ -196,10 +190,7 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
 
 
    if((nx >= 0) && (ny >= 0))
-       vt.push_back(make_pair(nx,ny));
-   //else
-       //cout << " Invalid location \n";
-#endif
+       lt.push_back(make_pair(nx,ny));
 
    nx = startx - 1;
    ny = starty + 2;
@@ -208,9 +199,7 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
    cout << " ny  = "  << ny ;
 
    if((nx >= 0) && (ny >= 0))
-       vt.push_back(make_pair(nx,ny));
-   //else
-       //cout << " Invalid location \n";
+       lt.push_back(make_pair(nx,ny));
 
    nx = startx - 2;
    ny = starty + 1;
@@ -219,9 +208,7 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
    cout << " ny  = "  << ny ;
 
    if((nx >= 0) && (ny >= 0))
-       vt.push_back(make_pair(nx,ny));
-    //else
-       //cout << " Invalid location \n";
+       lt.push_back(make_pair(nx,ny));
 
    nx = startx + 2;
    ny = starty - 1;
@@ -230,7 +217,7 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
    cout << " ny  = "  << ny ;
 
    if((nx >= 0) && (ny >= 0))
-       vt.push_back(make_pair(nx,ny));
+       lt.push_back(make_pair(nx,ny));
 
    nx = startx + 1;
    ny = starty - 2;
@@ -239,7 +226,7 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
    cout << " ny  = "  << ny ;
 
    if((nx >= 0) && (ny >= 0))
-       vt.push_back(make_pair(nx,ny));
+       lt.push_back(make_pair(nx,ny));
 
     return 1;
 }
@@ -255,6 +242,8 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
  *       BFS search over all the neighbors. Have a utility function to get neighbors. When you hit the
  *       destination just print the level and come out.
  *       Basically derive a function that defines the edge between graphs(Nelson golden rule).
+ *       Push to the MAIN queue a list of all  dest x,y's at a particular level. So, when you pop out from the list,
+ *       you are popping out all x, and ys at a particular level.
  * Complexity:
  * Space Complexity:
  * Any other better approach:
@@ -264,7 +253,6 @@ int getNextLocation(int rows, int columns, int startx, int starty, lpii& vt)
 int IKSolution::knightsTourOnChessBoard(int rows, int columns, int sx, int sy, int ex, int ey)
 {
     unsigned int level = 0;
-    int index = 0;
     lpii lpop;  //List used to push
     lpii lpush; //List used to pop
     qlpii qm;   //Main processing queue. Above two lists are pushed and popped
@@ -281,32 +269,26 @@ int IKSolution::knightsTourOnChessBoard(int rows, int columns, int sx, int sy, i
         lpop = qm.front();
         qm.pop();
 
-        lpush.clear(); index = 0;
-        for(lpii::iterator it = lpop.begin(); it != lpop.end(); it++)
+        for(auto val : lpop)
         {
-            pii cl = *it;
-            spii::iterator it1 = flags.find(cl);
-            if(it1 != flags.end())
+            if(flags.find(val) != flags.end())
                 continue;
 
-            cout << "level:" << level << " index: " << index++;
-            cout << " x = " << cl.first; cout << " y = " << cl.second << "\n";
-
-            if(cl == end)
+            if(val == end)
             {
-                cout<< " We found the destination at level = " << level << "\n";
+                DEBUG_DEBUG(cout<< " We found the destination at level = " << level << "\n");
                 return level;
             }
 
-            flags.insert(cl);
-            lpii vtt;
-            getNextLocation(rows, columns, cl.first, cl.second, vtt);
-            if(!vtt.empty())
-                lpush.insert(lpush.end(),vtt.begin(), vtt.end());
-
+            flags.insert(val);
+            getNextLocation(rows, columns, val.first, val.second, lpush);
         }
-        if(!lpush.empty())
+
+        if(!lpush.empty()) // important check
+        {
             qm.push(lpush);
+            lpush.clear();
+        }
 
         level++;
     }
@@ -369,8 +351,9 @@ int getNextLevelStrings(ls& dict, string& begin, ls& l, map<string,string>& mp)
            "bat" -> "bad" -> "had"
  * Approach:
  *         Graph BFS search. Build the graph as your traverse. For every node visited store the
- *         src node in a map. When you hit the destination come out of the search. Populate the contents
- *         of the map onto a stack and then print contents of the stack.
+ *         src node in a map. When you hit the destination come out of the search.
+ *         Populate contents of the map onto a stack and then print contents of the stack.
+ *
  * Complexity: n * n * m(where n is the no of strings and m is chars in each string)
  * Space Complexity: O(1)
  * Any other better approach:
@@ -383,7 +366,6 @@ int getNextLevelStrings(ls& dict, string& begin, ls& l, map<string,string>& mp)
 vector<string> IKSolution::convertAString(ls& dict, string& begin, string& end)
 {
     unsigned int level = 0;
-    int index = 0;
 
     ls lpop;  //List used to push
     ls lpush; //List used to pop
@@ -402,33 +384,26 @@ vector<string> IKSolution::convertAString(ls& dict, string& begin, string& end)
         lpop = qm.front();
         qm.pop();
 
-        lpush.clear(); index = 0;
-        for(ls::iterator it = lpop.begin(); it != lpop.end(); it++)
+        for(auto it : lpop)
         {
-            string begin = *it;
-            ss::iterator it1 = flags.find(begin);
-            if(it1 != flags.end())
+            if(flags.find(it) != flags.end())
                 continue;
 
-            DEBUG_DEBUG(cout << "line# "<< __LINE__<< ": "; cout << "level:" << level << " index: " << index++);
-            DEBUG_DEBUG(cout << "line# "<< __LINE__<< ": "; cout << " string = " << begin << "\n");
-
-
-            if(begin == end)
+            if(it == end)
             {
                 DEBUG_DEBUG(cout << "line# "<< __LINE__<< ": "; cout<< " We found the destination at level = " << level << "\n");
                 break;
             }
 
-            flags.insert(begin);
-            ls vtt;
-            getNextLevelStrings(dict, begin, vtt, mp);
-            if(!vtt.empty())
-                lpush.insert(lpush.end(),vtt.begin(), vtt.end());
+            flags.insert(it);
+            getNextLevelStrings(dict, it, lpush, mp);
 
         }
-        if(!lpush.empty())
+        if(!lpush.empty()) // important check
+        {
             qm.push(lpush);
+            lpush.clear();
+        }
 
         level++;
     }

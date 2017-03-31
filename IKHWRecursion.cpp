@@ -599,7 +599,7 @@ int howManyTreesUtil(int n)
             result += (res1);
         else if(res2)
             result += (res2);
-    }
+     }
 
     return result;
 }

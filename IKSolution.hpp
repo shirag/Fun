@@ -28,7 +28,7 @@
 #include <mutex>
 #include <thread>
 #include <unistd.h>
-
+#include <functional>
 
 using namespace std;
 
@@ -47,27 +47,25 @@ struct List
 };
 
 typedef vector<int> vi;
-typedef vector< vector<int> > vvi;
-typedef vector< pair<int,int> > vpii;
-
 typedef pair<int, int> pii;
+typedef set<int> si;
+typedef pair<char,int> pci;
+
+typedef vector<vi> vvi;
+typedef vector<pii> vpii;
 typedef queue<pii> qpii;
 typedef vector<pii> vpii;
 typedef set<pii> spii;
 typedef queue<vpii> qvpii;
-
 typedef list<pii> lpii;
 typedef queue<lpii> qlpii;
-
-
 typedef list<string> ls;
 typedef queue<ls> qls;
 typedef set<string> ss;
+typedef set<si> ssi;
+typedef queue<list<Node*>> qln;
+typedef list<Node*> ln;
 
-typedef set<int> si;
-typedef set< si > ssi;
-
-typedef pair<char,int> pci;
 
 
 #define DEBUG_LEVEL_FATAL       5    //Somebody is going to die if this happens
@@ -212,10 +210,14 @@ class IKSolution
 	    void postorderTraversal(Node* root);
 	    /* Tree time test problem */
 	    void createBalancedBST(vector<int> iArray);
-	    int findKThSmallestUtil(Node* root, unsigned int& k, unsigned int& counter);
+	    int findKThSmallest(Node* root, unsigned int k);
 	    /* K' successor problem */
 	    /* Interval trees? */
 	    /* Segment trees? */
+	    void treeLevelOrderPrint(Node *root);
+	    Node* cloneATree(Node *root);
+	    Node* flipATree(Node *root);
+
 
 	    /* Graph/Homework3 */
         int printAllPathsInAGraph(vvi& g, int src, int dest);
@@ -245,6 +247,7 @@ class IKSolution
 	    int wellFormedBrackComb(int n);
 
         /* LinkedList */
+	    List* AddTwoLists(List *list1, List *list2);
 	    List *pointerToCycle(List *); /* Given  a pointer to the head of */
 	    list<int>::iterator interSectionOfTwoLists(list<int>& L1, list<int>& L2);
 	    int Median(List *l1);
@@ -291,11 +294,20 @@ class IKSolution
         vector<int> twitterTopK(vector<int>iStream, int iK);
         vector<string> printTriplets(vector<int> intArr);
         vector<int> mergeFirstIntoAnother(vector<int> intArrShort, vector<int> intArrLong);
+        /* ? Dutch National Flag timed test problem */
+        /* ? Two sorted arrays. Find a duplicate. Use a Hash. Time 2n. Try the merging logic used for merge sort.*/
+
 
         /* Concurrency */
-        void producer();
-        int consumer();
         void producerConsumerMain();
+        void oddEvenMain();
+        void synchrnousRequestDispatcher();
+
+        /*
+        Moving integer window, find the max. Use a double ended queue: Has properties of both Stack and Queue.
+        *. find the missing number: Generate a lookup table and mark the no present.
+            0-7: Generate a table and mark the bit that is present and finally scan.
+            How do you do when you are given 4 bits. When space reduces think of a solution where time increases.*/
 
 };
 

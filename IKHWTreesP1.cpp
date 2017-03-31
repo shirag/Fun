@@ -7,6 +7,7 @@
 
 
 
+#define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "IKSolution.hpp"
 
 #define  PRE_ORDER   1
@@ -44,21 +45,11 @@ void IKSolution::treeBFS(Node *root)
         tn = mQ.front();
         mQ.pop();
 
-        if(ORDER_OF_TRAVERSAL == PRE_ORDER)
-            cout << "Value of the node = " <<  tn->val << "\n";
-
         if(tn->left)
             mQ.push(tn->left);
 
-        if(ORDER_OF_TRAVERSAL == IN_OPDER)
-                   cout << "Value of the node = " <<  tn->val << "\n";
-
         if(tn->right)
             mQ.push(tn->right);
-
-        if(ORDER_OF_TRAVERSAL == POST_ORDER)
-                           cout << "Value of the node = " <<  tn->val << "\n";
-
     }
 
 }
@@ -86,6 +77,7 @@ Node* IKSolution::bSTTreeInsert(Node *root, int key)
 
 }
 
+/*********************************************************************************************************************/
 
 bool isP(string str)
 {
@@ -248,17 +240,20 @@ Node* IKSolution::mergeTwoBSTs(Node* node1, Node* node2)
 }
 /************************************************************************************************************************/
 
-/* Problem: Post order traversal
+/* Problem:
+ *     Iterative Post order traversal
  * Example:
- * Approach: DFS Use auxillary stack. Push into the stack whatever you pop from main stack.
- *           while pushing into the main stack push left first and right next.
+ * Approach:
+ *     Do a DFS. Populate into an auxiliary stack while doing a DFS.
+ *     Two stack approach(DFS stack + auxiliary stack).
+ *     Push into the auxiliary stack whatever you pop from main stack.
+ *     while pushing into the DFS stack push left first and right next.
  * Complexity:
  * Space Complexity:
  * Any other better approach:
  * Corner case:
  * Take away:
  */
-
 void IKSolution::postorderTraversal(Node* root)
 {
     if(root == NULL)
@@ -276,8 +271,8 @@ void IKSolution::postorderTraversal(Node* root)
 
         v2.push_back(tn->val);
 
-        postorderTraversal(tn->left);
-        postorderTraversal(tn->right);
+        v1.push(tn->left);
+        v1.push(tn->right);
 
     }
 
@@ -339,9 +334,11 @@ int countUniValSubtreesRec(Node *node, int& counter)
    return 0;
 }
 /**************************************************************************************************************/
-/* Problem: Given a binary tree, we need to count the number of unival subtrees (all nodes have same value).
+/* Problem:
+ *     Given a binary tree, we need to count the number of unival subtrees (all nodes have same value).
  * Example:
- * Approach: DFS search. If children's value is same as root and children are also unival trees then increment the counter.
+ * Approach:
+ *     DFS search. If children's value is same as root and children are also unival trees then increment the counter.
  * Complexity: O(n)
  * Space Complexity: O(n)
  * Any other better approach:
@@ -363,15 +360,41 @@ int IKSolution::countUniValSubtrees(Node *node)
  *     Convert a BST to Circular Doubly Linked List.
  * Example:
  * Approach:
- *     Contract with a node: Ill give you a tail. You attach your head to the given tail and return a new tail.
+ *     Contract with a node: Ill give you a LL with a head and a tail. You attach your head to the given tail and return a new tail.
  *     Head argument is set the very first time and remains constant.
  *
+   *                  200
+ *                   /  \
+ *                  /    \
+ *                 /      \
+                  /        \
+ *              100         300
+ *              / \           /\
+ *             /   \         /  \
+ *            /     \       /    \
+ *          25      150   250    350
+ *
  *     Steps:
- *     1. Ask your left node(contract) to use the old tail and provide a new tail.
+ *     1. Ask your left node(contract) to use the old tail and provide a new tail[magic].
  *     2. You attach your left to that tail.
- *     3. You attach tail's left to you.
- *     4. Ask your right node(contract) to use yourself as the tail, use it and provide a new tail.
+ *     3. You attach tail's right to you.
+ *     4. Make yourself the new tail.
+ *     4. Ask your right node(contract) provide a new tail.
  *     5. Just return the tail returned by your right.
+ *
+ *     1. When it comes to 300
+ *        Head -> 25 ->  100  -> 150  -> 200 <- tail
+ *                   <-       <-      <-
+ *     2. Now we provide this list to 300.
+ *     3. When 300 calls the function onto its left it returns the following[magic function]
+ *        Head -> 25 ->  100  -> 150  -> 200 <- 250 <- tail
+ *                   <-       <-      <-     ->
+ *     4. 300 does the following[3 things]
+ *        Head -> 25 ->  100  -> 150  -> 200 <- 250 <- 300 < tail
+ *             <-       <-      <-     ->           ->
+       5. It calls the same function onto its right[magic again]
+ *
+ *
  * Complexity:O(n)
  * Space Complexity:O(n) or O(logn)
  * Any other better approach:
@@ -510,7 +533,7 @@ bool IKSolution::isBST(Node* node)
 {
     return isBSTUtil(node, INT_MIN, INT_MAX);
 }
-
+/**************************************************************************************************************************/
 
 Node* createBalancedBSTUtil(vector<int> &iArray, int low, int high)
 {
@@ -528,19 +551,33 @@ Node* createBalancedBSTUtil(vector<int> &iArray, int low, int high)
 
 }
 
-/* Problem: printing-binary-tree-in-level-order
+void IKSolution::createBalancedBST(vector < int > iArray)
+{
+    int size = iArray.size();
+    createBalancedBSTUtil(iArray,0,size-1);
+
+
+}
+/*****************************************************************************************************************************/
+
+
+/* Problem:
+ *     printing-binary-tree-in-level-order
  * Example:
- *    3
-     /  \
- *  9    20
-        /  \
-       15    7
+ *     3
+      /  \
+ *   9    20
+         /  \
+        15    7
  *
  *      3
         9 20
         15 7
  *
  * Approach:
+ *     Breadth First Search (BFS). Use a pair with level and node information. Now print the tree at each level.
+ *     Use a pair to store the level when you push a node to a queue When you deque , if the level is higher than previous
+ *     introduce a \n
  *
  * Time Complexity:O(n)
  * Space Complexity:
@@ -549,47 +586,90 @@ Node* createBalancedBSTUtil(vector<int> &iArray, int low, int high)
  * Take away:
  */
 
-void IKSolution::createBalancedBST(vector < int > iArray)
+void IKSolution::treeLevelOrderPrint(Node *root)
 {
-    int size = iArray.size();
-    createBalancedBSTUtil(iArray,0,size-1);
+    queue<pair<Node*,int>> mQ;
+    pair<Node*,int> tn;
+    int currLevel = 0;
 
-    /* Now print the tree at each level. Use a pair to store the level when you push a node to a stack
-     * When you pop out of stack, if the level is higher than previous introduce a \n */
+    if(root == NULL)
+    {
+        return;
+    }
 
-    /* Soln 1: The most natural solution for level-order traversal is Breadth First Search (BFS). Use a pair with level
-     * and node information  */
-    /* The single queue solution requires two extra counting variables which keep tracks of the number of nodes in the
-     * current level (nodesInCurrentLevel) and the next level (nodesInNextLevel). When we pop a node off the queue,
-     * current  we decrement nodesInCurrentLevel by one. When we push its child nodes to the queue,
-     * we increment nodesInNextLevel by two. When nodesInCurrentLevel reaches 0,
-     * we know that the current level has ended, therefore we print an endline here.
-     * http://articles.leetcode.com/printing-binary-tree-in-level-order/
-     */
+    mQ.push(make_pair(root,currLevel));
+
+    while(!mQ.empty())
+    {
+        tn = mQ.front();
+        mQ.pop();
+
+        if(tn.second > currLevel)
+        {
+            currLevel += 1;
+            DEBUG_DEBUG(cout << "\n");
+        }
+
+        DEBUG_DEBUG(cout << " " << tn.first->val << " ");
+
+        if(tn.first->left)
+            mQ.push(make_pair(tn.first->left,(currLevel + 1)));
+        if(tn.first->right)
+            mQ.push(make_pair(tn.first->right,(currLevel + 1)));
+    }
 }
 
-/*
- * Approach: Inorder traversal prints no in sorting order. When you are done printing k nos just come out.
- * */
-int IKSolution::findKThSmallestUtil(Node* root, unsigned int& k, unsigned int& counter)
+
+
+/* Problem:
+ *     Find Kth smallest value in a BST.
+ * Approach:
+ *     In-order traversal prints no in sorting order. When you are done processing k nos, return the val.
+ *     We do a DFS in here.
+ */
+bool findKThSmallestUtil(Node* root, unsigned int& k, unsigned int& counter, int& val)
 {
     if(root == NULL)
-        return 0;
+        return false;
 
-    if(findKThSmallestUtil(root->left, k, counter))
-        return 1;
+
+    if(findKThSmallestUtil(root->left, k, counter, val) == true)
+        return true;
+
 
     counter++;
-    cout << "counter = " << counter <<  " " << root->val << " k = " << k <<"\n";
     if(counter == k)
-        return 1;
+    {
+        DEBUG_DEBUG(cout << "counter = " << counter <<  " " << root->val << " k = " << k <<"\n");
+        val = root->val;
+        return true;
+    }
 
-    if(findKThSmallestUtil(root->right, k, counter))
-        return 1;
 
-    return 0;
+    if(findKThSmallestUtil(root->right, k, counter, val) == true)
+        return true;
+
+    return false;
 
 }
+
+
+int IKSolution::findKThSmallest(Node* root, unsigned int k)
+{
+    int val = 0;
+    unsigned int counter = 0;
+
+    if(findKThSmallestUtil(root, k, counter, val) == true)
+    {
+        return val;
+    }
+    else
+        return 0;
+
+}
+
+
+
 
 
 

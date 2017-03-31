@@ -774,4 +774,69 @@ int IKSolution::maxLenMatchingParen(string str)
 
     return result;
 }
+/***********************************************************************************************************/
 
+List* AddTwoListsUtil(List *list1, List *list2, int& carry)
+{
+
+    if((list1 == nullptr) && (list2 == nullptr))
+    {
+        return nullptr;
+    }
+
+    int gcarry = 0;
+    List *nnode = AddTwoListsUtil(list1->next, list2->next, gcarry);
+
+    int sum = list1->val + list2->val + gcarry;
+    if (sum >= 10)
+        carry = 1;
+
+    List *node = new(List);
+    node->val = sum % 10;
+    node->next = nnode;
+
+    return node;
+
+}
+
+
+/*
+ *
+ * Problem:
+ *     Add two numbers in a linked list
+ *      9 -> 9 -> 9
+ *      9 -> 9 -> 9
+ *      should give us
+ *      1 -> 9 -> 9 -> 8
+ *
+ *      1 -> 2 -> 3
+ *      4 -> 5 -> 3
+ *      should give us
+ *      5 -> 7 -> 6
+ *
+ * Approach:
+ *      Here we assume two lists are of equal length and recursively call utility function onto the next element.
+ *      If two lists are of unequal length then we have to call the recursive function from the point where two lengths are same.
+ *      Basically we should skip the first one by those many nodes.
+ *
+ */
+
+List* IKSolution::AddTwoLists(List *list1, List *list2)
+{
+
+    int carry = 0;
+
+    List *nnode = AddTwoListsUtil(list1, list2, carry);
+
+    if (carry == 1)
+    {
+        List *node = new(List);
+        node->val = 1;
+        node->next = nnode;
+        return node;
+    }
+
+    return nnode;
+
+}
+/******************************************************************************************/
