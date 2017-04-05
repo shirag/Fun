@@ -586,15 +586,17 @@ void IKSolution::createBalancedBST(vector < int > iArray)
  * Take away:
  */
 
-void IKSolution::treeLevelOrderPrint(Node *root)
+vvi IKSolution::treeLevelOrderPrint(Node *root)
 {
     queue<pair<Node*,int>> mQ;
     pair<Node*,int> tn;
     int currLevel = 0;
+    vi temp;
+    vvi res;
 
     if(root == NULL)
     {
-        return;
+        return res;
     }
 
     mQ.push(make_pair(root,currLevel));
@@ -608,16 +610,79 @@ void IKSolution::treeLevelOrderPrint(Node *root)
         {
             currLevel += 1;
             DEBUG_DEBUG(cout << "\n");
+            res.push_back(temp);
+            temp.clear();
         }
 
         DEBUG_DEBUG(cout << " " << tn.first->val << " ");
+        temp.push_back(tn.first->val);
 
         if(tn.first->left)
             mQ.push(make_pair(tn.first->left,(currLevel + 1)));
         if(tn.first->right)
             mQ.push(make_pair(tn.first->right,(currLevel + 1)));
     }
+    if(!temp.empty())
+    {
+        res.push_back(temp);
+    }
+
+    return res;
 }
+
+
+vvi IKSolution::treeLevelOrderPrintUsingList(Node *root)
+{
+    queue<list<Node *>> mQ;
+
+    list<Node *> pushl;
+    list<Node *> popl;
+    vi temp;
+    vvi res;
+
+    if(root == NULL)
+    {
+        return res;
+    }
+
+    pushl.push_back(root);
+    mQ.push(pushl);
+    pushl.clear();
+
+    while(!mQ.empty())
+    {
+        popl = mQ.front();
+        mQ.pop();
+
+        for(auto val : popl)
+        {
+            DEBUG_DEBUG(cout << val->val << " ");
+            if(val->left != nullptr) //IMPORTANT
+                pushl.push_back(val->left);
+            if(val->right != nullptr)
+                pushl.push_back(val->right);
+            temp.push_back(val->val);
+        }
+
+        if(!pushl.empty())
+        {
+            res.push_back(temp);
+            temp.clear();
+            mQ.push(pushl);
+            pushl.clear();
+            DEBUG_DEBUG(cout << " \n");
+
+        }
+    }
+    if(!temp.empty())
+    {
+        res.push_back(temp);
+    }
+
+
+    return res;
+}
+
 
 
 

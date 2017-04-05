@@ -8,15 +8,13 @@
 #ifndef IK_SOLUTION_HPP_
 #define IK_SOLUTION_HPP_
 
-//#include<string>
-//#include<string.h>
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <map>
 #include <cstdlib>
-#include <algorithm>    // std::sort
+#include <algorithm>
 #include <stack>
 #include <limits.h>
 #include <queue>
@@ -29,13 +27,26 @@
 #include <thread>
 #include <unistd.h>
 #include <functional>
+#include <memory>
+
 
 using namespace std;
 
-struct Node
+class Node
 {
-	int val;
-	struct Node *left, *right;
+    public:
+	    int val;
+	    struct Node *left, *right;
+	    struct Node *nextRight; //Pointer to the right sibling
+};
+
+class Tree
+{
+    public:
+        stack<Node *> nextlowestStack;
+        void init(Node *root);
+        Node* next();
+        bool hasNext();
 };
 
 struct List
@@ -184,7 +195,6 @@ class IKSolution
 	    int findLargestRectangle(vi);
 	    vector<string> sumZero(vector<int> intArr);
 	    void printPascal(int n);
-        /* Arrays and Ad hoc; HomeWork Part 2 */
 	    int nextPalindrome(int iInputNum);
 	    vector<int> AlternatePosNegative(vector<int> vec);
 	    vector<pair<int,int>> skyLine(vvi vec);
@@ -214,10 +224,13 @@ class IKSolution
 	    /* K' successor problem */
 	    /* Interval trees? */
 	    /* Segment trees? */
-	    void treeLevelOrderPrint(Node *root);
+	    vvi treeLevelOrderPrint(Node *root);
+	    vvi treeLevelOrderPrintUsingList(Node *root);
 	    Node* cloneATree(Node *root);
 	    Node* flipATree(Node *root);
-
+	    int largestBST(Node *root);
+	    vvi constrctTree(vector<int> iInOrderArray, vector<int> iPreOrderArray);
+	    void PopulateSiblingPointers(Node *root);
 
 	    /* Graph/Homework3 */
         int printAllPathsInAGraph(vvi& g, int src, int dest);

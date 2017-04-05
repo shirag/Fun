@@ -413,6 +413,7 @@ TEST_CASE( "Trees tests", "Trees tests" )
     /***********************************************************/
 
     cout << "Level Order Print test \n";
+    //Test "Construct tree from Arrays" tests this one.
     soln.treeLevelOrderPrint(&node2);
     cout << "\n";
     /************************************************************/
@@ -503,10 +504,10 @@ TEST_CASE( "Flip a Tree", "Flip a Tree")
     REQUIRE(node1.left->val == 3);
     REQUIRE(node1.right->val == 2);
 
-    REQUIRE(node2.left->val == 7);
-    REQUIRE(node2.right->val == 6);
-    REQUIRE(node3.left->val == 5);
-    REQUIRE(node3.right->val == 4);
+    REQUIRE(node2.left->val == 5);
+    REQUIRE(node2.right->val == 4);
+    REQUIRE(node3.left->val == 7);
+    REQUIRE(node3.right->val == 6);
 
     /*
     //                1
@@ -527,6 +528,9 @@ TEST_CASE( "Flip a Tree", "Flip a Tree")
     node4.val = 4; node5.val = 5; node6.val = 6; node7.val = 7;
     node8.val = 8; node9.val = 9; node10.val = 10; node11.val = 11; node12.val = 12; node13.val = 13; node14.val = 14; node15.val = 15;
 
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = &node5;
+    node3.left = &node6; node3.right = &node7;
     node4.left = &node8; node4.right = &node9;
     node5.left = &node10; node5.right = &node11;
     node6.left = &node12; node6.right = &node13;
@@ -541,28 +545,514 @@ TEST_CASE( "Flip a Tree", "Flip a Tree")
     node14.left = NULL; node14.right = NULL;
     node15.left = NULL; node15.right = NULL;
 
+
+
     soln.flipATree(&node1);
     REQUIRE(node1.val == 1);
     REQUIRE(node1.left->val == 3);
     REQUIRE(node1.right->val == 2);
 
-    REQUIRE(node2.left->val == 7);
-    REQUIRE(node2.right->val == 6);
-    REQUIRE(node3.left->val == 5);
-    REQUIRE(node3.right->val == 4);
+    REQUIRE(node2.left->val == 5);
+    REQUIRE(node2.right->val == 4);
+    REQUIRE(node3.left->val == 7);
+    REQUIRE(node3.right->val == 6);
 
-    REQUIRE(node4.left->val == 15);
-    REQUIRE(node4.right->val == 10 );
-    REQUIRE(node5.left->val == 9);
-    REQUIRE(node5.right->val == 12 );
+    REQUIRE(node4.left->val == 9);
+    REQUIRE(node4.right->val == 8 );
+    REQUIRE(node5.left->val == 11);
+    REQUIRE(node5.right->val == 10 );
 
-    REQUIRE(node6.left->val == 11);
-    REQUIRE(node6.right->val == 14 );
-    REQUIRE(node7.left->val == 13);
-    REQUIRE(node7.right->val == 8 );
+    REQUIRE(node6.left->val == 13);
+    REQUIRE(node6.right->val == 12 );
+    REQUIRE(node7.left->val == 15);
+    REQUIRE(node7.right->val == 14 );
+
+}
 
 
 
+TEST_CASE( "No of Nodes is largest BST", "No of Nodes is largest BST")
+{
+
+    node1.val = 4;
+    node1.left = &node2;
+    node1.right = nullptr;
+    node2.val = 2;
+    node2.left = NULL; node2.right = NULL;
+    REQUIRE(soln.largestBST(&node1) == 1);
+
+
+    node1.val = 4;
+    node1.left = nullptr;
+    node1.right = &node2;
+    node2.val = 2;
+    node2.left = NULL; node2.right = NULL;
+    REQUIRE(soln.largestBST(&node1) == 1);
+
+
+    /*
+                       10
+                      /  \
+                     /    \
+                    /      \
+                   /        \
+                  15         1
+                 / \        / \
+                /   \      /   \
+               7     16   9    14
+
+    */
+    node1.val = 10;
+    node2.val = 15; node3.val = 1;
+    node4.val = 7; node5.val = 16; node6.val = 9; node7.val = 14;
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = &node5;
+    node3.left = &node6; node3.right = &node7;
+    node4.left = NULL; node4.right = NULL;
+    node5.left = NULL; node5.right = NULL;
+    node6.left = NULL; node6.right = NULL;
+    node7.left = NULL; node7.right = NULL;
+    REQUIRE(soln.largestBST(&node1) == 3);
+
+
+
+    /*
+                    10
+                   /  \
+                  /    \
+                 /      \
+                /        \
+                6         12
+              / \         / \
+             /   \       /   \
+            7(4)  4(5)  9(6)  14(7)
+                              /  \
+                             /    \
+                         13(12)   16(15)
+    */
+    node1.val = 10;
+    node2.val = 6; node3.val = 12;
+    node4.val = 7; node5.val = 4; node6.val = 9; node7.val = 14;
+    node12.val = 13; node15.val = 16;
+
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = &node5;
+    node3.left = &node6; node3.right = &node7;
+
+    node4.left = nullptr; node4.right = nullptr;
+    node5.left = nullptr; node5.right = nullptr;
+    node6.left = nullptr; node6.right = nullptr;
+    node7.left = &node12; node7.right = &node15;
+    node12.left = nullptr; node12.right = nullptr;
+    node15.left = nullptr; node15.right = nullptr;
+    REQUIRE(soln.largestBST(&node1) == 5);
+
+
+    /*
+                      100
+                     /  \
+                    /    \
+                   /      \
+                  /        \
+                 30         150
+                / \          /  \
+               /   \        /    \
+              20(4)  50(5) 125(6) 200(7)
+                    /  \
+                   /    \
+                 25(12)   500(15)
+      */
+
+    node1.val = 100;
+    node2.val = 30; node3.val = 150;
+    node4.val = 20; node5.val = 50; node6.val = 125; node7.val = 200;
+    node12.val = 25; node15.val = 500;
+
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = &node5;
+    node3.left = &node6; node3.right = &node7;
+
+    node4.left = nullptr; node4.right = nullptr;
+    node5.left = &node12; node5.right = &node15;
+    node6.left = nullptr; node6.right = nullptr;
+    node7.left = nullptr; node7.right = nullptr;
+    node12.left = nullptr; node12.right = nullptr;
+    node15.left = nullptr; node15.right = nullptr;
+    REQUIRE(soln.largestBST(&node1) == 3);
+
+
+
+}
+
+
+TEST_CASE( "Construct tree from Arrays", "Construct tree from Arrays")
+{
+    vi v;
+    vvi res;
+
+    vector<int> iOA = {4, 2, 5, 1, 6, 7, 3, 8};
+    vector<int> pOA = {1, 2, 4, 5, 3, 7, 6, 8};
+    v = {1};
+    res.push_back(v);
+    v = {2, 3};
+    res.push_back(v);
+    v = {4, 5, 7, 8};
+    res.push_back(v);
+    v = {6};
+    res.push_back(v);
+    REQUIRE(soln.constrctTree(iOA, pOA )== res);
+    res.clear();
+
+    iOA = {10, 30, 40, 50, 60, 70, 90};
+    pOA = {50, 30, 10, 40, 70, 60, 90};
+    v = {50};
+    res.push_back(v);
+    v = {30, 70};
+    res.push_back(v);
+    v = {10, 40, 60, 90};
+    res.push_back(v);
+    REQUIRE(soln.constrctTree(iOA, pOA) == res);
+    res.clear();
+
+    iOA = {113, 435, 1347, 2405, 2719, 3093, 4065, 4135, 4478, 5086, 5771, 6260, 6307, 6728, 7663, 7904, 8595, 9278, 9750, 9898};
+    pOA = {4478, 435, 113, 2405, 1347, 2719, 4135, 3093, 4065, 5086, 9750, 9278, 8595, 6307, 5771, 6260, 7904, 6728, 7663, 9898};
+
+    v = {4478};
+    res.push_back(v);
+    v = {435, 5086};
+    res.push_back(v);
+    v = {113, 2405, 9750};
+    res.push_back(v);
+    v = {1347, 2719, 9278, 9898};
+    res.push_back(v);
+    v = {4135, 8595};
+    res.push_back(v);
+    v = {3093, 6307};
+    res.push_back(v);
+    v = {4065, 5771, 7904};
+    res.push_back(v);
+    v = {6260, 6728};
+    res.push_back(v);
+    v = {7663};
+    res.push_back(v);
+    REQUIRE(soln.constrctTree(iOA, pOA) == res);
+    res.clear();
+
+
+    iOA = {219, 494, 1067, 1717, 1828, 1916, 2158, 2508, 2652, 2671, 3418, 4420, 4606, 4905, 6169, 6659, 7164, 9455, 9631};
+    pOA = {1828, 1067, 219, 494, 1717, 4606, 4420, 2508, 1916, 2158, 3418, 2671, 2652, 9455, 6169, 4905, 6659, 7164, 9631};
+    v = {1828};
+    res.push_back(v);
+    v = {1067, 4606};
+    res.push_back(v);
+    v = {219, 1717, 4420, 9455};
+    res.push_back(v);
+    v = {494, 2508, 6169, 9631};
+    res.push_back(v);
+    v = {1916, 3418, 4905, 6659};
+    res.push_back(v);
+    v = {2158, 2671, 7164};
+    res.push_back(v);
+    v = {2652};
+    res.push_back(v);
+    REQUIRE(soln.constrctTree(iOA, pOA) == res);
+    res.clear();
+
+    iOA = { 297, 695, 773, 849, 1126, 1506, 1622, 1846, 2015, 2308, 2584, 3465, 3726, 4000, 4162, 4171, 4392, 4439,
+      4451, 4645, 4647, 4743, 5380, 5430, 5574, 6210, 6215, 6337, 6532, 6598, 7021, 7057, 7119, 7398, 7679,
+      7733, 7759, 7829, 7857, 7922, 8012, 8348, 8435, 8451, 9000, 9476, 9648};
+    pOA = {  849, 297, 695, 773, 8348, 1846, 1506, 1126, 1622, 4171, 2015, 4000, 2308, 2584, 3465, 3726, 4162,
+       4743, 4645, 4439, 4392, 4451, 4647, 8012, 7922, 7857, 5574, 5380, 5430, 7398, 6210, 7057, 6215, 6598,
+       6337, 6532, 7021, 7119, 7733, 7679, 7829, 7759, 9000, 8451, 8435, 9476, 9648};
+    v = {849};
+    res.push_back(v);
+    v = {297, 8348};
+    res.push_back(v);
+    v = {695, 1846, 9000};
+    res.push_back(v);
+    v = {773, 1506, 4171, 8451, 9476};
+    res.push_back(v);
+    v = {1126, 1622, 2015, 4743, 8435, 9648};
+    res.push_back(v);
+    v = {4000, 4645, 8012};
+    res.push_back(v);
+    v = {2308, 4162, 4439, 4647, 7922};
+    res.push_back(v);
+    v = {2584, 4392, 4451, 7857};
+    res.push_back(v);
+    v = {3465, 5574};
+    res.push_back(v);
+    v = {3726, 5380, 7398};
+    res.push_back(v);
+    v = {5430, 6210, 7733};
+    res.push_back(v);
+    v = {7057, 7679, 7829};
+    res.push_back(v);
+    v = {6215, 7119, 7759};
+    res.push_back(v);
+    v = {6598};
+    res.push_back(v);
+    v = {6337, 7021};
+    res.push_back(v);
+    v = {6532};
+    res.push_back(v);
+    REQUIRE(soln.constrctTree(iOA, pOA) == res);
+    res.clear();
+
+
+    iOA = {-59, 213, 261, 530, 957, 1045, 1189, 1426, 1550, 1634, 1658, 1703, 1822, 2021,
+    2710, 3069, 3121, 3349, 4302, 4388, 4480, 4687, 5394, 5928, 6028, 6079, 6096,
+    6130, 6536, 6679, 7007, 7119, 7120, 7152, 7569, 7689, 7819, 8252, 8772, 8793,
+    8837, 8879, 8934, 8968, 9344, 9460, 9581, 9731};
+    pOA = {8772, 1189, 1045, 957, -59, 530, 261, 213, 7120, 4687, 4480, 1822, 1550, 1426,
+    1703,1634, 1658, 3069, 2710, 2021,   4388, 3349, 3121, 4302, 5928, 5394, 6130,
+    6028, 6096, 6079, 7007, 6536, 6679, 7119, 7819, 7569, 7152, 7689, 8252,
+    9731, 8879, 8837, 8793, 9344, 8934, 8968, 9460, 9581};
+    v = {8772};
+    res.push_back(v);
+    v = {1189, 9731};
+    res.push_back(v);
+    v = {1045, 7120, 8879};
+    res.push_back(v);
+    v = {957, 4687, 7819, 8837, 9344};
+    res.push_back(v);
+    v = {-59, 4480, 5928, 7569, 8252, 8793, 8934, 9460};
+    res.push_back(v);
+    v = {530, 1822, 5394, 6130, 7152, 7689, 8968, 9581};
+    res.push_back(v);
+    v = {261, 1550, 3069, 6028, 7007};
+    res.push_back(v);
+    v = {213, 1426, 1703, 2710, 4388, 6096, 6536, 7119};
+    res.push_back(v);
+    v = {1634, 2021, 3349, 6079, 6679};
+    res.push_back(v);
+    v = {1658, 3121, 4302};
+    res.push_back(v);
+    REQUIRE(soln.constrctTree(iOA, pOA) == res);
+    res.clear();
+
+    iOA = { -140, -34, 425, 827, 901, 972, 2128, 2267, 3103, 3130, 3184, 3318, 3622, 4253,
+    4343, 4442, 4518, 4821, 4880, 4968, 5071, 5173, 5372, 5426, 5556, 5887, 5996,
+    6215, 6297, 6522, 6936, 6956, 7057, 7393, 7444, 7538, 7557, 7914, 8475, 8729,
+    8819, 9006, 9118};
+    pOA = { 4343, 3103, 901, -34, -140, 425, 827, 2267, 972, 2128, 3184, 3130, 3318, 4253,
+    3622, 5071, 4880, 4821, 4442, 4518, 4968, 6956, 6297, 6215, 5426, 5372, 5173,
+    5996, 5887, 5556, 6936, 6522, 8729, 7057, 7538, 7393, 7444, 7914, 7557, 8475,
+    8819, 9006, 9118 };
+    v = {4343};
+    res.push_back(v);
+    v = {3103, 5071};
+    res.push_back(v);
+    v = {901, 3184, 4880, 6956};
+    res.push_back(v);
+    v = {-34, 2267, 3130, 3318, 4821, 4968, 6297, 8729};
+    res.push_back(v);
+    v = {-140, 425, 972, 4253, 4442, 6215, 6936, 7057, 8819};
+    res.push_back(v);
+    v = {827, 2128, 3622, 4518, 5426, 6522, 7538, 9006};
+    res.push_back(v);
+    v = {5372, 5996, 7393, 7914, 9118};
+    res.push_back(v);
+    v = {5173, 5887, 7444, 7557, 8475};
+    res.push_back(v);
+    v = {5556};
+    res.push_back(v);
+    REQUIRE(soln.constrctTree(iOA, pOA) == res);
+    res.clear();
+}
+
+
+
+
+TEST_CASE( "Populate Sibling Pointers", "Populate Sibling Pointers")
+{
+
+    /*
+    //              1
+    //             /  \
+    //            /    \
+    //           /      \
+    //          2        3
+    //         / \      / \
+    //        /   \    /   \
+    //       4     5  6     7
+    */
+
+    node1.val = 1;
+    node2.val = 2; node3.val = 3;
+    node4.val = 4; node5.val = 5; node6.val = 6; node7.val = 7;
+
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = &node5;
+    node3.left = &node6; node3.right = &node7;
+
+    node4.left = NULL; node4.right = NULL;
+    node5.left = NULL; node5.right = NULL;
+    node6.left = NULL; node6.right = NULL;
+    node7.left = NULL; node7.right = NULL;
+
+    soln.PopulateSiblingPointers(&node1);
+    REQUIRE(node1.nextRight == nullptr);
+    REQUIRE(node2.nextRight->val == 3);
+    REQUIRE(node3.nextRight == nullptr);
+    REQUIRE(node4.nextRight->val == 5);
+    REQUIRE(node5.nextRight->val == 6);
+    REQUIRE(node6.nextRight->val == 7);
+    REQUIRE(node7.nextRight == nullptr);
+
+
+
+    node1.val = 1;
+    node1.left = &node2;
+    node1.right = &node3;
+
+    node2.val = 2;
+    node2.left = NULL; node2.right = NULL;
+
+    node3.val = 3;
+    node3.left = NULL; node3.right = NULL;
+
+    soln.PopulateSiblingPointers(&node1);
+    REQUIRE(node1.nextRight == nullptr);
+    REQUIRE(node2.nextRight->val == 3);
+    REQUIRE(node3.nextRight == nullptr);
+
+
+
+    /*
+    //              1
+    //             /  \
+    //            /    \
+    //           /      \
+    //          2        3
+    //         / \      / \
+    //        /   \    /   \
+    //       4     5  X     7
+    */
+
+    node1.val = 1;
+    node2.val = 2; node3.val = 3;
+    node4.val = 4; node5.val = 5; node7.val = 7;
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = &node5;
+    node3.left = nullptr; node3.right = &node7;
+    node4.left = NULL; node4.right = NULL;
+    node5.left = NULL; node5.right = NULL;
+    node7.left = NULL; node7.right = NULL;
+
+    soln.PopulateSiblingPointers(&node1);
+    REQUIRE(node1.nextRight == nullptr);
+    REQUIRE(node2.nextRight->val == 3);
+    REQUIRE(node3.nextRight == nullptr);
+    REQUIRE(node4.nextRight->val == 5);
+    REQUIRE(node5.nextRight->val == 7);
+    REQUIRE(node7.nextRight == nullptr);
+
+}
+
+
+TEST_CASE( "BST Iterator", "BST Iterator")
+{
+    Tree tree;
+    vector<int> res;
+
+    /*
+    //              100
+    //             /  \
+    //            /    \
+    //           /      \
+    //          25      300
+    //         / \      / \
+    //        /   \    /   \
+    //       4     50  250  350
+    */
+
+    node1.val = 100;
+    node2.val = 25; node3.val = 300;
+    node4.val = 4; node5.val = 50; node6.val = 250; node7.val = 350;
+
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = &node5;
+    node3.left = &node6; node3.right = &node7;
+
+    node4.left = NULL; node4.right = NULL;
+    node5.left = NULL; node5.right = NULL;
+    node6.left = NULL; node6.right = NULL;
+    node7.left = NULL; node7.right = NULL;
+    tree.init(&node1);
+    res = {4, 25, 50, 100, 250, 300, 350};
+    int i = 0;
+    while(tree.hasNext() == true)
+    {
+        Node *temp = tree.next();
+        REQUIRE(res[i] == temp->val);
+        i++;
+    }
+
+
+    /*
+    //              100
+    //             /  \
+    //            /    \
+    //           /      \
+    //          25      300
+    //         /         \
+    //        /           \
+    //       4            350
+    */
+
+    node1.val = 100;
+    node2.val = 25; node3.val = 300;
+    node4.val = 4; node7.val = 350;
+
+    node1.left = &node2; node1.right = &node3;
+    node2.left = &node4; node2.right = nullptr;
+    node3.left = nullptr; node3.right = &node7;
+
+    node4.left = NULL; node4.right = NULL;
+    node7.left = NULL; node7.right = NULL;
+    tree.init(&node1);
+    res = {4, 25, 100, 300, 350};
+    i = 0;
+    while(tree.hasNext() == true)
+    {
+        Node *temp = tree.next();
+        REQUIRE(res[i] == temp->val);
+        i++;
+    }
+
+
+
+   /*
+   //              100
+   //             /  \
+   //            /    \
+   //           /      \
+   //          25      300
+   //           \      /
+   //            \    /
+   //            50  250
+   */
+
+   node1.val = 100;
+   node2.val = 25;node3.val = 300;
+   node5.val = 50; node6.val = 250;
+
+   node1.left = &node2; node1.right = &node3;
+   node2.left = nullptr; node2.right = &node5;
+   node3.left = &node6; node3.right = nullptr;
+
+   node5.left = NULL; node5.right = NULL;
+   node6.left = NULL; node6.right = NULL;
+   tree.init(&node1);
+   res = {25, 50, 100, 250, 300};
+   i = 0;
+   while(tree.hasNext() == true)
+   {
+       Node *temp = tree.next();
+       REQUIRE(res[i] == temp->val);
+       i++;
+   }
 
 }
 

@@ -11,7 +11,7 @@
 #include "IKSolution.hpp"
 
 /*
- * The cool part of this problem is that it shows that patitioning in quick sort is a very generic problem.
+ * The cool part of this problem is that it shows that partitioning in quick sort is a very generic problem.
  * You have an index at which and below that index you have all values belonging to a criterion.
  * Above the index you have values not belonging to that criterion.
  *
