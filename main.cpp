@@ -579,15 +579,26 @@ TEST_CASE( "No of Nodes is largest BST", "No of Nodes is largest BST")
     node1.right = nullptr;
     node2.val = 2;
     node2.left = NULL; node2.right = NULL;
-    REQUIRE(soln.largestBST(&node1) == 1);
+    REQUIRE(soln.largestBST(&node1) == 2);
 
 
     node1.val = 4;
-    node1.left = nullptr;
-    node1.right = &node2;
+    node1.left = &node2;
+    node1.right = &node3;
     node2.val = 2;
     node2.left = NULL; node2.right = NULL;
-    REQUIRE(soln.largestBST(&node1) == 1);
+    node3.val = 5;
+    node3.left = NULL; node3.right = NULL;
+    REQUIRE(soln.largestBST(&node1) == 3);
+
+
+
+    //node1.val = 4;
+    //node1.left = nullptr;
+    //node1.right = &node2;
+    //node2.val = 2;
+    //node2.left = NULL; node2.right = NULL;
+    //REQUIRE(soln.largestBST(&node1) == 1);
 
 
     /*
@@ -661,6 +672,7 @@ TEST_CASE( "No of Nodes is largest BST", "No of Nodes is largest BST")
                     /  \
                    /    \
                  25(12)   500(15)
+
       */
 
     node1.val = 100;
@@ -2713,6 +2725,10 @@ TEST_CASE( "Longest Substring Length", "Longest Substring Length")
     i1.push_back("A");
     res.push_back("");
 
+    //10
+    i1.push_back("A");
+    res.push_back("");
+
 
     int size = i1.size();
     int startIndex = 0;
@@ -2723,6 +2739,34 @@ TEST_CASE( "Longest Substring Length", "Longest Substring Length")
         cout << "*********** Test" << i << " ******************** \n";
         REQUIRE(soln.longestSub(i1[i]) == res[i]);
     }
+}
+
+
+string minWindow(string strText, string strCharacters);
+
+TEST_CASE( "Minimum length window", "Minimum length window")
+{
+
+    string s1("ADOBECODEBANC");
+    string s2("ABC");
+    string res("BANC");
+    REQUIRE(soln.minWindow(s1,s2) == res);
+
+    s1 = "ADOBECODEBANC";
+    s2 = "ZYD";
+    res = "";
+    REQUIRE(soln.minWindow(s1,s2) == res);
+
+    s1 = "acdbddddddddaaaaaaaadabbbba";
+    s2 = "baad";
+    res = "adab";
+    REQUIRE(soln.minWindow(s1,s2) == res);
+
+    s1 = "caaec";
+    s2 = "ace";
+    res  = "aec";
+    REQUIRE(soln.minWindow(s1,s2) == res);
+
 }
 
 TEST_CASE( "Join words to make palindrome", "Join words to make palindrome")
@@ -3500,3 +3544,11 @@ TEST_CASE( "Synchronous Request Dispatcher", "Synchronous Request Dispatcher")
 {
     soln.synchrnousRequestDispatcher();
 }
+
+
+TEST_CASE( "Weather Data", "Weather Data")
+{
+    soln.myMainDisp();
+}
+
+

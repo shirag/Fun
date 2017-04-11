@@ -9,8 +9,20 @@
 #define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "IKSolution.hpp"
 
-/* Problem: Longest substring with at most 2 distinct characters.
+/* Problem:
+ *     Longest substring with at most 2 distinct characters.
+ *
+ * Example:
+ *     Given s = "eceba" T is "ece" which is length 3.
+ *
  * Approach:
+ *     1. Maintain a sliding window. Read the char and add it to a hash map.
+ *     2. At any point, hash map should not have more that two entries.
+ *     3. If the hash map has more then two entries calculate the max length and update the window begin index.
+ *     4. Further optimization can be done to not use the size of the map.
+ *        1. First check, see if the value == 1. It means a new char.
+ *        2. Second check use a variable count to reflect no of valid items in the map.
+ *
  * Time Complexity:O(n)
  * Space Complexity: O(1)
  * Take Away:
@@ -18,77 +30,155 @@
 
 string IKSolution::longestSub(string strText)
 {
-    string ret;
-    if(strText.size() == 1)
+    int maxWindow = INT_MIN;
+    int maxStartIndex = -1;
+    int windowBegin = 0;
+
+    map<char,int> lup;
+    string res;
+    int windowEnd = 0;
+
+    for(windowEnd = 0; windowEnd < strText.size() ; windowEnd++)
     {
-        return ret;
-    }
+        lup[strText[windowEnd]] += 1;
 
-    map<char,pair<int,int>> hist;
-    int maxLength = INT_MIN;
-    int maxStartIndex = 0;
-    int maxEndIndex = 0;
-
-    hist.insert(make_pair(strText[0], make_pair(0,0)));
-    if(strText[1] != strText[0])
-        hist.insert(make_pair(strText[1], make_pair(1,1)));
-
-    int currIndex = 2;
-    char lastChar = strText[1];
-    strText.push_back(0);
-    cout << "size of new string = " << strText.size() << "\n";
-
-    for(auto it = strText.begin() + 2; it != (strText.end()); it++)
-    {
-        auto it1 = hist.find(*it);
-        if(it1 != hist.end())
-            it1->second.second = currIndex;
-        else if(hist.size() == 1)
+        if(lup.size() > 2)
         {
-            hist.insert(make_pair(strText[currIndex], make_pair(currIndex,currIndex)));
-        }
-        else
-        {
-            /* Find the char that was seen first and then measure the length */
-            int minFirst = INT_MAX;
-            int deleteLastS = 0;
-            char charToDelete = 0;
-
-            for(auto it : hist)
+            if((windowEnd - windowBegin) > maxWindow)
             {
-                if(it.second.first < minFirst)
-                    minFirst = it.second.first;
-                if(it.first != lastChar)
+                maxWindow = windowEnd - windowBegin;
+                maxStartIndex = windowBegin;
+            }
+
+            while(lup.size() != 2)
+            {
+                lup[strText[windowBegin]] -= 1;
+                if(lup[strText[windowBegin]] == 0)
                 {
-                    deleteLastS = it.second.second; //Find when it was seen last
-                    charToDelete = it.first;
+                    lup.erase(strText[windowBegin]);
                 }
+                windowBegin++;
             }
-
-            if((currIndex - minFirst) > maxLength)
-            {
-                maxLength = currIndex - minFirst;
-                maxStartIndex = minFirst;
-                maxEndIndex = currIndex;
-
-            }
-
-            if(charToDelete != 0)
-                hist.erase(hist.find(charToDelete));
-
-            hist[lastChar] = make_pair(deleteLastS + 1, currIndex - 1 );
-            hist.insert(make_pair(strText[currIndex], make_pair(currIndex,currIndex)));
         }
-        lastChar = strText[currIndex];
-        currIndex++;
     }
 
-    string s(strText.begin() + maxStartIndex, strText.begin() + maxEndIndex);
-    DEBUG_DEBUG(cout << "The max length string is " << s  << "  and length is " << maxLength << " \n" );
-    return s;
+    if(lup.size() == 2)
+    {
+        if((windowEnd - windowBegin) > maxWindow)
+        {
+            maxWindow = windowEnd - windowBegin;
+            maxStartIndex = windowBegin;
+        }
+    }
+
+    if(maxStartIndex != -1)
+        res = strText.substr(maxStartIndex, maxWindow);
+
+    return res;
 }
 
 
+/*
+ * Problem:
+ *     Minimum window substring. Very similar to the previous problem
+ *
+ * Example:
+ *     text: "ADOBECODEBANC"
+       patter: "ABC"
+       result: "BANC"
+
+ * Approach:
+ *     1. Generate a lookup map for pattern characters(char and no of times it has to appear).
+ *     2. Produce a window where you have an incomplete target set. Also create a second hash map((char and no of times it appears)).
+ *        A second hash map should have the info of no of characters present in this search window.
+ *     3. When the search window has a compete set, test for window size and move the beginning of the search window.
+ *     4. IMPORTANT: When the search window has a complete set, dont move the end of the window. You hav to process it again.
+ *     5. While moving the beginning of the window, skip all characters that are not present in the pattern set.
+ *     6. Also, if a characters occurs more than it is present in the pattern set, skip it.
+ * Time Complexity:
+ *     O(n * m) n -> characters in the text and m is characters in pattern
+ * Space: O(m + n)
+ *
+ * Improvement:
+ *     instead of using two maps, use just one. Decrement the one everytime you come across the pattern chars. When the count size of pattern,
+ *     time to process the compete set. Complete solution at
+ *     https://discuss.leetcode.com/topic/67359/simple-c-sliding-window-solution-with-comments
+ *     This avoids the for loop inside the for loop I have there.
+ *
+ * */
+string IKSolution::minWindow(string strText, string strCharacters)
+{
+    int minWindow = INT_MAX;
+    int minStartIndex = -1;
+    int windowBegin = 0;
+
+    map<char,int> textWindowMap;
+    map<char,int> charMap;
+    string res;
+
+    bool completeMatchFound = true;
+
+    for(auto val : strCharacters)
+        charMap[val] += 1;
+
+    for(int windowEnd = 0; windowEnd < strText.size(); windowEnd++)
+    {
+        char currChar = strText[windowEnd];
+
+        if(charMap.count(currChar) > 0)
+            textWindowMap[currChar] += 1;
+        else
+            continue;
+
+        for(auto it : charMap)
+        {
+            if(textWindowMap[it.first] < it.second)
+            {
+                completeMatchFound = false;
+                break;
+            }
+        }
+
+        if(completeMatchFound == true)
+        {
+            if((windowEnd - windowBegin + 1) < minWindow)
+            {
+                minWindow = windowEnd - windowBegin + 1;
+                minStartIndex = windowBegin;
+            }
+
+            textWindowMap[strText[windowBegin]] -= 1; // Slide the window begin by one
+            windowBegin++; // Slide the window begin by one
+            windowEnd--; // Got to process the last read char again
+            textWindowMap[currChar] -= 1; // Got to process the last read char again
+
+            while( (charMap.count(strText[windowBegin]) == 0) ||  //Jump chars that are not present in the charWindowMap
+                   (textWindowMap[strText[windowBegin]] > charMap[strText[windowBegin]]) )
+            {
+                textWindowMap[strText[windowBegin]] -= 1;
+                windowBegin++;
+            }
+        }
+        completeMatchFound = true;
+
+
+    }
+
+    if(minStartIndex != -1)
+      res = strText.substr(minStartIndex, minWindow);
+
+    return res;
+
+}
+
+/*********************************************************************************************************************************/
+/* Problem:
+ *     Print a string Sinusoidally(snake string).
+ *
+ * */
+
+
+/*********************************************************************************************************************************/
 
 bool isPalindrome(string s)
 {

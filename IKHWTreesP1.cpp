@@ -466,6 +466,7 @@ int lcaUtilRec(Node* node, vector<Node*>&v, int n)
  * Time Complexity:O(n)
  * Space Complexity: O(logn) if balanaced. Worst O(n)
  * Any other better approach:
+ *     Ashok soln: Dont use the stack. Ask your left and right. The case where both say YES is the right answer.
  * Corner case:
  * Take away:
  */

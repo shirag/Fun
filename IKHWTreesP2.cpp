@@ -86,67 +86,86 @@ Node* IKSolution::flipATree(Node *root)
  *     number of nodes in it. The largest BST must include all of its descendants.
  *
  * Example:
+ *
  * Approach:
  *
- * */
+ *     The idea is to do a depth-first traversal and pass min and max values bottom-up instead of top-down.
+ *     In other words, we verify the deeper nodes before we verify if the above nodes satisfy the BST requirements.
+
+       The  main reason of doing this is when one of the nodes does not satisfy the BST properties, all subtrees
+       above (which includes this node as well) must also not satisfy the BST requirements.
+
+       As compared to the top-down approach, the bottom-up approach is such an awesome choice because the results
+       for total number of nodes could be passed up the tree. This saves us from recalculating over and over again.
+       The total number of nodes for a subtree is simply the total number of nodes of its left and right subtrees plus one.
+ *
+ *                   100
+                     /  \
+                    /    \
+                   /      \
+                  /        \
+                 30         150
+                / \          /  \
+               /   \        /    \
+              20(4)  50(5) 125(6) 200(7)
+                    /  \
+                   /    \
+                 25(12)   500(15)
 
 
-/* Is this the right BST logic?
- * Can I use this logic to test if its a cpmplete  BST?
- * Write Ashok questions.
- * More tree examples.
+      Top down approach. With 100 as the root, we have the following result. Then we have to calculate again with 30 as the root etc.
+      Not a good approach.
+
+                      100
+                     /  \
+      (INT_MIN, 99) /    \
+                   /      \
+                  /        \
+                 30          150
+ (INT_MIN, 29)  / \(31,99)    /  \
+               /   \         /    \
+              20  50       125    200
+                    / \
+           (31,49) /   \ (51,99)
+                  /     \
+                 25     500
+
  *
  * */
 
-int largestBSTUtil(Node *root, bool& isBST)
+int largestBSTUtil(Node *root, bool& isBST, int& min, int& max)
 {
+    bool isBSTL; bool isBSTR; bool amIRootOfABST; int minL, maxL, minR, maxR;
 
     if(root == nullptr)
-      {
-          cout << "return null \n";
-          isBST = true;
-          return 0;
-      }
-
-      cout << "val = " << root->val << " \n";
-
-      bool isBSTL; bool isBSTR; bool isBSTM = true;
-
-      int leftVal = largestBSTUtil(root->left, isBSTL);
-      int rightVal = largestBSTUtil(root->right, isBSTR);
-      int maxVal = leftVal > rightVal ? leftVal : rightVal;
-
-      if((root->left != nullptr) && (root->right != nullptr))
-      {
-          if((root->left->val < root->val) && (root->right->val > root->val) )
-              isBSTM = true;
-          else
-              isBSTM = false;
-      }
-      else if((root->left == nullptr) && (root->right == nullptr))
-      {
-          isBSTM = true;
-      }
-      else if( (root->left != nullptr) && (root->right == nullptr))
-      {
-          isBSTM = false;
-      }
-       else if( (root->right != nullptr) && (root->left == nullptr))
-      {
-          isBSTM = false;
-      }
+    {
+        min = INT_MAX;
+        max = INT_MIN;
+        isBST = true;
+        return 0;
+    }
 
 
-      if((isBSTR == true) && (isBSTL == true) && (isBSTM == true))
-      {
-          isBST = true;
-          cout << "returning BST " << leftVal + rightVal + 1 << " \n";
-          return (leftVal + rightVal + 1);
-      }
+    amIRootOfABST = false;
+    int leftVal = largestBSTUtil(root->left, isBSTL, minL, maxL);
+    int rightVal = largestBSTUtil(root->right, isBSTR, minR, maxR);
+    int maxVal = leftVal > rightVal ? leftVal : rightVal;
 
-      isBST = false;
-      cout << "returning " << maxVal << " \n";
-      return maxVal;
+    if(root->val > maxL && root->val < minR)
+    {
+        amIRootOfABST = true;
+    }
+
+    if((isBSTR == true) && (isBSTL == true) && (amIRootOfABST == true))
+    {
+        isBST = true;
+        min = root->val < minL ? root->val : minL;
+        max = root->val > maxR ? root->val : maxR;
+        return (leftVal + rightVal + 1);
+    }
+
+    isBST = false;
+    return maxVal;
 
 }
 
@@ -155,7 +174,9 @@ int IKSolution::largestBST(Node *root)
 {
 
     bool isBST;
-    return largestBSTUtil(root, isBST);
+    int minV = INT_MIN;
+    int maxV = INT_MAX;
+    return largestBSTUtil(root, isBST, minV, maxV);
 
 }
 /***********************************************************************************************/

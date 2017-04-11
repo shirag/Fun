@@ -112,10 +112,11 @@ void even_run()
 {
     for(int i = 0; i <= 100; i += 2)
     {
-        unique_lock<mutex> lk(m);
-        cv.wait(lk, isItEvenTurn); //repeatedly calls isItEvenTurn until it returns true.
-        turn = 1;
-        lk.unlock();
+        {   // Just to ensure that we don't have to explicitly call unlock.
+            unique_lock<mutex> lk(m);
+            cv.wait(lk, isItEvenTurn); //repeatedly calls isItEvenTurn until it returns true.
+            turn = 1;
+        }
 
         printf("%d,", i);
         cv.notify_one();
@@ -130,10 +131,11 @@ void odd_run()
 
     for(int i = 1; i <= 99; i += 2)
     {
-        unique_lock<mutex> lk(m);
-        cv.wait(lk, isItOddTurn); //repeatedly calls isItOddTurn until it returns true.
-        turn = 0;
-        lk.unlock();
+        {
+            unique_lock<mutex> lk(m);
+            cv.wait(lk, isItOddTurn); //repeatedly calls isItOddTurn until it returns true.
+            turn = 0;
+        }
 
         printf("%d,", i);
         cv.notify_one();
@@ -353,3 +355,5 @@ void initWorkers()
 
 
 /***************************************************************************************************************************/
+
+/*****************************************************************************************************************************/

@@ -291,6 +291,7 @@ class IKSolution
 
         /* Strings */
         string longestSub(string strText);
+        string minWindow(string strText, string strCharacters);
         vector<pair<string,string>> joinWordToMakePali(vector<string> s);
         bool regExMatcher(string strText, string strPattern);
         bool KMP(string strText, string strPattern);
@@ -322,7 +323,11 @@ class IKSolution
             0-7: Generate a table and mark the bit that is present and finally scan.
             How do you do when you are given 4 bits. When space reduces think of a solution where time increases.*/
 
+        int myMainDisp();
+
 };
+
+
 
 
 
