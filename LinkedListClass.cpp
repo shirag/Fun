@@ -52,7 +52,6 @@ void LinkedList::addValue(int x)
 
     LinkedListNode *tnode = new LinkedListNode;
     tnode->val = x;
-
     while(temp != nullptr && temp->val <= x)
     {
         prev = temp;
@@ -67,7 +66,6 @@ void LinkedList::addValue(int x)
 
 void LinkedList::deleteValue(int x)
 {
-
     LinkedListNode *temp = head->next;
     LinkedListNode *prev = head;
 
@@ -83,13 +81,10 @@ void LinkedList::deleteValue(int x)
         delete temp;
     }
 
-    cout << "Passed delete \n";
 }
 
 bool LinkedList::find(int x)
 {
-    cout << "Enter find \n";
-
     LinkedListNode *temp = head->next;
 
     while(temp != nullptr && temp->val != x)
