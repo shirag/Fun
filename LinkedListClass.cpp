@@ -6,25 +6,7 @@
  */
 
 #include <iostream>
-#include <string>
-#include <vector>
-#include <map>
-#include <cstdlib>
-#include <algorithm>
-#include <stack>
 #include <limits.h>
-#include <queue>
-#include <set>
-#include <list>
-#include <unordered_map>
-#include <cassert>
-#include <condition_variable>
-#include <mutex>
-#include <thread>
-#include <unistd.h>
-#include <functional>
-#include <memory>
-
 
 using namespace std;
 
