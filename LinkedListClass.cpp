@@ -34,8 +34,6 @@ class LinkedList
 
 };
 
-
-
 LinkedList::LinkedList()
 {
     head = new LinkedListNode; //dummyhead. Makes the code very simple
@@ -44,15 +42,14 @@ LinkedList::LinkedList()
 
 }
 
-
 void LinkedList::addValue(int x)
 {
-    LinkedListNode *temp = head;
+    LinkedListNode *temp = head->next;
     LinkedListNode *prev = head;
 
     LinkedListNode *tnode = new LinkedListNode;
     tnode->val = x;
-    while(temp != nullptr && temp->val <= x)
+    while(temp != nullptr && temp->val < x)
     {
         prev = temp;
         temp = temp->next;
@@ -62,7 +59,7 @@ void LinkedList::addValue(int x)
     tnode->next = temp;
 
     return;
- }
+}
 
 void LinkedList::deleteValue(int x)
 {
@@ -96,7 +93,6 @@ bool LinkedList::find(int x)
     return false;
 }
 
-
 LinkedList::~LinkedList()
 {
     LinkedListNode *temp = head;
@@ -109,7 +105,6 @@ LinkedList::~LinkedList()
         delete prev;
     }
 }
-
 
 void LinkedList::printList()
 {
@@ -259,6 +254,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
         LinkedList l2;
         l2.addValue(INT_MIN);
         l2.printList();
+        REQUIRE(l2.find(INT_MIN) == true);
         REQUIRE(l2.find(10) == false);
         l2.deleteValue(INT_MIN);
         REQUIRE(l2.find(INT_MIN) == false);
@@ -268,3 +264,4 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
 
 }
 #endif
+
