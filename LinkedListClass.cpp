@@ -13,12 +13,36 @@ using namespace std;
 
 
 
+struct LinkedListNode
+{
+    int val;
+    LinkedListNode *next;
+};
+
+class LinkedList
+{
+    public:
+        void addValue(int);
+        void deleteValue(int);
+        bool find(int);
+        void printList();
+        LinkedList();
+        ~LinkedList();
+
+    private:
+        LinkedListNode *head = nullptr;
+
+
+};
+
+
 
 LinkedList::LinkedList()
 {
     head = new LinkedListNode; //dummyhead. Makes the code very simple
     head->next = nullptr;
     head->val = INT_MIN;
+
 }
 
 
@@ -30,7 +54,7 @@ void LinkedList::addValue(int x)
     LinkedListNode *tnode = new LinkedListNode;
     tnode->val = x;
 
-    while(temp != nullptr && temp->val < x)
+    while(temp != nullptr && temp->val <= x)
     {
         prev = temp;
         temp = temp->next;
@@ -45,7 +69,7 @@ void LinkedList::addValue(int x)
 void LinkedList::deleteValue(int x)
 {
 
-    LinkedListNode *temp = head;
+    LinkedListNode *temp = head->next;
     LinkedListNode *prev = head;
 
     while(temp != nullptr && temp->val != x)
@@ -60,11 +84,14 @@ void LinkedList::deleteValue(int x)
         delete temp;
     }
 
+    cout << "Passed delete \n";
 }
 
 bool LinkedList::find(int x)
 {
-    LinkedListNode *temp = head;
+    cout << "Enter find \n";
+
+    LinkedListNode *temp = head->next;
 
     while(temp != nullptr && temp->val != x)
         temp = temp->next;
@@ -102,3 +129,148 @@ void LinkedList::printList()
     }
 }
 
+#if 0
+TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
+{
+
+    {   //Sorted in the descending order
+        LinkedList l1;
+
+        l1.addValue(10);
+        l1.addValue(9);
+        l1.addValue(8);
+        l1.addValue(7);
+
+        l1.printList();
+        REQUIRE(l1.find(10) == true);
+        REQUIRE(l1.find(7) == true);
+        l1.deleteValue(10);
+        l1.deleteValue(7);
+
+        REQUIRE(l1.find(10) == false);
+        REQUIRE(l1.find(7) == false);
+        l1.printList();
+    }
+
+    {
+        //Sorted in the ascending order
+        LinkedList l2;
+
+        l2.addValue(7);
+        l2.addValue(8);
+        l2.addValue(9);
+        l2.addValue(10);
+
+        l2.printList();
+        REQUIRE(l2.find(10) == true);
+        REQUIRE(l2.find(7) == true);
+        l2.deleteValue(10);
+        l2.deleteValue(7);
+
+        REQUIRE(l2.find(10) == false);
+        REQUIRE(l2.find(7) == false);
+        l2.printList();
+    }
+
+
+
+    {
+        //Mixed sorting
+        LinkedList l2;
+
+        l2.addValue(7);
+        l2.addValue(9);
+        l2.addValue(8);
+        l2.addValue(10);
+
+        l2.printList();
+        REQUIRE(l2.find(10) == true);
+        REQUIRE(l2.find(7) == true);
+        l2.deleteValue(10);
+        l2.deleteValue(7);
+
+        REQUIRE(l2.find(10) == false);
+        REQUIRE(l2.find(7) == false);
+        l2.printList();
+    }
+
+
+    {
+        //Null list
+        LinkedList l2;
+
+        l2.printList();
+        REQUIRE(l2.find(10) == false);
+        REQUIRE(l2.find(7) == false);
+        l2.deleteValue(10);
+        l2.deleteValue(7);
+
+        REQUIRE(l2.find(10) == false);
+        REQUIRE(l2.find(7) == false);
+        l2.printList();
+
+    }
+
+    {
+        //positive and negative values
+        LinkedList l2;
+
+        l2.addValue(7);
+        l2.addValue(-2);
+        l2.addValue(-3);
+        l2.addValue(10);
+
+        l2.printList();
+        REQUIRE(l2.find(10) == true);
+        REQUIRE(l2.find(7) == true);
+        l2.deleteValue(10);
+        l2.deleteValue(7);
+
+        REQUIRE(l2.find(10) == false);
+        REQUIRE(l2.find(7) == false);
+        l2.printList();
+    }
+
+    {
+
+        LinkedList l2;
+        l2.printList();
+        REQUIRE(l2.find(10) == false);
+        l2.deleteValue(10);
+        REQUIRE(l2.find(INT_MIN) == false);
+        l2.printList();
+
+     }
+
+     {
+        LinkedList l2;
+        l2.printList();
+        REQUIRE(l2.find(10) == false);
+        l2.deleteValue(10);
+        REQUIRE(l2.find(INT_MIN) == false);
+        l2.printList();
+
+     }
+
+     {
+        LinkedList l2;
+        l2.printList();
+        l2.deleteValue(INT_MIN);
+        REQUIRE(l2.find(INT_MIN) == false);
+        l2.printList();
+
+     }
+
+     {
+        LinkedList l2;
+        l2.addValue(INT_MIN);
+        l2.printList();
+        REQUIRE(l2.find(10) == false);
+        l2.deleteValue(INT_MIN);
+        REQUIRE(l2.find(INT_MIN) == false);
+        l2.printList();
+
+     }
+
+}
+#endif

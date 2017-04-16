@@ -334,28 +334,6 @@ class IKSolution
 };
 
 
-struct LinkedListNode
-{
-    int val;
-    LinkedListNode *next;
-};
-
-class LinkedList
-{
-    public:
-        void addValue(int);
-        void deleteValue(int);
-        bool find(int);
-        void printList();
-        LinkedList();
-        ~LinkedList();
-
-    private:
-        LinkedListNode *head = nullptr;
-
-
-};
-
 
 
 
