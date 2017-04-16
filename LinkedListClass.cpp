@@ -5,33 +5,13 @@
  *      Author: raghav
  */
 
+#include "IKSolution.hpp"
 #include <iostream>
 #include <limits.h>
 
 using namespace std;
 
 
-struct LinkedListNode
-{
-    int val;
-    LinkedListNode *next;
-};
-
-class LinkedList
-{
-    public:
-        void addValue(int);
-        void deleteValue(int);
-        bool find(int);
-        void printList();
-        LinkedList();
-        ~LinkedList();
-
-    private:
-        LinkedListNode *head = nullptr;
-
-
-};
 
 
 LinkedList::LinkedList()
@@ -121,110 +101,4 @@ void LinkedList::printList()
         temp = temp->next;
     }
 }
-
-#if 0
-TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
-{
-
-    {   //Sorted in the descending order
-        LinkedList l1;
-
-        l1.addValue(10);
-        l1.addValue(9);
-        l1.addValue(8);
-        l1.addValue(7);
-
-        l1.printList();
-        REQUIRE(l1.find(10) == true);
-        REQUIRE(l1.find(7) == true);
-        l1.deleteValue(10);
-        l1.deleteValue(7);
-
-        REQUIRE(l1.find(10) == false);
-        REQUIRE(l1.find(7) == false);
-        l1.printList();
-    }
-
-    {
-        //Sorted in the ascending order
-        LinkedList l2;
-
-        l2.addValue(7);
-        l2.addValue(8);
-        l2.addValue(9);
-        l2.addValue(10);
-
-        l2.printList();
-        REQUIRE(l2.find(10) == true);
-        REQUIRE(l2.find(7) == true);
-        l2.deleteValue(10);
-        l2.deleteValue(7);
-
-        REQUIRE(l2.find(10) == false);
-        REQUIRE(l2.find(7) == false);
-        l2.printList();
-    }
-
-
-
-    {
-        //Mixed sorting
-        LinkedList l2;
-
-        l2.addValue(7);
-        l2.addValue(9);
-        l2.addValue(8);
-        l2.addValue(10);
-
-        l2.printList();
-        REQUIRE(l2.find(10) == true);
-        REQUIRE(l2.find(7) == true);
-        l2.deleteValue(10);
-        l2.deleteValue(7);
-
-        REQUIRE(l2.find(10) == false);
-        REQUIRE(l2.find(7) == false);
-        l2.printList();
-    }
-
-
-    {
-        //Null list
-        LinkedList l2;
-
-        l2.printList();
-        REQUIRE(l2.find(10) == false);
-        REQUIRE(l2.find(7) == false);
-        l2.deleteValue(10);
-        l2.deleteValue(7);
-
-        REQUIRE(l2.find(10) == false);
-        REQUIRE(l2.find(7) == false);
-        l2.printList();
-
-    }
-
-    {
-        //positive and negative values
-        LinkedList l2;
-
-        l2.addValue(7);
-        l2.addValue(-2);
-        l2.addValue(-3);
-        l2.addValue(10);
-
-        l2.printList();
-        REQUIRE(l2.find(10) == true);
-        REQUIRE(l2.find(7) == true);
-        l2.deleteValue(10);
-        l2.deleteValue(7);
-
-        REQUIRE(l2.find(10) == false);
-        REQUIRE(l2.find(7) == false);
-        l2.printList();
-    }
-
-}
-
-#endif
 
