@@ -12,7 +12,6 @@
 using namespace std;
 
 
-
 struct LinkedListNode
 {
     int val;
