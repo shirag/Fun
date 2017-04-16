@@ -129,6 +129,8 @@ int depthFirstSearchUtil(vvi& W, int node, vector<bool>& flag);
 int countComponents(int n, vector< pair<int, int> >& edges);
 void printVector(vector<int> v);
 
+
+
 struct BloomFilter {
 
   public:
@@ -201,6 +203,7 @@ class IKSolution
 	    string RLE(string strInput);
 	    int findMinimum(vector<int> arr);
 	    int printCountOfBitsSet(vector<int> intArr);
+	    int findMaxSumSubArray(vector<int> arr); //Kadane's algorithm
 
 
 	    /* Trees: Class problems */
@@ -261,6 +264,7 @@ class IKSolution
 
         /* LinkedList */
 	    List* AddTwoLists(List *list1, List *list2);
+	    List* AddTwoListsLSDFirst(List *list1, List *list2);
 	    List *pointerToCycle(List *); /* Given  a pointer to the head of */
 	    list<int>::iterator interSectionOfTwoLists(list<int>& L1, list<int>& L2);
 	    int Median(List *l1);
@@ -277,6 +281,8 @@ class IKSolution
         //Prio Queue
 	    vector<int> slidingWindowMax(vector<int>, int w);
         /* Implement Queue using Stacks */ /* http://www.geeksforgeeks.org/queue-using-stacks/ */
+	    list<int> MergeSortList(list<int>);
+	    List* MergeSortListPtr(List *l);
 
         /* Dynamic Programming */
         int editDistance(string, string);

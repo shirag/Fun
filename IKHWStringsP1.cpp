@@ -84,7 +84,7 @@ string IKSolution::longestSub(string strText)
  *
  * Example:
  *     text: "ADOBECODEBANC"
-       patter: "ABC"
+       pattern: "ABC"
        result: "BANC"
 
  * Approach:
@@ -488,15 +488,6 @@ bool IKSolution::KMP(string strText, string strPattern)
 
 /****************************************************************************************************************/
 
-/*
- *    Problem:
- *    For "nailed" you have to generate following strings:
- *    "n4d" "n3ed" "na3d" "n2led" "na2ed" "nai2d"
- *
- *    Approach:
- *    At each level, you have to generate all prefixes.
- */
-
 void NeuronymsUtil(string s, int count)
 {
     if(count <= 1)
@@ -512,8 +503,19 @@ void NeuronymsUtil(string s, int count)
 
     NeuronymsUtil(s, count - 1);
 
+
 }
 
+/*
+ *    Problem:
+ *    For "nailed" you have to generate following strings:
+ *    "n4d"
+ *    "n3ed" "na3d"
+ *    "n2led" "na2ed" "nai2d"
+ *
+ *    Approach:
+ *    At each level, you have to generate all prefixes.
+ */
 void IKSolution::Neuronyms(string s)
 {
 

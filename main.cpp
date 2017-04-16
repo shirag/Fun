@@ -370,6 +370,43 @@ TEST_CASE( "How Many bits set(Hamming Weight)", "How Many bits set(Hamming Weigh
     cout << "\n\n\n";
 }
 
+TEST_CASE( "Find Max Sum Sub Array(Kadane's algo)", "Find Max Sum Sub Array(Kadane's algo)" )
+{
+
+    cout << "Find Max Sum Sub Array(Kadane's algo)";
+
+    //0
+    vector<int> i1 = {1, 2, 3, 4, 5};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 15);
+
+    i1 = {1, 2, 3, 4, 5, -15};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 15);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 15);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 17);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 20);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3, -15};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 20);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3, -15, 20};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 25);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3, -15, 20, -25};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 25);
+
+    i1 = {-1, -2, -3};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 25);
+
+    cout << "\n";
+}
+
+
 
 Node root;
 Node node1; Node node3; Node node2;
@@ -1470,12 +1507,22 @@ TEST_CASE( "Longest substring with matching parentheses", "Longest substring" )
 
 }
 
+bool identicalLists(List *l1, List *l2)
+{
+    if(l1 == nullptr && l2 == nullptr)
+        return true;
+
+    if(l1 != nullptr && l2 != nullptr)
+        if(l1->val == l2 ->val)
+            return identicalLists(l1->next, l2->next);
+
+    return false;
+}
+
+
 
 TEST_CASE( "Add Two Linked Lists", "Add Two Linked Lists" )
 {
-    List* l1;
-    List* l2;
-    List* l3;
 
     List node1; List node2; List node3;
     node3.next = nullptr; node3.val = 9;
@@ -1487,17 +1534,16 @@ TEST_CASE( "Add Two Linked Lists", "Add Two Linked Lists" )
     nodeb.next = &nodec; nodeb.val = 9;
     nodea.next = &nodeb; nodea.val = 9;
 
-    List node5; List node6; List node7;
+    List node4; List node5; List node6; List node7;
     node7.next = nullptr; node7.val = 8;
     node6.next = &node7; node6.val = 9;
     node5.next = &node6; node5.val = 9;
+    node4.next = &node5; node4.val = 1;
+    List *expected = &node4;
 
     List *res = soln.AddTwoLists(&node1, &nodea);
-    while(res)
-    {
-        cout << " Next val = " << res->val << " \n";
-        res = res->next;
-    }
+    REQUIRE(identicalLists(res, expected) == true);
+
 
     node3.next = nullptr; node3.val = 3;
     node2.next = &node3; node2.val = 2;
@@ -1507,12 +1553,152 @@ TEST_CASE( "Add Two Linked Lists", "Add Two Linked Lists" )
     nodeb.next = &nodec; nodeb.val = 5;
     nodea.next = &nodeb; nodea.val = 4;
 
+    node7.next = nullptr; node7.val = 6;
+    node6.next = &node7; node6.val = 7;
+    node5.next = &node6; node5.val = 5;
+    expected = &node5;
+
     res = soln.AddTwoLists(&node1, &nodea);
-    while(res)
-    {
-        cout << " Next val = " << res->val << " \n";
-        res = res->next;
-    }
+    REQUIRE(identicalLists(res, expected) == true);
+
+
+}
+
+
+TEST_CASE( "Add Digits in Linked Lists: LSD first", "Add Digits in Linked Lists: LSD first" )
+{
+
+    List node1; List node2; List node3; List node4;
+    List nodea; List nodeb; List nodec;
+    List node5; List node6; List node7;
+    List *expected;
+    List *res;
+
+    node2.next = nullptr; node2.val = 1; //12
+    node1.next = &node2; node1.val = 2;
+
+    nodeb.next = nullptr; nodeb.val = 2; //23
+    nodea.next = &nodeb; nodea.val = 3;
+
+    node7.next = nullptr; node7.val = 3;
+    node6.next = &node7; node6.val = 5;
+
+    expected = &node6;
+    res = soln.AddTwoListsLSDFirst(&node1, &nodea);
+    REQUIRE(identicalLists(res, expected) == true);
+
+
+    node3.next = nullptr; node3.val = 9;
+    node2.next = &node3; node2.val = 9;
+    node1.next = &node2; node1.val = 9;
+
+    nodec.next = nullptr; nodec.val = 9;
+    nodeb.next = &nodec; nodeb.val = 9;
+    nodea.next = &nodeb; nodea.val = 9;
+
+    node7.next = nullptr; node7.val = 1;
+    node6.next = &node7; node6.val = 9;
+    node5.next = &node6; node5.val = 9;
+    node4.next = &node5; node4.val = 8;
+
+    expected = &node4;
+    res = soln.AddTwoListsLSDFirst(&node1, &nodea);
+    REQUIRE(identicalLists(res, expected) == true);
+
+
+    node2.next = nullptr; node2.val = 9;
+    node1.next = &node2; node1.val = 9;
+
+    nodec.next = nullptr; nodec.val = 9;
+    nodeb.next = &nodec; nodeb.val = 9;
+    nodea.next = &nodeb; nodea.val = 9;
+
+    node7.next = nullptr; node7.val = 1;
+    node6.next = &node7; node6.val = 0;
+    node5.next = &node6; node5.val = 9;
+    node4.next = &node5; node4.val = 8;
+
+    expected = &node4;
+    res = soln.AddTwoListsLSDFirst(&node1, &nodea);
+    REQUIRE(identicalLists(res, expected) == true);
+
+
+    node3.next = nullptr; node3.val = 9;
+    node2.next = &node3; node2.val = 9;
+    node1.next = &node2; node1.val = 9;
+
+    nodea.next = nullptr; nodea.val = 9;
+
+    node7.next = nullptr; node7.val = 1;
+    node6.next = &node7; node6.val = 0;
+    node5.next = &node6; node5.val = 0;
+    node4.next = &node5; node4.val = 8;
+
+    expected = &node4;
+    res = soln.AddTwoListsLSDFirst(&node1, &nodea);
+    REQUIRE(identicalLists(res, expected) == true);
+
+}
+
+
+
+TEST_CASE( "Merge Sort Linked List", "Merge Sort Linked List" )
+{
+
+    List node1; List node2; List node3; List node4;
+    List nodea; List nodeb; List nodec;
+    List node5; List node6; List node7; List node8;
+
+    List *expected;
+    List *res;
+
+    node4.next = nullptr; node4.val = 4;
+    node3.next = &node4; node3.val = 3;
+    node2.next = &node3; node2.val = 2;
+    node1.next = &node2; node1.val = 1;
+
+    node7.next = nullptr; node7.val = 4;
+    node6.next = &node7; node6.val = 3;
+    node5.next = &node6; node5.val = 2;
+    node4.next = &node5; node4.val = 1;
+
+    expected = &node4;
+    res = soln.MergeSortListPtr(&node1);
+    REQUIRE(identicalLists(res, expected) == true);
+
+
+    node4.next = nullptr; node4.val = 1;
+    node3.next = &node4; node3.val = 2;
+    node2.next = &node3; node2.val = 3;
+    node1.next = &node2; node1.val = 4;
+
+    node7.next = nullptr; node7.val = 4;
+    node6.next = &node7; node6.val = 3;
+    node5.next = &node6; node5.val = 2;
+    node4.next = &node5; node4.val = 1;
+
+    expected = &node4;
+    res = soln.MergeSortListPtr(&node1);
+    REQUIRE(identicalLists(res, expected) == true);
+
+
+    node5.next = nullptr; node5.val = 5;
+    node4.next = &node5; node4.val = 1;
+    node3.next = &node4; node3.val = 2;
+    node2.next = &node3; node2.val = 3;
+    node1.next = &node2; node1.val = 4;
+
+   node8.next = nullptr; node8.val = 5;
+   node7.next = &node8; node7.val = 4;
+   node6.next = &node7; node6.val = 3;
+   node5.next = &node6; node5.val = 2;
+   node4.next = &node5; node4.val = 1;
+
+   expected = &node4;
+   res = soln.MergeSortListPtr(&node1);
+   REQUIRE(identicalLists(res, expected) == true);
+
+
 
 }
 

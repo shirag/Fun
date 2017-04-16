@@ -8,6 +8,13 @@
 #define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "IKSolution.hpp"
 
+void printList(list<int> l)
+{
+    for(auto it : l)
+        cout << " " << it << " ";
+    cout << "\n";
+}
+
 
 
 /****************************************************************************************************************************/
@@ -803,7 +810,7 @@ List* AddTwoListsUtil(List *list1, List *list2, int& carry)
 /*
  *
  * Problem:
- *     Add two numbers in a linked list
+ *      Add two numbers in a linked list. Head of the list is the most significant digit.
  *      9 -> 9 -> 9
  *      9 -> 9 -> 9
  *      should give us
@@ -839,4 +846,252 @@ List* IKSolution::AddTwoLists(List *list1, List *list2)
     return nnode;
 
 }
+/******************************************************************************************/
+List* AddTwoListsLSDFirstUtil(List *list1, List *list2, int carry)
+{
+
+    if((list1 == nullptr) && (list2 == nullptr))
+    {
+        if(carry)
+        {
+            List *node = new(List);
+            node->val = carry;
+            node->next = nullptr;
+            return node;
+        }
+        else
+            return nullptr;
+    }
+
+    int sum = carry + (list1 ? list1->val : 0) + (list2 ? list2->val : 0);
+    List *node = new List;
+    node->val = sum % 10;
+    node->next = AddTwoListsLSDFirstUtil((list1 ? list1->next : 0), (list2 ? list2->next : 0), sum/10);
+    return node;
+
+}
+
+
+/*
+ *
+ * Problem:
+ *      Add two numbers in a linked list. Head of the list is the least significant digit.
+ *      2 -> 1(12)
+ *      3 -> 2(23)
+ *      should give us
+ *      5 -> 3(35)
+ *
+ * Approach:
+ *      Top-down approach.
+ *
+ */
+
+List* IKSolution::AddTwoListsLSDFirst(List *list1, List *list2)
+{
+
+    int carry = 0;
+    return AddTwoListsLSDFirstUtil(list1, list2, carry);
+
+}
+/******************************************************************************************/
+
+
+list<int> mergeLists(list<int> left, list<int> right)
+{
+    list<int> result;
+
+    list<int>::iterator itl = left.begin();
+    list<int>::iterator itr = right.begin();
+
+    while((itl != left.end()) && (itr != right.end()))
+    {
+        if(*itl < *itr)
+        {
+            result.push_back(*itl);
+            itl++;
+        }
+        else if(*itr < *itl)
+        {
+            result.push_back(*itr);
+            itr++;
+        }
+        else
+        {
+            result.push_back(*itr);
+            itr++;
+
+        }
+    }
+
+    while(itl != left.end())
+    {
+        result.push_back(*itl);
+        itl++;
+    }
+
+    while(itr != right.end())
+    {
+        result.push_back(*itr);
+        itr++;
+    }
+
+    return result;
+
+}
+
+
+list<int> IKSolution::MergeSortList(list<int> l)
+{
+
+    list<int> left;
+    list<int> right;
+
+    if(l.size() <= 1)
+        return l;
+
+    int size = l.size();
+    int i = 0;
+    printList(l);
+
+    for(auto val : l)
+    {
+        if(i < size/2)
+            left.push_back(val);
+        else
+            right.push_back(val);
+
+        i++;
+    }
+
+    printList(left);
+    printList(right);
+
+    list<int> leftn = MergeSortList(left);
+    list<int> rightn = MergeSortList(right);
+
+    return mergeLists(leftn, rightn);
+
+}
+
+/*
+ * */
+
+List* mergeListsN(List* left, List* right)
+{
+    List* result = nullptr;
+    List* tp = nullptr;
+
+    while((left != nullptr) && (right != nullptr))
+    {
+        if(left->val < right->val)
+        {
+            if(result == nullptr)
+                result = left;
+            else
+                tp->next = left;
+            tp = left;
+            left = left->next;
+        }
+        else
+        {
+            if(result == nullptr)
+                result = right;
+            else
+                tp->next = right;
+            tp = right;
+            right = right->next;
+        }
+    }
+
+    while(left != nullptr)
+    {
+        if(result == nullptr)
+            result = left;
+        else
+            tp->next = left;
+        tp = left;
+        left = left->next;
+    }
+
+    while(right != nullptr)
+    {
+        if(result == nullptr)
+            result = right;
+        else
+            tp->next = right;
+        tp = right;
+        right = right->next;
+    }
+
+
+    return result;
+
+}
+
+int szList(List *l)
+{
+    int i = 0;
+
+    while(l != nullptr)
+    {
+        l = l->next;
+        i++;
+    }
+
+    return i;
+}
+
+List* IKSolution::MergeSortListPtr(List *l)
+{
+
+    List *left = nullptr;
+    List *right = nullptr;
+    List *tl = nullptr;
+    List *tr = nullptr;
+
+    if(szList(l) <= 1)
+    {
+        cout << "Base case \n";
+        return l;
+    }
+
+    int size = szList(l);
+    int i = 0;
+
+    cout << "size = " << size << " \n";
+
+    while(l != nullptr)
+    {
+        if(i < size/2)
+        {
+            if(left == nullptr)
+                left = l;
+            else
+                tl->next = l;
+            tl = l;
+        }
+        else
+        {
+            if(right == nullptr)
+                right = l;
+            else
+                tr->next = l;
+            tr = l;
+        }
+
+        i++;
+        l = l->next;
+    }
+    tl->next  = nullptr;
+    tr->next  = nullptr;
+
+    cout << "Calling left and right \n";
+
+    List* leftn = MergeSortListPtr(left);
+    List* rightn = MergeSortListPtr(right);
+
+    return mergeListsN(leftn, rightn);
+
+}
+
 /******************************************************************************************/

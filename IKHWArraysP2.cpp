@@ -566,7 +566,38 @@ int IKSolution::printCountOfBitsSet(vector<int> intArr)
 
 }
 
+/* Kadane's algorithm.
+ * Note: If all the values are negative then you have to have a flag that says all negatives and then
+ *       and the store the  appropriate -nagetive no.
+ * */
+int IKSolution::findMaxSumSubArray(vector<int> arr)
+{
+    int currSum = 0;
+    int currBegin = 0;
 
+    int maxSoFar = 0;
+    int maxStartIndex = 0;
+    int maxendIndex = 0;
+
+    for(int i = 0; i < arr.size(); i++)
+    {
+        currSum += arr[i];
+        if(currSum > maxSoFar)
+        {
+            maxSoFar = currSum;
+            //maxStartIndex = currBegin;
+            //maxendIndex = i;
+        }
+        else if(currSum <= 0)
+        {
+            //currBegin = i + 1;
+            currSum = 0;
+        }
+
+    }
+
+    return maxSoFar;
+}
 
 
 

@@ -7,6 +7,61 @@
 #define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "IKSolution.hpp"
 
+/*****************************************************************************************/
+#if 0
+/* Model a Parking Lot
+
+ * */
+void parkingLotMain()
+{
+    Parker driver;
+    ParkingLot lot;
+    ParkingLotMgmnt mgmnt;
+    PaymentSystem ps;
+
+    mgmnt.open();
+    mgmnt.enableSecurity();
+
+
+    driver.driveIntoLot();
+    Ticket ticket = ps.requestTicket();
+
+    driver.assignTicket(ticket);
+
+    lot.opentGate();
+    //ot.ipdateFreeSlots(); opentgate should do this.
+    mgmnt.updateSigns();
+
+
+    lot.provideEmtySlot();
+
+    driver.park();
+
+
+
+    mgmnt.addSpaces();
+
+
+
+    mgmnt.openMoreSpaces();
+    mgmnt.openMoreFloors();
+
+    driver.unPark();
+    res = ps.makeAPayment(ticket, paymentmethod);
+    lot.openGate();
+    driver.driveOutOfLot();
+    lot.removeSpaces(); //update availability info.
+    //lot.updateAvailability();
+
+    mgmnt.disableSecurity();
+    mgmnt.close();
+
+
+
+}
+#endif
+
+/*****************************************************************************************/
 
 class currentDisplay;
 class Notifier;
