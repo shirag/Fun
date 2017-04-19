@@ -49,12 +49,13 @@ class Tree
         bool hasNext();
 };
 
-struct List
+struct LinkedListNode
 {
     int val;
     int key;
-    struct List *next;
-    struct List *prev;
+    struct LinkedListNode *next;
+    struct LinkedListNode *prev;
+    struct LinkedListNode *rand;
 };
 
 typedef vector<int> vi;
@@ -128,7 +129,7 @@ vector<int> mergeVector(vector<int> v1, vector<int> v2);
 int depthFirstSearchUtil(vvi& W, int node, vector<bool>& flag);
 int countComponents(int n, vector< pair<int, int> >& edges);
 void printVector(vector<int> v);
-
+bool identicalLinkedListNodes(LinkedListNode *l1, LinkedListNode *l2);
 
 
 struct BloomFilter {
@@ -155,11 +156,11 @@ class LRUCache
         void remove(int key);
 
     private:
-        List *createANewNode(int key,int val);
-        void push_front(List *node);
-        void move_front(List *node);
+        LinkedListNode *createANewNode(int key,int val);
+        void push_front(LinkedListNode *node);
+        void move_front(LinkedListNode *node);
         void pop_back();
-        void remove_node(List* node);
+        void remove_node(LinkedListNode* node);
         int evict();
 
         struct LRUNode
@@ -169,10 +170,10 @@ class LRUCache
             int index;
         };
 
-        unordered_map<int, List*> lrum;
-        List *lrul;
-        List *head = nullptr;
-        List *tail = nullptr;
+        unordered_map<int, LinkedListNode*> lrum;
+        LinkedListNode *lrul;
+        LinkedListNode *head = nullptr;
+        LinkedListNode *tail = nullptr;
         const unsigned int lRUMaxSizeCache = 2;
         unsigned int lRUCachSize = 0;
 };
@@ -262,16 +263,16 @@ class IKSolution
 	    bool sumOfIntegers(vector<int> IntArr, int iTarget); /*If there is a group of integers whose sum is K(may or may not be contigous)*/
 	    int wellFormedBrackComb(int n);
 
-        /* LinkedList */
-	    List* AddTwoLists(List *list1, List *list2);
-	    List* AddTwoListsLSDFirst(List *list1, List *list2);
-	    List *pointerToCycle(List *); /* Given  a pointer to the head of */
+        /* LinkedLinkedListNode */
+	    LinkedListNode* AddTwoLinkedListNodes(LinkedListNode *LinkedListNode1, LinkedListNode *LinkedListNode2);
+	    LinkedListNode* AddTwoLinkedListNodesLSDFirst(LinkedListNode *LinkedListNode1, LinkedListNode *LinkedListNode2);
+	    LinkedListNode *pointerToCycle(LinkedListNode *); /* Given  a pointer to the head of */
 	    list<int>::iterator interSectionOfTwoLists(list<int>& L1, list<int>& L2);
-	    int Median(List *l1);
-	    int findMiddleNode(List *head);
-	    List* swapKthNodes(List*, int k);
-	    List* myListreverseAListInGroupsOfGivenSize(List *myList, int k);
-	    List* zipAList(List *myList);
+	    int Median(LinkedListNode *l1);
+	    int findMiddleNode(LinkedListNode *head);
+	    LinkedListNode* swapKthNodes(LinkedListNode*, int k);
+	    LinkedListNode* myLinkedListNodereverseALinkedListNodeInGroupsOfGivenSize(LinkedListNode *myLinkedListNode, int k);
+	    LinkedListNode* zipALinkedListNode(LinkedListNode *myLinkedListNode);
 	    //Stack
 	    void pushMS(int x);
 	    int popMS();
@@ -281,8 +282,11 @@ class IKSolution
         //Prio Queue
 	    vector<int> slidingWindowMax(vector<int>, int w);
         /* Implement Queue using Stacks */ /* http://www.geeksforgeeks.org/queue-using-stacks/ */
-	    list<int> MergeSortList(list<int>);
-	    List* MergeSortListPtr(List *l);
+	    list<int> MergeSortLists(list<int>);
+	    LinkedListNode* MergeSortLinkedListNodePtr(LinkedListNode *l);
+	    LinkedListNode* cloneASpecialLinkedList(LinkedListNode *l);
+	    LinkedListNode* alternativeSplit(LinkedListNode* pLinkedListNode);
+	    bool hasMatchingParantheses(string);
 
         /* Dynamic Programming */
         int editDistance(string, string);

@@ -1416,50 +1416,50 @@ TEST_CASE( "Well Formed Brackets", "Well Formed Brackets" )
     }
 }
 
-/* Linked Lists */
-TEST_CASE( "Find the head of the loop in a LL", "Linked List" )
+/* Linked LinkedListNodes */
+TEST_CASE( "Find the head of the loop in a LL", "Linked LinkedListNode" )
 {
     cout << "Head of the loop \n\n";
 
-    vector<List*> is;
-    vector<List*> res;
+    vector<LinkedListNode*> is;
+    vector<LinkedListNode*> res;
 
-    List *ptr1 = nullptr;
-    List *ptr2 = nullptr;
+    LinkedListNode *ptr1 = nullptr;
+    LinkedListNode *ptr2 = nullptr;
     is.push_back(ptr1);
     res.push_back(ptr2);
 
     //no cycle test.
-    List node3; node3.next = nullptr;
-    List node4; node4.next = &node3;
-    List node5; node5.next = &node4;
-    List node6; node6.next = &node5;
-    List node7; node7.next = &node6;
-    List node8; node8.next = &node7;
-    List node9; node9.next = &node8;
-    List node10; node10.next = &node9;
-    List node11; node11.next = &node10;
-    List node12; node12.next = &node11;
-    List node13; node13.next = &node12;
-    List node14; node14.next = &node13;
-    List node15; node15.next = &node14;
+    LinkedListNode node3; node3.next = nullptr;
+    LinkedListNode node4; node4.next = &node3;
+    LinkedListNode node5; node5.next = &node4;
+    LinkedListNode node6; node6.next = &node5;
+    LinkedListNode node7; node7.next = &node6;
+    LinkedListNode node8; node8.next = &node7;
+    LinkedListNode node9; node9.next = &node8;
+    LinkedListNode node10; node10.next = &node9;
+    LinkedListNode node11; node11.next = &node10;
+    LinkedListNode node12; node12.next = &node11;
+    LinkedListNode node13; node13.next = &node12;
+    LinkedListNode node14; node14.next = &node13;
+    LinkedListNode node15; node15.next = &node14;
     is.push_back(&node15);
     res.push_back(ptr2);
 
     //create a loop
-    List nodea3; nodea3.next = nullptr; nodea3.val = 3;
-    List nodea4; nodea4.next = &nodea3; nodea4.val = 4;
-    List nodea5; nodea5.next = &nodea4; nodea5.val = 5;
-    List nodea6; nodea6.next = &nodea5; nodea6.val = 6;
-    List nodea7; nodea7.next = &nodea6; nodea7.val = 7;
-    List nodea8; nodea8.next = &nodea7; nodea8.val = 8;
-    List nodea9; nodea9.next = &nodea8; nodea9.val = 9;
-    List nodea10; nodea10.next = &nodea9; nodea10.val = 10;
-    List nodea11; nodea11.next = &nodea10; nodea11.val = 11;
-    List nodea12; nodea12.next = &nodea11; nodea12.val = 12;
-    List nodea13; nodea13.next = &nodea12; nodea13.val = 13;
-    List nodea14; nodea14.next = &nodea13; nodea14.val = 14;
-    List nodea15; nodea15.next = &nodea14; nodea15.val = 15;
+    LinkedListNode nodea3; nodea3.next = nullptr; nodea3.val = 3;
+    LinkedListNode nodea4; nodea4.next = &nodea3; nodea4.val = 4;
+    LinkedListNode nodea5; nodea5.next = &nodea4; nodea5.val = 5;
+    LinkedListNode nodea6; nodea6.next = &nodea5; nodea6.val = 6;
+    LinkedListNode nodea7; nodea7.next = &nodea6; nodea7.val = 7;
+    LinkedListNode nodea8; nodea8.next = &nodea7; nodea8.val = 8;
+    LinkedListNode nodea9; nodea9.next = &nodea8; nodea9.val = 9;
+    LinkedListNode nodea10; nodea10.next = &nodea9; nodea10.val = 10;
+    LinkedListNode nodea11; nodea11.next = &nodea10; nodea11.val = 11;
+    LinkedListNode nodea12; nodea12.next = &nodea11; nodea12.val = 12;
+    LinkedListNode nodea13; nodea13.next = &nodea12; nodea13.val = 13;
+    LinkedListNode nodea14; nodea14.next = &nodea13; nodea14.val = 14;
+    LinkedListNode nodea15; nodea15.next = &nodea14; nodea15.val = 15;
 
     nodea5.next = &nodea14; //Loop
     is.push_back(&nodea15);
@@ -1507,42 +1507,32 @@ TEST_CASE( "Longest substring with matching parentheses", "Longest substring" )
 
 }
 
-bool identicalLists(List *l1, List *l2)
-{
-    if(l1 == nullptr && l2 == nullptr)
-        return true;
-
-    if(l1 != nullptr && l2 != nullptr)
-        if(l1->val == l2 ->val)
-            return identicalLists(l1->next, l2->next);
-
-    return false;
-}
 
 
 
-TEST_CASE( "Add Two Linked Lists", "Add Two Linked Lists" )
+
+TEST_CASE( "Add Two Linked LinkedListNodes", "Add Two Linked LinkedListNodes" )
 {
 
-    List node1; List node2; List node3;
+    LinkedListNode node1; LinkedListNode node2; LinkedListNode node3;
     node3.next = nullptr; node3.val = 9;
     node2.next = &node3; node2.val = 9;
     node1.next = &node2; node1.val = 9;
 
-    List nodea; List nodeb; List nodec;
+    LinkedListNode nodea; LinkedListNode nodeb; LinkedListNode nodec;
     nodec.next = nullptr; nodec.val = 9;
     nodeb.next = &nodec; nodeb.val = 9;
     nodea.next = &nodeb; nodea.val = 9;
 
-    List node4; List node5; List node6; List node7;
+    LinkedListNode node4; LinkedListNode node5; LinkedListNode node6; LinkedListNode node7;
     node7.next = nullptr; node7.val = 8;
     node6.next = &node7; node6.val = 9;
     node5.next = &node6; node5.val = 9;
     node4.next = &node5; node4.val = 1;
-    List *expected = &node4;
+    LinkedListNode *expected = &node4;
 
-    List *res = soln.AddTwoLists(&node1, &nodea);
-    REQUIRE(identicalLists(res, expected) == true);
+    LinkedListNode *res = soln.AddTwoLinkedListNodes(&node1, &nodea);
+    REQUIRE(identicalLinkedListNodes(res, expected) == true);
 
 
     node3.next = nullptr; node3.val = 3;
@@ -1558,21 +1548,21 @@ TEST_CASE( "Add Two Linked Lists", "Add Two Linked Lists" )
     node5.next = &node6; node5.val = 5;
     expected = &node5;
 
-    res = soln.AddTwoLists(&node1, &nodea);
-    REQUIRE(identicalLists(res, expected) == true);
+    res = soln.AddTwoLinkedListNodes(&node1, &nodea);
+    REQUIRE(identicalLinkedListNodes(res, expected) == true);
 
 
 }
 
 
-TEST_CASE( "Add Digits in Linked Lists: LSD first", "Add Digits in Linked Lists: LSD first" )
+TEST_CASE( "Add Digits in Linked LinkedListNodes: LSD first", "Add Digits in Linked LinkedListNodes: LSD first" )
 {
 
-    List node1; List node2; List node3; List node4;
-    List nodea; List nodeb; List nodec;
-    List node5; List node6; List node7;
-    List *expected;
-    List *res;
+    LinkedListNode node1; LinkedListNode node2; LinkedListNode node3; LinkedListNode node4;
+    LinkedListNode nodea; LinkedListNode nodeb; LinkedListNode nodec;
+    LinkedListNode node5; LinkedListNode node6; LinkedListNode node7;
+    LinkedListNode *expected;
+    LinkedListNode *res;
 
     node2.next = nullptr; node2.val = 1; //12
     node1.next = &node2; node1.val = 2;
@@ -1584,8 +1574,8 @@ TEST_CASE( "Add Digits in Linked Lists: LSD first", "Add Digits in Linked Lists:
     node6.next = &node7; node6.val = 5;
 
     expected = &node6;
-    res = soln.AddTwoListsLSDFirst(&node1, &nodea);
-    REQUIRE(identicalLists(res, expected) == true);
+    res = soln.AddTwoLinkedListNodesLSDFirst(&node1, &nodea);
+    REQUIRE(identicalLinkedListNodes(res, expected) == true);
 
 
     node3.next = nullptr; node3.val = 9;
@@ -1602,8 +1592,8 @@ TEST_CASE( "Add Digits in Linked Lists: LSD first", "Add Digits in Linked Lists:
     node4.next = &node5; node4.val = 8;
 
     expected = &node4;
-    res = soln.AddTwoListsLSDFirst(&node1, &nodea);
-    REQUIRE(identicalLists(res, expected) == true);
+    res = soln.AddTwoLinkedListNodesLSDFirst(&node1, &nodea);
+    REQUIRE(identicalLinkedListNodes(res, expected) == true);
 
 
     node2.next = nullptr; node2.val = 9;
@@ -1619,8 +1609,8 @@ TEST_CASE( "Add Digits in Linked Lists: LSD first", "Add Digits in Linked Lists:
     node4.next = &node5; node4.val = 8;
 
     expected = &node4;
-    res = soln.AddTwoListsLSDFirst(&node1, &nodea);
-    REQUIRE(identicalLists(res, expected) == true);
+    res = soln.AddTwoLinkedListNodesLSDFirst(&node1, &nodea);
+    REQUIRE(identicalLinkedListNodes(res, expected) == true);
 
 
     node3.next = nullptr; node3.val = 9;
@@ -1635,8 +1625,8 @@ TEST_CASE( "Add Digits in Linked Lists: LSD first", "Add Digits in Linked Lists:
     node4.next = &node5; node4.val = 8;
 
     expected = &node4;
-    res = soln.AddTwoListsLSDFirst(&node1, &nodea);
-    REQUIRE(identicalLists(res, expected) == true);
+    res = soln.AddTwoLinkedListNodesLSDFirst(&node1, &nodea);
+    REQUIRE(identicalLinkedListNodes(res, expected) == true);
 
 }
 
@@ -1645,12 +1635,12 @@ TEST_CASE( "Add Digits in Linked Lists: LSD first", "Add Digits in Linked Lists:
 TEST_CASE( "Merge Sort Linked List", "Merge Sort Linked List" )
 {
 
-    List node1; List node2; List node3; List node4;
-    List nodea; List nodeb; List nodec;
-    List node5; List node6; List node7; List node8;
+    LinkedListNode node1; LinkedListNode node2; LinkedListNode node3; LinkedListNode node4;
+    LinkedListNode nodea; LinkedListNode nodeb; LinkedListNode nodec;
+    LinkedListNode node5; LinkedListNode node6; LinkedListNode node7; LinkedListNode node8;
 
-    List *expected;
-    List *res;
+    LinkedListNode *expected;
+    LinkedListNode *res;
 
     node4.next = nullptr; node4.val = 4;
     node3.next = &node4; node3.val = 3;
@@ -1663,8 +1653,8 @@ TEST_CASE( "Merge Sort Linked List", "Merge Sort Linked List" )
     node4.next = &node5; node4.val = 1;
 
     expected = &node4;
-    res = soln.MergeSortListPtr(&node1);
-    REQUIRE(identicalLists(res, expected) == true);
+    res = soln.MergeSortLinkedListNodePtr(&node1);
+    REQUIRE(identicalLinkedListNodes(res, expected) == true);
 
 
     node4.next = nullptr; node4.val = 1;
@@ -1678,8 +1668,8 @@ TEST_CASE( "Merge Sort Linked List", "Merge Sort Linked List" )
     node4.next = &node5; node4.val = 1;
 
     expected = &node4;
-    res = soln.MergeSortListPtr(&node1);
-    REQUIRE(identicalLists(res, expected) == true);
+    res = soln.MergeSortLinkedListNodePtr(&node1);
+    REQUIRE(identicalLinkedListNodes(res, expected) == true);
 
 
     node5.next = nullptr; node5.val = 5;
@@ -1688,73 +1678,190 @@ TEST_CASE( "Merge Sort Linked List", "Merge Sort Linked List" )
     node2.next = &node3; node2.val = 3;
     node1.next = &node2; node1.val = 4;
 
-   node8.next = nullptr; node8.val = 5;
-   node7.next = &node8; node7.val = 4;
-   node6.next = &node7; node6.val = 3;
-   node5.next = &node6; node5.val = 2;
-   node4.next = &node5; node4.val = 1;
+    node8.next = nullptr; node8.val = 5;
+    node7.next = &node8; node7.val = 4;
+    node6.next = &node7; node6.val = 3;
+    node5.next = &node6; node5.val = 2;
+    node4.next = &node5; node4.val = 1;
 
-   expected = &node4;
-   res = soln.MergeSortListPtr(&node1);
-   REQUIRE(identicalLists(res, expected) == true);
-
-
+    expected = &node4;
+    res = soln.MergeSortLinkedListNodePtr(&node1);
+    REQUIRE(identicalLinkedListNodes(res, expected) == true);
 
 }
 
-TEST_CASE( "Find the middle of a Linked List", "Middle List" )
-{
-    cout << "Find the middle of a Linked List \n\n";
 
-    vector<List*> is;
+TEST_CASE( "Clone A Special Linked List", "Clone A Special Linked List" )
+{
+    cout << "Clone A Special Linked List \n";
+    LinkedListNode *res;
+    LinkedListNode node1; LinkedListNode node2; LinkedListNode node3; LinkedListNode node4;
+    LinkedListNode node5; LinkedListNode node6; LinkedListNode node7; LinkedListNode node8;
+
+    node5.next = nullptr; node5.val = 5;
+    node4.next = &node5; node4.val = 4;
+    node3.next = &node4; node3.val = 3;
+    node2.next = &node3; node2.val = 2;
+    node1.next = &node2; node1.val = 1;
+
+    node5.rand = &node2;
+    node4.rand = &node3;
+    node3.rand = &node5;
+    node2.rand = &node1;
+    node1.rand = &node3;
+
+    res = soln.cloneASpecialLinkedList(&node1);
+
+    LinkedListNode *res1 = res;
+
+    REQUIRE(node1.val == 1);
+    REQUIRE(node2.val == 2);
+    REQUIRE(node3.val == 3);
+    REQUIRE(node4.val == 4);
+    REQUIRE(node5.val == 5);
+
+
+    REQUIRE(node1.rand->val == 3);
+    REQUIRE(node2.rand->val == 1);
+    REQUIRE(node3.rand->val == 5);
+    REQUIRE(node4.rand->val == 3);
+    REQUIRE(node5.rand->val == 2);
+
+    REQUIRE(res->rand->val == 3);
+    res = res->next;
+    REQUIRE(res->rand->val == 1);
+    res = res->next;
+    REQUIRE(res->rand->val == 5);
+    res = res->next;
+    REQUIRE(res->rand->val == 3);
+    res = res->next;
+    REQUIRE(res->rand->val == 2);
+    res = res->next;
+
+    REQUIRE(res1->val == 1);
+    res1 = res1->next;
+    REQUIRE(res1->val == 2);
+    res1 = res1->next;
+    REQUIRE(res1->val == 3);
+    res1 = res1->next;
+    REQUIRE(res1->val == 4);
+    res1 = res1->next;
+    REQUIRE(res1->val == 5);
+    res1 = res1->next;
+    REQUIRE(res1 == nullptr);
+
+    /****************************************************************************/
+    //One node test..
+    node1.next = nullptr; node1.rand = nullptr; node1.val = 1;
+    res = soln.cloneASpecialLinkedList(&node1);
+    REQUIRE(node1.val == 1);
+    REQUIRE(node1.next == nullptr);
+    REQUIRE(node1.rand == nullptr);
+    REQUIRE(res->val == 1);
+    REQUIRE(res->next == nullptr);
+    REQUIRE(res->rand == nullptr);
+
+    /****************************************************************************/
+    node2.next = nullptr; node2.rand = &node1; node2.val = 2;
+    node1.next = &node2; node1.rand = &node2; node1.val = 1;
+
+    res = soln.cloneASpecialLinkedList(&node1);
+    res1 = res;
+
+    REQUIRE(node1.val == 1);
+    REQUIRE(node2.val == 2);
+    REQUIRE(node1.next == &node2);
+    REQUIRE(node1.rand == &node2);
+    REQUIRE(node2.next == nullptr);
+    REQUIRE(node2.rand == &node1);
+
+    REQUIRE(res->rand->val == 2);
+    res = res->next;
+    REQUIRE(res->rand->val == 1);
+
+    REQUIRE(res1->val == 1);
+    res1 = res1->next;
+    REQUIRE(res1->val == 2);
+    res1 = res1->next;
+    REQUIRE(res1 == nullptr);
+    /****************************************************************************/
+
+}
+
+TEST_CASE( "Alternative Split", "Alternative Split" )
+{
+    cout << "Alternative Split \n";
+
+    //soln.alternativeSplit(&node1);
+
+}
+
+TEST_CASE( "Has Matching Parantheses", "Has Matching Parantheses" )
+{
+    cout << "Has Matching Parantheses\n";
+
+    REQUIRE(soln.hasMatchingParantheses("( ( 1 + 2 ) * 3 )") == true);
+    REQUIRE(soln.hasMatchingParantheses("( { 1 + 2 ) * 3 )") == false);
+    REQUIRE(soln.hasMatchingParantheses("( ( (1 + 2) * 3 ))") == true);
+    REQUIRE(soln.hasMatchingParantheses("[([])}") == false);
+    REQUIRE(soln.hasMatchingParantheses("} ( 1 * 2) + 3 * ( 5 - 6)") == false);
+
+}
+
+
+TEST_CASE( "Find the middle of a Linked LinkedListNode", "Middle LinkedListNode" )
+{
+    cout << "Find the middle of a Linked LinkedListNode \n\n";
+
+    vector<LinkedListNode*> is;
     vector<int> res;
 
-    List *ptr1 = nullptr;
+    LinkedListNode *ptr1 = nullptr;
     is.push_back(ptr1);
     res.push_back(0);
 
-    List node3; node3.next = nullptr;   node3.val = 3;
-    List node4; node4.next = &node3;    node4.val = 4;
-    List node5; node5.next = &node4;    node5.val = 5;
-    List node6; node6.next = &node5;    node6.val = 6;
-    List node7; node7.next = &node6;    node7.val = 7;
-    List node8; node8.next = &node7;    node8.val = 8;
-    List node9; node9.next = &node8;    node9.val = 9;//middle
-    List node10; node10.next = &node9;  node10.val = 10;
-    List node11; node11.next = &node10; node11.val = 11;
-    List node12; node12.next = &node11; node12.val = 12;
-    List node13; node13.next = &node12; node13.val = 13;
-    List node14; node14.next = &node13; node14.val = 14;
-    List node15; node15.next = &node14; node15.val = 15;
+    LinkedListNode node3; node3.next = nullptr;   node3.val = 3;
+    LinkedListNode node4; node4.next = &node3;    node4.val = 4;
+    LinkedListNode node5; node5.next = &node4;    node5.val = 5;
+    LinkedListNode node6; node6.next = &node5;    node6.val = 6;
+    LinkedListNode node7; node7.next = &node6;    node7.val = 7;
+    LinkedListNode node8; node8.next = &node7;    node8.val = 8;
+    LinkedListNode node9; node9.next = &node8;    node9.val = 9;//middle
+    LinkedListNode node10; node10.next = &node9;  node10.val = 10;
+    LinkedListNode node11; node11.next = &node10; node11.val = 11;
+    LinkedListNode node12; node12.next = &node11; node12.val = 12;
+    LinkedListNode node13; node13.next = &node12; node13.val = 13;
+    LinkedListNode node14; node14.next = &node13; node14.val = 14;
+    LinkedListNode node15; node15.next = &node14; node15.val = 15;
     is.push_back(&node15);
     res.push_back(9);
 
-    List nod3; nod3.next = nullptr;  nod3.val = 3;
-    List nod4; nod4.next = &nod3;    nod4.val = 4;
-    List nod5; nod5.next = &nod4;    nod5.val = 5;
-    List nod6; nod6.next = &nod5;    nod6.val = 6;
-    List nod7; nod7.next = &nod6;    nod7.val = 7;
-    List nod8; nod8.next = &nod7;    nod8.val = 8;
-    List nod9; nod9.next = &nod8;    nod9.val = 9; //middle
-    List nod10; nod10.next = &nod9;  nod10.val = 10;
-    List nod11; nod11.next = &nod10; nod11.val = 11;
-    List nod12; nod12.next = &nod11; nod12.val = 12;
-    List nod13; nod13.next = &nod12; nod13.val = 13;
-    List nod14; nod14.next = &nod13; nod14.val = 14;
-    List nod15; nod15.next = &nod14; nod15.val = 15;
-    List nod16; nod16.next = &nod15; nod16.val = 16;
+    LinkedListNode nod3; nod3.next = nullptr;  nod3.val = 3;
+    LinkedListNode nod4; nod4.next = &nod3;    nod4.val = 4;
+    LinkedListNode nod5; nod5.next = &nod4;    nod5.val = 5;
+    LinkedListNode nod6; nod6.next = &nod5;    nod6.val = 6;
+    LinkedListNode nod7; nod7.next = &nod6;    nod7.val = 7;
+    LinkedListNode nod8; nod8.next = &nod7;    nod8.val = 8;
+    LinkedListNode nod9; nod9.next = &nod8;    nod9.val = 9; //middle
+    LinkedListNode nod10; nod10.next = &nod9;  nod10.val = 10;
+    LinkedListNode nod11; nod11.next = &nod10; nod11.val = 11;
+    LinkedListNode nod12; nod12.next = &nod11; nod12.val = 12;
+    LinkedListNode nod13; nod13.next = &nod12; nod13.val = 13;
+    LinkedListNode nod14; nod14.next = &nod13; nod14.val = 14;
+    LinkedListNode nod15; nod15.next = &nod14; nod15.val = 15;
+    LinkedListNode nod16; nod16.next = &nod15; nod16.val = 16;
     is.push_back(&nod16);
     res.push_back(9);
 
 
     //Test Case: One element.
-    List node1; node1.val = 100; node1.next = nullptr;
+    LinkedListNode node1; node1.val = 100; node1.next = nullptr;
     is.push_back(&node1);
     res.push_back(100);
 
     //Test Case: Two elements.
-    List node1a; node1a.val = 100;
-    List node1b; node1b.val = 200;
+    LinkedListNode node1a; node1a.val = 100;
+    LinkedListNode node1b; node1b.val = 200;
     node1a.next = &node1b;
     node1b.next = nullptr;
     is.push_back(&node1a);
@@ -1780,28 +1887,28 @@ TEST_CASE( "Find the median of a sorted circular linked list", "Median" )
 {
     cout << "Find the median of a sorted circular linked list \n\n";
 
-    vector<List*> is;
+    vector<LinkedListNode*> is;
     vector<int> res;
 
-    List *ptr1 = nullptr;
+    LinkedListNode *ptr1 = nullptr;
     is.push_back(ptr1);
     res.push_back(0);
 
     //Test Case: One element.
-    List node1; node1.val = 100; node1.next = &node1;
+    LinkedListNode node1; node1.val = 100; node1.next = &node1;
     is.push_back(&node1);
     res.push_back(100);
 
     //Test Case: Two elements.
-    List node1a; node1a.val = 100;
-    List node1b; node1b.val = 200;
+    LinkedListNode node1a; node1a.val = 100;
+    LinkedListNode node1b; node1b.val = 200;
     node1a.next = &node1b;
     node1b.next = &node1a;
     is.push_back(&node1b);
     res.push_back(100);
 
     //Test Case: Odd no of elements.
-    List n1; List n2; List n3; List n4; List n5; List n6;
+    LinkedListNode n1; LinkedListNode n2; LinkedListNode n3; LinkedListNode n4; LinkedListNode n5; LinkedListNode n6;
     n1.val = 100; n1.next = &n2;
     n2.val = 200; n2.next = &n3;
     n3.val = 300; n3.next = &n4;
@@ -1863,10 +1970,10 @@ TEST_CASE( "Implement the min stack", "Min Stack" )
 TEST_CASE( "Swap Kth Node", "Swap Nodes" )
 {
     cout << "Swap Kth Node \n\n";
-    List node1; List node2; List node3; List node4; List node5; List node6;
+    LinkedListNode node1; LinkedListNode node2; LinkedListNode node3; LinkedListNode node4; LinkedListNode node5; LinkedListNode node6;
 
     //TEST CASE: Nullptr case
-    List *ptr1 = nullptr;
+    LinkedListNode *ptr1 = nullptr;
     REQUIRE(soln.swapKthNodes(ptr1,5) == nullptr);
 
 
@@ -1877,14 +1984,14 @@ TEST_CASE( "Swap Kth Node", "Swap Nodes" )
     node4.next = &node5;  node4.val = 4;
     node5.next = &node6;  node5.val = 5;
     node6.next = nullptr; node6.val = 6;
-    List *temp = &node1;
+    LinkedListNode *temp = &node1;
     while(temp)
     {
         cout << " val = " << temp->val;
         temp = temp->next;
     }
     cout << "\n";
-    List *res = soln.swapKthNodes(&node1,2);
+    LinkedListNode *res = soln.swapKthNodes(&node1,2);
     while(res)
     {
         cout << " val = " << res->val;
@@ -1933,7 +2040,7 @@ TEST_CASE( "Swap Kth Node", "Swap Nodes" )
     cout << "\n";
 
 
-    //TEST CASE: Where k does not exist. List is shorter
+    //TEST CASE: Where k does not exist. LinkedListNode is shorter
     node1.next = &node2;  node1.val = 1;
     node2.next = &node3;  node2.val = 2;
     node3.next = &node4;  node3.val = 3;
@@ -1996,20 +2103,20 @@ TEST_CASE( "Swap Kth Node", "Swap Nodes" )
 TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
 {
     cout << "Reverse a linked list in groups \n\n";
-    List node1; List node2; List node3; List node4;
-    List node5; List node6; List node7; List node8;
+    LinkedListNode node1; LinkedListNode node2; LinkedListNode node3; LinkedListNode node4;
+    LinkedListNode node5; LinkedListNode node6; LinkedListNode node7; LinkedListNode node8;
 
     node1.val = 1; node2.val = 2; node3.val = 3;
     node1.next = &node2; node2.next = &node3; node3.next = nullptr;
 
-    List* temp = &node1;
+    LinkedListNode* temp = &node1;
     while(temp)
     {
         cout << " val = " << temp->val;
         temp = temp->next;
     }
     cout << "\n";
-    List *res = soln.myListreverseAListInGroupsOfGivenSize(&node1,3);
+    LinkedListNode *res = soln.myLinkedListNodereverseALinkedListNodeInGroupsOfGivenSize(&node1,3);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2030,7 +2137,7 @@ TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
         temp = temp->next;
     }
     cout << "\n";
-    res = soln.myListreverseAListInGroupsOfGivenSize(&node1,3);
+    res = soln.myLinkedListNodereverseALinkedListNodeInGroupsOfGivenSize(&node1,3);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2052,7 +2159,7 @@ TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
         temp = temp->next;
     }
     cout << "\n";
-    res = soln.myListreverseAListInGroupsOfGivenSize(&node1,5);
+    res = soln.myLinkedListNodereverseALinkedListNodeInGroupsOfGivenSize(&node1,5);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2074,7 +2181,7 @@ TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
         temp = temp->next;
     }
     cout << "\n";
-    res = soln.myListreverseAListInGroupsOfGivenSize(&node1,0);
+    res = soln.myLinkedListNodereverseALinkedListNodeInGroupsOfGivenSize(&node1,0);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2094,7 +2201,7 @@ TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
         temp = temp->next;
     }
     cout << "\n";
-    res = soln.myListreverseAListInGroupsOfGivenSize(&node1,1);
+    res = soln.myLinkedListNodereverseALinkedListNodeInGroupsOfGivenSize(&node1,1);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2115,7 +2222,7 @@ TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
         temp = temp->next;
     }
     cout << "\n";
-    res = soln.myListreverseAListInGroupsOfGivenSize(&node1,10);
+    res = soln.myLinkedListNodereverseALinkedListNodeInGroupsOfGivenSize(&node1,10);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2126,24 +2233,24 @@ TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
 
 }
 
-TEST_CASE( "Zip A Linked List from its two ends", "Zip List" )
+TEST_CASE( "Zip A Linked LinkedListNode from its two ends", "Zip LinkedListNode" )
 {
     cout << "Zip list from its two ends  \n\n";
-    List node1; List node2; List node3; List node4; List node5; List node6;
+    LinkedListNode node1; LinkedListNode node2; LinkedListNode node3; LinkedListNode node4; LinkedListNode node5; LinkedListNode node6;
 
 
     //Basic test case:
     node1.val = 1; node2.val = 2; node3.val = 3; node4.val = 4; node5.val = 5; node6.val = 6;
     node1.next = &node2; node2.next = &node3; node3.next = &node4; node4.next = &node5;
     node5.next = &node6; node6.next = nullptr;
-    List* temp = &node1;
+    LinkedListNode* temp = &node1;
     while(temp)
     {
         cout << " val = " << temp->val;
         temp = temp->next;
     }
     cout << "\n";
-    List * res = soln.zipAList(&node1);
+    LinkedListNode * res = soln.zipALinkedListNode(&node1);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2162,7 +2269,7 @@ TEST_CASE( "Zip A Linked List from its two ends", "Zip List" )
         temp = temp->next;
     }
     cout << "\n";
-    res = soln.zipAList(&node1);
+    res = soln.zipALinkedListNode(&node1);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2179,7 +2286,7 @@ TEST_CASE( "Zip A Linked List from its two ends", "Zip List" )
         temp = temp->next;
     }
     cout << "\n";
-    res = soln.zipAList(&node1);
+    res = soln.zipALinkedListNode(&node1);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2197,7 +2304,7 @@ TEST_CASE( "Zip A Linked List from its two ends", "Zip List" )
         temp = temp->next;
     }
     cout << "\n";
-    res = soln.zipAList(&node1);
+    res = soln.zipALinkedListNode(&node1);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2215,7 +2322,7 @@ TEST_CASE( "Zip A Linked List from its two ends", "Zip List" )
             temp = temp->next;
     }
     cout << "\n";
-    res = soln.zipAList(&node1);
+    res = soln.zipALinkedListNode(&node1);
     while(res)
     {
         cout << " val = " << res->val;
@@ -2223,6 +2330,9 @@ TEST_CASE( "Zip A Linked List from its two ends", "Zip List" )
     }
     cout << "\n";
 }
+
+
+
 
 TEST_CASE( "LRU Cache", "LRU" )
 {
@@ -2285,7 +2395,7 @@ TEST_CASE( "Sliding Window Problem", "Sliding Window" )
 
 TEST_CASE( "Intersection of two lists", "Intersection" )
 {
-    cout << "Intersection of two Lists \n\n";
+    cout << "Intersection of two LinkedListNodes \n\n";
 
     list<int> L1;
     list<int> L2;

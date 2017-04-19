@@ -8,7 +8,21 @@
 #define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "IKSolution.hpp"
 
-void printList(list<int> l)
+
+bool identicalLinkedListNodes(LinkedListNode *l1, LinkedListNode *l2)
+{
+    if(l1 == nullptr && l2 == nullptr)
+        return true;
+
+    if(l1 != nullptr && l2 != nullptr)
+        if(l1->val == l2 ->val)
+            return identicalLinkedListNodes(l1->next, l2->next);
+
+    return false;
+}
+
+
+void printLinkedListNode(list<int> l)
 {
     for(auto it : l)
         cout << " " << it << " ";
@@ -16,15 +30,24 @@ void printList(list<int> l)
 }
 
 
+void printLinkedListNodeP(LinkedListNode * p)
+{
+    while(p != nullptr)
+    {
+        cout << "val = " << p->val << " ";
+        p = p->next;
+    }
+}
+
 
 /****************************************************************************************************************************/
 /*
 (Using difference of node counts)
-1) Get count of the nodes in first list, let count be c1.
-2) Get count of the nodes in second list, let count be c2.
+1) Get count of the nodes in first LinkedListNode, let count be c1.
+2) Get count of the nodes in second LinkedListNode, let count be c2.
 3) Get the difference of counts d = abs(c1 – c2)
-4) Now traverse the bigger list from the first node till d nodes so that from here onwards both the lists have equal no of nodes.
-5) Then we can traverse both the lists in parallel till we come across a common node.
+4) Now traverse the bigger LinkedListNode from the first node till d nodes so that from here onwards both the LinkedListNodes have equal no of nodes.
+5) Then we can traverse both the LinkedListNodes in parallel till we come across a common node.
    (Note that getting a common node is done by comparing the address of the nodes)
 */
 list<int>::iterator IKSolution::interSectionOfTwoLists(list<int>& L1, list<int>& L2)
@@ -64,18 +87,18 @@ list<int>::iterator IKSolution::interSectionOfTwoLists(list<int>& L1, list<int>&
 
     if(it1 == it2)
     {
-        DEBUG_DEBUG(cout << "Intersection of two lists found \n");
+        DEBUG_DEBUG(cout << "Intersection of two LinkedListNodes found \n");
         return it1;
     }
     else
     {
-        DEBUG_DEBUG(cout << "Intersection of two lists NOT found \n");
+        DEBUG_DEBUG(cout << "Intersection of two LinkedListNodes NOT found \n");
         return L1.end();
     }
 
 }
 
-/* Input: Arbitrary pointer to a sorted circular linked list.
+/* Input: Arbitrary pointer to a sorted circular linked LinkedListNode.
  * Return: The median value.
  * Approach:
  *     1. Find the tipping point.
@@ -88,9 +111,9 @@ list<int>::iterator IKSolution::interSectionOfTwoLists(list<int>& L1, list<int>&
   *    If fast points to 'beginning node", its time to come out of the loop.
 
  */
-int IKSolution::Median(List *l1)
+int IKSolution::Median(LinkedListNode *l1)
 {
-    List *temp = l1;
+    LinkedListNode *temp = l1;
 
     if(temp == nullptr)
         return 0;
@@ -102,12 +125,12 @@ int IKSolution::Median(List *l1)
 
     DEBUG_TRACE(cout << "Starting value = " <<  temp->next->val << " \n");
 
-    List *slow = temp->next;
-    List *fast = temp->next;
+    LinkedListNode *slow = temp->next;
+    LinkedListNode *fast = temp->next;
     DEBUG_DEBUG(cout << "slow init value = " <<  slow->val << " \n");
     DEBUG_DEBUG(cout << "fast init value = " <<  fast->val << " \n");
 
-    //Until you process all nodes in the list
+    //Until you process all nodes in the LinkedListNode
     while((fast != temp) && (fast->next != temp))
     {
         slow = slow->next;
@@ -124,7 +147,7 @@ int IKSolution::Median(List *l1)
 /* Problem:
  * Example:
  * Approach:
- *     Same as finding the median in a circular list. Instead of checking for null for fast, we are checking
+ *     Same as finding the median in a circular LinkedListNode. Instead of checking for null for fast, we are checking
  *     for the beginning of the loop.
  *     If fast points to a node whose next is null, its time to come out of the loop.
  *     If fast points to a null, its time to come out of the loop.
@@ -132,17 +155,17 @@ int IKSolution::Median(List *l1)
    Space Complexity:
  *
  **/
-int IKSolution::findMiddleNode(List *head)
+int IKSolution::findMiddleNode(LinkedListNode *head)
 {
-    List *slow = head;
-    List *fast = head;
+    LinkedListNode *slow = head;
+    LinkedListNode *fast = head;
 
     if(head == nullptr)
     {
         return 0;
     }
 
-    //Until you process all nodes in the list
+    //Until you process all nodes in the LinkedListNode
     while((fast != nullptr) && (fast->next != nullptr))
     {
         slow = slow->next;
@@ -168,10 +191,10 @@ int IKSolution::findMiddleNode(List *head)
  *
  **/
 /**********************************************************************************************/
-List *IKSolution::pointerToCycle(List *head)
+LinkedListNode *IKSolution::pointerToCycle(LinkedListNode *head)
 {
-    List* fast = NULL;
-    List* slow = NULL;
+    LinkedListNode* fast = NULL;
+    LinkedListNode* slow = NULL;
     int counter = 0;
 
     if(head == NULL)
@@ -180,7 +203,7 @@ List *IKSolution::pointerToCycle(List *head)
     slow = head;
     fast = head;
 
-    //Until you process all nodes in the list
+    //Until you process all nodes in the LinkedListNode
     while((fast != nullptr) && (fast->next != nullptr))
     {
          slow = slow->next;
@@ -196,9 +219,9 @@ List *IKSolution::pointerToCycle(List *head)
     // To count no of nodes in the loop
     if((slow) && (fast) && (slow == fast))
     {
-        List *temp = slow;
-        temp = temp->next; // beginning of the list
-        while(temp != fast) //until you find the last item in the list.
+        LinkedListNode *temp = slow;
+        temp = temp->next; // beginning of the LinkedListNode
+        while(temp != fast) //until you find the last item in the LinkedListNode.
         {
             temp = temp->next; //Jump one at a time. That is the reason for test temp != fast above.
             counter++;
@@ -232,9 +255,9 @@ List *IKSolution::pointerToCycle(List *head)
 
 }
 /******************************************************************************************************/
-List* LRUCache::createANewNode(int key,int val)
+LinkedListNode* LRUCache::createANewNode(int key,int val)
 {
-    List *n = new(List);
+    LinkedListNode *n = new(LinkedListNode);
     n->val = val;
     n->key = key;
     n->next = nullptr;
@@ -243,9 +266,9 @@ List* LRUCache::createANewNode(int key,int val)
     return n;
 }
 
-void LRUCache::push_front(List *node)
+void LRUCache::push_front(LinkedListNode *node)
 {
-    DEBUG_DEBUG(cout << "Insert a new node at the head of the linked list \n");
+    DEBUG_DEBUG(cout << "Insert a new node at the head of the linked LinkedListNode \n");
     if(head == nullptr)
     {
         head = node;
@@ -253,7 +276,7 @@ void LRUCache::push_front(List *node)
     }
     else
     {
-        List *temp = head;
+        LinkedListNode *temp = head;
         head = node;
         node->next = temp;
         temp->prev = node;
@@ -261,17 +284,17 @@ void LRUCache::push_front(List *node)
 }
 
 
-void LRUCache::move_front(List *node)
+void LRUCache::move_front(LinkedListNode *node)
 {
-    DEBUG_DEBUG(cout << "Move an existing node to the head of the linked list \n");
+    DEBUG_DEBUG(cout << "Move an existing node to the head of the linked LinkedListNode \n");
 
-    List *prev = node->prev;
+    LinkedListNode *prev = node->prev;
     if(prev != nullptr)
         prev->next = node->next;
     else
         head = nullptr;
 
-    List *next = node->next;
+    LinkedListNode *next = node->next;
     if(next != nullptr)
         next->prev = node->prev;
 
@@ -284,11 +307,11 @@ void LRUCache::move_front(List *node)
 
 void LRUCache::pop_back()
 {
-    DEBUG_DEBUG(cout << "Remove the tail of the linked list \n");
+    DEBUG_DEBUG(cout << "Remove the tail of the linked LinkedListNode \n");
     if(tail == nullptr)
         return;
 
-    List *prev = tail->prev;
+    LinkedListNode *prev = tail->prev;
     if(prev != nullptr)
         prev->next = nullptr;
     else
@@ -298,17 +321,17 @@ void LRUCache::pop_back()
     tail = prev;
 }
 
-//Remove a node in the middle of the Linked List
-void LRUCache::remove_node(List* node)
+//Remove a node in the middle of the Linked LinkedListNode
+void LRUCache::remove_node(LinkedListNode* node)
 {
 
-    List *prev = node->prev;
+    LinkedListNode *prev = node->prev;
     if(prev != nullptr)
         prev->next = node->next;
     else
         head = nullptr;
 
-    List *next = node->next;
+    LinkedListNode *next = node->next;
     if(next != nullptr)
         next->prev = node->prev;
     else
@@ -317,7 +340,7 @@ void LRUCache::remove_node(List* node)
     delete(node);
 }
 
-/* Look at an entry in the top of the doubly linked list and then remove it */
+/* Look at an entry in the top of the doubly linked LinkedListNode and then remove it */
 int LRUCache::evict()
 {
     DEBUG_DEBUG(cout << "LRU cache is full. Time to evict \n");
@@ -352,14 +375,14 @@ void LRUCache::set(int key, int val)
         if(lRUCachSize >= lRUMaxSizeCache)
             evict();
         lRUCachSize++;
-        List *temp = createANewNode(key,val);
+        LinkedListNode *temp = createANewNode(key,val);
         push_front(temp);
         lrum.insert(make_pair(key,temp));
     }
     else
     {
         DEBUG_DEBUG(cout << "Key already exists. So, just moving to the top" << "\n");
-        List* node = it->second;
+        LinkedListNode* node = it->second;
         node->val = val;
         move_front(node);
     }
@@ -377,7 +400,7 @@ int LRUCache::get(int key)
         return -1;
     }
 
-    List* node = it->second;
+    LinkedListNode* node = it->second;
     move_front(node);
     return node->val;
 }
@@ -393,7 +416,7 @@ void LRUCache::remove(int key)
         return;
     }
 
-    List* node = it->second;
+    LinkedListNode* node = it->second;
     remove_node(node);
     lrum.erase(it);
 
@@ -401,7 +424,7 @@ void LRUCache::remove(int key)
 
 
 /* Problem:
- *     Swap Kth node from beginning with Kth node from end in a Linked List. Given a singly linked list, swap kth node
+ *     Swap Kth node from beginning with Kth node from end in a Linked LinkedListNode. Given a singly linked LinkedListNode, swap kth node
  *     from beginning with kth node from end. Swapping of data is not allowed, only pointers should be changed.
  *
  * Example:
@@ -418,19 +441,19 @@ void LRUCache::remove(int key)
         1) Y is next to X
         2) X is next to Y
         3) X and Y are same
-        4) X and Y don’t exist (k is more than number of nodes in linked list)
+        4) X and Y don’t exist (k is more than number of nodes in linked LinkedListNode)
  * Take away:
  *      Very important. While moving two pointers, if the first one fails to move because next ptr is null, you must not move the second one.
  *      So, check for ptr->next == NULL before moving the other pointer.
 
  **/
-List* IKSolution::swapKthNodes(List* head, int k)
+LinkedListNode* IKSolution::swapKthNodes(LinkedListNode* head, int k)
 {
     DEBUG_TRACE(cout << "k = " << k << "\n");
 
-    List *temp,*kBp, *kB, *kEp, *kE;
+    LinkedListNode *temp,*kBp, *kB, *kEp, *kE;
 
-    List dummyNode;
+    LinkedListNode dummyNode;
     dummyNode.val = 0;
     dummyNode.next = head;
     int count = 1;
@@ -476,8 +499,8 @@ List* IKSolution::swapKthNodes(List* head, int k)
     if((kB != nullptr) && (kE != nullptr))
     {
         //Save previous pointers first
-        List* t1 = kB->next;
-        List* t2 = kE->next;
+        LinkedListNode* t1 = kB->next;
+        LinkedListNode* t2 = kE->next;
 
         //Update previous pointers
         kBp->next = kE;
@@ -501,14 +524,14 @@ List* IKSolution::swapKthNodes(List* head, int k)
 
 /****************************************************************************************************************************/
 
-List* reverseUtil(List *myList,int k)
+LinkedListNode* reverseUtil(LinkedListNode *myLinkedListNode,int k)
 {
-    List *temp = myList;
+    LinkedListNode *temp = myLinkedListNode;
     int counter = 1;
-    List *curr;
-    List *prev = nullptr;
+    LinkedListNode *curr;
+    LinkedListNode *prev = nullptr;
 
-    curr = myList;
+    curr = myLinkedListNode;
 
     while((curr != nullptr) && (counter <= k))
     {
@@ -520,7 +543,7 @@ List* reverseUtil(List *myList,int k)
     }
 
     if(curr != nullptr)
-        myList->next = reverseUtil(curr, k); //Attach the haed provided by the recursive funnction to my tail.
+        myLinkedListNode->next = reverseUtil(curr, k); //Attach the haed provided by the recursive funnction to my tail.
     else
         return prev; //My head
 
@@ -528,7 +551,7 @@ List* reverseUtil(List *myList,int k)
 }
 
 /* Problem:
-       Reverse a Linked List in groups of given size. Given a linked list, write a function to reverse every k
+       Reverse a Linked LinkedListNode in groups of given size. Given a linked LinkedListNode, write a function to reverse every k
        nodes (where k is an input to the function).
  * Example:
  *     Inputs:  1->2->3->4->5->6->7->8->NULL and k = 3
@@ -550,42 +573,42 @@ List* reverseUtil(List *myList,int k)
    Space Complexity:
  *
  **/
-List * IKSolution::myListreverseAListInGroupsOfGivenSize(List *myList, int k)
+LinkedListNode * IKSolution::myLinkedListNodereverseALinkedListNodeInGroupsOfGivenSize(LinkedListNode *myLinkedListNode, int k)
 {
     if(k == 0)
     {
-        return myList;
+        return myLinkedListNode;
     }
-    return reverseUtil(myList, k);
+    return reverseUtil(myLinkedListNode, k);
 
 }
 
 /****************************************************************************************************************************/
 
 /* Problem:
- *        Zip a linked list from its two ends.
+ *        Zip a linked LinkedListNode from its two ends.
  * Example:
- *        Given a linked list <1, 2, 3, 4, 5, 6>, zip of this linked list is defined as 1, 6 , 2, 5 , 3, 4.
- *        And the task is to achieve desired linked list using O(1) space.
+ *        Given a linked LinkedListNode <1, 2, 3, 4, 5, 6>, zip of this linked LinkedListNode is defined as 1, 6 , 2, 5 , 3, 4.
+ *        And the task is to achieve desired linked LinkedListNode using O(1) space.
  *
  * Approach:
- *        While traversing the list push all node references to a stack. Then during the second traversing
+ *        While traversing the LinkedListNode push all node references to a stack. Then during the second traversing
  *        pop the stack and insert nodes.
    Time Complexity: O(n)
    Space Complexity: O(n)
  * Alternate approach: Use the APIs provided by C++ STLs provided by C++
- * http://programming-puzzle.blogspot.com/2014/02/zip-of-linked-list.html
+ * http://programming-puzzle.blogspot.com/2014/02/zip-of-linked-LinkedListNode.html
  *
  **/
-List * IKSolution::zipAList(List *myList)
+LinkedListNode * IKSolution::zipALinkedListNode(LinkedListNode *myLinkedListNode)
 {
-    List* temp;
-    stack<List*> ms;
+    LinkedListNode* temp;
+    stack<LinkedListNode*> ms;
 
-    if(myList == nullptr)
+    if(myLinkedListNode == nullptr)
         return nullptr;
 
-    temp = myList;
+    temp = myLinkedListNode;
     while(temp != nullptr)
     {
         ms.push(temp);
@@ -593,25 +616,25 @@ List * IKSolution::zipAList(List *myList)
     }
 
     /*Insert nodes from the stack */
-    temp = myList;
+    temp = myLinkedListNode;
     while((ms.top() != temp) && (temp->next != ms.top()))
     {
-        List* t = ms.top();
+        LinkedListNode* t = ms.top();
         ms.pop();
 
-        List* n = temp->next;
+        LinkedListNode* n = temp->next;
         temp->next = t;
         t->next = n;
         temp = n;
     }
 
-    /*Set the tail of the list as null */
+    /*Set the tail of the LinkedListNode as null */
     if(ms.top() == temp)
         temp->next = nullptr;
     else if(temp->next == ms.top())
         temp->next->next = nullptr;
 
-    return myList;
+    return myLinkedListNode;
 }
 
 /* Problem:
@@ -783,22 +806,22 @@ int IKSolution::maxLenMatchingParen(string str)
 }
 /***********************************************************************************************************/
 
-List* AddTwoListsUtil(List *list1, List *list2, int& carry)
+LinkedListNode* AddTwoLinkedListNodesUtil(LinkedListNode *LinkedListNode1, LinkedListNode *LinkedListNode2, int& carry)
 {
 
-    if((list1 == nullptr) && (list2 == nullptr))
+    if((LinkedListNode1 == nullptr) && (LinkedListNode2 == nullptr))
     {
         return nullptr;
     }
 
     int gcarry = 0;
-    List *nnode = AddTwoListsUtil(list1->next, list2->next, gcarry);
+    LinkedListNode *nnode = AddTwoLinkedListNodesUtil(LinkedListNode1->next, LinkedListNode2->next, gcarry);
 
-    int sum = list1->val + list2->val + gcarry;
+    int sum = LinkedListNode1->val + LinkedListNode2->val + gcarry;
     if (sum >= 10)
         carry = 1;
 
-    List *node = new(List);
+    LinkedListNode *node = new(LinkedListNode);
     node->val = sum % 10;
     node->next = nnode;
 
@@ -810,7 +833,7 @@ List* AddTwoListsUtil(List *list1, List *list2, int& carry)
 /*
  *
  * Problem:
- *      Add two numbers in a linked list. Head of the list is the most significant digit.
+ *      Add two numbers in a linked LinkedListNode. Head of the LinkedListNode is the most significant digit.
  *      9 -> 9 -> 9
  *      9 -> 9 -> 9
  *      should give us
@@ -822,22 +845,22 @@ List* AddTwoListsUtil(List *list1, List *list2, int& carry)
  *      5 -> 7 -> 6
  *
  * Approach:
- *      Here we assume two lists are of equal length and recursively call utility function onto the next element.
- *      If two lists are of unequal length then we have to call the recursive function from the point where two lengths are same.
+ *      Here we assume two LinkedListNodes are of equal length and recursively call utility function onto the next element.
+ *      If two LinkedListNodes are of unequal length then we have to call the recursive function from the point where two lengths are same.
  *      Basically we should skip the first one by those many nodes.
  *
  */
 
-List* IKSolution::AddTwoLists(List *list1, List *list2)
+LinkedListNode* IKSolution::AddTwoLinkedListNodes(LinkedListNode *LinkedListNode1, LinkedListNode *LinkedListNode2)
 {
 
     int carry = 0;
 
-    List *nnode = AddTwoListsUtil(list1, list2, carry);
+    LinkedListNode *nnode = AddTwoLinkedListNodesUtil(LinkedListNode1, LinkedListNode2, carry);
 
     if (carry == 1)
     {
-        List *node = new(List);
+        LinkedListNode *node = new(LinkedListNode);
         node->val = 1;
         node->next = nnode;
         return node;
@@ -847,14 +870,14 @@ List* IKSolution::AddTwoLists(List *list1, List *list2)
 
 }
 /******************************************************************************************/
-List* AddTwoListsLSDFirstUtil(List *list1, List *list2, int carry)
+LinkedListNode* AddTwoLinkedListNodesLSDFirstUtil(LinkedListNode *LinkedListNode1, LinkedListNode *LinkedListNode2, int carry)
 {
 
-    if((list1 == nullptr) && (list2 == nullptr))
+    if((LinkedListNode1 == nullptr) && (LinkedListNode2 == nullptr))
     {
         if(carry)
         {
-            List *node = new(List);
+            LinkedListNode *node = new(LinkedListNode);
             node->val = carry;
             node->next = nullptr;
             return node;
@@ -863,10 +886,10 @@ List* AddTwoListsLSDFirstUtil(List *list1, List *list2, int carry)
             return nullptr;
     }
 
-    int sum = carry + (list1 ? list1->val : 0) + (list2 ? list2->val : 0);
-    List *node = new List;
+    int sum = carry + (LinkedListNode1 ? LinkedListNode1->val : 0) + (LinkedListNode2 ? LinkedListNode2->val : 0);
+    LinkedListNode *node = new LinkedListNode;
     node->val = sum % 10;
-    node->next = AddTwoListsLSDFirstUtil((list1 ? list1->next : 0), (list2 ? list2->next : 0), sum/10);
+    node->next = AddTwoLinkedListNodesLSDFirstUtil((LinkedListNode1 ? LinkedListNode1->next : 0), (LinkedListNode2 ? LinkedListNode2->next : 0), sum/10);
     return node;
 
 }
@@ -875,7 +898,7 @@ List* AddTwoListsLSDFirstUtil(List *list1, List *list2, int carry)
 /*
  *
  * Problem:
- *      Add two numbers in a linked list. Head of the list is the least significant digit.
+ *      Add two numbers in a linked LinkedListNode. Head of the LinkedListNode is the least significant digit.
  *      2 -> 1(12)
  *      3 -> 2(23)
  *      should give us
@@ -886,17 +909,17 @@ List* AddTwoListsLSDFirstUtil(List *list1, List *list2, int carry)
  *
  */
 
-List* IKSolution::AddTwoListsLSDFirst(List *list1, List *list2)
+LinkedListNode* IKSolution::AddTwoLinkedListNodesLSDFirst(LinkedListNode *LinkedListNode1, LinkedListNode *LinkedListNode2)
 {
 
     int carry = 0;
-    return AddTwoListsLSDFirstUtil(list1, list2, carry);
+    return AddTwoLinkedListNodesLSDFirstUtil(LinkedListNode1, LinkedListNode2, carry);
 
 }
 /******************************************************************************************/
 
 
-list<int> mergeLists(list<int> left, list<int> right)
+list<int> mergeLinkedListNodes(list<int> left, list<int> right)
 {
     list<int> result;
 
@@ -940,7 +963,7 @@ list<int> mergeLists(list<int> left, list<int> right)
 }
 
 
-list<int> IKSolution::MergeSortList(list<int> l)
+list<int> IKSolution::MergeSortLists(list<int> l)
 {
 
     list<int> left;
@@ -951,7 +974,6 @@ list<int> IKSolution::MergeSortList(list<int> l)
 
     int size = l.size();
     int i = 0;
-    printList(l);
 
     for(auto val : l)
     {
@@ -963,23 +985,21 @@ list<int> IKSolution::MergeSortList(list<int> l)
         i++;
     }
 
-    printList(left);
-    printList(right);
 
-    list<int> leftn = MergeSortList(left);
-    list<int> rightn = MergeSortList(right);
+    list<int> leftn = MergeSortLists(left);
+    list<int> rightn = MergeSortLists(right);
 
-    return mergeLists(leftn, rightn);
+    return mergeLinkedListNodes(leftn, rightn);
 
 }
 
 /*
  * */
 
-List* mergeListsN(List* left, List* right)
+LinkedListNode* mergeLinkedListNodesN(LinkedListNode* left, LinkedListNode* right)
 {
-    List* result = nullptr;
-    List* tp = nullptr;
+    LinkedListNode* result = nullptr;
+    LinkedListNode* tp = nullptr;
 
     while((left != nullptr) && (right != nullptr))
     {
@@ -1028,7 +1048,7 @@ List* mergeListsN(List* left, List* right)
 
 }
 
-int szList(List *l)
+int szLinkedListNode(LinkedListNode *l)
 {
     int i = 0;
 
@@ -1041,24 +1061,23 @@ int szList(List *l)
     return i;
 }
 
-List* IKSolution::MergeSortListPtr(List *l)
+LinkedListNode* IKSolution::MergeSortLinkedListNodePtr(LinkedListNode *l)
 {
 
-    List *left = nullptr;
-    List *right = nullptr;
-    List *tl = nullptr;
-    List *tr = nullptr;
+    LinkedListNode *left = nullptr;
+    LinkedListNode *right = nullptr;
+    LinkedListNode *tl = nullptr;
+    LinkedListNode *tr = nullptr;
 
-    if(szList(l) <= 1)
+    if(szLinkedListNode(l) <= 1)
     {
-        cout << "Base case \n";
         return l;
     }
 
-    int size = szList(l);
+    int size = szLinkedListNode(l);
     int i = 0;
 
-    cout << "size = " << size << " \n";
+    DEBUG_DEBUG(cout << "size = " << size << " \n");
 
     while(l != nullptr)
     {
@@ -1085,13 +1104,243 @@ List* IKSolution::MergeSortListPtr(List *l)
     tl->next  = nullptr;
     tr->next  = nullptr;
 
-    cout << "Calling left and right \n";
 
-    List* leftn = MergeSortListPtr(left);
-    List* rightn = MergeSortListPtr(right);
+    LinkedListNode* leftn = MergeSortLinkedListNodePtr(left);
+    LinkedListNode* rightn = MergeSortLinkedListNodePtr(right);
 
-    return mergeListsN(leftn, rightn);
+    return mergeLinkedListNodesN(leftn, rightn);
 
 }
 
 /******************************************************************************************/
+
+
+/* Problem:
+ *     You are given a Double Link List with one pointer of each node pointing to the next node
+ *     just like in a single link list. The second pointer however CAN point to any node in the list and
+ *     not just the previous node. Now write a program in O(n) time to duplicate this list.
+ *     That is, write a program which will create a copy of this list.
+
+       Let us call the second pointer as random pointer as it can point to any arbitrary
+       node in the linked list.
+
+   Example:
+
+ *        |-----------|------------
+ *        |           ||           |
+ *        |           v|           v
+          1 -->  2 --> 3 --> 4 --> 5
+          ^      ^     ^     |     |
+          ------ |     |-----|     |
+                 ----------------- |
+
+        in the above diagram
+        1's random points to 3
+        2's random points to 1
+        3's random points to 5
+        4's random points to 3
+        5's random points to 1
+
+   Approach:
+    * Create the copy of node 1 and insert it between node 1 & node 2 in original Linked LinkedListNode, create the copy of 2
+ *    and insert it between 2 & 3. Continue in this fashion, add the copy of N after the Nth node
+ *
+    * Now copy the arbitrary link in this fashion
+      original->next->arbitrary = original->arbitrary->next;  /*TRAVERSE TWO NODES
+
+    *  Restore the original linked LinkedListNode.
+*/
+
+LinkedListNode* IKSolution::cloneASpecialLinkedList(LinkedListNode *l)
+{
+
+    LinkedListNode *newHead = nullptr;
+
+#if 0 //O(n) space and time.
+    map<int,LinkedListNode*> table;
+
+
+    LinkedListNode *l1Current = l;
+    LinkedListNode *prev = nullptr;
+
+    while(l1Current != nullptr)
+    {
+        LinkedListNode *newNode = new LinkedListNode;
+        newNode->val = l1Current->val;
+        if(newHead == nullptr)
+            newHead = newNode;
+        else
+            prev->next = newNode;
+        prev = newNode;
+
+        table.insert({l1Current->val,newNode});
+        l1Current = l1Current->next;
+    }
+
+    l1Current = l;
+    LinkedListNode *l2Current = newHead;
+    while(l1Current != nullptr)
+    {
+        l2Current->rand = table[l1Current->rand->val];
+        l1Current = l1Current->next;
+        l2Current = l2Current->next;
+    }
+#endif
+
+
+    //Insert new node copy after every node in the original LinkedListNode
+    LinkedListNode *l1Current = l;
+    while(l1Current != nullptr)
+    {
+        LinkedListNode *newNode = new LinkedListNode;
+        newNode->val = l1Current->val;
+        newNode->next = l1Current->next;
+        newNode->rand = nullptr;
+        l1Current->next = newNode;
+        l1Current = newNode->next;
+    }
+
+    l1Current = l;
+    while(l1Current != nullptr)
+    {
+        if(l1Current->rand != nullptr)
+            l1Current->next->rand = l1Current->rand->next;
+
+        l1Current = l1Current->next->next;
+    }
+
+
+    l1Current = l;
+    LinkedListNode *newTail = nullptr;
+    while(l1Current != nullptr && l1Current->next != nullptr)
+    {
+        LinkedListNode *temp = l1Current->next->next;
+
+        if(newHead == nullptr)
+            newHead = l1Current->next;
+        else
+            newTail->next = l1Current->next;
+
+        newTail = l1Current->next;
+
+        l1Current->next = temp;
+        l1Current = l1Current->next;
+    }
+    if(newTail != nullptr)
+        newTail->next = nullptr;
+
+
+    return newHead;
+}
+/***********************************************************************************************************************************/
+
+/* Problem:
+ *     Alternative node split: Given a linked list, split it into two such that every other node goes into the new list.
+ *     For lists with odd number of nodes, first one should be longer.
+ * Example:
+       an input list: {a, b, c, d, e, f, g} should results in {a, c, e, g} and {b, d, f}.
+ *
+ * Approach:
+ *
+ *
+ *
+ */
+
+LinkedListNode* IKSolution::alternativeSplit(LinkedListNode* pLinkedListNode)
+{
+    LinkedListNode* temp = pLinkedListNode;
+    int index = 0;
+    LinkedListNode* newHead = nullptr;
+    LinkedListNode* newTail = nullptr;
+    LinkedListNode* prev = nullptr;
+
+    printLinkedListNodeP(pLinkedListNode);
+
+    while(temp != nullptr)
+    {
+        if(index % 2)
+        {
+            if(newHead == nullptr)
+                newHead = temp;
+            else
+                newTail->next = temp;
+
+            prev->next = temp->next;
+            newTail = temp;
+        }
+
+        prev = temp;
+        temp = temp->next;
+        index++;
+    }
+    if(newTail != nullptr)
+        newTail->next = nullptr;
+
+    return newHead;
+}
+
+/* Problem:
+ *     Write a function that checks if the given input string has matching opening and closing parentheses.
+ *     Valid parentheses are: ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘, ‘]’
+ *
+ * Example:
+ *     hasMatchingParantheses("( ( 1 + 2 ) * 3 )") ⇒ true
+       hasMatchingParantheses("( { 1 + 2 ) * 3 )") ⇒ false
+       hasMatchingParantheses("( ( (1 + 2) * 3 ))") ⇒ true
+       hasMatchingParantheses("[([])}") ⇒ false
+       hasMatchingParantheses("} ( 1 * 2) + 3 * ( 5 - 6)") ⇒ false
+
+   Approach:
+       * set contains open parentheses information.
+       * Map contains the match.
+       * Process these DS.
+
+ *
+ *
+ * */
+
+/***********************************************************************************/
+
+bool IKSolution::hasMatchingParantheses(string strExpression)
+{
+    set<char> openTable;
+    map<char, char> closeTable;
+    stack<char> iStack;
+
+    openTable = {
+                 {'('},
+                 {'{'},
+                 {'['}
+               };
+
+    closeTable = {
+                 {')','('},
+                 {'}','{'},
+                 {']','['},
+               };
+
+
+    for(auto val : strExpression)
+    {
+        if(openTable.count(val) > 0)
+            iStack.push(val);
+        else if(closeTable.count(val) > 0)
+        {
+            if(iStack.empty() || iStack.top() != closeTable[val])
+                return false;
+            iStack.pop();
+        }
+
+    }
+
+    if(!iStack.empty())
+        return false;
+
+
+
+
+    return true;
+}
+
+
+

@@ -819,6 +819,37 @@ ListNode* Solution :: addTwoNumbers(ListNode* l1, ListNode* l2)
 }
 
 
+/************************************************************************************/
+/* Program that shows RVO, copy constructors and assignment operators. */
+class C
+{
+    public:
+        C() {}
+        C(const C& other) { std::cout << "A copy was made.\n"; }
+
+
+        C& operator= (const C& other)
+        {
+            if (this != &other) // protect against invalid self-assignment
+                cout << "A copy was made using assignment.\n";
+            // by convention, always return *this
+            return *this;
+        }
+};
+
+C f()
+{
+    return C();
+}
+
+void myLittleFunctioUsingCopyConstructorAndAssigmentOperator()
+{
+    cout << "Hello World!\n";
+    C obj = f();  //To disable RVO use -fno-elide-constructors
+    C a;
+    C b;
+    a = b;
+}
 
 
 

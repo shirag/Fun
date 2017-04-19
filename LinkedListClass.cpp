@@ -12,11 +12,12 @@
 using namespace std;
 
 
-struct LinkedListNode
+struct ALinkedListNode
 {
     int val;
-    LinkedListNode *next;
+    ALinkedListNode *next;
 };
+
 
 class LinkedList
 {
@@ -29,14 +30,14 @@ class LinkedList
         ~LinkedList();
 
     private:
-        LinkedListNode *head = nullptr;
+        ALinkedListNode *head = nullptr;
 
 
 };
 
 LinkedList::LinkedList()
 {
-    head = new LinkedListNode; //dummyhead. Makes the code very simple
+    head = new ALinkedListNode; //dummyhead. Makes the code very simple
     head->next = nullptr;
     head->val = INT_MIN;
 
@@ -44,50 +45,50 @@ LinkedList::LinkedList()
 
 void LinkedList::addValue(int x)
 {
-    LinkedListNode *temp = head->next;
-    LinkedListNode *prev = head;
+    ALinkedListNode *current = head->next;
+    ALinkedListNode *prev = head;
 
-    LinkedListNode *tnode = new LinkedListNode;
+    ALinkedListNode *tnode = new ALinkedListNode;
     tnode->val = x;
-    while(temp != nullptr && temp->val < x)
+    while(current != nullptr && current->val < x)
     {
-        prev = temp;
-        temp = temp->next;
+        prev = current;
+        current = current->next;
     }
 
     prev->next = tnode;
-    tnode->next = temp;
+    tnode->next = current;
 
     return;
 }
 
 void LinkedList::deleteValue(int x)
 {
-    LinkedListNode *temp = head->next;
-    LinkedListNode *prev = head;
+    ALinkedListNode *current = head->next;
+    ALinkedListNode *prev = head;
 
-    while(temp != nullptr && temp->val != x)
+    while(current != nullptr && current->val != x)
     {
-        prev = temp;
-        temp = temp->next;
+        prev = current;
+        current = current->next;
     }
 
-    if(temp != nullptr)
+    if(current != nullptr)
     {
-        prev->next = temp->next;
-        delete temp;
+        prev->next = current->next;
+        delete current;
     }
 
 }
 
 bool LinkedList::find(int x)
 {
-    LinkedListNode *temp = head->next;
+    ALinkedListNode *current = head->next;
 
-    while(temp != nullptr && temp->val != x)
-        temp = temp->next;
+    while(current != nullptr && current->val != x)
+        current = current->next;
 
-    if(temp != nullptr)
+    if(current != nullptr)
         return true;
 
     return false;
@@ -95,13 +96,13 @@ bool LinkedList::find(int x)
 
 LinkedList::~LinkedList()
 {
-    LinkedListNode *temp = head;
-    LinkedListNode *prev = head;
+    ALinkedListNode *current = head;
+    ALinkedListNode *prev = head;
 
-    while(temp != nullptr)
+    while(current != nullptr)
     {
-        prev = temp;
-        temp = temp->next;
+        prev = current;
+        current = current->next;
         delete prev;
     }
 }
@@ -109,12 +110,12 @@ LinkedList::~LinkedList()
 void LinkedList::printList()
 {
 
-    LinkedListNode *temp = head;
+    ALinkedListNode *current = head;
 
-    while(temp != nullptr)
+    while(current != nullptr)
     {
-        cout << "val = " << temp->val << " \n";
-        temp = temp->next;
+        cout << "val = " << current->val << " \n";
+        current = current->next;
     }
 }
 
@@ -123,7 +124,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
 {
 
     {   //Sorted in the descending order
-        LinkedList l1;
+        ALinkedList l1;
 
         l1.addValue(10);
         l1.addValue(9);
@@ -143,7 +144,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
 
     {
         //Sorted in the ascending order
-        LinkedList l2;
+        ALinkedList l2;
 
         l2.addValue(7);
         l2.addValue(8);
@@ -165,7 +166,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
 
     {
         //Mixed sorting
-        LinkedList l2;
+        ALinkedList l2;
 
         l2.addValue(7);
         l2.addValue(9);
@@ -186,7 +187,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
 
     {
         //Null list
-        LinkedList l2;
+        ALinkedList l2;
 
         l2.printList();
         REQUIRE(l2.find(10) == false);
@@ -202,7 +203,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
 
     {
         //positive and negative values
-        LinkedList l2;
+        ALinkedList l2;
 
         l2.addValue(7);
         l2.addValue(-2);
@@ -222,7 +223,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
 
     {
 
-        LinkedList l2;
+        ALinkedList l2;
         l2.printList();
         REQUIRE(l2.find(10) == false);
         l2.deleteValue(10);
@@ -232,7 +233,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
      }
 
      {
-        LinkedList l2;
+        ALinkedList l2;
         l2.printList();
         REQUIRE(l2.find(10) == false);
         l2.deleteValue(10);
@@ -242,7 +243,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
      }
 
      {
-        LinkedList l2;
+        ALinkedList l2;
         l2.printList();
         l2.deleteValue(INT_MIN);
         REQUIRE(l2.find(INT_MIN) == false);
@@ -251,7 +252,7 @@ TEST_CASE( "Test my sorted Linked List", "Test my sorted Linked List" )
      }
 
      {
-        LinkedList l2;
+        ALinkedList l2;
         l2.addValue(INT_MIN);
         l2.printList();
         REQUIRE(l2.find(INT_MIN) == true);

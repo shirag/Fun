@@ -7,6 +7,70 @@
 #define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "IKSolution.hpp"
 
+
+#if 0
+/* Model a Parking Lot
+
+ * */
+void ATCMain()
+{
+    while(true)
+    {
+
+        msg = getMsg(ATCQueue);
+        switch(msg)
+        {
+            case FLIGHTLANDREQUEST:
+                postMsg(FlightQueue, ATCMESSAGE);
+
+        }
+
+        handlePublishers();
+
+    }
+
+}
+
+
+void handlePublishers()
+{
+    postMsg(FlightQueue, ATCMESSAGE);
+
+}
+
+void FlightMain()
+{
+    while(true)
+    {
+
+        msg = getMsg(FlightQueue);
+        switch(msg)
+        {
+            case ATCMESSAGE:
+        }
+
+
+    }
+
+}
+
+
+
+void AirTrafficcontroller()
+{
+    ATCController ATCc;
+    Flight f[MAX_FLIGHTS]
+
+    ATCc.init();
+
+    while(1)
+    {
+        ACCc.request("Enter"); //Enter the zone
+    }
+
+}
+#endif
+
 /*****************************************************************************************/
 #if 0
 /* Model a Parking Lot
@@ -29,19 +93,12 @@ void parkingLotMain()
     driver.assignTicket(ticket);
 
     lot.opentGate();
-    //ot.ipdateFreeSlots(); opentgate should do this.
-    mgmnt.updateSigns();
-
+    mgmnt.updateSigns(); //ipdateFreeSlots(); opentgate should do this.
 
     lot.provideEmtySlot();
-
     driver.park();
 
-
-
     mgmnt.addSpaces();
-
-
 
     mgmnt.openMoreSpaces();
     mgmnt.openMoreFloors();
