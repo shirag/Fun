@@ -1,0 +1,558 @@
+
+
+01/06/2017
+----------
+1. Does the company have any revenues and how fast is the company growing?
+2. Easy interviews bring in boring work.
+3. Provide a fix for FOSS code for one of company's products. That is one way to get into a company.
+4. Avoid recruiters. Last ways of getting an interview.
+5. Prepare flashcards. Go over flash cards before the day of the intereview.
+6. FlashCard/Cheat sheet Format: Problem. Coding soln approach. Alternate solutions.
+7. Suggesting brute force ensures you have understood the problem.
+8. Shyness is percieved as arrogance.
+9. Not taking hints is percieved as arrogance.
+
+01/08/2017[Arrays]
+-----------
+*. In C++ use Auto. This will get rid of all your big iterator grievances. 
+*. [0,2] => 0,1, and 2, size = 3
+   (0,2] => 1, and 2 size = 2 
+   (0,2) => 1 size = 1
+*. Provide a function that has the equal probability of returning a random string.
+   Take away:
+   
+*. Write APIs for a magic map.
+   Take away: Dont optimize an interface for one methd.
+              Concurrency is a preemptive optimization. Avoid it initially.
+              Use auxillary data structures when you want to optimize on time.			  
+              
+   subset: non-contiguos. Set of unique elements(2 pow n).
+   subsequence: Not contiguous, but maintian the order(2 pow n). 
+   subArray: Has to be contiguos(n * n).
+   There can be empty subset, subsequences and sub-arrays.            
+   
+*. Kadane's algorithm: Identify the subarray with max sum. 
+   Worst: O(n^3), then O(n^2). Then O(n) solution(Kadane's algo): When Cumulative sum 0, reset it .
+   When you add an element that brings the whole thing down, there is no necessity to store that info.  
+     
+   max_ending_here += a[i];
+   if (max_so_far < max_ending_here)
+   {
+       max_so_far = max_ending_here;
+       start = s;
+       end = i;
+   }
+   if (max_ending_here < 0)
+   {
+       max_ending_here = 0;
+       s = i+1;
+   }
+
+   On the same lines as Kadane's: In an array, identify the max product, ignoring one of the products.
+   
+   
+   
+*. Bomber Man:
+   An array of size n+1 with elements 1 to n prove that there is atleast one duplicate.
+   O(n) time O(n) space: Use a unordered_set, return when you find a duplicate.
+   
+   //Find duplicate in 1 to n-1 in n element array[1 to 3] in 4 element array
+   
+   # Sort: n log n 
+   
+   # for(int i = 0; i < n; i++)
+     {
+       int tmp;
+       
+       if(arr[i] < n)
+           tmp = arr[i] - 1;
+       else
+           tmp = n - arr[i] - 1;
+       
+       if(arr[tmp] >= n)        
+           return tmp;
+          
+       arr[tmp] += n;    
+     }
+   
+
+   
+   
+*. Permuation of n numbers is n!. Complexity of permuatation calculation is n!.
+   Permuation of n numbers in r seats  = n!/(n-r)!
+   
+*  Repeat the question four times. You might come out with a brute force soln.   
+
+*. P1: Ascii to integer
+   Do the simplest thing first.
+   
+*  P2: Find the missing number in 1 to 5(since 1 no is missing, 3 elements): 1 to n(n-2 elements)
+   1. Brute force(n*n): Pick one number go over the entire array.
+   2. sort based(nlog n): Sort it and then find then case where difference is not 1.
+   3. Complexit n based solution: Do a sum and then find the difference. 
+   4. Summation based solution: DO a XOR of all the numbers in the input array + sequece. Result is the missing no.
+
+*  If a string is palindrome using recursion excluse punctuation.
+  
+   bool isPaliUtil(string s, int beingIndex, int endIdex)
+   {
+       if((beginIndex == endIdex) || beginIndex > endIndex)
+           return true;
+       if(s[beginIndex] == s[endIndex]) 
+           return isPaliUtil(s, beingIndex + 1 , endIdex - 1);
+           
+       return false;    
+           
+   }
+    
+  
+   bool isPali(string s)
+   {
+       beginIndex = 0;
+       endIndex = s.size() - 1; 
+       return isPaliUtil(s, beginIndex, endIndex);
+   }
+
+* Given an integer with n numbers, write a function that returns a permutation
+  * Generate all permuations, put it in an array, get a random index(using rand) and then 
+    return the content of the random index of the array. 
+    Uniformly picking the index.
+    Permuation with a probability of 1/n!
+    Time complexity: n!
+    Space complexity n * n!
+    
+  *. Entropy is a measure of unpredictability of an outcome.
+     uniform probability/distribution has max unpredictability.
+     To get the most the unpredictable outcome is to get a uniform outcome.
+     
+  * Best way to shuffle a deck of cards so that its absolutely random/most unpredictable.   
+     # Have two arrays: shuffled and unshuffld.
+     # Generate a random number. Pick the corresponding element from the array put it into shuffled array.
+     # Now you want to delete the element from the unshuffled array. What is the best way to do this?
+       swap the element with the last element in the array and then delete the last element of the array and then 
+       reduce the size. This is O(1) since we dont care about the order of elements in the unshuffled array.
+  * Magic map: set, get, delete and getRan() everything in O(1)               
+       *. Have a             
+   
+01/12/2017I(instructor: gayathri2307@gmail.com)
+----------
+TREES:
+										  
+*  Preorder traversal: preTraverse(){ print root->val; preTraverse(root->left); preTraverse(root->right); }
+*  Inorder traversal:  inoTraverse(){ inoTraverse(root->left); print root->val; inoTraverse(root->right); }
+*  Postorder traversal: proTravrse(){ proTraverse(root->left); proTraverse(root->right); print root->val; }
+*. Traversal DFS: Perform using Stack and Recursive. Process parent, process left node and its children, and then process right node and its children.
+                                           Note that you are pushing siblings onto stack.
+										   Three types of traversal for a DFS: Preorder, inorder, postorder 
+*. Traversal BFS: Perform using Queue. Process parent, process left node and it siblings, and then process children.
+                                           Thress types of traversal for a DFS: Preorder, inorder, postorder
+*. Print all nodes at a particular level: DFS solution with stack, Decrement the count everytime, before you invoke the recursive call.
+                                          when k == 1, return success.
+										  More clarification needed for the marker method.
+*. Inserting a node: If the value to be traversed is less than the root, traverse left. Otherwise right. Insert when you hit a NULL node.
+*. Deleting a node in a Binary tree is easy. Its the BST that has the problem.
+*. Deleting a node: Deleting a leaf node is easy
+                    Deleting a node that has only one child is easy.
+					Deleting node that has two children is the hard one. In this case, pick the max of left or min 
+				    of right and put in the place of delted node.
+*. During an interview, if you find somepart of the code is disturbing you and and distracting you, quickly convert it into a function and
+    tell the interviewer you will come back to that later. Especially calculating size etc..something very boring..
+*. Segment trees: Find the sum in a duration. You can convert this to a O(logN) solution by storing it in a segment tree. 
+   Both time and space complexity will be O(n) 
+*. Btrees and B+ trees.
+*. Golden rule: Inorder traversal of a BST gives you a sorted array(print left,middle, right).
+*. Balanced Binary Search tree is called Red Black Tree.
+*. Why do you balance a tree? You do this so that height is small. Which in turn leads to less search time. 
+   Look at it this way: You are having a pointer to the middle value instead of the beginning.
+*  Two types of balanced search tree: AVL tree(difference is one, strict) and RB tree.
+*. Searching in a binary search tree is a O(logN) operation.
+*. Four important operations for tree/Linked Lists:
+   *. Allocate a node(new operation).
+   *. Assign a value.
+   *. Make the next/right/left to NULL.
+   *. Make previous/parent node's next/left/right point to this node.
+   
+ *
+ *  On average, binary search trees with n nodes have O(log n) height.However, in the worst case, binary search trees can have O(n) height, 
+    when the unbalanced tree resembles a linked list (degenerate tree
+ *  In a tree with n nodes you will have n/2 leaves(roughly).
+ *  The height of a node is the number of edges from the node to the deepest leaf.
+ *  The height of a tree is a height of the root.
+ *  For a tree with height n and degree 2, no of leaves = 2 ^ n
+                                           no of nodes = (2 ^ n) - 1
+										   overall no of nodes (2 ^ (n + 1) - 1)
+ *. Maximum length of the queue during a BFS? It should take care of both currrent and previous levels.
+ *. Eratosthenes sieve. Store all no in a table. Look up more. Used to find out if a no is prime?
+ *. C++ map in implemented as Red-Black tree. This is a self balancing Binary Search Tree. Avg & worst: Search/Insert/Delete is O(log n)
+ *. C++ unordered_map is implemented as a hash map. 
+    Avg: Search/Insert/Delete is O(l) 
+	Worst: Search/Insert/Delete is O(n)
+	
+ *. C++ Priority_queue/Heap(container adaptor) - Might be implemented using vector.
+ *. Difference between Heap and BST.
+    
+	                              Heap                  BST(Binary Search Tree)
+    Is sorted?                    No                    Yes
+	Get the max                   O(1)                  O(log n)
+	Insert/Delete                 O(log n)              O(log n)
+	Root is less than right       No                    Yes
+	Root is higher than children  Yes                   No
+	
+ *. BSTs dont allow for duplicates. This will lead to lot of problems during rotation. But, according to CLRS, you are supposed to handle duplicates. 
+  	
+ /*******************************************************************************************************************/
+ 
+ Graph:
+ *. All the components that are connected. All the vertices that are reachable.
+ *. Weighted graph. Edges have weights associated with them.
+ *. Sparse graph way too edges.
+ *. Topological sort is just like DFS. But when you traverse
+    In topological sorting, we use a temporary stack. We don’t print the vertex immediately, we first recursively call topological 
+    sorting for all its adjacent vertices, then push it to a stack. Finally, print contents of stack. Note that a vertex is 
+    pushed to stack only when all of its adjacent vertices (and their adjacent vertices and so on) are already in stack. 
+    One type of problem: Given a sorted dictionary (array of words) of an alien language, find order of characters in the language.
+ *. Time complexity to find if two vertex are connected in a Adjacency matrix is O(1)
+ *. Time complexity to find if two vertex(one is v) are connected in a Adjacency  list is O(degree(v))
+ *. Adjacency matrix for dense graph. And list for parse graph.
+ *  To create a graph vector< vector<int> > v(10) // Graph containig 10 vertex
+ *  The following creates a vector containing 10 vector<int>, each one of those with 5 elements:
+    vector<std::vector<int>> v(10, std::vector<int>(5)); Graph containing 10 vertex and each containing 5 elements.
+ *  Graph DFS Application:
+    1. If a path exists?
+ *  Graph BFS Application:
+    Shortest path.
+	If somebody asks shortest path BFS is the way to go. Because if you find it directly connected then you are just 0 hops away.
+	In DFS you are more than 1 hop away min.
+ *  In unweighted graph shortest path comes from BFS of a graph.
+ *  In weighted graph shortest path comes from Djikstra's algo.
+ *  If you are asked to print all paths then use DFS.
+ *. If a dictionary is not lexicographically ordered, there mights be cycles in it. Then you can not apply topological sort on that.
+ *. For every graph problem:
+    1. Well defined node
+    2. Directional reference. i.e, there is a function that says you can go from src to destination using a function.
+*.  Nelson golden rule: For graph problems there is a funtion that help you find if two nodes are connected? 
+    Abstract this function first. In a BFS, make a list of these nodes and push then to the queue. 
+
+	1. Count islands problems                 -  DFS  - Do you build explicit graph from implicit? Yes.
+	2. Rain fall/elevation problem            -  DFS  - Do you build explicit graph from implicit? Yes.
+	3. Path from src string to dest string    -  BFS  - Do you build explicit graph? from implicit? No. You build the graph as you traverse.
+	4. Topological Sort                       -  DFS  - Do you build explicit graph? from implicit? Yes.
+	5. Knight's move/path problem             -  BFS  - Do you build explicit graph? from implicit? No. You build the graph as you traverse.
+	
+/***********************************************************************************************************************/
+Geetha: recusrion/mock:
+1. Return a duplicate from an array of integers that has many duplicates( 0 to n-1 vals, n size). 
+2. Recurrence	             Algorithm	                              Big-Oh Solution
+   T(n) = T(n/2) + O(1)	     Binary Search	                          O(log n)
+   T(n) = T(n-1) + O(1)	     Sequential Search	                      O(n)
+   T(n) = 2T(n/2) + O(1)	 tree traversal	                          O(n)
+   T(n) = T(n-1) + O(n)	     Selection Sort (other n square sorts)	  O(n square)
+   T(n) = 2 T(n-1) + 2       Generate all combinations                O(2 pow n)
+                             Generate all subsets                     O(2 pow n)
+   T(n) = T(n-1) + T(n-2)    Fibbpnacci                               O(2 pow n)
+   T(n) = 2 T(n/2) + O(n)	 Mergesort (average case Quicksort)	      O(n log n)
+          ?? n T(n-1) ??     Generating permuations                   O(n!)    
+
+*  Find the majority element problem(frequency greater than n/2):
+   * Hash Map/Bucket sort      - Time O(n), Space O(n)
+   * Sort and scan             - Time O(nlogn), Space O(1)
+   So, we want to come out with an algorithm that is Time O(n) and space O(1), ie, scan once and you have the result.
+   When they say constant space, dont think in terms of extra memory usage.
+   
+*  Pattern matching kicks in anxiety. Never take your flashlight and search for solution.
+*  Hallmark of learning is struggling. Pattern matching should be very natural.
+*  Slow down to speed on.
+*  Confidence is nothing but being comfortable.
+*. After solving every problem, ask yourself, have I struggles enough?
+*. If you are totally lost, just write the problem again very slowly. 
+   Helps the brain to slow down and in the process might come out with a solution.
+*. Try to forget its an interview.
+*. Recursion is a contract.
+   Handle the base case. I do something. I give you the input. you do the same and give me back in a particular condition. 
+   I might have to change some value if I want to call the recursion function again.
+   If I tamper with input I have to untamper again if I want to call the recursive call.
+*  Execution tree and execution sequence.
+   Sequence is DFS search on a tree.
+   Space complexity is height of the tree.
+*. Dont think personally. Just play with the problem. Then you will make friendship with the problem. 
+   Then you know the problem better. Then you will be able to solve the problem in a better fashion.
+   Engagement is also making friendship with the problem. Its more comprehensive and deeper.
+   Whats going on? Is she right?What if there would be other restriction?
+*. Most of the recursive functions, you pass in the value and then in nodes your print those values.
+*. Know your containers. When you have recursive function, you have to clearly know how your 
+   containers work in order to calculate the time and space complexity.
+*. Base case, delegation, contract, execution tree, execution sequence, Time and space complexity.
+*. Top down is recursion, bottom up is for iteration.
+*  C is a Top-down language. C++ is bottom up language.
+
+     
+   
+/***********************************************************************************************************************/
+
+ Concurrency: 
+ * Producer consumer 
+/***********************************************************************************************************************/
+
+Object Modelling: 
+
+     Coding question:                           Design question:  
+     prototye                                   functional breakdownstructural breakdown
+     Example                                    Use Cases
+     
+     FlowChart                                  Class Diagram/Inhertinance/Association
+                                                Business(Product E)/Public APIs/Contract/Abstraction(contents of the box)
+                                                (Engineers)Private APIs and Data/Implementation/Encapsulation(contents of the box)
+                                                Classes(Draw boxes)
+                                                Start defining is-a a relation and has a relation.(arrows)
+                                                
+     Design/Alog                                Design Patterns 
+      
+     Data Structures                            Data Structures   
+                   
+     Multitreading/Cocurrency                   Multitreading/Cocurrency
+                   
+My sequence: 
+1. Use cases.
+2. Sequence diagram.
+3. Class diagram. get function names from sequence diagram.
+4. Now you have to connect classes. We can use a "is-a" heirarchy or "part-of" heirarchy. 
+
+     
+
+Air Traffic Controller: Mediator Design Pattern.
+Entities talk to each other using msgs --> queue --> producer --> consumer.
+They are also looking for delegation in here.
+
+
+1. Familiarize your self with design patterns. e.g. mediator pattern.
+2. Dont say function pointers. Call then handlers.
+3. Model View Controller pattern.
+4. State machine.
+5. Head first series: Design patterns.
+
+Programming: Program is implemented as cooperative collection of objects.
+Design: Object oriented decomposition + static and dynamic models of the system. 
+Analysis: Requirements from the perspective of classes and objects.
+
+Object model is the framework. Four major elements of this model;
+* Abstraction: Focusses on essential characteristics of some object. Identify similarities.
+* Encapsulation: hides the details of implementation of the object. Try to hide differences. 
+* Modularity: Packaging abstractions into discrete units.
+* Hierarchy: Ranking or ordering of abstractions.
+  Inheritance is a "is-a" heirarchy. It implies a generalization/specialization heirarchy.
+  Subclass specializes the behaviour of the super-class. Superclasses represent generalized abstractions.
+
+* Callback: Server provides service. Client registers a callback with the server. 
+  Server invokes the callback whenever appropriate conditions are met.
+  
+ Elevator problem:
+  * Button  --> events --> queues --> producer/consumer.
+  * How does the elevator object talk to statergy object? Is it polling or publishing?
+  * What is the stratergy for selecting the elevator?
+    1. One that is stopped on that floor.
+     How do you differntiate the case between it is stopped completly and stopped immediately after a close?
+    2. Closest moving. It should be moving towards the floor.
+    3. Going to end the trip on the requested floor.
+    4. Something closest.. 
+  * Buttons: Have a base class buttons and then derive the external and internal buttons from it.      
+  * How do you track if all elevators are working properly. Idea is you should have a monitor 
+    that monitors the system.
+  
+ Parking Lot Problem:
+ Application of design principles(SOLID)(http://www.oodesign.com/design-principles.html):
+ 1. Single responsibility: Parking Lot interacts with user. That is the only responsibility.
+ 2. Open(extensions)/Close(modifications): Parking space is a base class. You can extend it anytime by introducing a new derived type.
+    Parking space is closed for modifications. Any implementation in base class should not be modified.
+    ParkingLotManagement: Manages all resources of the lot.
+ 3. Liskov substitution principle(erived types must be completely substitutable for their base types): You cant derive square
+     from rectange eventhough square is a rectange.
+ 4. Interface segregation principle: Clients should not be depending upon interfaces they dont use.
+ 5. Dependency inversion: ParkingLot depends on Abstraction parkingSpace and various parking types also depend on the abstraction.     
+    
+ Air Traffic Controller:
+ *. Flight to flight: Mediator design pattern: Lots of entities trying to coordinate with each other.
+    Flight to ATC:       --> Request/Response(message queue, ATC has a message queue and each flight has its own message queue)
+    Data sensor to ATC:  --> Publisher/Subscriber
+    
+ *. Client server model. Flight is the client and ATC is the server.   
+ *. ATC broadcasts messages to Flights.   
+ *. ATC is not tightly coupled to source of data. Source of data should provide uniform interfaces.   
+    Source of data can be considered as publisher and ATC can be described as subscribers.
+    At regular intervals health of all the sensors should be monitred.
+
+ 
+/***********************************************************************************************************************/
+Scalability:
+1. First visualize how you would build a system and then read how those have been built. This way you will be able to 
+appreciate why they have built it in a certain fashion.
+
+1. Data model
+   Design constraints.
+   Desgin
+   
+   How may queries per second?
+   Caching? Cassandra cluster.
+   Distributed key-value pair.
+   Query: which 
+   Geospecial index. Map database is based on location id.
+   Location is not the primary key.
+   Seperating idexong. 
+   Given the vehicle provide me the location. And the other way around.
+   Kafka is transport.
+   Uber: vehicle, map. source of truth, queries, values, how many reads and writes?
+   Everything has to go through cache. Modify a page etc.
+   Kafka is good for scaling out. Not good for Uber. Not a very sophisticated app.
+   Charding happens in vehicle. Keys have to be charded.
+   
+   Netflix:
+   Content metadata. 
+   Primary bucket. 
+   
+   Data Model
+   Movie. How many movies there are?
+   How fast is the update is taaking place?
+   Time line queries. Crappy.
+   Compute driven.
+   Analytics: online, near line, offline, best effort algorithm.
+   Source of truth.
+   Cache: Cache for every user.	
+   Persistent.
+   Scaling out for i/O
+   S3. Distributed file system.
+   User activity tracking service.
+   Subsription management.
+   Fallback to other problem - search problem.
+   
+   Design single node key-value store.
+   
+/***********************************************************************************************************************/
+LinkedList: divya.ravisankar@gmail.com
+* Know the Big O of all your C++ STL calls. 
+
+in c++
+Priority queue - uses heap
+Map uses a RB tree. not O(1)
+Unoridered map uses a hash map . Everything is O(1)
+In order to achive min queue , you multiply by -1 before inserting and multiplying by -1 afer you poop out.
+Dummy head.
+/***********************************************************************************************************************/
+ 
+Dynamic programming:
+1. Identify the recurrence equation.
+2. Write the recursive code.
+3. Identify overlapping problems. 
+3. Do the memoiztion thing. Replace the recursive part with a cache.
+4. Now pull the rug and convert it to an iterative solution. This is very important as interviewes want to see a iterative soln.
+   Iterative way is DP. If you are doing recursive its more of memoization approach. Not DP.
+*. You can memoize when there is a overlapping subproblem.   
+
+My approach until now:
+1. Write the recursive solution first.
+2. Insert a cache at the top of the recursive function that returns its contents when there is a hit(for the repetitive input).
+3. Insert a cache at the bottom and insert results to the cache then return contents of the cache.
+4. Also, you are extending the signature of the recursive function by one to pass in the cache data structure.
+
+/**************************************************************************************************************/
+1. Strings: Given a string we can expand around the center to find if its a palindrome.
+            Palindromes are symetrical around their centres. Left part of a palindrome exactly similar to right.
+2. Find the longest palindromic substring(not subsequence) in a string. We can do it in n ^ 2 time by expanding around centres.
+2. Mancher's algorithm: Used to find the longest palindromic substring(not subsequence) in a string in a linear time 0(n).
+   * Length of the palindrome with a particular char at center.
+   * Palindromes are not symetric beyon boundaries.
+   https://www.youtube.com/watch?v=nbTSfrEfo6M
+3. Shortest substring that controls the set. n cubed..
+4. Collection of strings. Then asking if a string is a member of that collection?
+   1. hash set.
+   2. Sorter Array.
+   3. Trie - Every branch is a word. 
+   
+   What about complexity?
+                           Hash Set       Sorted Array     Trie
+   Lookup                  O(n)           O(k log n)       O(k) 
+   Insert/Remove           O(k)           O(n)             O(k) 
+   Space                   Bad            OK               Worst
+   Prefix lookup/          Not good       O(k log n)       O(k) 
+   (Give me strings from collection that start with that prefix)
+   
+5. When you are searching for a string in a main string, the main string is called string and the other string is called pattern.   
+6. Given a set and words in the set, find two words in the set which can be concatenated to form a palindrome.  
+7. Given a string, find the longest repeasted substring. Use the suffix tree.
+8. Compact tree: You dont store individual chars in nodes. You store words in node.
+
+
+ Trie is a search tree. Its also called prefix tree/radix tree.
+* Each node has alphabet and leaf has the complete string.
+* Root is an empty string.
+* Space optimized presentation of tries you have compact suffix trees.
+* Looking up data in worst case in hash is O(n) where as in trie it is O(m) where m is the number of characters in the string. n is the number of entries in the hash set.
+
+    Some tries can require more space than a hash table, as memory may be allocated for each character in the search string, rather than a single chunk of memory for the whole entry, as in most hash tables.
+    By traversing a trie tree in preorder traversal you can retrieve thee lexicographical order.
+
+
+Each edge is a letter in the trie.
+
+Suffix Tree:
+a. In a suffix tree, one node can’t have more than one outgoing edge starting with same character
+b. Value at the leaf indicates the starting index of a suffix in the main string.
+
+A suffix tree T for a m-character string S is a rooted directed tree with exactly m leaves numbered 1 to m. (Given that last string character is unique in string)
+
+    Root can have zero, one or more children.
+    Each internal node, other than the root, has at least two children.
+    Each edge is labelled with a nonempty substring of S.
+    No two edges coming out of same node can have edge-labels beginning with the same character.
+
+    If string is horse, orse will have a leaf value of 1 and if you travel up from this index you will come across the complete suffix.
+    http://www.cs.tau.ac.il/~rshamir/algmb/presentations/Suffix-Trees.pdf
+
+-- 
+/***********************************************************************************************************************/
+
+Sorting
+* Merger Sort: Left array are sorted. Merge them
+* Qucik Sort: Pivot is the right place. Quick sort left and right of the pivot.
+
+Preparation. Keep examples ready. Have binary tree example ready that you can quickly draw on white board.
+
+Bucket  sort
+You think over. YOu have to know how the data looks like.
+REcursion : Draw a tree.
+Quick sort: Draw a tree.
+If there are 3 leaves, then it will be log to the base 3.
+Solve the problem for a pivot.
+rank will tell you the right loccation.
+Sortig is not needed.
+CLRS
+Treat equals as less than
+Important to have a stratergy for equals.
+What scenario qick sort will give you n square.
+Have pivot as a different thing
+Modular approach, modular approach..
+Have examples ready in your cheat sheet. Have trees with 2 n leaves.
+
+Stable Sort:
+Merge sort is a stable algorithm
+Top down or bottom up for Recursion?
+
+Impleemnt Merge sort using recusion
+Impleemnt Qucik sort using recursion.
+
+Inverted index for looking up strings.
+
+Qucik sort loads the whole array to memory.
+Why why why
+Tables for GB and no of bytes etc..
+Memoization: convert two loops to one?
+merge sort: map-reduce
+Machine 1MB ; 
+Heap has  a vector build below it.
+Heap is called priority queue
+Max heap: parent is more than children at every level
+Heap: Every root must have two children
+Heap Array: Holes have to be at the end.
+How do you build?
+streaming data against constant data.
+/***************************************************************************************************************/   
+
+

@@ -12,6 +12,32 @@ using namespace std;
 
 IKSolution soln;
 
+
+TEST_CASE( "Magic Map", "Magic Map")
+{
+
+    soln.setVal("poomba", 2);
+    soln.setVal("raghav", 41);
+    soln.setVal("shivani", 35);
+    soln.setVal("shourya", 4);
+    soln.setVal("Lakshmi", 2);
+
+    cout << soln.getValue("raghav");
+
+    soln.deleteVal("poomba");
+    soln.setVal("Mussaffa", 50);
+    soln.setVal("Raffiki", 25);
+
+    int i = 0;
+    while(i < 20)
+    {
+        cout << soln.getRandomVal();
+        cout << "\n";
+        i++;
+    }
+
+}
+
 TEST_CASE( "Arrays tests", "Arrays tests" )
 {
     cout << "Arrays tests \n\n";
@@ -2097,7 +2123,20 @@ TEST_CASE( "Swap Kth Node", "Swap Nodes" )
 }
 
 
+TEST_CASE( "Generate All Permutations")
+{
 
+    cout << "Generate All Permutations \n";
+    string s("abc");
+    vector<string> res;
+
+    res = soln.generateAllPermutations(s);
+    for(auto val : res)
+        cout << " " << val << " ";
+
+    cout << "\n";
+
+}
 
 
 TEST_CASE( "Reverse a linked list in groups", "Reverse in groups" )
@@ -2707,6 +2746,9 @@ TEST_CASE( "Number of phone no combinations", "Number of phone no combinations" 
         REQUIRE(soln.numPhoneNumbers(i1[i],i2[i]) == res[i]);
     }
 }
+
+
+
 
 TEST_CASE( "Max Stolen Value", "Max Stolen Value")
 {

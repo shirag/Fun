@@ -1,0 +1,187 @@
+
+
+Elevator Pitch
+  Hi, I'm Raghav. I used to work as Sr Software Engineer at Nagra. I have a lot of interest in [Video and streaming software] development.
+  My most recent experience has been building [HTML5 based video player using GStreamer framework] for an Embedded Linux platform. 
+  [Video using Javascript] is what excites me the most. 
+  I am open for challenging work that uses my vast experience. It is very important for me to work with smart people.
+  Everything falls in place when you have good people around you.
+
+
+********************************************************************************************************************    
+[Challenging Project: Video player development using Gstreamer Framework, OTT-MP4 playback]
+
+Business context:
+    Opentv5 is a middleware is built on embedded Linux OS and HTML5 with all digital television components.
+    Gstreamer is used for media playback. This enables all the FOSS plugins to be reused instead of developing from scratch.
+    
+Main design:
+    The challenge here is to  convert control only pipeline to control + data pipeline(Broadcast based solution that had lot of acceleration).
+    Re-use the existing pipeline that was built for NON-OTT playback for OTT playback.  
+    
+My role:
+    OTT-MP4 feature develpment. Build src, decontainer and decoder plugins/bins for the pipeline, integrate them, and unit test.  
+    Implement basic player features like seek etc. Undertstand and learn Glib programming, and Gstreamer Framework in a very short timeframe.
+    Also do research as to timings of the notifications to be sent to the player and Gstreamer states.
+     
+    As soon as you set the pipeline to a playing state it goes through various interim states before reaching the PLAYING state.
+    Proper resource allocation should be done in proper states(stream specific and non-stream specific). There can be events coming in that
+    indicates a CAPS(decoder configuration) and SEGMENT(AU time stamp).  Proper plugin code should be written to handle this.
+    
+    Player sets the pipeline to playing state. Using the ASYNC_DONE to send stream_started notification to external apps.
+    If there is start from non-zero offset request, then upon the receipt of ASYNC_DONE we would do an immediate seek.
+    We turn off pre-rolling after going to  playing state. Down side of it is we dont know when the set_position completion takes place.
+    Then we came out with a polling mechanism to detect the position change. 
+    
+    Memory leak detection using scripts and Valgrind etc. Optimization and stabiliatione and productize.
+
+    
+[Challenging Project: Update to a newer version of GStreamer] 
+
+Business context:
+    More support for soup for MPEG DASH
+    Optimization in terms of number of copies. 
+Main design:
+My role in it:
+    Follow the cookbook techniques.
+    Use some of the new features.
+    Support all use cases.
+    Solid unit test frame work
+    Ensure all the OTT pipelines work properly and pass all unit tests.
+    
+    
+*********************************************************************************************************************
+[Challenging Project: YouTube PlayBack + DIAL Integration]
+Business context:
+   Integration of YouTube App with STBs and pass all certification tests.
+Main design:
+   Modify/implement player functionality, MSE support in WebKIT and OpentV player and GStreamer framework. 
+   Use the existing OTT pipeline to playback YouTube video.
+My role in it:
+   Be accountible for some of the trick mode aspects of the certfication[Cancel a seek when a seek is going on]
+   Also, ensure that DIAL end to end features work. Inegrate Netflix DIAL code etc. 
+   and be accountible. Able to go over javasript test code to identify test cases and criterion for passing.
+   Also ensure live related Youtube aspects work properly. 
+   Resolve all the issues around start from non-zero offset when playing using DIAL.
+   Handle the part where data transfer between webkit process and pipeline porcess transfer takes place.
+   Feed the pipeline with the appropriate source segment and flush the shared memory when a seek takes place.
+   EOF logic. How to handle that properly?
+   
+   
+**********************************************************************************************************************    
+[Challenging Project: Application Manager Window Manager Support for STBs]
+Business context:
+   Ability to run multiple applications on an STB. There was a requirement to run Netflix in backfground mode.
+Main design:
+   Applications create windows using DirectFB and window manager is aware of all windows present in the system and their 
+   states in terms of visibility, z-order and focis. Application manager queries the 
+   state of the app with WinMan performs action accordingly. Listen to DirectFB graphics calls using SaWMan interface 
+   and control the GUI and what applications are running. 
+My role in it:
+   Own the WinMan code and design APIs and be the go to person.
+   Restacking logic: When a window is raised to top all the associated windows also should be raised properly.
+   Restacking takes place ensure that right window gets the focus.
+    
+**********************************************************************************************************************    
+[Challenging Project: DVBST and DVB teletext Subtitle support for OpenTV framework]
+Business context:
+HLS streams have DVBST and DVB Teletext embedded in them.
+
+Main design:
+Main port existing libraries and integrate with our Gstreamer framework.
+My role in it:
+***********************************************************************************************************************       
+
+Eride GPS experience:
+
+There is BBRAM to which you write the RTC offset when the receiver is shut down. When the receiver is turned ON again,
+it reads the offset from the BBRAM gets the accurate time and performs all the calculation. One of the application of time is to 
+find out if the ephemeris is valid or not. 
+
+RecPlay software is used to tune GPS algorithms. You record measurements and record positions calculated. Later for the same measurements 
+you try to produce positions again and see if it makes a difference.
+
+http://www.cs.dartmouth.edu/~campbell/cs50/socketprogramming.html
+
+
+
+************************************************************************************************************************
+Design patterns used at OTV;
+
+Creational:
+
+    * Singleton:
+        * player manager?
+    * Abstract Factory:
+    * Factory Method:    
+Structural: 
+    * Proxy pattern(Every process talks to other process using proxy)
+    
+Behavioral:
+
+Concurrency:    
+
+
+
+************************************************************************************************************************              
+
+2008 - 
+2009 - 
+2010 - 
+2011 - IVS/ 
+2012 - Telephonica suport  
+2013 - Playe trick modes. DVBST subtitles
+2014 - DIAL + Teletext. YouTube support.
+2015 - DIAL support, WinMan support for MultiApp.
+       Show, raisetoTop and provide focus.
+       DirectFB upgrade 
+2016 - YouTube Bug fixes. Gstreamer Upgrade + WebKit Upgrade + CI + Multiapp ZIndex + Z Layer stuff.
+*******************************************************************************************************************
+     
+Why do you want to join [Akamai]? 
+Go over company technology blogs and find out what makes a company unique?
+
+What are my strengths and weakness?
+Strength: I am very food at focussing. I am also very good at triaging issues.
+     
+*******************************************************************************************************************
+Interview takeaways:
+
+Applie Phone screen: Unit tests. Size of int mistake while reversing a string.
+
+BnW Onsite: Did not listen to the request for Class diagram. listen, listen, listen. Did not ask adequate number of questions.
+            I was not throwing enough technical terms; mutex, message queue etc..
+NVIDIA1: 
+    1. given three arrays, how to find a K by adding one member in each array. Did not push hard..
+    2. Exception handling in C++. How to achieve something equivalent of Python's final?            
+    3. What is the problem of deriving square from rectangle? OOPS went wrong..
+   
+Symantek 2:
+    1. what is the difference between ipv4 and ipv6?
+    2. What is the difference between multicast and broadcast?
+    3. What is NAT and ARP?
+    4. C++ what is virtual?
+    5. What is QOS
+    6. Difference between C and C++
+    
+NVIDIA2:   
+    1. Use of volatile.
+    2. strcpy        
+     
+Akamai:
+    1. Significance of copy contructor?
+    2. What is virtual?
+    3. What is pure virtual function?
+    4. What is initialization list?
+    5. What is friend function?
+    6. Can you create an instance of a pure virtual function/Abstract class?
+    7. What is condition variable?
+    8. How do you achieve a singleton in C++
+    9. Design a C++ linked list class that has values in ascending order.
+         
+*******************************************************************************************************************
+
+
+
+
+

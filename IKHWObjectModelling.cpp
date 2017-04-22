@@ -9,11 +9,53 @@
 
 
 #if 0
-/* Model a Parking Lot
 
- * */
+void myGstreamerPipeLineImplementation()
+{
+
+    for() //all elements
+    {
+        //call chain();
+    }
+
+
+}
+
+
+
+void dataSourceMain()
+{
+    while(true)
+    {
+
+        msg = getMsg(DataSourceQueue);
+        switch(msg)
+        {
+
+        }
+        dataSourcePublishFunction();
+    }
+
+}
+
+void dataSourceRegisteFunction(fnc) //Register a subscriber
+{
+}
+
+void dataSourcePublishFunction()
+{
+    for()
+    {
+        //Call all callbacks
+
+    }
+}
+
 void ATCMain()
 {
+
+    dataSourceRegisteFunction(ATCDataSourceCallBackFunction);
+
     while(true)
     {
 
@@ -25,18 +67,18 @@ void ATCMain()
 
         }
 
-        handlePublishers();
+        handlePublishers(); //Post a message to itself data source has upated some data. time to process it.
 
     }
 
 }
 
-
-void handlePublishers()
+void callBackForPublishers()
 {
     postMsg(FlightQueue, ATCMESSAGE);
 
 }
+
 
 void FlightMain()
 {

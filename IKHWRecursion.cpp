@@ -12,22 +12,28 @@
 
 
 
-void permuteUtil(vector<char>& arr, unsigned int index)
+vector<string> permuteUtil(string& arr, unsigned int index)
 {
+    vector<string> res;
+
     if(index == arr.size())
     {
-        cout << "We have a new permutation to print: ";
+        DEBUG_DEBUG(cout << "We have a new permutation to print: ");
         string s(arr.begin(),arr.end());
-        cout << s << "\n";
-        return;
+        DEBUG_DEBUG(cout << s << "\n");
+        res.push_back(arr);
+        return res;
     }
 
     for(unsigned int i = index; i < arr.size(); i++)
     {
         swap(arr[index],arr[i]);
-        permuteUtil(arr, (index + 1));
+        vector<string> res1 = permuteUtil(arr, (index + 1));
+        res.insert(res.end(),res1.begin(), res1.end());
         swap(arr[index],arr[i]);
     }
+
+    return res;
 
 }
 /* Problem: Generate all permutations.
@@ -51,18 +57,9 @@ void permuteUtil(vector<char>& arr, unsigned int index)
 
  *
  * */
-void IKSolution::generateAllPermutation(int n)
+vector<string> IKSolution::generateAllPermutations(string s)
 {
-
-    vector<char> arr;
-
-    for(int i = 0; i < n; i++)
-    {
-        arr.push_back(i+'1');
-    }
-
-    permuteUtil(arr,0);
-
+    return permuteUtil(s, 0);
 }
 
 /****************************************************************************************************/

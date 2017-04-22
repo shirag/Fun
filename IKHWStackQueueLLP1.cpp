@@ -1023,29 +1023,23 @@ LinkedListNode* mergeLinkedListNodesN(LinkedListNode* left, LinkedListNode* righ
         }
     }
 
-    while(left != nullptr)
+    if(left != nullptr)
     {
         if(result == nullptr)
             result = left;
         else
             tp->next = left;
-        tp = left;
-        left = left->next;
     }
 
-    while(right != nullptr)
+    if(right != nullptr)
     {
         if(result == nullptr)
             result = right;
         else
             tp->next = right;
-        tp = right;
-        right = right->next;
     }
 
-
     return result;
-
 }
 
 int szLinkedListNode(LinkedListNode *l)
@@ -1085,25 +1079,20 @@ LinkedListNode* IKSolution::MergeSortLinkedListNodePtr(LinkedListNode *l)
         {
             if(left == nullptr)
                 left = l;
-            else
-                tl->next = l;
             tl = l;
         }
         else
         {
             if(right == nullptr)
                 right = l;
-            else
-                tr->next = l;
             tr = l;
+            break;
         }
 
         i++;
         l = l->next;
     }
     tl->next  = nullptr;
-    tr->next  = nullptr;
-
 
     LinkedListNode* leftn = MergeSortLinkedListNodePtr(left);
     LinkedListNode* rightn = MergeSortLinkedListNodePtr(right);

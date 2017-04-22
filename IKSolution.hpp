@@ -8,7 +8,8 @@
 #ifndef IK_SOLUTION_HPP_
 #define IK_SOLUTION_HPP_
 
-
+#include <stdio.h>
+#include <string.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -185,11 +186,11 @@ class IKSolution
         stack<int> minS;
 
     public:
-        /* Magic Map: Found in IKHWArraysP1.cpp */
+
         int getValue(string s);
-        int setVal(string str, int val);
-        int deleteVal(string s);
-        int getRandomVal();
+        void setVal(string str, int val);
+        void deleteVal(string s);
+        int getRandomVal(); //uniformly returns a random value from the map
 
 	   	/* Arrays and Ad hoc; HomeWork1 Part */
         int prLR();
@@ -253,7 +254,7 @@ class IKSolution
 	                           */
 	    int findMajority();  /* Array of n elements. Many duplicates. frequency greater than n/2. NOt within the range. */
 	    int MaxPath(vvi); /* n x n matrix find the sum of max sum path */
-	    void generateAllPermutation(int n); /* given an array of n integers generate and print all permutations */
+	    vector<string> generateAllPermutations(string s);
 
 	    set< set<int> > provideSubSets(vector<int> ip);
 	    vector<string> expressionEvaluator(string strDigits, int iK); //Very similar to providesubsets(for all places plug in all operators).

@@ -1,0 +1,325 @@
+
+
+C++
+----
+
+1. For string s, using s[index], you can not insert element into the string. You
+   can just read. But, not write into it.
+   Where as swap(a[10], b[10]) => is good.
+2. For maps, the order of insertion is not maintained. e.g, when you iterate 
+   over the map after insertion, you cant retrieve it in the order in which it 
+   was inserted.
+3. For maps always use find() to find if an element exists and never use []. You might end up over writing.
+   For finding if a map contains one element mp.count() != 0 instead of mp.find != mp.end()
+4. For looping over containers using iterators, use macros to keep it simple.
+
+5. If you want to remove all the duplicates in a vector and sort them, 
+   then copy the vector to a set and copy it to a vector back again. This will achieve what you want to achieve.
+   
+6. Never ever modify the key value while traversing a map.
+
+7. The std::find() and std::count() take O(N). So, try avoiding them for set and map. 
+   In those cases, use container's appropriate functions since they use O(log n)
+   
+8. To traverse a container:
+   #define tr(container, it) \ 
+      for(typeof(container.begin()) it = container.begin(); it != container.end(); it++) 
+      
+9. string::erase(it) function always deletes the character at that location and 
+   moves all character by one location to the front. So, after this operaton, it will 
+   point to the same location. But, new content will occupy the same location. But then there no gurantee.
+   So, its best to do something of the following and discrard any iterator that points to elements 
+   after the element erased.
+
+   
+10. string to int - stoi()
+    int to string - to_string()
+    Is a string palindrome: os == string(os.rbegin(), os.rend());
+    Min heap: priority_queue<int, vector<int>, greater<int>> q;
+    Second parameter: Container object is the second class template parameter 
+    (the type of the underlying container for the priority_queue; by default: vector<T>).
+    You can not iterate over queue elements.
+
+11. Two problems with pointers:
+    1. Memory it points to, is gone(dangling pointer).
+    2. Pointer pointing to a memory is gone.
+    With reference counting mechanism(a kind of smart pointer), the memory is not released if there is at least one referance.
+12.  Smart pointers: They look like regular pointers. But they also release memory/object they are pointing, automatically.
+     Smart pointers ensure that when an pointer pointing to an object is destoyed, the corresponding object is also destoyed.    
+     e.g: Unique pointer(no copy allowed), shared pointer(ref counting mechanism), 
+     weak pointer(pointing to shared, but does not have count towards ref count).
+     
+     Code snippet:
+     
+     int mySmartPointerDemo()
+     {
+         //with regular pointer
+         int *ptr = new int(10);
+         cout << *ptr << " \n" ;
+         delete ptr;
+         
+         unique_ptr<int> ptr1(new int(10));
+
+         return 0;
+     }  
+     If you try to copy unique pointers it will lead to compile time errors.
+
+     
+     
+13. RAII: Resource acqusition is initialization: Locally created vectors dont have to destroyed. When an object goes out of scope,
+    destructor gets called and releases memory resources.     
+     
+13. Can I have a virtual destructor? 
+    To sum up, always make base classes' destructors virtual when they're meant to be manipulated polymorphically.
+    If a class has any virtual function, then it should have a virtual destructor.
+    If a class does not have any virtual function then it should have a virtual destructor.
+    This is because it will increase the size of the object by creating an extra vtable.
+ 
+14. There is no such thing as virtual constructors.
+
+15. Overloading is breadth. Overriding is going down(inheritance).
+
+16. What is 'this' pointer? Inside a member function, 'this' returns the pointer to the member object.   
+
+17. C/C++
+    1. C++ provides STL.
+    2. Very hard to achieve inheritance in C.
+    3. C does not provide exception handling.
+    4. C does not have the concept of references.
+    
+18. What are virtual functions?
+    Virtual functions are used to achieve inheritance. Virtual functions are called according to the type of 
+    object a pointer is pointing(referencing) to instead of type of the pointer(reference). 
+    Virtual functions are resolved at runtime.   
+    If a class has virtual functions then it is meant to be used a base class.
+    
+19. Difference between copy constructor and assignment operator.
+    The copy constructor is for creating a new object. It copies a existing object to a newly constructed object    
+    The assgignment operator is for assigning values to an existing object. This might mean desroying existing object.
+    
+20. What is Return Value Optimization(RVO)?
+    string fn1(string b)
+    {
+        string a;
+        return a;
+    }
+    main()
+    {
+        string b = fn1();
+      
+    }
+    If you dont enable RVO in this case, we might end up calling the copy contructor of string twice. If you enable RVo, then compiler 
+    manipulates the code such that there is no copy. 
+    void fn1(string& a)
+    {
+        a.append(); 
+        return;
+    }
+    main()
+    {
+        string b;
+        fn1(b);
+  
+    }
+    When is it not applied? return cond ? first : second; (first and second are two strings)
+21. Four types of design patterns: Creational(factory), Structural(proxy), Behavioral(observer), and Concurrency(scheduling).    
+22. Design patterns:
+    1. Name 2. Problem(context where it might be applied). 3. Solution(defines objects and describes how they interact). 
+    4. Consequences: Results and tradeoffs.   
+
+
+
+        
+---------------------------------------------------------------------------------
+Array/string sizes and index
+
+no of elements/size(including current index) = currIndex - startIndex;
+no of elements/size(excluding current index) = currIndex - startIndex - 1;
+
+Dummy nodes/Sentinel: very good when you want to have a dummy node in front of a linked list
+
+---------------------------------------------------------------------------------
+Bit wise operator:
+1. Turn ON a bit(HONOR)
+   x |= 0x01 => LSB is turned ON.
+   x |= (1 << n) => nth bit in the variable x is turned ON. n is no of moves.
+        (x >> n) => x is moved to RIGHT by n no of moves.
+2. Turn OFF a bit(OFFENDNOT)
+   x &= ~(1 << n) => nth bit is turned OFF
+3. To test a bit is ON.
+   if(x & (1 << n)) => TRUE is nth bit is ON
+4. Toggle a bit:
+   x ^= (1 << n) => nth bit is flipped/toggled.
+5.        OR   AND  XOR(when two are distinct)
+    0  0   0   0    0   
+    0  1   1   0    1
+    1  0   1   0    1
+    1  1   1   1    0
+    
+    
+---------------------------------------------------------------------------------
+C++ memory model:
+
+Producer-Consumer problem:
+Two main problems:
+1. Producer should sleep when the buffer is full. Consumer should sleep when the buffer is empty.
+   Consumer should wake up there is 1 unit of data in the buffer. Producer should wake up when there
+   is one unit of space available in the buffer. We should achieve this by producer and consumer 
+   sending signal to each other. If this is not done properly we might end up sleeping forever.
+2. You should properly protect the field that indicates how much data is present in a buffer using a 
+   proper mutex. 
+   
+   For one you should use a condition variables. But, then condition variables also have to be properly
+   protected using a mutex.
+   
+3. Primitives for protecting access to portions of memory: Mutex
+   Primitives for allowing synchronization(block one thread until the other one does something) 
+     between threads: Condition Variables. 
+   A condition variable must always be paired with a mutex. When it waits for a mutex, it gives up the condition variable. 
+   when the condition is met, it automatically gets themutex back again.   
+      
+
+---------------------------------------------------------------------------------
+Video Notes:
+
+H.264:
+ 1. What are frames? I, P and B.
+    Independent frame. Least compresed. You dont need other frames to decode it.
+    P frame. Needs previous frames to decode it. It uses the I frame that comes before it to decode the frame. More compressed that IFrame
+    B frame. can use previous a forward to decode it. It uses the I frame that comes before it and after it to decode itself. Most compressed.
+    A slice: It is more spatial term. Is a spatially distinct region of a frame that is encoded separately from any other region in the same frame. 
+    There are I-slices, P-slices, and B-slices.
+ 2. Profiles and levels?
+    Profiles address the problem of code complexity and processing power.
+    BMH:
+    CEll phone use baseline
+    STBs use Main Profile.
+    Blueray uses high profile.
+    Levels address the problem of bandwidth, max resolution, and memory issues on the decoder side
+    Low end device(processor and memory), low bitrate, small screen size: go for baseline profile and lower levels
+    High end device(processor and memory), high bitrate, bigger screen size: go for aseline profile and lower levels
+     
+ 3. How do you reduce data?  Within and image and within a series of images.
+ 4. What is block based coding? Or what are macroblocks?
+    Macro block is a processing unit.
+ 5. What block based motion compensation? What is coding the motion vector? (P frames)
+ 6. What is intra-prediction?
+ * Most efficient encoder. In terms of bit-rate.
+ * Also very high resilience to error.
+ 
+HLS:
+
+DASH:
+  Media Presentation Desription File contains link to period description files.
+  Period files contain link to Adapatation description files(camera angle, language etc).
+  Adaptation description files contain link to bitrate info files.
+  Bit rate info files contain link to actual video files(fragemented Mp4 files)
+  
+  
+MP4:
+
+
+* Acceptable 1080p stream using H.264 (AVC) compression at around 6 Mbps. 
+  All else being equal, a 4K video would require 4x the bandwidth of a 1080p video (24 Mbps).
+  With efficient Codec you can bring it down to 15mbps. With Mediamelon you can bring it to 10mbps.
+  
+* Norbert questions:
+  * What all hardware configurations we do? What is prerolling from device point of view?
+  * How does Iframe only mode work?
+  * fmp4 against regular MP4 
+  * How do you initialize flow proxy and decoder proxy? What is the difference at a high level?
+  * How do we play with buffering level etc in the case of newer pipeline?
+    Water mark model?
+    In our case when would we show the spinning wheel"
+    High water mark and lowe water mark: We start playing when we reach the high water mark. 
+    But, we would pause when we go below the low water mark. Wait unti we hit the high water mark gain.
+  * Licensing terms.
+  * Do you know anything about GStreamer's streaming threads.
+  * We were disabling prerolling after the first playback. Becuase of this after a seek we were not 
+    able to wait for ASYNC_DONE message.
+  
+  
+-----------------------------------------------------------------------------------------------------------------------------------    
+
+UTF/Unicode
+
+
+-----------------------------------------------------------------------------------------------------------------------------------    
+  
+    
+-----------------------------------------------------------------------------------------------------------------------------------    
+  * Networking:
+   Unicast: from one source to one destination i.e. One-to-One 
+   Broadcast: from one source to all possible destinations i.e. One-to-All 
+   Multicast: from one source to multiple destinations stating an interest in receiving the traffic i.e. One-to-Many 
+   
+   Why TCP against UDP for VoD streaming:
+   1. TCP provides reliability. Sends the packet again if there is a drop of packet.
+   2. TCP provides network buffers.
+   3. TCP connections oriented. So, helps with security.
+   4. TCP's bandwidth probing and congestion control will attempt to use all of the available 
+      bandwidth between server and client, fetching content as quick as possible while being friendly
+      to other (TCP) traffic on the same links.
+      
+   Other advantages of TCP:
+   * in-order delivery of data to the application. 
+   * Since TCP builds a buffer, TCP also has to ensure that its buffer does not overflow. This is ensured using 
+     flow-control where receiver tells the sender if the buffer is full.
+   * TCP offers congestion control. It means keeps increasing its send buffer window sizes until 
+     it sees packet drops.  
+   * With TCP server needs a socket connection for every TCP receivert where as with UDP server can talk to multiple UDP receivers
+     using the same socket.   
+      
+   RTSP: Realtime streaming protocol. Session control protocol for streaming video. TCP based.
+   RTP: Realtime Trasport protocol. used with RTSP to stream video data. UDP based.
+   RTCP: Realtime Trasport Control protocol. Goes with RTP. It provides QoS for RTP.
+     
+   What is the difference between HTTP POST and PUT
+   PUT is replacing the current website(look and feel).
+   Post is adding some content to fields of a document.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Bufferuing Using Gstreamer:
+1. Application PAUSES the pipeline when it sees a buffering % below 100%.
+2. Application PLAYSBACK using the pipeline when it sees a buffering = 100%.
+* How does the application receive this message? The pipeline has to send it. How does the pipeline do it?
+  It can have a low and high water mark. When the buffer level hits the high water mark, we can send the 100% message. 
+  When it goes below the low water mark, it sends less than 100% message. It will wait until hits the high water mark again to send 100%.
+* How do you configure the low and high water marks?
+  1. Fixed time: We always want buffer for these many seconds.
+  2. Fixed size: We always want buffer these many bytes.
+* NULL state: Default state.
+* READY state: Default resources(run-time libraries and memory) available. NULL to ready, allocate all non-stream specific resources.
+* PAUSED state: It is ready and can handle data.    
+
+GStreamer High Level Flow:
+1. Initialize an element(class init/bin init)
+2. Set properties.
+3. State Trasitions: Tells when to allocate resources.
+                      NULL to ready - Memory, library etc(All proxies: resman, winman, flowproxy).
+                      READY to PAUSED - Decoder resource allocation.
+                       
+4. Once in paused state, it can receive events(seek, caps, newsegment event)
+   caps event says what kind of decoder it is?
+   newsegment indicates samples from new duration.
+5. Chain calls. Receives video samples..
+6. Now you can send messages to bus.
+7. Answer any query like duration etc.
+8. somebody can do a get property call.
+
+* Scheduling mode: At OTV We did a push based shceduling mode. The src element would create a thread and push. Src pad would receive the chain function and in turn do a 
+  a push of data on their sink pad.
+  Pull based mode, the src pad would start a task and every src pad would support a function where you would get a range of bytes. 
+  This would be used in cases where downstream element wants the control the data flow and requests only those many byes from the 
+  upstream element.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+System design:
+
+Measure stck usage:
+Design malloc:
+
+
+

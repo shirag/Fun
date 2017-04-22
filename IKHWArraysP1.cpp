@@ -12,84 +12,107 @@
 #include "IKSolution.hpp"
 
 
-/* Implement a magic hash map */
-typedef vector< pair<string, int> > vp;
-typedef map<string, unsigned int> msv;
+/* Problem:
+ *     Implement a magic hash map. All following 4 has to ne O(1)
+        int getValue(string s);
+        void setVal(string str, int val);
+        void deleteVal(string s);
+        int getRandomVal(); //uniformly returns a random value from the map
+ *
+ * Example:
+ * Approach:
+ *      1. Have a map and an auxially array.
+ *      2. key in the map is the key you want to search and the value is the index to an array.
+ *      3. When you delete a key, its not deleted, but just swapped with the one at the end of the array.
+ *         The idea here is deleting the end of the array may not be always O(1). Then you insert at a
+           particular location in the array.
+        4. In the array you store both the key and the value.
+ *
+ * */
 
-vp auxillarDs;
+typedef unordered_map<string, unsigned int> msv;
+vector<pair<string,int>> refTable;
 msv mMap;
-unsigned int cS = 0;
+
+unsigned int size = 0;
 
 
 int IKSolution::getValue(string s)
 {
     int val = 0;
 
-    msv::iterator it = mMap.find(s);
-    if(it != mMap.end())
+    if(mMap.count(s) != 0)
     {
-        //Retrieve the value from a vector that has a pair of string and int
-        vp::iterator it1 = auxillarDs.begin() + it->second;
-        val = it1->second;
+        int index = mMap[s];
+        return refTable[index].second;
+        assert(refTable[index].first == s);
     }
 
     return val;
 }
 
-int IKSolution::setVal(string str, int val)
+void IKSolution::setVal(string str, int val)
 {
-    unsigned int sA;
 
-    msv::iterator it = mMap.find(str);
-    if(it == mMap.end())
+    if(mMap.count(str) == 0)
     {
-        cout << "Field not found .. \n" ;
-        auxillarDs.push_back(make_pair(str,val));
-        sA = auxillarDs.size();
-
-        //mMap.insert(make_pair(str,sA-1));
-        mMap[str] = sA-1;
-        cS++;
+        cout << "Field not found.. \n" ;
+        if(size == refTable.size())
+        {
+            cout << "push_back \n";
+            refTable.push_back({str,val});
+            mMap[str] = size;
+            size++;
+        }
+        else
+        {
+            cout << "insert \n";
+            refTable.insert(refTable.begin() + size, {str, val});
+            mMap[str] = size;
+            size++;
+        }
     }
     else
     {
-        //Overwrite to an existing field in a vector of <string,int>
+        //Overwrite to an existing field
         cout << "Field found .. \n" ;
-        auxillarDs[it->second] = make_pair(str,val);
+        int index = mMap[str];
+        refTable[index].second = val;
+        assert(refTable[index].first == str);
     }
 
-    return 0;
+    return;
 }
 
-int IKSolution::deleteVal(string str)
+void IKSolution::deleteVal(string str)
 {
 
-    msv::iterator it = mMap.find(str);
-    if(it != mMap.end())
+    if(mMap.count(str) != 0)
     {
-        auxillarDs[it->second] = auxillarDs[cS-1];
-        mMap[str] = it->second;
-        mMap.erase(it);
-        cS--;
+        int index = mMap[str];
+
+        refTable[index].first = refTable[size-1].first;
+        refTable[index].second = refTable[size-1].second;
+
+        size--;
+
+        mMap.erase(str);
+        mMap[refTable[index].first] = index;
     }
 
-    cout<< "cs = " << cS << " \n";
-    cout<< "length of vector = " << auxillarDs.size() << "\n";
-
-    return 0;
+    return;
 }
 
 int IKSolution::getRandomVal()
 {
     int val = 0;
 
-    int rv = rand()%cS;
-    cout << "rv  = " << rv << "\n";
+    int rv = rand() % size;
 
-    vp::iterator it1 = auxillarDs.begin() + rv;
-    val = it1->second;
 
-    //cout << "val = " << val << "\n";
+    val = refTable[rv].second;
+
+    cout << "Random person " << refTable[rv].first << " Age " << refTable[rv].second << "\n";
 
     return val;
 }
