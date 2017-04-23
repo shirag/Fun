@@ -206,6 +206,7 @@ class IKSolution
 	    int findMinimum(vector<int> arr);
 	    int printCountOfBitsSet(vector<int> intArr);
 	    int findMaxSumSubArray(vector<int> arr); //Kadane's algorithm
+	    int findDuplicateThatOccursOnce(vector<int> v);
 
 
 	    /* Trees: Class problems */

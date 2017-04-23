@@ -38,6 +38,93 @@ TEST_CASE( "Magic Map", "Magic Map")
 
 }
 
+TEST_CASE( "Find Max Sum Sub Array(Kadane's algo)", "Find Max Sum Sub Array(Kadane's algo)" )
+{
+
+    cout << "Find Max Sum Sub Array(Kadane's algo)";
+
+    //0
+    vector<int> i1 = {1, 2, 3, 4, 5};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 15);
+
+    i1 = {1, 2, 3, 4, 5, -15};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 15);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 15);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 17);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 20);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3, -15};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 20);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3, -15, 20};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 25);
+
+    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3, -15, 20, -25};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 25);
+
+    i1 = {-1, -2, -3};
+    REQUIRE(soln.findMaxSumSubArray(i1) == 25);
+
+    cout << "\n";
+}
+
+
+
+TEST_CASE( "Find the duplicate that occurs once", "Find the duplicate that occurs once" )
+{
+    vector<int> v = {1,2,3,4,4};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 4);
+
+    v = {4,4,3,1,2};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 4);
+
+    v = {4,3,3,1,2};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 3);
+
+    v = {4,1,3,3,2};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 3);
+
+    v = {1,1,4,3,2};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 1);
+
+    v = {1,1,1,3,2};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 1);
+
+    v = {1,1,1,1,2};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 1);
+
+    v = {1,1,1,1,1};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 1);
+
+    v = {4,1,3,2,4};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 4);
+
+    v = {1,3,2,3};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 3);
+
+    v = {1,3,2,3,4,5};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 3);
+
+    v = {1,3,2,3,5,4};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 3);
+
+    v = {1,3,2,3,2,4};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 2);
+
+    v = {1,3,2,3,2,1};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 1);
+
+    v = {5,3,2,1,4,5};
+    REQUIRE(soln.findDuplicateThatOccursOnce(v) == 5);
+
+}
+
 TEST_CASE( "Arrays tests", "Arrays tests" )
 {
     cout << "Arrays tests \n\n";
@@ -396,41 +483,6 @@ TEST_CASE( "How Many bits set(Hamming Weight)", "How Many bits set(Hamming Weigh
     cout << "\n\n\n";
 }
 
-TEST_CASE( "Find Max Sum Sub Array(Kadane's algo)", "Find Max Sum Sub Array(Kadane's algo)" )
-{
-
-    cout << "Find Max Sum Sub Array(Kadane's algo)";
-
-    //0
-    vector<int> i1 = {1, 2, 3, 4, 5};
-    REQUIRE(soln.findMaxSumSubArray(i1) == 15);
-
-    i1 = {1, 2, 3, 4, 5, -15};
-    REQUIRE(soln.findMaxSumSubArray(i1) == 15);
-
-    i1 = {1, 2, 3, 4, 5, -15, 14};
-    REQUIRE(soln.findMaxSumSubArray(i1) == 15);
-
-    i1 = {1, 2, 3, 4, 5, -15, 14, 3};
-    REQUIRE(soln.findMaxSumSubArray(i1) == 17);
-
-    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3};
-    REQUIRE(soln.findMaxSumSubArray(i1) == 20);
-
-    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3, -15};
-    REQUIRE(soln.findMaxSumSubArray(i1) == 20);
-
-    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3, -15, 20};
-    REQUIRE(soln.findMaxSumSubArray(i1) == 25);
-
-    i1 = {1, 2, 3, 4, 5, -15, 14, 3, 3, -15, 20, -25};
-    REQUIRE(soln.findMaxSumSubArray(i1) == 25);
-
-    i1 = {-1, -2, -3};
-    REQUIRE(soln.findMaxSumSubArray(i1) == 25);
-
-    cout << "\n";
-}
 
 
 

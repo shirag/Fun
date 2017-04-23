@@ -117,6 +117,116 @@ int IKSolution::getRandomVal()
     return val;
 }
 
+/*  Problem:
+ *      Find a duplicate in an array of size n with elements equal to 1 to n-1.
+ *      [1,2,3,3] n = 4,elements = 1 to 3
+ *      IMPORTANT: There can be more than one repeating elements.
+ *
+ *  Approach 1:
+ *      Create a boolean auxiliary array. Mark the field in the array.
+ *  Approach 2:
+ *      Add a constant value to the corresponding field to indicate the number has been found.
+ *  Approach 3:
+ *      Instead of adding a no to the field, place all elements at their exact location.
+ *      Use the first location in the array as the placeholder.
+ *  Approach 4:
+ *
+ */
+
+int IKSolution::findDuplicateThatOccursOnce(vector<int> v)
+{
+    int duplicate = 0;
+
+#if 0
+    //Time: O(n)
+    //Space: O(n)
+    vector<bool> w(v.size());
+
+    for(int i = 0; i < v.size(); i++)
+    {
+        int tmp = v[i];
+
+        if(w[tmp-1] == true)
+            return tmp;
+
+        w[tmp-1] = true;
+    }
+
+    return duplicate;
+#endif
+
+#if 0
+    // If the element at the index where it belongs is greater than n then that is the duplicate.
+    //Time: O(n)
+    //Space: O(1). But, there is a chance of overflow. Modifying the array. So,not possible on read-only array.
+
+    for(int i = 0; i < v.size(); i++)
+    {
+        int tmp = v[i];
+        if(tmp > v.size())
+            tmp = tmp - v.size();
+
+        if(v[tmp-1] > v.size())
+            return tmp;
+
+        v[tmp-1] += v.size();
+    }
+
+    return duplicate;
+#endif
+
+#if 0
+    //Time: O(n)
+    //Space O(1). Modifying the array. So, not possible on read-only array.
+    //Insert the element at the right location. Make array[0] as the place holder.
+    for(int i = 0; i < v.size(); i++)
+    {
+        int tmp = v[0];
+
+        if(v[0] == v[tmp])
+            return tmp;
+        else
+            swap(v[0],v[tmp]);
+    }
+
+    return duplicate;
+#endif
+
+#if 1
+
+    //Find the median of the given range.
+    //Count how many numbers(in the array) are in the range beginning and median.
+    //If count is greater than what it is supposed to be, then duplicate is on left of the median.
+
+    //Time: O(n log n)
+    //Space O(1). Possible on read only arrays.
+    printVector(v);
+
+    int rb = 1;
+    int re = v.size() - 1;
+
+    while(rb != re)
+    {
+        float median = (rb + re)/2.0;
+        int count = 0;
+
+        for(int i = 0; i < v.size(); i++)
+        {
+            if(v[i] <= median && v[i] >= rb)
+                count++;
+        }
+        DEBUG_ERROR(cout << "rb = " << rb << " re = " << re << " median = " << median << " count = " << count << " \n");
+        if(count > median - rb + 1)
+            re = median; //its on left of median
+        else
+            rb = median + 0.5; //its on right of median
+    }
+
+    DEBUG_ERROR(cout << "rb = " << rb << " re = " << re << " \n");
+    return rb;
+#endif
+
+}
 
 /*************************************************************************************************/
 /* Problem: Pascal's Triangle
