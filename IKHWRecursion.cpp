@@ -824,3 +824,108 @@ int IKSolution::wellFormedBrackComb(int n)
 }
 
 /********************************************************************************************/
+int findFinalValue(int val1 , int val2, char operand)
+{
+    int res;
+
+    switch(operand)
+    {
+        case '+':
+            res = val1 + val2;
+            break;
+        case '-':
+            res = val1 - val2;
+            break;
+        case '*':
+            res = val1 * val2;
+            break;
+    }
+
+    return res;
+}
+
+
+/*  Problem:
+        Given a string of numbers and operators, return all possible results from computing all the different possible
+        ways to group numbers and operators. The valid operators are +, - and *.
+
+    Example 1
+        Input: "2-1-1".
+        ((2-1)-1) = 0
+        (2-(1-1)) = 2
+        Output: [0, 2]
+    Example 2
+        Input: "2*3-4*5"
+        (2*(3-(4*5))) = -34
+        ((2*3)-(4*5)) = -14
+        ((2*(3-4))*5) = -10
+        (2*((3-4)*5)) = -10
+        (((2*3)-4)*5) = 10
+        Output: [-34, -14, -10, -10, 10]
+
+    Approach:
+        Post order recursion.
+        left substring ----- operand ----- right substring  --- operand ---
+        * Every operand in the string requests different ways to compute from its left string and right string.
+        * For all return values, it computes combination for all values.
+        * This is done for all operands in a string.
+        *
+        How many substring can be formed using a string:
+        2*3-4*5
+        set 1: 2 and (3 - 4 * 5)
+        set 2: (2 * 3) and (4 * 5)
+        set 2 :(2 * 3 - 4) and (5)
+
+
+    Take away/stumblers:
+        Base case where you dont have any operands in a string.
+        This boils down to a problem where you generate all substrings.
+        2*3-4*5
+        2 345
+        23 45
+        234 5
+
+    Similar problem:
+        Different ways in which trees can be formed.
+
+
+*/
+vector<int> IKSolution::diffWaysToCompute(string input)
+{
+    vector<int> rres;
+    int noOfOperands = 0;
+
+    DEBUG_DEBUG(cout << "Input string is " << input << " \n");
+
+    for(int i = 0; i < input.size(); i++)
+    {
+        if( input[i] == '+' || input[i] == '*' || input[i] == '-')
+        {
+            noOfOperands++;
+            string lsubstr = input.substr(0, i);
+            string rsubstr = input.substr(i + 1);
+
+            vector<int> lvalues = diffWaysToCompute(lsubstr); //recursive part
+            vector<int> rvalues = diffWaysToCompute(rsubstr); //recursive part
+
+            for(auto val1 : lvalues)
+            {
+                for(auto val2 : rvalues)
+                {
+                    int res = findFinalValue(val1 , val2, input[i]);
+                    rres.push_back(res);
+                }
+            }
+        }
+
+    }
+
+    if(noOfOperands == 0)
+        rres.push_back(stoi(input));
+
+
+    return rres;
+}
+/********************************************************************************************/
+
+

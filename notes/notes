@@ -32,13 +32,38 @@ C++
    after the element erased.
 
    
-10. string to int - stoi()
-    int to string - to_string()
-    Is a string palindrome: os == string(os.rbegin(), os.rend());
-    Min heap: priority_queue<int, vector<int>, greater<int>> q;
-    Second parameter: Container object is the second class template parameter 
-    (the type of the underlying container for the priority_queue; by default: vector<T>).
-    You can not iterate over queue elements.
+10. C++: tool box
+    * string to int - stoi()
+    * int to string - to_string()
+    * Is a string palindrome: os == string(os.rbegin(), os.rend());
+    * Min heap: priority_queue<int, vector<int>, greater<int>> q;
+      Second parameter: Container object is the second class template parameter 
+      (the type of the underlying container for the priority_queue; by default: vector<T>).
+    * You can not iterate over queue elements. You can accuess only front() and back()
+    * To concatenate vector b to another one a: a.insert(a.end(), b.begin(), b.end());
+    * To get substring from a string: string ss = s.substr(position, size);
+    * To get smaller strings from a space separated bigger string:
+      istringstream iss(mybigstring, istringstream::in);
+      while( iss >> word ) {word1.push_back(word);}        
+    * When you have a dictionary with key and multiple values for key,
+      unordered_map<key,vector<int>> is the way to go. When you want to insert something
+      auto it = mm.find(abs);
+      if(it != mm.end())  it->second.push_back(val);
+    * queue: push(x)
+      queue: back() - reference to last pushed.
+      queue: pop - remove front. 
+      queue: front() - retrieve first element. 
+      
+      stack: push(x)
+      stack: top() - reference to last pushed.
+      stack: pop - remove top/last pushed. 
+
+      list: push_front()
+      list: push_back()
+      list: pop_front()
+      list: pop_back()
+
+      
 
 11. Two problems with pointers:
     1. Memory it points to, is gone(dangling pointer).
@@ -123,12 +148,39 @@ C++
     }
     When is it not applied? return cond ? first : second; (first and second are two strings)
 21. Four types of design patterns: Creational(factory), Structural(proxy), Behavioral(observer), and Concurrency(scheduling).    
+
 22. Design patterns:
     1. Name 2. Problem(context where it might be applied). 3. Solution(defines objects and describes how they interact). 
     4. Consequences: Results and tradeoffs.   
 
+23. What are Abstract classes? Can you create an object of a abstract class?
+    A class that contains atleast one pure virtual function is called abstract class.
+    You cannot create an object of an abstract class type. Abstract classes act as expressions of general concepts 
+    from which more specific classes can be derived. 
 
+24. How do you implement a factory class/method in C++?
 
+25. Skip list advantage is you dont have tolock the entire linked list. in case of a tree you have to.
+    Efficient alternative to balanced binary trees and easy to implement.
+    
+26. Initialization list: Its an efficient way of initializing all memeber variables in a constructor. Member variables are 
+    initialized using a copy constructor rather than by calling the default constructor and then a copy assignment operator.   
+  
+27. Four functions that compiler generates for you: constructor, destructor, copy assignemnt, copy constructor.      
+
+28. Why is it a bad idea for destrucotrs to throw exception?
+    try{ 
+        vector<int> v; 
+        fn1();
+    }
+    Now imagine fn1() throws an exception and then if vector<int>'s destructor also throws an exception, 
+    then it is perfect receipe for a disaster.
+    
+29. Never call virtual functions in constructor/destructor becaseu this will end up calling the base class constructor 
+    and never go to derived part.    
+    
+30. Assignment operator should return *this. This way we can do x = y = z;(y = z should return *this/y)    
+    
         
 ---------------------------------------------------------------------------------
 Array/string sizes and index

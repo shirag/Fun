@@ -193,6 +193,7 @@ class Notifier
 class displayElement
 {
     public:
+        int myDummyFunction();
         virtual void myNotificationFunction() = 0;
         virtual ~displayElement(){}; //dont make it = 0;
 };

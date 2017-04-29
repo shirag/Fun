@@ -179,6 +179,24 @@ class LRUCache
         unsigned int lRUCachSize = 0;
 };
 
+
+class superStack
+{
+    private:
+        LinkedListNode *head = nullptr;
+        int size;
+
+    public:
+        superStack();
+        void push(int x);
+        void pop();
+        int top();
+        void inc(int e, int k);
+
+
+};
+
+
 class IKSolution
 {
     private:
@@ -219,7 +237,8 @@ class IKSolution
 	    /* Homework2 - Trees */
 	    bool isBST(Node*);
 	    Node* mergeTwoBSTs(Node* node1, Node* node2);
-	    int printAllPathsInATee(Node *node);
+	    void printAllPathsInATee(Node *node);
+	    vvi printAllPathsInATeeToASum(Node* root, int k);
 	    int countUniValSubtrees(Node *node);
 	    Node* treeToDoubleLL(Node*);
 	    Node* findLCA(Node* root, int n1, int n2);
@@ -264,6 +283,7 @@ class IKSolution
 	    int howManyTrees(int n); //given you have n number of nodes.
 	    bool sumOfIntegers(vector<int> IntArr, int iTarget); /*If there is a group of integers whose sum is K(may or may not be contigous)*/
 	    int wellFormedBrackComb(int n);
+	    vector<int> diffWaysToCompute(string s);
 
         /* LinkedLinkedListNode */
 	    LinkedListNode* AddTwoLinkedListNodes(LinkedListNode *LinkedListNode1, LinkedListNode *LinkedListNode2);
@@ -319,6 +339,7 @@ class IKSolution
         vector<int> mergearrays(vector<vector<int>> iarray);
         vector<int> twitterTopK(vector<int>iStream, int iK);
         vector<string> printTriplets(vector<int> intArr);
+        bool findIf4NumbersSumToK(vector<int> v, int k);
         vector<int> mergeFirstIntoAnother(vector<int> intArrShort, vector<int> intArrLong);
         /* ? Dutch National Flag timed test problem */
         /* ? Two sorted arrays. Find a duplicate. Use a Hash. Time 2n. Try the merging logic used for merge sort.*/

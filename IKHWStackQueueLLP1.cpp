@@ -195,7 +195,7 @@ LinkedListNode *IKSolution::pointerToCycle(LinkedListNode *head)
 {
     LinkedListNode* fast = NULL;
     LinkedListNode* slow = NULL;
-    int counter = 0;
+    int counter = 1;
 
     if(head == NULL)
         return nullptr;
@@ -236,9 +236,17 @@ LinkedListNode *IKSolution::pointerToCycle(LinkedListNode *head)
 
     DEBUG_DEBUG(cout << "length of loop " << counter << "\n");
 
+    if(counter == 0)
+        return nullptr;
 
     slow = head;
-    fast = head + counter;
+    fast = head;
+    while(counter > 0)
+    {
+        fast = fast->next;
+        counter--;
+    }
+
 
     while((slow) && (fast) && (slow != fast))
     {
@@ -358,9 +366,20 @@ int LRUCache::evict()
 }
 
 /* Problem:
+       Implement a LRU cache with following methods in O(1).
+       set(int key, int val);
+       get(int key);
+       remove(int key)
+
  * Example:
+ *
  * Approach:
+       * Have a unordered_map and a Doubly linked list. Head of the list should be
+       * most recently used and tail is the least recently used.
+
+ *
    Time Complexity:
+
    Space Complexity:
  *
  **/
@@ -421,6 +440,7 @@ void LRUCache::remove(int key)
     lrum.erase(it);
 
 }
+/******************************************************************************************************/
 
 
 /* Problem:
@@ -1325,11 +1345,128 @@ bool IKSolution::hasMatchingParantheses(string strExpression)
     if(!iStack.empty())
         return false;
 
-
-
-
     return true;
 }
+/*******************************************************************************************************/
 
+superStack::superStack()
+{
+    head = new LinkedListNode;
+    head->next = nullptr; //IMPORTANT
+}
+
+void superStack::push(int x)
+{
+    LinkedListNode * temp = new LinkedListNode;
+    temp->val = x;
+    temp->next = head->next;
+    head->next = temp;
+
+    size++;
+    top();
+
+}
+
+void superStack::pop()
+{
+    if(size != 0 && head->next != nullptr)
+    {
+       LinkedListNode *tmp = head->next;
+       head->next = head->next->next;
+       delete tmp;
+       size--;
+       top();
+    }
+}
+
+int superStack::top()
+{
+    if(head->next != nullptr)
+    {   cout << head->next->val << "\n";
+        return head->next->val;
+    }
+    else
+        cout << "EMPTY\n";
+
+    return 0;
+}
+
+void superStack::inc(int e, int k)
+{
+    int noOfElementsToSkip;
+
+    noOfElementsToSkip = size > e ? size - e : 0; //IMPORTANT, if k is nore than size, then all of them should be incremented
+    LinkedListNode *tmp = head->next;
+
+    while((tmp != nullptr) && noOfElementsToSkip > 0)
+    {
+        //cout << "skipping \n";
+        noOfElementsToSkip--;
+        tmp = tmp->next;
+    }
+
+    while(tmp != nullptr)
+    {
+        tmp->val += k;
+        tmp = tmp->next;
+    }
+
+    top();
+    return;
+
+}
+
+#if 0
+//IMPLEMENT skip list
+class skipNode
+{
+    private:
+
+    public:
+        int val;
+        vector<skipNode*> next;
+
+
+};
+
+
+class skipList
+{
+    private:
+        vector<skipNode *> head = nullptr;
+        vector<skipNode *> tail = nullptr;
+        skipNode *prevNode = nullptr;
+        int count = 0;
+
+    public:
+        void addNodeToSkipList(int);
+
+};
+
+
+void skipList::addNodeToSkipList(int x)
+{
+    skipNode *temp = new skipNode;
+    temp->val = x;
+
+    if(!count%2)
+    {
+        head.push_back(temp);
+    }
+
+
+
+}
+
+int mySkipListMain()
+{
+    skipNode node1;
+    skipNode node2;
+    skipNode node3;
+    skipNode node4;
+    skipNode node5;
+
+}
+#endif
 
 

@@ -571,6 +571,102 @@ TEST_CASE( "Trees tests", "Trees tests" )
     cout << "\n\n\n";
 }
 
+TEST_CASE( "Print all paths in a tree", "Print all paths in a tree")
+{
+    cout << "Print all paths in a tree \n";
+
+    node1.val = 3; node2.val = 4;
+    node3.val = 5;
+    node2.left = &node1;
+    node2.right = &node3;
+    node1.left = NULL; node1.right = NULL;
+    node3.left = NULL; node3.right = NULL;
+    soln.printAllPathsInATee(&node2);
+    vvi expected = {{4,3}};
+    REQUIRE(soln.printAllPathsInATeeToASum(&node2, 7) == expected);
+
+    node1.val = 8; node2.val = 20; node3.val = 22;
+    node4.val = 4; node5.val = 12; node6.val = 10; node7.val = 14;
+    node2.left = &node1; node2.right = &node3;
+    node1.left = &node4; node1.right = &node5;
+    node3.left = &node6; node3.right = &node7;
+    node4.left = NULL; node4.right = NULL;
+    node5.left = NULL; node5.right = NULL;
+    node6.left = NULL; node6.right = NULL;
+    node7.left = NULL; node7.right = NULL;
+    soln.printAllPathsInATee(&node2);
+    expected = {{20, 22, 14}};
+    REQUIRE(soln.printAllPathsInATeeToASum(&node2, 56) == expected);
+
+    node1.val = 8; node2.val = 20; node3.val = 22;
+    node4.val = 4; node5.val = 12; node6.val = 10; node7.val = 14;
+    node8.val = 4;
+    node2.left = &node1; node2.right = &node3;
+    node1.left = &node4; node1.right = &node5;
+    node3.left = &node6; node3.right = &node7;
+    node4.left = NULL; node4.right = NULL;
+    node5.left = NULL; node5.right = NULL;
+    node6.left = NULL; node6.right = &node8;
+    node7.left = NULL; node7.right = NULL;
+    node8.left = NULL; node8.right = NULL;
+    soln.printAllPathsInATee(&node2);
+    expected = {{20, 22, 10, 4}, {20, 22, 14}};
+    REQUIRE(soln.printAllPathsInATeeToASum(&node2, 56) == expected);
+
+
+    node1.val = 8; node2.val = 20; node3.val = 22;
+    node4.val = 4; node5.val = 12; node6.val = 10; node7.val = 14;
+    node8.val = 4;
+    node2.left = &node1; node2.right = &node3;
+    node1.left = &node4; node1.right = &node5;
+    node3.left = &node6; node3.right = &node7;
+    node4.left = NULL; node4.right = &node9; node9.val = -1;
+    node5.left = NULL; node5.right = NULL;
+    node6.left = NULL; node6.right = &node8;
+    node7.left = NULL; node7.right = NULL;
+    node8.left = NULL; node8.right = NULL;
+    node9.left = NULL; node9.right = NULL;
+    soln.printAllPathsInATee(&node2);
+    expected = {};
+    REQUIRE(soln.printAllPathsInATeeToASum(&node2, 32) == expected);
+
+
+    node1.val = 8; node2.val = 20; node3.val = 22;
+    node4.val = 4; node5.val = 12; node6.val = 10; node7.val = 14;
+    node2.left = &node1; node2.right = &node3;
+    node1.left = &node4; node1.right = &node5;
+    node3.left = NULL; node3.right = NULL;
+    node4.left = NULL; node4.right = NULL;
+    node5.left = &node6; node5.right = &node7;
+    node6.left = NULL; node6.right = NULL;
+    node7.left = NULL; node7.right = NULL;
+    soln.printAllPathsInATee(&node2);
+
+
+    cout << "Print all paths in a tree that sum to k \n";
+
+    node1.val = 3; node2.val = 4;
+    node3.val = 3;
+    node2.left = &node1;
+    node2.right = &node3;
+    node1.left = NULL; node1.right = NULL;
+    node3.left = NULL; node3.right = NULL;
+    expected = {{4,3}, {4,3}};
+    REQUIRE(soln.printAllPathsInATeeToASum(&node2, 7) == expected);
+
+
+    node1.val = 3; node2.val = 4;
+    node3.val = 3;
+    node2.left = &node1;
+    node2.right = &node3;
+    node1.left = NULL; node1.right = NULL;
+    node3.left = NULL; node3.right = NULL;
+    expected = {};
+    REQUIRE(soln.printAllPathsInATeeToASum(&node2, 6) == expected);
+
+}
+
+
 TEST_CASE( "Flip a Tree", "Flip a Tree")
 {
 
@@ -1586,6 +1682,27 @@ TEST_CASE( "Longest substring with matching parentheses", "Longest substring" )
 }
 
 
+TEST_CASE( "find All Different Ways To Add Parentheses", "find All Different Ways To Add Parentheses" )
+{
+    cout << "find All Different Ways To Add Parentheses \n";
+
+
+    vector<int> res;
+
+    res = {2, 0};
+    REQUIRE(soln.diffWaysToCompute("2-1-1") == res);
+
+    res = {132};
+    REQUIRE(soln.diffWaysToCompute("11*12") == res);
+
+    res = {132};
+    REQUIRE(soln.diffWaysToCompute("132") == res);
+
+    res = {-34, -10, -14, -10, 10};
+    REQUIRE(soln.diffWaysToCompute("2*3-4*5") == res);
+}
+
+
 
 
 
@@ -2502,6 +2619,55 @@ TEST_CASE( "Intersection of two lists", "Intersection" )
     REQUIRE(soln.interSectionOfTwoLists(L1, L2) == L1.end());
     REQUIRE(soln.interSectionOfTwoLists(L1, L1) == L1.begin());
 }
+
+
+
+TEST_CASE( "Super Stack", "Super Stack")
+{
+    cout << "Super Stack \n\n";
+
+    superStack ss;
+
+    ss.push(4);
+    ss.pop();
+    ss.push(3);
+    ss.push(5);
+    ss.push(2);
+    ss.inc(3, 1);
+    ss.pop();
+    ss.push(1);
+    ss.inc(2, 2);
+    ss.push(4);
+    ss.pop();
+    ss.pop();
+
+    cout << "Super Stack \n\n";
+
+    superStack ss1;
+    ss1.push(15);
+    ss1.pop();
+    ss1.push(-51);
+    ss1.pop();
+    ss1.push(41);
+    ss1.pop();
+    ss1.push(-76);
+    ss1.push(51);
+    ss1.push(-10);
+    ss1.inc(1,-49);
+
+    cout << "Super Stack \n\n";
+    superStack ss2;
+    ss2.push(-36);
+    ss2.push(20);
+    ss2.pop();
+    ss2.push(-9);
+    ss2.pop();
+    ss2.push(-53);
+    ss2.pop();
+    ss2.inc(1,-17);
+
+}
+
 
 TEST_CASE( "Levenstein Problem", "editDistance" )
 {
@@ -3888,7 +4054,72 @@ TEST_CASE( "Print Triplets", "Print Triplets")
 
 }
 
-//vector<int> IKSolution::mergeFirstIntoAnother(vector<int> intArrShort, vector<int> intArrLong)
+TEST_CASE( "Find if a subset exists with 4 numbers whose sum is K", "Find if a subset exists with 4 numbers whose sum is K")
+{
+    cout << "Find if a subset exists with 4 numbers whose sum is K \n";
+
+    vector<int> v1;
+
+    //Only 4 elements and not adding to k.
+    v1 = {1, 2, 3, 4};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 4) == false);
+
+    //Only 4 elements and adding to k.
+    v1 = {1, 2, 3, 4};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 10) == true);
+
+    //more than 4 elements.
+    v1 = {1, 2, 3, 4, 5, 6, 7};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 10) == true);
+
+
+    //More than 4 elements and adding to k.
+    v1 = {1, 2, 12, 13, 14, 3, 4};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 10) == true);
+
+    //More than 4 elements not adding to k.
+    v1 = {1, 2, 12, 13, 14, 3, 4};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 9) == false);
+
+    //More than 4 elements and adding to k.
+    v1 = {1, 2, 12, 13, 14, 3, 4};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 21) == true);
+
+    v1 = {1, 2, 12, 13, 14, 3, 4};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 15) == false);
+
+    v1 = {1, 2, 12, 13, 14, 3, 4};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 34) == true);
+
+    //Duplicate elements
+    v1 = {2, 2, 12, 2, 14, 2, 20};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 8) == true);
+
+    v1 = {2, 2, 12, 2, 14, 2, 20};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 9) == false);
+
+    v1 = {2, 2, 12};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 16) == false);
+
+    v1 = {2, 2};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 4) == false);
+
+    v1 = {2, 2};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 5) == false);
+
+    v1 = {2};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 4) == false);
+
+    v1 = {2};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 2) == false);
+
+    //Five numbers add up to the sum
+    v1 = {2, 2, 12, 2, 14, 2, 4};
+    REQUIRE(soln.findIf4NumbersSumToK(v1, 12) == false);
+
+}
+
+
 
 TEST_CASE( "Merge First Into Second", "Merge First Into Second")
 {

@@ -155,12 +155,15 @@ TREES:
                     Deleting a node that has only one child is easy.
 					Deleting node that has two children is the hard one. In this case, pick the max of left or min 
 				    of right and put in the place of delted node.
+				    /* Given a binary search tree and a key, this function deletes the key   and returns the new root*/ 
 *. During an interview, if you find somepart of the code is disturbing you and and distracting you, quickly convert it into a function and
     tell the interviewer you will come back to that later. Especially calculating size etc..something very boring..
 *. Segment trees: Find the sum in a duration. You can convert this to a O(logN) solution by storing it in a segment tree. 
    Both time and space complexity will be O(n) 
 *. Btrees and B+ trees.
-*. Golden rule: Inorder traversal of a BST gives you a sorted array(print left,middle, right).
+*. Golden rules: 
+   Inorder traversal of a BST gives you a sorted array(print left,middle, right).
+   Sorted array looking for a value? Binary search.
 *. Balanced Binary Search tree is called Red Black Tree.
 *. Why do you balance a tree? You do this so that height is small. Which in turn leads to less search time. 
    Look at it this way: You are having a pointer to the middle value instead of the beginning.
@@ -246,12 +249,13 @@ Geetha: recusrion/mock:
    T(n) = T(n/2) + O(1)	     Binary Search	                          O(log n)
    T(n) = T(n-1) + O(1)	     Sequential Search	                      O(n)
    T(n) = 2T(n/2) + O(1)	 tree traversal	                          O(n)
-   T(n) = T(n-1) + O(n)	     Selection Sort (other n square sorts)	  O(n square)
-   T(n) = 2 T(n-1) + 2       Generate all combinations                O(2 pow n)
-                             Generate all subsets                     O(2 pow n)
-   T(n) = T(n-1) + T(n-2)    Fibbpnacci                               O(2 pow n)
    T(n) = 2 T(n/2) + O(n)	 Mergesort (average case Quicksort)	      O(n log n)
-          ?? n T(n-1) ??     Generating permuations                   O(n!)    
+   T(n) = T(n-1) + O(n)	     Selection Sort (other n square sorts)	  O(n square) [quadratic]
+                                                                      O(n power c)[polynomial]
+   T(n) = 2 T(n-1) + 2       Generate all combinations                O(2 pow n)  [Exponential]
+                             Generate all subsets                     O(2 pow n)  [Exponential]
+   T(n) = T(n-1) + T(n-2)    Fibbpnacci                               O(2 pow n)  [Exponential]
+   T(n) = n*T(n-1) + O(n)    Generating permuations                   O(n!)    
 
 *  Find the majority element problem(frequency greater than n/2):
    * Hash Map/Bucket sort      - Time O(n), Space O(n)
@@ -296,7 +300,7 @@ Geetha: recusrion/mock:
 Object Modelling: 
 
      Coding question:                           Design question:  
-     prototye                                   functional breakdownstructural breakdown
+     prototye                                   functional breakdown/structural breakdown
      Example                                    Use Cases
      
      FlowChart                                  Class Diagram/Inhertinance/Association
@@ -305,7 +309,7 @@ Object Modelling:
                                                 Classes(Draw boxes)
                                                 Start defining is-a a relation and has a relation.(arrows)
                                                 
-     Design/Alog                                Design Patterns 
+     Design/Algo                                Design Patterns 
       
      Data Structures                            Data Structures   
                    
@@ -554,5 +558,20 @@ Heap Array: Holes have to be at the end.
 How do you build?
 streaming data against constant data.
 /***************************************************************************************************************/   
+
+
+DFS PreOrder
+DFS PostOrder
+DFS Inorder
+Find Subset problems
+    1. 
+Find SubArray problems
+    1. Kadane's algorithm
+    2. 
+Missing element
+Duplicate eleemnts  
+LRU Cache
+magic Map  
+
 
 

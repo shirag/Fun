@@ -103,6 +103,10 @@ you try to produce positions again and see if it makes a difference.
 
 http://www.cs.dartmouth.edu/~campbell/cs50/socketprogramming.html
 
+Stack Usage calculation: 
+1. Testing based approach. Initialize it to a pattern.
+2. Beginning of the polling loop check how much of that has been modified.
+3. Use recplay files to playback. After the crash we go ahead and diagnose the contents of the stack.
 
 
 ************************************************************************************************************************
@@ -112,7 +116,7 @@ Creational:
 
     * Singleton:
         * player manager?
-    * Abstract Factory:
+    * Abstract Factory: Glib object creation.
     * Factory Method:    
 Structural: 
     * Proxy pattern(Every process talks to other process using proxy)
@@ -178,6 +182,15 @@ Akamai:
     7. What is condition variable?
     8. How do you achieve a singleton in C++
     9. Design a C++ linked list class that has values in ascending order.
+         
+IKMOCK1; Path in a tree that adds to a particular val. Did not ask if its OK to just print and screwed up the stuff.
+         No discussions. Take control of the interview.
+
+IKMOCK2; In an array find 4 values that add to a sum. Didnt event think of brute force soln.
+         I thought of a recursive brute force. If I were to think of iterative brute force it would have been better.
+         Trying to remember the entire problem.
+         Also came out with recursive soln that was 2 pow n complexity. Bad bad Bad..4 for loops would have been n pow 4. better
+         
          
 *******************************************************************************************************************
 

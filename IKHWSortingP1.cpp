@@ -389,8 +389,7 @@ vector<int> IKSolution::twitterTopK(vector<int>iStream, int iK)
 
 
 
-
-
+/*****************************************************************************************************/
 /*
  * Problem:
  *     Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0?
@@ -485,7 +484,75 @@ vector<string> IKSolution::printTriplets(vector<int> intArr)
 
     return res;
 }
+/*****************************************************************************************************/
 
+/* Function that detects if a pair exists in an array that sums up to a value.
+ * Time complexity:
+ *      O(n)
+ * Alternate approach:
+ *      Sort the array. Go over a loop, and for every element find if the complement exists, using a
+ *      binary search. This would be a O(n log n) solution.
+ * Take away:
+ *      Complexity of finding if a pair that adds to a sum in an array is O(n)
+ *
+ * */
+bool findAPairExists(vector<int> v, int k, int i, int j)
+{
+    unordered_map<int,int>  m;
+    for(int index = 0; index < v.size(); index++)
+        m.insert({v[index],index});
+
+    for(int index = 0; index < v.size(); index++)
+    {
+        if((index != i) && (index != j))
+        {
+            auto it = m.find(k - v[index]);
+            if( (it != m.end()) && (it->second != index) && (it->second != i) && (it->second != j))
+                return true;
+        }
+    }
+
+    return false;
+}
+
+/* Problem:
+ *     In an array, find if a SUBSET exists with 4 elements whose sum equal to k.
+ * Approach:
+ *     * Generate all pairs(index) and put it in a vector of pairs.
+ *     * For all pairs, calculate the sum(s) of a pair, subtract from the target(k) and find
+ *       if another pair exists that adds up to the remaining value(k-s).
+ *     * Ensure that indices of elements are distinct and not repeating.
+ *
+ * Time complexity:
+ *     O(n*n)
+ * Space complexity:
+ *     O(n)
+ * Take away:
+ *
+ *
+ */
+bool IKSolution::findIf4NumbersSumToK(vector<int> v, int k)
+{
+    vector<pair<int,int>> allPairsInInput;
+
+    for(int i = 0; i < v.size(); i++)
+        for(int j = i + 1; j < v.size(); j++)
+            allPairsInInput.push_back({i,j});
+
+
+    for(auto val : allPairsInInput)
+    {
+        int sum = v[val.first] + v[val.second];
+        int remainingValue = k - sum;
+        if( findAPairExists(v, remainingValue, val.first, val.second) == true)
+            return true;
+    }
+
+    return false;
+}
+
+
+/*****************************************************************************************************/
 /*
  * Problem: Takes two arrays. Second one twice the size of first. Put everything into the second one.
  * Approach: Classic application of merge sort merging.

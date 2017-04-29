@@ -622,3 +622,5 @@ string IKSolution::moveAllLettersToLeftSide(string s)
     return s;
 
 }
+
+

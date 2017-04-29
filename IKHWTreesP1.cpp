@@ -93,7 +93,9 @@ bool isP(string str)
 }
 
 
-/* Problem: Check if the string is rotated it will generate a Palindrome
+/* Problem:
+ *        Check if the string is rotated it will generate a Palindrome
+ *        This is not a tree problem.
  * Example:  bbaa
  * Approach: Generate a pointer that splits the strings into two substrings. Concatenate the first substring
  *           to the end of the second and see if its a Palindrome. Repeat the process until you move the pointer
@@ -124,55 +126,105 @@ int IKSolution::checkIfPalindromeRotate(string& str)
 
 }
 
+/**********************************************************************************************************************/
+void printAllPathsRecurse(Node *node, vi& p)
+{
+    if(node == NULL)
+        return;
 
-/* Problem: Given a binary tree, print all root-to-leaf paths one per line
+    p.push_back(node->val);
+
+    if((node->left == nullptr) && (node->right == nullptr))
+    {
+        int size = p.size();
+        for(int i = 0; i < size; i++)
+            cout <<  p[i] << " ";
+        cout << "\n";
+        p.erase(p.end()-1);
+        return;
+    }
+
+    printAllPathsRecurse(node->left,p);
+    printAllPathsRecurse(node->right,p);
+    p.erase(p.end()-1);
+
+    return;
+}
+
+/* Problem: Given a binary tree, print all root-to-leaf paths one per line.
  * Example:
- * Approach: Pre order DFS. Push the value to a stack when you process a node. After you are done processing all node's children
- *           pop out pushed value. If there is no children(leaf node) print values.
+ * Approach: Pre order DFS.
+ *           * Checkfor base case
+ *           * Process root: Push the value to a stack. Check it meets the criterion(leaf node in this case).
+ *           * Visit the left node.
+ *           * Visit the right node.
+  *          * Pop out pushed value.
  * Time Complexity: O(n)
  * Space Complexity: O(logN) Best case.
  * Any other better approach:
  * Corner case:
  * Take away:
+ *       * Three parts: Base case, my job, and delegation.
+ *       * If you are OK with printing from leaf to root, you might want to use stack.
+ *
+ *
  */
-/************************************************************************************************************************/
-
-int printAllPathsRecurse(Node *node, vi& p)
+void IKSolution::printAllPathsInATee(Node* root)
 {
+   vi p;
+   printAllPathsRecurse(root, p);
+   return;
+}
+/*********************************************************************************************************/
+
+vvi printAllPathsInATeeToASumUtil(Node *node, int k, vi& p, int currSum)
+{
+    vvi resl, resr;
+
     if(node == NULL)
-        return 0;
+        return resl;
 
     p.push_back(node->val);
 
-    if( !node->left && !node->right)
+    if((node->left == nullptr) && (node->right == nullptr) && (currSum + node->val == k))
     {
         int size = p.size();
         for(int i = 0; i < size; i++)
             cout <<  p[i] << " ";
-
         cout << "\n";
-    }
-    else
-    {
-        printAllPathsRecurse(node->left,p);
-        printAllPathsRecurse(node->right,p);
+        resl.push_back(p);
+        p.erase(p.end()-1);
+        return resl;
     }
 
+    resl = printAllPathsInATeeToASumUtil(node->left, k, p, currSum + node->val);
+    resr = printAllPathsInATeeToASumUtil(node->right, k, p, currSum + node->val);
+
+    resl.insert(resl.end(),resr.begin(),resr.end());
     p.erase(p.end()-1);
 
-    return 0;
-
+    return resl;
 }
 
-int IKSolution::printAllPathsInATee(Node* root)
+/* Problem:
+ * Example:
+ * Approach:
+ * Time Complexity:
+ * Space Complexity:
+ * Any other better approach:
+ * Corner case:
+ * Take away:
+ *
+ *
+ */
+vvi IKSolution::printAllPathsInATeeToASum(Node* root, int k)
 {
    vi p;
-   printAllPathsRecurse(root, p);
-   return 0;
+   int currSum = 0;
+   vvi res = printAllPathsInATeeToASumUtil(root, k, p, currSum);
+   return res;
 }
-/*********************************************************************************************************/
-
-
+/******************************************************************************************************************/
 
 Node* generateBBST(vector<int>& vals, int low, int high)
 {
@@ -662,7 +714,7 @@ vvi IKSolution::treeLevelOrderPrintUsingList(Node *root)
                 pushl.push_back(val->left);
             if(val->right != nullptr)
                 pushl.push_back(val->right);
-            temp.push_back(val->val);
+            temp.push_back(val->val); //results
         }
 
         if(!pushl.empty())
