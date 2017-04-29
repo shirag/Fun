@@ -1416,6 +1416,93 @@ void superStack::inc(int e, int k)
 
 }
 
+
+
+LinkedList::LinkedList()
+{
+    head = new ALinkedListNode; //dummyhead. Makes the code very simple
+    head->next = nullptr;
+    head->val = INT_MIN;
+
+}
+
+void LinkedList::addValue(int x)
+{
+    ALinkedListNode *current = head->next;
+    ALinkedListNode *prev = head;
+
+    ALinkedListNode *tnode = new ALinkedListNode;
+    tnode->val = x;
+    while(current != nullptr && current->val < x)
+    {
+        prev = current;
+        current = current->next;
+    }
+
+    prev->next = tnode;
+    tnode->next = current;
+
+    return;
+}
+
+void LinkedList::deleteValue(int x)
+{
+    ALinkedListNode *current = head->next;
+    ALinkedListNode *prev = head;
+
+    while(current != nullptr && current->val != x)
+    {
+        prev = current;
+        current = current->next;
+    }
+
+    if(current != nullptr)
+    {
+        prev->next = current->next;
+        delete current;
+    }
+
+}
+
+bool LinkedList::find(int x)
+{
+    ALinkedListNode *current = head->next;
+
+    while(current != nullptr && current->val != x)
+        current = current->next;
+
+    if(current != nullptr)
+        return true;
+
+    return false;
+}
+
+LinkedList::~LinkedList()
+{
+    ALinkedListNode *current = head;
+    ALinkedListNode *prev = head;
+
+    while(current != nullptr)
+    {
+        prev = current;
+        current = current->next;
+        delete prev;
+    }
+}
+
+void LinkedList::printList()
+{
+
+    ALinkedListNode *current = head;
+
+    while(current != nullptr)
+    {
+        cout << "val = " << current->val << " \n";
+        current = current->next;
+    }
+}
+
+
 #if 0
 //IMPLEMENT skip list
 class skipNode

@@ -197,6 +197,22 @@ class superStack
 };
 
 
+class LinkedList
+{
+    public:
+        void addValue(int);
+        void deleteValue(int);
+        bool find(int);
+        void printList();
+        LinkedList();
+        ~LinkedList();
+
+    private:
+        LinkedListNode *head = nullptr;
+
+
+};
+
 class IKSolution
 {
     private:
