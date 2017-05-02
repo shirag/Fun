@@ -819,4 +819,143 @@ bool BloomFilter::possiblyContains(const uint8_t *data, std::size_t len) const
 }
 /*****************************************************************************************************/
 
+void getAllNodesImConnectedTo(vvi& mGraph, list<int>& pushL, int val)
+{
+    for(int index = 1; index < mGraph[val].size(); index++)
+    {
+        int val1 = mGraph[val][index];
+        DEBUG_DEBUG(cout << "Processing Node " << val << " connected to " << val1 << " \n");
+        pushL.push_back(val1);
+    }
+}
+
+/*
+ *
+ * */
+
+void bfsTempleteUtil(vvi& mGraph, int initNode)
+{
+    queue<list<int>> mainQ;
+    list<int> pushL;
+    list<int> popL;
+    set<int> visited;
+
+    pushL.push_back(mGraph[initNode][0]);
+    mainQ.push(pushL);
+    pushL.clear();
+
+    while(!mainQ.empty())
+    {
+        popL = mainQ.front();
+        mainQ.pop();
+
+        for(auto val : popL)
+        {
+            if(visited.count(val) != 0)
+                continue;
+
+            visited.insert(val);
+            getAllNodesImConnectedTo(mGraph, pushL, val);
+
+        }
+        if(!pushL.empty())
+        {
+            mainQ.push(pushL);
+            pushL.clear();
+        }
+    }
+
+}
+
+
+void IKSolution::bfsTemplete()
+{
+    vvi mGraph;
+    vi tmp1;
+
+    tmp1 = {0, 2, 3, 5};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {1, 19, 31, 56};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {2, 6, 7,  8};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {3};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {4};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {5};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {6, 2};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {7};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {8};
+    mGraph.push_back(tmp1);
+
+    bfsTempleteUtil(mGraph, 0);
+    bfsTempleteUtil(mGraph, 2);
+}
+/*****************************************************************************************************/
+
+
+void getAllMoviesImConnectedTo(vvi& mGraph, list<int>& pushL, int val, int K, priority_queue<int, vector<int>, greater<int>>& pq)
+{
+    for(int index = 1; index < mGraph[val].size(); index++)
+    {
+        int val1 = mGraph[val][index];
+        DEBUG_DEBUG(cout << "Processing Node " << val << " connected to " << val1 << " \n");
+        pushL.push_back(val1);
+    }
+}
+
+
+void getSimilarMoviesUtil(vvi& mGraph, int initNode, int K, priority_queue<int, vector<int>, greater<int>>& pq)
+{
+    queue<list<int>> mainQ;
+    list<int> pushL;
+    list<int> popL;
+    set<int> visited;
+
+    pushL.push_back(mGraph[initNode][0]);
+    mainQ.push(pushL);
+    pushL.clear();
+
+    while(!mainQ.empty())
+    {
+        popL = mainQ.front();
+        mainQ.pop();
+
+        for(auto val : popL)
+        {
+            if(visited.count(val) != 0)
+                continue;
+
+            visited.insert(val);
+            getAllMoviesImConnectedTo(mGraph, pushL, val, K, pq);
+
+        }
+        if(!pushL.empty())
+        {
+            mainQ.push(pushL);
+            pushL.clear();
+        }
+    }
+
+}
+
+
+void IKSolution::getSimilarMovies(int K)
+{
+}
+
+/*****************************************************************************************************/
+
 

@@ -1385,6 +1385,16 @@ TEST_CASE( "Bloom filter tests", "[Bloom]" )
 
 }
 
+
+TEST_CASE( "Graph template BFS", "Graph template BFS" )
+{
+
+    cout << "Graph template BFS \n";
+
+    soln.bfsTemplete();
+}
+
+
 /* Recursion */
 TEST_CASE( "Print all subsets", "subsets" )
 {

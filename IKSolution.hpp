@@ -274,6 +274,7 @@ class IKSolution
 	    void PopulateSiblingPointers(Node *root);
 
 	    /* Graph/Homework3 */
+	    void bfsTemplete();
         int printAllPathsInAGraph(vvi& g, int src, int dest);
         int cloneAGraph(); /* You have to ensure cycles are taken care of properly */
 	                       /* Not just a set. You have to use a hash map */

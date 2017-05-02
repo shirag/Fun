@@ -180,7 +180,23 @@ C++
     and never go to derived part.    
     
 30. Assignment operator should return *this. This way we can do x = y = z;(y = z should return *this/y)    
+
+31. What is friend function? Its not a memeber function of a class. but, it has access to all private and 
+    protected members of a class.
     
+32. In C++ iterators are implemented as pointers internally.
+
+33. Always prefer psss const pass-by-reference over pass by value. Exceptions are: built-in variables and iterators.
+    Iterators are very small. So, there is no advantage to passing by reference.
+
+34. Problems in returning a reference: 
+    stack allocated: you are pointing to nowhere.
+    Heap allocated: YOu may not have the right reference to it.
+    allocated using static inside a function: thread safety + other issues.
+    Overall very bad idea to have a function that returns a reference. Always return by value/object.   
+    
+*. Design guidelines:
+    1. Make interfaces such that it is easy to use correctly and hard to use incorrectly.    
         
 ---------------------------------------------------------------------------------
 Array/string sizes and index

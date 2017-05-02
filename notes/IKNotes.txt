@@ -144,6 +144,18 @@ TREES:
 *. Traversal DFS: Perform using Stack and Recursive. Process parent, process left node and its children, and then process right node and its children.
                                            Note that you are pushing siblings onto stack.
 										   Three types of traversal for a DFS: Preorder, inorder, postorder 
+										   push root to a stack
+*   Path from root to a leaf node: preorder DFS:
+    pathtoLeaf() 
+     if root->left == nullptr and root->right == nullptr
+        print
+        pop
+        return;
+     pathToLeaf(left)
+     pathToLeaf(right)
+     pop from the stack;
+
+
 *. Traversal BFS: Perform using Queue. Process parent, process left node and it siblings, and then process children.
                                            Thress types of traversal for a DFS: Preorder, inorder, postorder
 *. Print all nodes at a particular level: DFS solution with stack, Decrement the count everytime, before you invoke the recursive call.
@@ -430,15 +442,45 @@ appreciate why they have built it in a certain fashion.
    Design single node key-value store.
    
 /***********************************************************************************************************************/
-LinkedList: divya.ravisankar@gmail.com
-* Know the Big O of all your C++ STL calls. 
 
-in c++
-Priority queue - uses heap
-Map uses a RB tree. not O(1)
-Unoridered map uses a hash map . Everything is O(1)
-In order to achive min queue , you multiply by -1 before inserting and multiplying by -1 afer you poop out.
-Dummy head.
+ * Know the Big O of all your C++ STL calls. 
+ * In order to achive min queue, you multiply by -1 before inserting and multiplying by -1 after you pop out.
+ * For linked list recursion is typically good if you want to start from the last node. 
+ * Find the middle of a linkedlist. In the case of even number of nodes, we have two middle 
+   elements and we end up printing the second one. In the case of a linked list with two nodes, we end up printing the second one.
+   Node *fast = head;
+   Node *slow = head;
+   while(fast != nullptr && fast->next != nullptr)
+   {
+    slow = slow ->next;
+    fast = fast->next->next;
+   }
+
+ * If you want to find the median of a circular sorted list:
+   End is the highest value value. Beginning is the lowest val.
+
+ * Priority queue - uses heap
+   Map uses a RB tree. not O(1)
+   Unoridered map uses a hash map . Everything is O(1)
+   
+ * LRU cache:
+   unordered_map to store the key and pointer to the DLL that has the value.
+   Head of the DLL is the most recently used and tail is the least recently used.
+
+   set -  if the cache full, pop_back the tail of DLL, erase the entry from unorideredd_map
+        push_front to the the DLL, new entry in the map.
+        If already present, update the value, move to the front.
+        
+   get - Get it from the map, move it to the head of the DLL + update the map.
+   delete - Get it from the map, delete it from the DLL, delete it from the map.
+
+   utility functions
+   push_front to the front of the DLL
+   move_front() to the front of the DLL
+   pop_back() the tail of the DLL
+   remove_node() remove a node from the DLL.
+   
+   
 /***********************************************************************************************************************/
  
 Dynamic programming:
@@ -570,8 +612,9 @@ Find SubArray problems
     2. 
 Missing element
 Duplicate eleemnts  
+Values that add to a sum(one array, and multiple arrays)
 LRU Cache
-magic Map  
+Magic Map  
 
 
 

@@ -440,6 +440,10 @@ void LRUCache::remove(int key)
     lrum.erase(it);
 
 }
+
+
+
+
 /******************************************************************************************************/
 
 
@@ -1417,10 +1421,36 @@ void superStack::inc(int e, int k)
 }
 
 
+#if 0
+void insertNodeA(LinkedListNode *prev, LinkedListNode *nnode)
+{
+
+    if(prev != nullptr && nnode != nullptr)
+    {
+        LinkedListNode * tmp = prev->next;
+        prev->next = nnode;
+        nnode->next = tmp;
+    }
+    else if(prev == nullptr && nnode != nullptr)
+    {
+        nnode->next = curr;
+    }
+}
+
+void removeANode(LinkedListNode *prev, LinkedListNode *nnode)
+{
+    if(prev != nullptr && nnode != nullptr)
+        prev->next = nnode->next;
+}
+#endif
+
+
+/*******************************************************************************************************/
+
 
 LinkedList::LinkedList()
 {
-    head = new ALinkedListNode; //dummyhead. Makes the code very simple
+    head = new LinkedListNode; //dummyhead. Makes the code very simple
     head->next = nullptr;
     head->val = INT_MIN;
 
@@ -1428,10 +1458,10 @@ LinkedList::LinkedList()
 
 void LinkedList::addValue(int x)
 {
-    ALinkedListNode *current = head->next;
-    ALinkedListNode *prev = head;
+    LinkedListNode *current = head->next;
+    LinkedListNode *prev = head;
 
-    ALinkedListNode *tnode = new ALinkedListNode;
+    LinkedListNode *tnode = new LinkedListNode;
     tnode->val = x;
     while(current != nullptr && current->val < x)
     {
@@ -1447,8 +1477,8 @@ void LinkedList::addValue(int x)
 
 void LinkedList::deleteValue(int x)
 {
-    ALinkedListNode *current = head->next;
-    ALinkedListNode *prev = head;
+    LinkedListNode *current = head->next;
+    LinkedListNode *prev = head;
 
     while(current != nullptr && current->val != x)
     {
@@ -1466,7 +1496,7 @@ void LinkedList::deleteValue(int x)
 
 bool LinkedList::find(int x)
 {
-    ALinkedListNode *current = head->next;
+    LinkedListNode *current = head->next;
 
     while(current != nullptr && current->val != x)
         current = current->next;
@@ -1479,8 +1509,8 @@ bool LinkedList::find(int x)
 
 LinkedList::~LinkedList()
 {
-    ALinkedListNode *current = head;
-    ALinkedListNode *prev = head;
+    LinkedListNode *current = head;
+    LinkedListNode *prev = head;
 
     while(current != nullptr)
     {
@@ -1493,7 +1523,7 @@ LinkedList::~LinkedList()
 void LinkedList::printList()
 {
 
-    ALinkedListNode *current = head;
+    LinkedListNode *current = head;
 
     while(current != nullptr)
     {
@@ -1501,6 +1531,7 @@ void LinkedList::printList()
         current = current->next;
     }
 }
+
 
 
 #if 0

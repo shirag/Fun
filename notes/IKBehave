@@ -156,9 +156,19 @@ Applie Phone screen: Unit tests. Size of int mistake while reversing a string.
 BnW Onsite: Did not listen to the request for Class diagram. listen, listen, listen. Did not ask adequate number of questions.
             I was not throwing enough technical terms; mutex, message queue etc..
 NVIDIA1: 
-    1. given three arrays, how to find a K by adding one member in each array. Did not push hard..
-    2. Exception handling in C++. How to achieve something equivalent of Python's final?            
+    1. Given three arrays, find all elements that add upto K by adding one member of each array. 
+       * Soln 1: Brute Force. O(n * n * n) soln.
+       * Soln 2: Sort the last array(n * log n). For every two values you search for the third in the sorted array. O(n * n * log n) soln.
+       * Soln 3: For Second and third array generate all pairs and their sum(n * n). Have a map where you store the key as the sum. values are 
+                 vector of index pair. Now you go over the first array and for every element, lookup the map and see if (k - element) exists.
+                 O(n * n) soln.  
+                 
+       I did not push hard.
+
+    2. Exception handling in C++. How to achieve something equivalent of Python's final? Good job.            
     3. What is the problem of deriving square from rectangle? OOPS went wrong..
+       SOLID: Only when you substitue a class you can replace.
+       
    
 Symantek 2:
     1. what is the difference between ipv4 and ipv6?
@@ -185,11 +195,29 @@ Akamai:
          
 IKMOCK1; Path in a tree that adds to a particular val. Did not ask if its OK to just print and screwed up the stuff.
          No discussions. Take control of the interview.
+         Dont waste time in writing unnecessary stuff like node struct etc.
 
 IKMOCK2; In an array find 4 values that add to a sum. Didnt event think of brute force soln.
          I thought of a recursive brute force. If I were to think of iterative brute force it would have been better.
          Trying to remember the entire problem.
          Also came out with recursive soln that was 2 pow n complexity. Bad bad Bad..4 for loops would have been n pow 4. better
+        
+IKMOCK3: Did not have a proper test cases.
+         run by your code with solid test cases.
+         Identify what are the challenges in traversing and iterating a linked list?  Becaus ehe said dding to the tail is a better approach.
+         But, I did not identify some of the corner cases:
+         1. Traversing until when?
+         2. returning the new head?
+         3. proper handling of the prev nullpointer.
+         4. I had holes in my pointer assginements.
+         
+Ashok Mock:
+         Great job: Draw a table. Could identify it was a graph problem. Should have understood the problem better.
+          
+         
+         
+           
+                   
          
          
 *******************************************************************************************************************

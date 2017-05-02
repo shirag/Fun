@@ -270,9 +270,9 @@ vector<string> IKSolution::palindromicDecomposition(string strInput)
 
 /***************************************************************************************************************/
 
-int provideSubSetsRec(vector<int>& ip, int index, int size, si& tempset, ssi& subs)
+int provideSubSetsRec(vector<int>& ip, int index, si& tempset, ssi& subs)
 {
-    if(index == size)
+    if(ip.size() == index)
     {
         for(auto it = tempset.begin(); it != tempset.end(); it++)
         {
@@ -285,9 +285,9 @@ int provideSubSetsRec(vector<int>& ip, int index, int size, si& tempset, ssi& su
     }
 
     tempset.insert(ip[index]);
-    provideSubSetsRec(ip, (index + 1), size, tempset, subs);
+    provideSubSetsRec(ip, (index + 1), tempset, subs);
     tempset.erase(ip[index]);
-    provideSubSetsRec(ip, (index + 1), size, tempset, subs);
+    provideSubSetsRec(ip, (index + 1), tempset, subs);
 
     return 0;
 }
@@ -361,7 +361,7 @@ ssi IKSolution::provideSubSets(vector<int> ip)
     si tempset;
 
     int index = 0;
-    provideSubSetsRec(ip, index, ip.size(), tempset, subs);
+    provideSubSetsRec(ip, index, tempset, subs);
 
     return subs;
 
