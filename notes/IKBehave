@@ -1,15 +1,26 @@
 
 
-Elevator Pitch
-  Hi, I'm Raghav. I used to work as Sr Software Engineer at Nagra. I have a lot of interest in [Video and streaming software] development.
-  My most recent experience has been building [HTML5 based video player using GStreamer framework] for an Embedded Linux platform. 
-  [Video using Javascript] is what excites me the most. 
-  I am open for challenging work that uses my vast experience. It is very important for me to work with smart people.
-  Everything falls in place when you have good people around you.
-
-
+Elevator Pitch[1-2 minute intro, focus, something exciting to say, last line is what you are looking for?]
+   
+  Hi, I'm Raghav. 
+  I used to work as Sr Software Engineer at Nagra where I would build and own s/w components. 
+  My responsibilities included collecting requirements, design s/w, develop s/w, unit-test s/w and then integrate and with rest of STB system.
+  I also used to debug and trouble shooting open-source s/w and s/w written by others.
+  Before that I used to work with a Fabless semiconductor company where I would integrate algorithms and applications with embedded platforms.
+  My main areas of expertise is Embedded systems, GPS, Video and streaming software development.  
+  My most recent experience has been building HTML5 based OTT video players using GStreamer framework. 
+  I have deep interest in OTT-streaming which is my main domain expertise.
+  When it comes to programming language, C/C++ is my main forte.
+  I enjoy the challenges of working on software that has to run in a very resource constrained environment.
+  Im looking to join a company where people are smart and work with latest technologies.
+  
 ********************************************************************************************************************    
 [Challenging Project: Video player development using Gstreamer Framework, OTT-MP4 playback]
+Tips:
+1. Something you know very well.
+2. Atleast one challenge: diffcult bug, difficult design, too many stake holders, strong business challenge etc. 
+3. You are excited to show off.
+4. Is successful and relatively recently   
 
 Business context:
     Opentv5 is a middleware is built on embedded Linux OS and HTML5 with all digital television components.
@@ -34,8 +45,11 @@ My role:
     Then we came out with a polling mechanism to detect the position change. 
     
     Memory leak detection using scripts and Valgrind etc. Optimization and stabiliatione and productize.
+What was the problem? What made it challenging?
+What did you learn from it?    
 
-    
+Success: They wanted me to MV office. That was an indirect appreciation of skill and my work.
+********************************************************************************************************************    
 [Challenging Project: Update to a newer version of GStreamer] 
 
 Business context:
@@ -99,7 +113,7 @@ it reads the offset from the BBRAM gets the accurate time and performs all the c
 find out if the ephemeris is valid or not. 
 
 RecPlay software is used to tune GPS algorithms. You record measurements and record positions calculated. Later for the same measurements 
-you try to produce positions again and see if it makes a difference.
+you try to produce positions again and see if it makes a difference. We used memento design pattern in here. 
 
 http://www.cs.dartmouth.edu/~campbell/cs50/socketprogramming.html
 
@@ -142,8 +156,6 @@ Concurrency:
 2016 - YouTube Bug fixes. Gstreamer Upgrade + WebKit Upgrade + CI + Multiapp ZIndex + Z Layer stuff.
 *******************************************************************************************************************
      
-Why do you want to join [Akamai]? 
-Go over company technology blogs and find out what makes a company unique?
 
 What are my strengths and weakness?
 Strength: I am very food at focussing. I am also very good at triaging issues.
@@ -202,25 +214,97 @@ IKMOCK2; In an array find 4 values that add to a sum. Didnt event think of brute
          Trying to remember the entire problem.
          Also came out with recursive soln that was 2 pow n complexity. Bad bad Bad..4 for loops would have been n pow 4. better
         
-IKMOCK3: Did not have a proper test cases.
+IKMOCK3: Problem: Spilt a linked list such that all odds are at the beginning and evens are at the end.
+         Did not have a proper test cases.
          run by your code with solid test cases.
-         Identify what are the challenges in traversing and iterating a linked list?  Becaus ehe said dding to the tail is a better approach.
+         Identify what are the challenges in traversing and iterating a linked list?  Because he said dding to the tail is a better approach.
          But, I did not identify some of the corner cases:
          1. Traversing until when?
          2. returning the new head?
          3. proper handling of the prev nullpointer.
          4. I had holes in my pointer assginements.
          
+         Most important thing is I had it going. But, then when he provided an alternate solution
+         I immediately jumped onto his solution without pushing my self further on the solution I had.
+         
 Ashok Mock:
          Great job: Draw a table. Could identify it was a graph problem. Should have understood the problem better.
-          
+         Jumped onto DFS first. BFS would have been a better choice. Evluate BFS and DFS both before starting coding.
          
-         
-           
-                   
-         
+FaceBook Phone:
+         1. Clone a LL. Hint was given regarding the dummy node.
+         Initially create a dummy node. Point the prev to this node. 
+         When you do prev->next you dont have to do a check for prev to null pointer. Just keep attaching to the tail and then 
+         prev->next = newNode;
+         Important: Do not forget to release the dummy node.
+         2. Clone a tree with random pointers.
+         3. Create all subsets in a set. Why is 2 power n.
+         Calcualating the complexity: I made a mistake finally because I did not say  2 power n * n. Never ignore the 
+         complexity of the printing part. 
          
 *******************************************************************************************************************
+
+Preparation. Keep examples ready. Have binary tree example ready that you can quickly draw on white board.
+Have examples ready in your cheat sheet. Have trees with 2 n leaves.
+
+My approach for white boarding:
+After the interviewer says, go ahead and code:
+1. Write the example in the corner of the white board. All the way at the top. Write some of the basic test cases. 
+2. Write input arguments. No closing parenthesis yet.
+3. Write function name.
+4. Leave 2 spaces for initialization later.
+5. Write the error handling case followed by base case.
+6. Recursive part
+7. Post processing after recursive part.   
+8. return values. 
+9. while loop, dont forget to increment appropriate index.
+10. Identation: 2 spaces. 
+11. You are writing all the stacks,data structures etc all the way down. 
+    You are standing in the middle. Point is you dont want to run around from
+    one corner of the room to another.
+
+*******************************************************************************************************************
+Why do you want to join a company? 
+1. Go over the role.
+2. Go over the company technology blog to find out what makes a company unique?
+3. Find the things company is proud of, understand those aspects, connect with them: Technical power/cloud/culture/awesome UI.     
+4. All the opensource projects company works on? 
+
+*******************************************************************************************************************
+What are the questions you would ask?
+* What is your developmental process?
+* What is your release process?
+* What is your typical day like?
+* What is that you like about this place?
+* What is the culture of this place like?
+
+*******************************************************************************************************************
+Give an example of where you had a conflict with your manager/Co-worket and how you resolved it?
+
+Conflicts are disagrements on design decisions or process decisions.
+Discuss the method. Not the outcome. It does not matter if you won or lost. What matters is how you handle.
+You ould preface your reply with "At work, we are encouraged to debate a solution , because thats how best ideas coeme to the fore. debating is the 
+key to differentiating a high performance team to mediocre team
+
+Give more context in the answer. e.g. If it were a design decision conflict, give a high level view of how far the project was and why 
+it was important to make that decision.
+If it was a process conflic, explain little bit about what the process did? Dont spend too much time related to context. A minute is enough.
+
+Emphasise on what you learnt. Win or lose, it should come as a humbing expericen.    
+
+* Respectful negotiation: Norbert create a new branch problem(process).
+* Respectful debate: Moce to mountain view office.
+* Gathering data patiently over a period of time: Show video window after the first Iframe. Develop some proof of concept/prototype to back up my argument.
+* Gathering consensus: Subtilte delay with Henry Fang and Phuc. Conflict with Phuc .
+* Escalation: Conflict with Daniel(Escalation).
+
+Things to avoid:
+* Avoid discussing resented or inconclusive conflicts.
+* Avoid sayinf there was never a conflict.
+* Also dont say you have lot of such incidents to report.
+*******************************************************************************************************************
+
+
 
 
 

@@ -1456,6 +1456,7 @@ LinkedList::LinkedList()
 
 }
 
+/* You want to insert a node to the list at the same time you want to keep the list sorted */
 void LinkedList::addValue(int x)
 {
     LinkedListNode *current = head->next;

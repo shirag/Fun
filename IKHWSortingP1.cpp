@@ -600,6 +600,30 @@ vector<int> IKSolution::mergeFirstIntoAnother(vector<int> intArrShort, vector<in
     return intArrLong;
 }
 
+
+/*
+ * Complete the function below.
+ */
+string IKSolution::sortCharacters(string inString) {
+
+    unordered_map<char,int> mp;
+    string outString;
+
+    for(auto c : inString){
+        mp[c] += 1;
+    }
+
+    for(unsigned char i = 0; i < 255; i++){
+        if(mp.count(i) > 0){
+            for(int j = 0; j < mp[i]; j++)
+                outString.push_back(i);
+        }
+    }
+
+    return outString;
+}
+
+
 /*******************************************************************************************************************************/
 #if 0
 

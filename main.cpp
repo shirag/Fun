@@ -1386,13 +1386,6 @@ TEST_CASE( "Bloom filter tests", "[Bloom]" )
 }
 
 
-TEST_CASE( "Graph template BFS", "Graph template BFS" )
-{
-
-    cout << "Graph template BFS \n";
-
-    soln.bfsTemplete();
-}
 
 
 /* Recursion */
@@ -4212,6 +4205,21 @@ TEST_CASE( "Print Triplets", "Print Triplets")
     res.clear();
 
 }
+
+
+
+
+TEST_CASE( "Sort all characters in a string", "Sort all characters in a string")
+{
+
+    string s = "This is easy";
+    string res = "  Taehiisssy";
+
+    REQUIRE(soln.sortCharacters(s) == res);
+
+}
+
+
 
 TEST_CASE( "Find if a subset exists with 4 numbers whose sum is K", "Find if a subset exists with 4 numbers whose sum is K")
 {

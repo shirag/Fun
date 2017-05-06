@@ -558,31 +558,21 @@ A suffix tree T for a m-character string S is a rooted directed tree with exactl
 Sorting
 * Merger Sort: Left array are sorted. Merge them
 * Qucik Sort: Pivot is the right place. Quick sort left and right of the pivot.
+* Merge case is better than quick sort why? Worst case complexity of merge sort is O(n log n) where as quick sort is O(n * n)
+* Bucket  sort
+* If there are 3 leaves, then it will be log to the base 3.
+* Solve the problem for a pivot.
+  rank will tell you the right loccation.
+  Sortig is not needed.
+* While sortingreat equals as less than. Important to have a stratergy for equals.
+* What scenario qick sort will give you n square.
+  Have pivot as a different thing
+ 
 
-Preparation. Keep examples ready. Have binary tree example ready that you can quickly draw on white board.
-
-Bucket  sort
-You think over. YOu have to know how the data looks like.
-REcursion : Draw a tree.
-Quick sort: Draw a tree.
-If there are 3 leaves, then it will be log to the base 3.
-Solve the problem for a pivot.
-rank will tell you the right loccation.
-Sortig is not needed.
-CLRS
-Treat equals as less than
-Important to have a stratergy for equals.
-What scenario qick sort will give you n square.
-Have pivot as a different thing
-Modular approach, modular approach..
-Have examples ready in your cheat sheet. Have trees with 2 n leaves.
 
 Stable Sort:
 Merge sort is a stable algorithm
 Top down or bottom up for Recursion?
-
-Impleemnt Merge sort using recusion
-Impleemnt Qucik sort using recursion.
 
 Inverted index for looking up strings.
 

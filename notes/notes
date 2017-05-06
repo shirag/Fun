@@ -39,6 +39,9 @@ C++
     * Min heap: priority_queue<int, vector<int>, greater<int>> q;
       Second parameter: Container object is the second class template parameter 
       (the type of the underlying container for the priority_queue; by default: vector<T>).
+    * If you want to store k top/max/largest values, then store it in a min heap of size k. If the value is larger then pop and then push new val.
+      If you want to store k bottom/min/smallest values, then store it in a max heap of size k. If the value is smaller then pop and then push new val.
+      
     * You can not iterate over queue elements. You can accuess only front() and back()
     * To concatenate vector b to another one a: a.insert(a.end(), b.begin(), b.end());
     * To get substring from a string: string ss = s.substr(position, size);
@@ -63,7 +66,9 @@ C++
       list: pop_front()
       list: pop_back()
 
-      
+      priority_queue: push()
+      priority_queue: pop()
+      priority_queue: top()
 
 11. Two problems with pointers:
     1. Memory it points to, is gone(dangling pointer).
@@ -147,11 +152,6 @@ C++
   
     }
     When is it not applied? return cond ? first : second; (first and second are two strings)
-21. Four types of design patterns: Creational(factory), Structural(proxy), Behavioral(observer), and Concurrency(scheduling).    
-
-22. Design patterns:
-    1. Name 2. Problem(context where it might be applied). 3. Solution(defines objects and describes how they interact). 
-    4. Consequences: Results and tradeoffs.   
 
 23. What are Abstract classes? Can you create an object of a abstract class?
     A class that contains atleast one pure virtual function is called abstract class.
@@ -163,10 +163,38 @@ C++
 25. Skip list advantage is you dont have tolock the entire linked list. in case of a tree you have to.
     Efficient alternative to balanced binary trees and easy to implement.
     
-26. Initialization list: Its an efficient way of initializing all memeber variables in a constructor. Member variables are 
+26. Initializer list: Its an efficient way of initializing all memeber variables of a class in a constructor. Member variables are 
     initialized using a copy constructor rather than by calling the default constructor and then a copy assignment operator.   
+    There are certain cases where initializer lists are the only way of initializing class member data.
+    1. initialization of non-static const data members. In the case of const data the object should be assigned a value before they can be contructed.
+    2. Initialization of reference members.
+    3. Initialization of data members that do not have default constructors.
   
-27. Four functions that compiler generates for you: constructor, destructor, copy assignemnt, copy constructor.      
+
+31. What is friend function? Its not a memeber function of a class. but, it has access to all private and 
+    protected members of a class.
+    
+32. What is operator overloading and function overloading in C++?
+    Function overloading: You can have multiple definitions for the same function name in the same scope.
+    The defintions differ by the number of arguments.
+    Multiple declarations with the same function name, but different arguments and function defintions.
+    You cant overload just by return value.
+    
+33. What are the opertators that can not be overloaded in C++?
+    Scope resolution operator(::), Member selection operator(.*), dot operator(.), conditional operator(?:). 
+   
+34. What is name space?
+    Namespace is a declarative region that provides a scope to the identifiers (names of the types, function, variables etc) inside it.
+
+35. What is public, private and protected?
+
+36. What is inheritance? Whay would you inherit?
+
+37. Difference between a class and a structure.
+
+
+-------------------------------------------------------------------------------------
+Scott Meyers:
 
 28. Why is it a bad idea for destrucotrs to throw exception?
     try{ 
@@ -175,30 +203,50 @@ C++
     }
     Now imagine fn1() throws an exception and then if vector<int>'s destructor also throws an exception, 
     then it is perfect receipe for a disaster.
+
+
+27. Four functions that compiler generates for you: constructor, destructor, copy assignemnt, copy constructor.      
+
+33. Always prefer psss const pass-by-reference over pass by value. Exceptions are: built-in variables and iterators.
+    Iterators are very small. So, there is no advantage to passing by reference.
+
+
+*. Design guidelines:
+    1. Make interfaces such that it is easy to use correctly and hard to use incorrectly.    
     
+   Public means uncapsulated which means unchangeable. 
+
 29. Never call virtual functions in constructor/destructor becaseu this will end up calling the base class constructor 
     and never go to derived part.    
     
 30. Assignment operator should return *this. This way we can do x = y = z;(y = z should return *this/y)    
 
-31. What is friend function? Its not a memeber function of a class. but, it has access to all private and 
-    protected members of a class.
-    
 32. In C++ iterators are implemented as pointers internally.
 
-33. Always prefer psss const pass-by-reference over pass by value. Exceptions are: built-in variables and iterators.
-    Iterators are very small. So, there is no advantage to passing by reference.
 
 34. Problems in returning a reference: 
     stack allocated: you are pointing to nowhere.
     Heap allocated: YOu may not have the right reference to it.
     allocated using static inside a function: thread safety + other issues.
     Overall very bad idea to have a function that returns a reference. Always return by value/object.   
-    
-*. Design guidelines:
-    1. Make interfaces such that it is easy to use correctly and hard to use incorrectly.    
+
         
----------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+Design Patterns:
+
+* Four types of design patterns: 
+    * Creational - Factory 
+    * Structural - Proxy
+    * Behavioral - Observer, Mediator, Memento
+    * Concurrency - Scheduling    
+    
+
+* Design patterns:
+    1. Name 2. Problem(context where it might be applied). 3. Solution(defines objects and describes how they interact). 
+    4. Consequences: Results and tradeoffs.   
+
+
+----------------------------------------------------------------------------------
 Array/string sizes and index
 
 no of elements/size(including current index) = currIndex - startIndex;
@@ -226,7 +274,50 @@ Bit wise operator:
     
     
 ---------------------------------------------------------------------------------
-C++ memory model:
+C/Embedded interview questions:
+
+*  Never do the following(wasted an hour on this):
+   for(unsigned char i = 0; i <= 255; i++){
+   }
+   Your for loop is spinning forever as i is always between 0 and 255.
+*. What are the problems with C macros?
+   1. They are not typesafe. There is nothing preventing you from passing in a character to 
+      a macro that was desgined for int.
+   2. Expressions passed to macros might evaluate more than one time.     
+   3. C++ min macr is type safe.
+   
+*  What do you mean by volatile:
+   The value of this field might change outside this program without the compiler being aware of. 
+   So, you are telling the compiler dont cache this value and always read it from memory.
+   
+*  Variable should be declared volatile whenever its value could change unexpectedly. In practice, only three types of variables could change:
+   1. Memory-mapped peripheral registers
+   2. Global variables modified by an interrupt service routine
+   3. Global variables accessed by multiple tasks within a multi-threaded application
+
+
+* DMA transfer begins
+  * Cache content is not valid for the DMA buffer
+  * DMA transfer is done. Processor is notifed with an intrrupt.
+  * ISR is invoked. Context switch causes cache to be invalidated.
+  * When you return from ISR you do a context swtitch again and you should be able to do a valid read from a DMA buffer.
+  * Hardware ddoes all the cache management.
+
+* ISR context: Supervisor/privileged context is where the ISR runs.
+* Mask interrupts if they are irritiating you
+* How do you achieve executing flash at the same time you are downloading?
+  1. You have an external flash and internal flash.
+  2. Code is running off internal flash at any time.
+  3. External flash has two sections: One for current running code image and the other for any new image.
+  4. When there is a new image, it gets downloaded into the external flash's appropriate section.
+  5. Bootloader now runs off RAM and then it loads the new image onto the internal flash.
+  6. After loading the new image onto internal flash, bootloader transfers control to the newly loaded internal flash image.
+  7. If anything is problem with newly loaded image then bootloader erases the newly loaded image and transfers the old image.
+
+
+
+---------------------------------------------------------------------------------
+C++ memory model/Concurrency:
 
 Producer-Consumer problem:
 Two main problems:
@@ -246,6 +337,11 @@ Two main problems:
    A condition variable must always be paired with a mutex. When it waits for a mutex, it gives up the condition variable. 
    when the condition is met, it automatically gets themutex back again.   
       
+4. Deadlock: Two threads waiting for a resource the other thread has. Infinite wait.
+   Livelock: Each deadlocked thread releases the acquired resource and does something else. After sometime deadlock repeats.
+             Then they go back to release the resource. They will back and forth forever like this. Lots of wasted cpu cylces.  
+   Starvation: One thread has a resource and holds onto it forever. The other thread just keeps waiting. The one that is waiting 
+             is basically starving.          
 
 ---------------------------------------------------------------------------------
 Video Notes:

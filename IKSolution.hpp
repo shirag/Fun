@@ -301,6 +301,8 @@ class IKSolution
 	    bool sumOfIntegers(vector<int> IntArr, int iTarget); /*If there is a group of integers whose sum is K(may or may not be contigous)*/
 	    int wellFormedBrackComb(int n);
 	    vector<int> diffWaysToCompute(string s);
+	    void getSimilarMovies(int K);
+
 
         /* LinkedLinkedListNode */
 	    LinkedListNode* AddTwoLinkedListNodes(LinkedListNode *LinkedListNode1, LinkedListNode *LinkedListNode2);
@@ -358,6 +360,7 @@ class IKSolution
         vector<string> printTriplets(vector<int> intArr);
         bool findIf4NumbersSumToK(vector<int> v, int k);
         vector<int> mergeFirstIntoAnother(vector<int> intArrShort, vector<int> intArrLong);
+        string sortCharacters(string inString);
         /* ? Dutch National Flag timed test problem */
         /* ? Two sorted arrays. Find a duplicate. Use a Hash. Time 2n. Try the merging logic used for merge sort.*/
 

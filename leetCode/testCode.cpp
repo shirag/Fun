@@ -12,7 +12,12 @@
 #include<algorithm>
 #include"Solution.h"
 #include<map>
+#define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "../IKSolution.hpp"
+
+#include "../Catch.hpp"
+using namespace std;
+
 
 using namespace std;
 
@@ -48,6 +53,57 @@ int testZigZagConversion();
 int testAddTwoNos();
 int understandStringFuncs();
 void reverseWordsInAString(string &s);
+void myCountSortAlgorithm(vector<int>& v);
+
+TEST_CASE( "Sort A bounded Array", "Sort A bounded Array")
+{
+    cout << "Sort A bounded Array \n";
+
+    vector<int> v;
+    vector<int> res;
+
+    v = {2, 1, 0, 5, 4, 3};
+    res = {0, 1, 2, 3, 4, 5};
+    myCountSortAlgorithm(v);
+    REQUIRE(v == res);
+
+    v = {0, 1, 2, 3, 4, 5};
+    res = {0, 1, 2, 3, 4, 5};
+    myCountSortAlgorithm(v);
+    REQUIRE(v == res);
+
+    v = {5, 4, 3, 2, 1, 0};
+    res = {0, 1, 2, 3, 4, 5};
+    myCountSortAlgorithm(v);
+    REQUIRE(v == res);
+
+
+}
+
+/* Problem:
+ *     You have values  0 to n-1 values in an array of size n. No duplicates. Sort them in O(n)
+ *
+ */
+void myCountSortAlgorithm(vector<int>& v)
+{
+    int sz = v.size();
+
+    for(int i = 0; i < sz; i++){
+        if(v[i] < sz){
+            int index = v[i];
+            swap(v[i], v[index]);
+            v[index] += sz;
+            i--;
+        }
+    }
+
+    for(int i = 0; i < sz; i++){
+        v[i] -= sz;
+    }
+
+}
+
+
 
 #if 0
 int main()
@@ -246,6 +302,19 @@ int main (int argc, char *argv[])
     return(0);
 }
 #endif
+
+
+
+void myBitManipulations()
+{
+    // Clear the third bit;
+    int a = 0xFF;
+    printf("The original val is 0x%x \n", a);
+    a &= ~(0x01 << 3);
+    printf("The original val is 0x%x \n ", a);
+}
+
+
 
 int findKthLargest(vector<int> &v1, vector<int> &v2, int k,int& val)
 {
@@ -1146,6 +1215,246 @@ int longestStringFunction(string &input)
 
 
 
+void getAllNodesImConnectedTo(vvi& mGraph, list<int>& pushL, int val)
+{
+    for(int index = 1; index < mGraph[val].size(); index++)
+    {
+        int val1 = mGraph[val][index];
+        DEBUG_DEBUG(cout << "Processing Node " << val << " connected to " << val1 << " \n");
+        pushL.push_back(val1);
+    }
+}
+
+/*
+ *
+ * */
+
+void bfsTempleteUtil(vvi& mGraph, int initNode)
+{
+    queue<list<int>> mainQ;
+    list<int> pushL;
+    list<int> popL;
+    set<int> visited;
+
+    pushL.push_back(mGraph[initNode][0]);
+    mainQ.push(pushL);
+    pushL.clear();
+
+    while(!mainQ.empty())
+    {
+        popL = mainQ.front();
+        mainQ.pop();
+
+        for(auto val : popL)
+        {
+            if(visited.count(val) != 0)
+                continue;
+
+            visited.insert(val);
+            getAllNodesImConnectedTo(mGraph, pushL, val);
+
+        }
+        if(!pushL.empty())
+        {
+            mainQ.push(pushL);
+            pushL.clear();
+        }
+    }
+
+}
+
+
+void bfsTemplete()
+{
+    vvi mGraph;
+    vi tmp1;
+
+    tmp1 = {0, 2, 3, 5};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {1, 19, 31, 56};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {2, 6, 7,  8};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {3};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {4};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {5};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {6, 2};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {7};
+    mGraph.push_back(tmp1);
+
+    tmp1 = {8};
+    mGraph.push_back(tmp1);
+
+    bfsTempleteUtil(mGraph, 0);
+    bfsTempleteUtil(mGraph, 2);
+}
+/*****************************************************************************************************/
+
+#if 0
+TEST_CASE( "Graph template BFS", "Graph template BFS" )
+{
+
+    cout << "Graph template BFS \n";
+
+    soln.bfsTemplete();
+}
+TEST_CASE( "Similar movies", "Similar movies")
+{
+    cout << "Give me top K similar movies \n";
+    soln.getSimilarMovies(2);
+}
+
+#endif
+
+struct MovieInfo
+{
+    string title;
+    int rating;
+};
+
+vector<MovieInfo> movieDB;
+
+void populateList(int movieIndex, int K, priority_queue<int, vector<int>, greater<int>>& topRelatedMovies)
+{
+    if(topRelatedMovies.size() < K)
+        topRelatedMovies.push(movieIndex);
+    else
+    {
+        //cout <<  " movieDB[topRelatedMovies.top()].rating " << movieDB[topRelatedMovies.top()].rating << " \n";
+        //  cout <<  " movieDB[movieIndex].rating "<< movieDB[movieIndex].rating << " \n";
+        if(movieDB[topRelatedMovies.top()].rating < movieDB[movieIndex].rating)
+        {
+            topRelatedMovies.pop();
+            topRelatedMovies.push(movieIndex);
+        }
+    }
+
+}
+
+void getAllMoviesImConnectedTo(const vvi& mGraph, list<int>& pushL, int selectMIndex, int K, priority_queue<int, vector<int>, greater<int>>& topRelatedMovies,
+                               int original)
+{
+    for(int index = 1; index < mGraph[selectMIndex].size(); index++)
+    {
+        int simiMovieIndex = mGraph[selectMIndex][index];
+        if(original != simiMovieIndex)
+        {
+            DEBUG_DEBUG(cout << "Processing Node " << selectMIndex << " connected to " << simiMovieIndex << " \n");
+            populateList(simiMovieIndex, K, topRelatedMovies);
+            pushL.push_back(simiMovieIndex);
+        }
+    }
+}
+
+
+void getSimilarMoviesUtil(const vvi& mGraph, int initNode, int K, priority_queue<int, vector<int>, greater<int>>& topRelatedMovies, int original)
+{
+    queue<list<int>> mainQ;
+    list<int> pushL;
+    list<int> popL;
+    set<int> visited;
+
+    pushL.push_back(mGraph[initNode][0]);
+    mainQ.push(pushL);
+    pushL.clear();
+
+    while(!mainQ.empty())
+    {
+        popL = mainQ.front();
+        mainQ.pop();
+
+        for(auto val : popL)
+        {
+            if(visited.count(val) != 0)
+                continue;
+
+            visited.insert(val);
+            getAllMoviesImConnectedTo(mGraph, pushL, val, K, topRelatedMovies, original);
+
+        }
+        if(!pushL.empty())
+        {
+            mainQ.push(pushL);
+            pushL.clear();
+        }
+    }
+
+}
+
+void getSimilarMovies(int K)
+{
+
+
+    vvi mGraph;
+    vi tmp1;
+    priority_queue<int, vector<int>, greater<int>> topRelatedMovies;
+    int inputMovie = 0;
+
+    movieDB.push_back({"movie0",99}); //0
+    movieDB.push_back({"movie1",21}); //1
+    movieDB.push_back({"movie2",33}); //2
+    movieDB.push_back({"movie3",42}); //3
+    movieDB.push_back({"movie4",12}); //4
+    movieDB.push_back({"movie5",01}); //5
+    movieDB.push_back({"movie6",1000}); //6
+    movieDB.push_back({"movie7",67}); //7
+    movieDB.push_back({"movie8",99}); //8
+
+    tmp1 = {0, 2, 3, 5}; //0
+    mGraph.push_back(tmp1);
+
+    tmp1 = {1, 19, 31, 56}; //1
+    mGraph.push_back(tmp1);
+
+    tmp1 = {2, 6, 7,  8}; //2
+    mGraph.push_back(tmp1);
+
+    tmp1 = {3}; //3
+    mGraph.push_back(tmp1);
+
+    tmp1 = {4}; //4
+    mGraph.push_back(tmp1);
+
+    tmp1 = {5}; //5
+    mGraph.push_back(tmp1);
+
+    tmp1 = {6, 2};//6
+    mGraph.push_back(   tmp1);
+
+    tmp1 = {7}; //7
+    mGraph.push_back(tmp1);
+
+    tmp1 = {8}; //8
+    mGraph.push_back(tmp1);
+
+    inputMovie = 0;
+    K = 2;
+    getSimilarMoviesUtil(mGraph, inputMovie, K, topRelatedMovies, inputMovie);
+
+    cout << "All top " << K <<  " movies related to " << inputMovie <<  " are: \n";
+    int size = topRelatedMovies.size();
+    for(int i = 0; i < size; i++)
+    {
+        cout << "Related Movie is " << topRelatedMovies.top() << " \n";
+        topRelatedMovies.pop();
+    }
+
+
+
+}
+
+/*****************************************************************************************************/
 
 
 
