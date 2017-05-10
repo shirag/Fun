@@ -1,0 +1,81 @@
+
+To record on my Ubuntu system:
+1. arecord filename.wav
+2. sox -t alsa default test.wav 
+
+------------------------------------------------------------------------------
+Eclipse:
+How to add C++11
+Project/Properties/c/C++/Settings/GCC C++ compiler build command g++ -std=c++0x
+
+---------------------------------------------------------------------------
+Git Hub
+User name: SFChanakya
+nraga@yahoo.com
+shivani123
+
+User name: shirag
+shiragshome@gmail.com
+smartass123
+git config --global user.name "shirag"
+git config --global user.email "shiragshome@gmail.com"
+#To check
+git config --global -l
+
+Install Git on my Linux machine 
+* sudo apt-get install git
+
+Repo creation:
+* mkdir Git
+* git init Fun
+* cd Fun
+
+*Every time you want to access the Git
+git config --global user.name "SFChanakya"
+git config --global user.email "nraga@yahoo.com"
+* To create a clone
+git clone "https://www.github.com/SFChanakya/Fun.git"
+# to Define the connection between your local and ORIGIN
+git remote set-url origin  https://github.com/shirag/Fun.git
+git re
+# to Define the connection between your local and UPSTREAM
+ git remote add upstream https://github.com/SFChanakya/Fun.git
+
+* vi README
+* git add README
+* git commit -m "third commit"
+* git remote add origin https://github.com/SFChanakya/Fun.git
+* git push -u origin master
+
+git status 
+git add addTwoNumersFinal.cpp
+git commit -m "Ashok Review Request" 
+git push -u origin master
+
+To show all branches present
+*git branch -v
+
+To create a new branch by name testRagha
+*git checkout -b testRagha
+
+To delete a local branch 
+* git checkout master //switch to the master branch first
+* git branch -d testRagha //delete the testRagha branch
+
+
+git pull origin master
+---------------------------------------------------------------------------
+How to add a program to a panel on Ubuntu(GNOME Flash back metacity)?
+* ALT + Right click on the panel, and then select  "Add to panel" + Application launcher and then keep selecting..
+To remove/move
+* Point the mouse on the icon and then ALT + right click 
+---------------------------------------------------------------------------
+USB wifi on this machine -
+Go to Desktop/install/usbwifi
+# Do a sudo install
+# If you uncompress the tar folder you might end up undoing some of the local changes to get it compiling.
+# So, uncompress onnly once. I have commented out the uncompress part in the install file. 
+# If you get a fresh copy from the disc you migh end up doing it again
+sudo ./install
+
+

@@ -204,6 +204,8 @@ TREES:
 	Worst: Search/Insert/Delete is O(n)
 	
  *. C++ Priority_queue/Heap(container adaptor) - Might be implemented using vector.
+    Max heap: parent is more than children at every level. Every root must have two children.
+    Heap Array: Holes have to be at the end.
  *. Difference between Heap and BST.
     
 	                              Heap                  BST(Binary Search Tree)
@@ -214,6 +216,24 @@ TREES:
 	Root is higher than children  Yes                   No
 	
  *. BSTs dont allow for duplicates. This will lead to lot of problems during rotation. But, according to CLRS, you are supposed to handle duplicates. 
+ *. How do you make a unbalanced BST to BST?
+    Do a inorder traversal. Store it in an array. Convert the array to a balanced BST
+    But, this is not a self balancing tree.
+ *. Assignment, not tested: Go over white board. Write code: Find if a tree is a balanced BST? left is balanced? Right is balanced? is height of the left -  
+    
+    if(null)
+        return 0;
+        
+    lHeight = areUBalancedBST
+    rHeight = areUBalancedBST
+      
+    if(lHeight == -1 || rHeight == -1)     
+        return -1;
+        
+    if(abs(lHeight - rHeight) > 1)
+        return -1;
+         
+    return ((lHeight > rHeight ? lHeight : rHeight) + 1);      
   	
  /*******************************************************************************************************************/
  
@@ -300,8 +320,13 @@ Geetha: recusrion/mock:
 *. Base case, delegation, contract, execution tree, execution sequence, Time and space complexity.
 *. Top down is recursion, bottom up is for iteration.
 *  C is a Top-down language. C++ is bottom up language.
+*  Tail recursion: Here is passin the current sum as the argument and when you hit the base case complete result is ready.
+   Basically the result is ready when you hit the bse case. Otherwise(non-tail recursion), base case returns a value, and every other case is
+   adding value to the value returned by the previous recursive funtion..
+   A compiler can optimize a tail recursion: The compiler is able to collapse the stack down to one entry, so you save stack space. A large 
+   recursive query can actually cause a stack overflow. Basically Tail recursions are able to be optimized into iteration.
 
-     
+*  Best way to understand recursion is to draw a tree.     
    
 /***********************************************************************************************************************/
 
@@ -556,23 +581,21 @@ A suffix tree T for a m-character string S is a rooted directed tree with exactl
 /***********************************************************************************************************************/
 
 Sorting
-* Merger Sort: Left array are sorted. Merge them
-* Qucik Sort: Pivot is the right place. Quick sort left and right of the pivot.
+* Merger Sort: Left array are sorted. Merge them. Worst case compleity is O(n log n)
+* Qucik Sort: Pivot is the right place. Quick sort left and right of the pivot. Worst case O(n*n). Avg case is o(n log n)
+              Getting a pivot equal to the lowest or highest number, should also trigger the worst case scenario of O(n2).
 * Merge case is better than quick sort why? Worst case complexity of merge sort is O(n log n) where as quick sort is O(n * n)
-* Bucket  sort
+* Bucket  sort. Learn more using hash tabkes.
 * If there are 3 leaves, then it will be log to the base 3.
 * Solve the problem for a pivot.
   rank will tell you the right loccation.
   Sortig is not needed.
-* While sortingreat equals as less than. Important to have a stratergy for equals.
+* While sorting greater equals as less than. Important to have a stratergy for equals.
 * What scenario qick sort will give you n square.
   Have pivot as a different thing
- 
-
-
-Stable Sort:
-Merge sort is a stable algorithm
-Top down or bottom up for Recursion?
+* What is a stable sort?
+  Merge sort is a stable algorithm
+* Learn more about bucket sort?
 
 Inverted index for looking up strings.
 
@@ -582,11 +605,7 @@ Tables for GB and no of bytes etc..
 Memoization: convert two loops to one?
 merge sort: map-reduce
 Machine 1MB ; 
-Heap has  a vector build below it.
-Heap is called priority queue
-Max heap: parent is more than children at every level
-Heap: Every root must have two children
-Heap Array: Holes have to be at the end.
+
 How do you build?
 streaming data against constant data.
 /***************************************************************************************************************/   

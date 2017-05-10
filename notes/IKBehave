@@ -1,54 +1,80 @@
 
 
+
+
+                            
+GetAround - I am passionate about GSP and video parts of a car.
+
+/******************************************************************************************************************/
 Elevator Pitch[1-2 minute intro, focus, something exciting to say, last line is what you are looking for?]
    
-  Hi, I'm Raghav. 
   I used to work as Sr Software Engineer at Nagra where I would build and own s/w components. 
-  My responsibilities included collecting requirements, design s/w, develop s/w, unit-test s/w and then integrate and with rest of STB system.
-  I also used to debug and trouble shooting open-source s/w and s/w written by others.
-  Before that I used to work with a Fabless semiconductor company where I would integrate algorithms and applications with embedded platforms.
-  My main areas of expertise is Embedded systems, GPS, Video and streaming software development.  
-  My most recent experience has been building HTML5 based OTT video players using GStreamer framework. 
-  I have deep interest in OTT-streaming which is my main domain expertise.
+  My responsibilities included gather requirements, designing, developing, unit-testing s/w  and then integrate it with rest of STB system.
+  I also very good root-cause analysis skills. I am very comfortable at debugging and trouble shooting open-source code and code written by others.
+  Before Nagra, I used to work with a Fabless semiconductor company where I would integrate algorithms, and applications with embedded systems.
+  My most recent experience is building HTML5 based video player using GStreamer framework. 
+  I have a deep interest in embedded systems, and OTT-streaming which is my main domain expertise.
   When it comes to programming language, C/C++ is my main forte.
   I enjoy the challenges of working on software that has to run in a very resource constrained environment.
-  Im looking to join a company where people are smart and work with latest technologies.
+  Im looking to join a company where people are smart, and then I help them to be successful.
+  
   
 ********************************************************************************************************************    
-[Challenging Project: Video player development using Gstreamer Framework, OTT-MP4 playback]
-Tips:
+Challenging project tips:
 1. Something you know very well.
 2. Atleast one challenge: diffcult bug, difficult design, too many stake holders, strong business challenge etc. 
 3. You are excited to show off.
 4. Is successful and relatively recently   
 
-Business context:
-    Opentv5 is a middleware is built on embedded Linux OS and HTML5 with all digital television components.
-    Gstreamer is used for media playback. This enables all the FOSS plugins to be reused instead of developing from scratch.
-    
-Main design:
-    The challenge here is to  convert control only pipeline to control + data pipeline(Broadcast based solution that had lot of acceleration).
-    Re-use the existing pipeline that was built for NON-OTT playback for OTT playback.  
-    
-My role:
-    OTT-MP4 feature develpment. Build src, decontainer and decoder plugins/bins for the pipeline, integrate them, and unit test.  
-    Implement basic player features like seek etc. Undertstand and learn Glib programming, and Gstreamer Framework in a very short timeframe.
-    Also do research as to timings of the notifications to be sent to the player and Gstreamer states.
-     
-    As soon as you set the pipeline to a playing state it goes through various interim states before reaching the PLAYING state.
-    Proper resource allocation should be done in proper states(stream specific and non-stream specific). There can be events coming in that
-    indicates a CAPS(decoder configuration) and SEGMENT(AU time stamp).  Proper plugin code should be written to handle this.
-    
-    Player sets the pipeline to playing state. Using the ASYNC_DONE to send stream_started notification to external apps.
-    If there is start from non-zero offset request, then upon the receipt of ASYNC_DONE we would do an immediate seek.
-    We turn off pre-rolling after going to  playing state. Down side of it is we dont know when the set_position completion takes place.
-    Then we came out with a polling mechanism to detect the position change. 
-    
-    Memory leak detection using scripts and Valgrind etc. Optimization and stabiliatione and productize.
-What was the problem? What made it challenging?
-What did you learn from it?    
+* Business context
+* Main design:
+* My role:
+* What was the problem? What made it challenging?
+* What did you learn from it?    
 
-Success: They wanted me to MV office. That was an indirect appreciation of skill and my work.
+/********************************************************************************************************************
+[Challenging Project: Video player development using Gstreamer Framework, OTT-MP4 playback]
+
+* Business context:
+    Need to build Opentv5 middleware on embedded Linux and using HTML5, with all digital tv components.
+    Develop OTT-media player using Gstreamer. This enables all the FOSS plugins to be reused instead of developing from scratch.
+    
+* Main design:
+    Develop a GStreamer application that would be able to handle various OTT scenarios(Progressive, MSS, fMP4, etc). Basically, 
+    develop relevant plugins and reuse some of the existing plugins.
+    
+* My role:
+    OTT-MP4 feature develpment. Build src, decontainer and decoder plugins/bins for the pipeline, integrate them, and unit test.  
+    Implement basic player features like seek etc. Also do research as to timings of the notifications to be sent to the application and Gstreamer states.
+    
+* What was the problem? What made it challenging?
+  * The challenge here is to convert control only pipeline to control + data pipeline(Broadcast based solution that had lot of acceleration).
+    Adapt the existing pipeline that was built for NON-OTT playback for OTT playback.  
+  * Time constraints, Keeping all internal stakeholders happy(QA + other groups), + Telephnica the customer.
+  * Integrating with various internal libraries(ResMan + WinMan + DevMan and Flowproxy).
+  * Nailing down seek logic. Extensive seek testing.
+  * Help the India team regarding all the details and reuse the pipeline for MSS.
+    [As soon as you set the pipeline to a playing state it goes through various interim states before reaching the PLAYING state.
+     Proper resource allocation should be done in proper states(stream specific and non-stream specific). There can be events coming in that
+     indicates a CAPS(decoder configuration) and SEGMENT(AU time stamp).  Proper plugin code should be written to handle this.
+    
+     Player sets the pipeline to playing state. Using the ASYNC_DONE to send stream_started notification to external apps.
+     If there is start from non-zero offset request, then upon the receipt of ASYNC_DONE we would do an immediate seek.
+     We turn off pre-rolling after going to  playing state. Down side of it is we dont know when the set_position completion takes place.
+     Then we came out with a polling mechanism to detect the position change.] 
+
+* What did you learn from it?    
+    * GStreamer framework and plugin development, prerolling etc.
+    * DBus communication.
+    * Memory leak detection using scripts and Valgrind etc. Optimization and stabiliatione and productize.
+    * GLib that OO and design patterns like pipeline, factory, Observer etc.
+    * GDB Multithreading debugging(backtrace, deadlock and blocked threads), debugging FOSS components.
+    * Javascript and HTML5 video tag.
+    * Success: Recognised the talent and contribution. They wanted me to MV office. That was an indirect appreciation of skill and my work.
+    
+    * Reduce number of copies.
+    * Low Memory footprint. Run Valgrind and keep it low. Gstremer has it limitations. Bloated code.
+
 ********************************************************************************************************************    
 [Challenging Project: Update to a newer version of GStreamer] 
 
@@ -87,6 +113,7 @@ My role in it:
 Business context:
    Ability to run multiple applications on an STB. There was a requirement to run Netflix in backfground mode.
 Main design:
+                            DirectFB work around the Linux kernel.
    Applications create windows using DirectFB and window manager is aware of all windows present in the system and their 
    states in terms of visibility, z-order and focis. Application manager queries the 
    state of the app with WinMan performs action accordingly. Listen to DirectFB graphics calls using SaWMan interface 
@@ -103,7 +130,8 @@ HLS streams have DVBST and DVB Teletext embedded in them.
 
 Main design:
 Main port existing libraries and integrate with our Gstreamer framework.
-My role in it:
+My role in it: Ownership, talkingt to customers.
+What did I learn : Window manager
 ***********************************************************************************************************************       
 
 Eride GPS experience:
@@ -122,6 +150,7 @@ Stack Usage calculation:
 2. Beginning of the polling loop check how much of that has been modified.
 3. Use recplay files to playback. After the crash we go ahead and diagnose the contents of the stack.
 
+For Flash programming SPI is used since SPI is very fast.
 
 ************************************************************************************************************************
 Design patterns used at OTV;
@@ -159,6 +188,7 @@ Concurrency:
 
 What are my strengths and weakness?
 Strength: I am very food at focussing. I am also very good at triaging issues.
+Weakness is something you dont want to do....soldering...
      
 *******************************************************************************************************************
 Interview takeaways:
@@ -293,7 +323,8 @@ If it was a process conflic, explain little bit about what the process did? Dont
 Emphasise on what you learnt. Win or lose, it should come as a humbing expericen.    
 
 * Respectful negotiation: Norbert create a new branch problem(process).
-* Respectful debate: Moce to mountain view office.
+* Respectful debate: Listen. Listen Listen. I dont react and try to understand the problem when people are emotional about  a prolem. 
+                     Dont react. Just repond. Moce to mountain view office.
 * Gathering data patiently over a period of time: Show video window after the first Iframe. Develop some proof of concept/prototype to back up my argument.
 * Gathering consensus: Subtilte delay with Henry Fang and Phuc. Conflict with Phuc .
 * Escalation: Conflict with Daniel(Escalation).
@@ -303,6 +334,8 @@ Things to avoid:
 * Avoid sayinf there was never a conflict.
 * Also dont say you have lot of such incidents to report.
 *******************************************************************************************************************
+
+
 
 
 

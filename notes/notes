@@ -20,10 +20,6 @@ C++
 
 7. The std::find() and std::count() take O(N). So, try avoiding them for set and map. 
    In those cases, use container's appropriate functions since they use O(log n)
-   
-8. To traverse a container:
-   #define tr(container, it) \ 
-      for(typeof(container.begin()) it = container.begin(); it != container.end(); it++) 
       
 9. string::erase(it) function always deletes the character at that location and 
    moves all character by one location to the front. So, after this operaton, it will 
@@ -39,8 +35,8 @@ C++
     * Min heap: priority_queue<int, vector<int>, greater<int>> q;
       Second parameter: Container object is the second class template parameter 
       (the type of the underlying container for the priority_queue; by default: vector<T>).
-    * If you want to store k top/max/largest values, then store it in a min heap of size k. If the value is larger then pop and then push new val.
-      If you want to store k bottom/min/smallest values, then store it in a max heap of size k. If the value is smaller then pop and then push new val.
+    * If you want to store k top/max/largest values, then store it in a min heap of size k. If the value is larger than top, pop and then push new val.
+      If you want to store k bottom/min/smallest values, then store it in a max heap of size k. If the value is smaller than top, then pop and then push new val.
       
     * You can not iterate over queue elements. You can accuess only front() and back()
     * To concatenate vector b to another one a: a.insert(a.end(), b.begin(), b.end());
@@ -75,7 +71,7 @@ C++
     2. Pointer pointing to a memory is gone.
     With reference counting mechanism(a kind of smart pointer), the memory is not released if there is at least one referance.
 12.  Smart pointers: They look like regular pointers. But they also release memory/object they are pointing, automatically.
-     Smart pointers ensure that when an pointer pointing to an object is destoyed, the corresponding object is also destoyed.    
+     Smart pointers ensure that when an pointer pointing to an object is destoyed, the corresponding object is also destroyed.    
      e.g: Unique pointer(no copy allowed), shared pointer(ref counting mechanism), 
      weak pointer(pointing to shared, but does not have count towards ref count).
      
@@ -102,8 +98,10 @@ C++
 13. Can I have a virtual destructor? 
     To sum up, always make base classes' destructors virtual when they're meant to be manipulated polymorphically.
     If a class has any virtual function, then it should have a virtual destructor.
-    If a class does not have any virtual function then it should have a virtual destructor.
+    If a class does not have any virtual function then it should NOT have a virtual destructor.
     This is because it will increase the size of the object by creating an extra vtable.
+    A virtual destructor ensures that the objects resources are released in the reverse order of the 
+     object being constructed w.r.t inherited object.
  
 14. There is no such thing as virtual constructors.
 
@@ -116,9 +114,10 @@ C++
     2. Very hard to achieve inheritance in C.
     3. C does not provide exception handling.
     4. C does not have the concept of references.
+    5. C does not allow function overloading.
     
 18. What are virtual functions?
-    Virtual functions are used to achieve inheritance. Virtual functions are called according to the type of 
+    Virtual functions are used to achieve polymorphism. Virtual functions are called according to the type of 
     object a pointer is pointing(referencing) to instead of type of the pointer(reference). 
     Virtual functions are resolved at runtime.   
     If a class has virtual functions then it is meant to be used a base class.
@@ -152,7 +151,12 @@ C++
   
     }
     When is it not applied? return cond ? first : second; (first and second are two strings)
-
+    
+*.  What is a pure virtual function?
+    A pure virtual function or pure virtual method is a virtual function that is required to be implemented by a derived class 
+    if the derived class is not abstract. Classes containing pure virtual methods are termed "abstract" and they cannot be instantiated directly.
+    You achive this by not defining the function body in the base class and make = 0;
+    
 23. What are Abstract classes? Can you create an object of a abstract class?
     A class that contains atleast one pure virtual function is called abstract class.
     You cannot create an object of an abstract class type. Abstract classes act as expressions of general concepts 
@@ -183,14 +187,73 @@ C++
 33. What are the opertators that can not be overloaded in C++?
     Scope resolution operator(::), Member selection operator(.*), dot operator(.), conditional operator(?:). 
    
-34. What is name space?
+34. What is name space? How would you use it?
     Namespace is a declarative region that provides a scope to the identifiers (names of the types, function, variables etc) inside it.
+    using namespace std;
 
 35. What is public, private and protected?
+    public memebers can be accessed by anywehere outside the class within a program.
+    private can be accessed only by class and friend functions.
+    protected can be accessed by derived class and friend functions. 
 
 36. What is inheritance? Whay would you inherit?
+    Its a technique to reuse existing code. Process of creating new classes from existing classes. New classes inherit some of the properties and behaviours of 
+    existing classes. 
+    Public inheritance: public members of the base class become public members of the derived class and protected members of the
+                        base class become protected members of the derived class.
+    Protected inheritance: public and protected members of the base class become protected members of the derived class.
+    Private inheritance: public and protected members of the base class become private members of the derived class.
 
 37. Difference between a class and a structure.
+    A class has all members private by default. A struct is a class where members are public by default. Thats it.
+
+38. What is multiple inheritance? What is diamond problem in C++?
+    An object or class can inherit characteristics and features from more than one parent object or parent class.
+    The diamond problem occurs when two superclasses of a class have a common base class, this causes ambiguities.
+    Person base class, derive student and teacher from the base, then you have TA derived from both. 
+    now when you construct a TA class, it will call the base class constructor and destructor twice.    
+    Solution is to use virtual for super classes.
+    class Faculty : virtual public Person {}
+    class Student : virtual public Person {}
+     
+    
+39. What is the problem of inlining in recursive functions?
+40. When is it appropriate to use templates?
+    Templates are often used to:
+
+    Create a type-safe collection class (for example, a stack) that can operate on data of any type.
+    Add extra type checking for functions that would otherwise take void pointers.
+    Encapsulate groups of operator overrides to modify type behavior (such as smart pointers).
+
+    Most of these uses can be implemented without templates; however, templates offer several advantages:
+
+    Templates are easier to write. You create only one generic version of your class or function instead of manually creating specializations.
+    Templates can be easier to understand, since they can provide a straightforward way of abstracting type information.
+    Templates are type-safe. Because the types that templates act upon are known at compile time, the compiler can perform type checking before errors occur.
+    
+41. How do you implement a singleton design pattern:    
+    class playerManager
+    {
+        public:
+            static playerManager& getInsance(){
+                static playerManager instance;
+                return instance;
+            } 
+        private:
+            playerManager(){};
+            playerManager(playerManager const&);   // Don't Implement.
+            void operator=(playerManagerS const&); // Don't implemen
+    };
+    
+    playerManager pm = playerManager::getInstance();
+    
+    * Make the constructor private. 
+    * Make sure that you override the default copy constructor and assignment operator so that you can not make a copy of the singleton (otherwise it would not be a singleton).
+    * You should never be able to free a singleton manually. How do you know who is keeping a reference to the singleton?
+      If you don't know (or can't guarantee) nobody has a reference (in your case via a pointer) then you have no business freeing the object.
+    * Use the static in a function method. This guarantees that it is created and destroyed only once. It also gives you lazy initialization for free. 
+    
+
 
 
 -------------------------------------------------------------------------------------
@@ -285,7 +348,20 @@ C/Embedded interview questions:
       a macro that was desgined for int.
    2. Expressions passed to macros might evaluate more than one time.     
    3. C++ min macr is type safe.
-   
+  
+*  C various declarations:
+   1. An  array of 10 pointers to integers: int *ptr[10]
+   2. A pointer to an array of 10 integers: int (*ptr)[10];
+   3. A pointer to a function that takes an integer as an argument and returns an integer: 
+      typedef int (*func_p)(int)  ;
+      int myFunction(int){}
+      func_p fp = myFunction;
+    4. An array of 10 pointers to functions that takes an integer as an argument and returns an integer: 
+      typedef int (*func_p)(int)  ;
+      func_p fp[10]; 
+    
+                                                                                      
+      
 *  What do you mean by volatile:
    The value of this field might change outside this program without the compiler being aware of. 
    So, you are telling the compiler dont cache this value and always read it from memory.
@@ -379,13 +455,18 @@ DASH:
   Adaptation description files contain link to bitrate info files.
   Bit rate info files contain link to actual video files(fragemented Mp4 files)
   
-  
+Comparison between HLS and MPEG DASH:
+  HLS is sclable, Hard with MSE, and highest latency.  
 MP4:
 
 
 * Acceptable 1080p stream using H.264 (AVC) compression at around 6 Mbps. 
   All else being equal, a 4K video would require 4x the bandwidth of a 1080p video (24 Mbps).
   With efficient Codec you can bring it down to 15mbps. With Mediamelon you can bring it to 10mbps.
+  
+  
+* Latest Video  - HLS/DASH using MSE. 
+                  Codes: VP9, HEVC h.265 for low latency video coding, and then there is AV1 codec which is 20% more efficient than VP9. 
   
 * Norbert questions:
   * What all hardware configurations we do? What is prerolling from device point of view?
@@ -437,10 +518,12 @@ UTF/Unicode
    RTSP: Realtime streaming protocol. Session control protocol for streaming video. TCP based.
    RTP: Realtime Trasport protocol. used with RTSP to stream video data. UDP based.
    RTCP: Realtime Trasport Control protocol. Goes with RTP. It provides QoS for RTP.
+   RTMP: Realtime Messaging protocol. RTMP is a TCP-based protocol which maintains persistent connections and allows low-latency communication.
+         Unlike HLS, RTMP uses a push model. Instead of the player requesting each segment, the server continuously sends video and audio data
      
    What is the difference between HTTP POST and PUT
-   PUT is replacing the current website(look and feel).
-   Post is adding some content to fields of a document.
+   PUT is replacing the current website(look and feel). Shivani - Put is update. I want to add.
+   Post is adding some content to fields of a document. POST is modify an existing field. I want to change my address.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 Bufferuing Using Gstreamer:
