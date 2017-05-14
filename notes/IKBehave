@@ -1,9 +1,64 @@
 
 
+*******************************************************************************************************************
+Phone screen:
+1. Your intro and his intro not more that 10 minutes.
+2. Before the technical question starts, ask for the format? What is the key thing they are looking for?
+3. Dont give up. Dont give up...Take up the entire 45 minutes. When it comes to 
+   Ask questions..ask questions..ask questions..not hints or solutions..
+   What is the key thing you look in your co-worker or subordinate?
+   What are the challenges on a daily basis? What is the hard part of your job?
+   Try to suggest a solution there may be.
+   
+
+*******************************************************************************************************************
+What are the questions you would ask?
+* What is the breakdown in terms of work? % development and % bug fixing?
+* What is your developmental process?
+* What is your release process?
+* What is your typical day like?
+* What is that you like about this place?
+* What is the culture of this place like?
+
+*******************************************************************************************************************
+Why do you want to join a company? 
+1. Go over the role.
+2. Go over the company technology blog to find out what makes a company unique?
+3. Find the things company is proud of, understand those aspects, connect with them: Technical power/cloud/culture/awesome UI.     
+4. All the opensource projects company works on? 
 
 
-                            
-GetAround - I am passionate about GSP and video parts of a car.
+*******************************************************************************************************************
+Give an example of where you had a conflict with your manager/Co-worket and how you resolved it?
+
+Conflicts are disagrements on design decisions or process decisions.
+Discuss the method. Not the outcome. It does not matter if you won or lost. What matters is how you handle.
+You ould preface your reply with "At work, we are encouraged to debate a solution , because thats how best ideas coeme to the fore. debating is the 
+key to differentiating a high performance team to mediocre team
+
+Give more context in the answer. e.g. If it were a design decision conflict, give a high level view of how far the project was and why 
+it was important to make that decision.
+If it was a process conflic, explain little bit about what the process did? Dont spend too much time related to context. A minute is enough.
+
+Emphasise on what you learnt. Win or lose, it should come as a humbing expericen.    
+
+* Respectful negotiation: Norbert create a new branch problem(process).
+* Respectful debate: Listen. Listen Listen. I dont react and try to understand the problem when people are emotional about  a prolem. 
+                     Dont react. Just repond. Moce to mountain view office.
+* Gathering data patiently over a period of time: Show video window after the first Iframe. Develop some proof of concept/prototype to back up my argument.
+* Gathering consensus: Subtilte delay with Henry Fang and Phuc. Conflict with Phuc .
+* Escalation: Conflict with Daniel(Escalation).
+
+Things to avoid:
+* Avoid discussing resented or inconclusive conflicts.
+* Avoid sayinf there was never a conflict.
+* Also dont say you have lot of such incidents to report.
+
+                 
+*******************************************************************************************************************
+What are my strengths and weakness?
+Strength: I am very food at focussing. I am also very good at triaging issues.
+Weakness is something you dont want to do....soldering is the best example...
 
 /******************************************************************************************************************/
 Elevator Pitch[1-2 minute intro, focus, something exciting to say, last line is what you are looking for?]
@@ -11,7 +66,7 @@ Elevator Pitch[1-2 minute intro, focus, something exciting to say, last line is 
   I used to work as Sr Software Engineer at Nagra where I would build and own s/w components. 
   My responsibilities included gather requirements, designing, developing, unit-testing s/w  and then integrate it with rest of STB system.
   I also very good root-cause analysis skills. I am very comfortable at debugging and trouble shooting open-source code and code written by others.
-  Before Nagra, I used to work with a Fabless semiconductor company where I would integrate algorithms, and applications with embedded systems.
+  Before Nagra, I used to work with a Fabless semiconductor company where I would integrate algorithms, and applications with customer device platforms.
   My most recent experience is building HTML5 based video player using GStreamer framework. 
   I have a deep interest in embedded systems, and OTT-streaming which is my main domain expertise.
   When it comes to programming language, C/C++ is my main forte.
@@ -71,9 +126,43 @@ Challenging project tips:
     * GDB Multithreading debugging(backtrace, deadlock and blocked threads), debugging FOSS components.
     * Javascript and HTML5 video tag.
     * Success: Recognised the talent and contribution. They wanted me to MV office. That was an indirect appreciation of skill and my work.
+    * I would later act as an internal consultant as to if anybody has question how the pipeline works they would ask me.
     
     * Reduce number of copies.
     * Low Memory footprint. Run Valgrind and keep it low. Gstremer has it limitations. Bloated code.
+
+*******************************************************************************************************************
+Eride GPS experience:
+*. Testing of GPS software in dense urban conditions. I would drive around in the SF financial district at 2AM to collect 
+   GPS data.
+*  Enahancements to GPS algorithms.
+   There is BBRAM to which you write the RTC offset when the receiver is shut down. When the receiver is turned ON again,
+   it reads the offset from the BBRAM gets the accurate time and performs all the calculation. One of the application of time is to 
+   find out if the ephemeris is valid or not. 
+*. GPS diagnostics software support. Diagnostics software was used reproduce error scenarious, and to tune GPS algorithms. 
+   You record measurements and record positions calculated. Later for the same measurements 
+   you try to produce positions again and see if it makes a difference. We used memento design pattern in here. 
+*. Development and support for a software development farm. You make one change for a software and then playback with all the previous 
+   diagnostics files. This will generate a single file output where you could compare all the results simultaneously.
+*. Going over NMEA specifications and formatting the GPS engine output to generate these sentenses. 
+*. Development Ruby scripts that would be used for optmizing GPS performance.
+*. Using a simulator scenarios to simulate extreme GPS conditions. Also to develop scenarios to test for COCOM compliance.
+*. Development of HAL/OS abstraction layer. Mainly UART and Server code.
+*. Development of reference applications.
+*. Board bringup of ARM/MIPS based platforms. Fix UART driver code for ARM platforms. It was always dropping packets. Integrate and run GPS algo.
+*. Performance evaluation of hardware platforms. Using Drystones MIPS.
+*. Porting onto WinCE based platforms.
+*. Fix UART driver code for WinCE/ARM platforms. It was always dropping packets.
+*. Support for a third party VSP software and then developed an in-house WinCE VSP software. 
+   GPS would write to the VSP port and mapping software would pick from that.
+*. MISRA C compliance: Guidelines for the Use of the C Language in Vehicle-Based Soft-ware," 
+*. Develop I2C and SPI drivers for eRide SoC.
+*. Stack Usage calculation: 
+   1. Testing based approach. Initialize it to a pattern.
+   2. Beginning of the polling loop check how much of that has been modified.
+   3. Use recplay files to playback. After the crash we go ahead and diagnose the contents of the stack.
+   
+
 
 ********************************************************************************************************************    
 [Challenging Project: Update to a newer version of GStreamer] 
@@ -134,25 +223,34 @@ My role in it: Ownership, talkingt to customers.
 What did I learn : Window manager
 ***********************************************************************************************************************       
 
-Eride GPS experience:
 
-There is BBRAM to which you write the RTC offset when the receiver is shut down. When the receiver is turned ON again,
-it reads the offset from the BBRAM gets the accurate time and performs all the calculation. One of the application of time is to 
-find out if the ephemeris is valid or not. 
+Similarities between I2C and SPI
+* Protocols are well-suited for communications between integrated circuits, for slow communication with on-board peripherals.
+* Both are master slave protocol. Communication is always initiated by a master.
+* Both are synchronous protocols.
 
-RecPlay software is used to tune GPS algorithms. You record measurements and record positions calculated. Later for the same measurements 
-you try to produce positions again and see if it makes a difference. We used memento design pattern in here. 
+Differences between I2C and SPI
+* SPI is faster.  Used for writing to Flash. For Flash programming SPI is used since SPI is very fast.
+  Used to connect the microcontroller peripherals with 4 wires. 
+* I2C uses 2 wires. Clock and Data. Clock is unidirectional. Data is bidirectional. More than 2 devices can exist on the same bus.
+  Using 2 wires you can connect a peripheral to a microcontroller.
+  SPI uses 4 wires. Clock, Data In, Data out, and Chip select. Clock is always an output going from master to slave. CS selects the device.
+* I2C: Addressing is software based.
+  SPI: Addressing is hardware based.
+* I2C: More than one master can exist.
+  SPI: Only one master can exist.
+* I2C: Max 3.5Mbps.
+  SPI: Can go over 10Mbps and upto 20Mbps.
+* I2C: Is half duplex(At any point, you are either sending or receiving).
+  SPI: Is full duplex(sending and receiving at the same time).
+  Winner?
+  * I²C(less pins and lines) is a clear winner over SPI in sparing pins, board routing and how easy it is to build an I²C network.  
+  * Both SPI and I2C offer good support for communication with low-speed devices, but SPI is better suited to applications in which 
+    devices transfer data streams, while I²C is better at multi master ‘register access’ application.
 
-http://www.cs.dartmouth.edu/~campbell/cs50/socketprogramming.html
-
-Stack Usage calculation: 
-1. Testing based approach. Initialize it to a pattern.
-2. Beginning of the polling loop check how much of that has been modified.
-3. Use recplay files to playback. After the crash we go ahead and diagnose the contents of the stack.
-
-For Flash programming SPI is used since SPI is very fast.
-
+  
 ************************************************************************************************************************
+OTV General experience
 Design patterns used at OTV;
 
 Creational:
@@ -169,9 +267,6 @@ Behavioral:
 Concurrency:    
 
 
-
-************************************************************************************************************************              
-
 2008 - 
 2009 - 
 2010 - 
@@ -183,20 +278,15 @@ Concurrency:
        Show, raisetoTop and provide focus.
        DirectFB upgrade 
 2016 - YouTube Bug fixes. Gstreamer Upgrade + WebKit Upgrade + CI + Multiapp ZIndex + Z Layer stuff.
-*******************************************************************************************************************
-     
 
-What are my strengths and weakness?
-Strength: I am very food at focussing. I am also very good at triaging issues.
-Weakness is something you dont want to do....soldering...
-     
-*******************************************************************************************************************
 Interview takeaways:
 
 Applie Phone screen: Unit tests. Size of int mistake while reversing a string.
 
 BnW Onsite: Did not listen to the request for Class diagram. listen, listen, listen. Did not ask adequate number of questions.
             I was not throwing enough technical terms; mutex, message queue etc..
+            
+Symantek 1:            
 NVIDIA1: 
     1. Given three arrays, find all elements that add upto K by adding one member of each array. 
        * Soln 1: Brute Force. O(n * n * n) soln.
@@ -271,8 +361,42 @@ FaceBook Phone:
          3. Create all subsets in a set. Why is 2 power n.
          Calcualating the complexity: I made a mistake finally because I did not say  2 power n * n. Never ignore the 
          complexity of the printing part. 
-         
-*******************************************************************************************************************
+ 
+Krush:
+
+GetAround:
+
+RiverBed:
+
+InFocus:
+
+Conviva:
+
+Uber:
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+INFOCUS
+ Required experience:
+• Should have at least 6 years of software development experience
+• Experience developing software and firmware in C/C++/C# for Windows and Linux environment
+• Development experience with multithreaded programming and Real time OS
+• Experience with networking, TCP/IP stack and socket programming
+• Experience with low level embedded software design and implementation
+• Experience with processes/methodologies used in an Engineering organization such as Agile or Waterfall
+• Good understanding of unit testing, automation testing, code coverage, build tools etc.
+The client is looking for candidates with the following technical skills:Web video collaboration software(RTP/RTCP, WebRTC, etc.).
+Video/audio streaming(SRTP, HLS, RTSP, RTMP) on top of server/client infrastructure(C++/C#, Objective-C, JavaScript, node.js, RESTful API).
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+GetAround - I am passionate about GSP and video parts of a car.
+            A contextual notification system that can deliver timely alerts without distracting the driver. When you are dangerosuly entering other lane.
+            Beign able to control your home devices. 
+            Connect is at your core. Install connect. And then renters can find, book, and unlock your car right from phone no key exchange. There is also an 
+            extra layer of security. 
+            
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Preparation. Keep examples ready. Have binary tree example ready that you can quickly draw on white board.
 Have examples ready in your cheat sheet. Have trees with 2 n leaves.
@@ -293,53 +417,7 @@ After the interviewer says, go ahead and code:
     You are standing in the middle. Point is you dont want to run around from
     one corner of the room to another.
 
-*******************************************************************************************************************
-Why do you want to join a company? 
-1. Go over the role.
-2. Go over the company technology blog to find out what makes a company unique?
-3. Find the things company is proud of, understand those aspects, connect with them: Technical power/cloud/culture/awesome UI.     
-4. All the opensource projects company works on? 
-
-*******************************************************************************************************************
-What are the questions you would ask?
-* What is your developmental process?
-* What is your release process?
-* What is your typical day like?
-* What is that you like about this place?
-* What is the culture of this place like?
-
-*******************************************************************************************************************
-Give an example of where you had a conflict with your manager/Co-worket and how you resolved it?
-
-Conflicts are disagrements on design decisions or process decisions.
-Discuss the method. Not the outcome. It does not matter if you won or lost. What matters is how you handle.
-You ould preface your reply with "At work, we are encouraged to debate a solution , because thats how best ideas coeme to the fore. debating is the 
-key to differentiating a high performance team to mediocre team
-
-Give more context in the answer. e.g. If it were a design decision conflict, give a high level view of how far the project was and why 
-it was important to make that decision.
-If it was a process conflic, explain little bit about what the process did? Dont spend too much time related to context. A minute is enough.
-
-Emphasise on what you learnt. Win or lose, it should come as a humbing expericen.    
-
-* Respectful negotiation: Norbert create a new branch problem(process).
-* Respectful debate: Listen. Listen Listen. I dont react and try to understand the problem when people are emotional about  a prolem. 
-                     Dont react. Just repond. Moce to mountain view office.
-* Gathering data patiently over a period of time: Show video window after the first Iframe. Develop some proof of concept/prototype to back up my argument.
-* Gathering consensus: Subtilte delay with Henry Fang and Phuc. Conflict with Phuc .
-* Escalation: Conflict with Daniel(Escalation).
-
-Things to avoid:
-* Avoid discussing resented or inconclusive conflicts.
-* Avoid sayinf there was never a conflict.
-* Also dont say you have lot of such incidents to report.
-*******************************************************************************************************************
-
-
-
-
-
-
+////////////////////////////////////////////////////////////////////////////////////////
 
 
 

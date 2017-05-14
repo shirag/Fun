@@ -253,7 +253,7 @@ void IKSolution::printPascal(int n)
 
 }
 
-/* Problem: Sum of zero problem
+/* Problem: Find the sub array whose sum is zero. Sum of zero.
  * Example:
  * Approach: Iterate over elements of array and calculate the cumulative sum. Store the sum and the index in a map.
  *           Every time you calculate the sum you lookup the map to see if the sum already exists. If the value exists

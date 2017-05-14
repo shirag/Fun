@@ -1154,7 +1154,7 @@ LinkedListNode* IKSolution::MergeSortLinkedListNodePtr(LinkedListNode *l)
         4's random points to 3
         5's random points to 1
 
-   Approach:
+   Approach 1:
     * Create the copy of node 1 and insert it between node 1 & node 2 in original Linked LinkedListNode, create the copy of 2
  *    and insert it between 2 & 3. Continue in this fashion, add the copy of N after the Nth node
  *
@@ -1162,44 +1162,19 @@ LinkedListNode* IKSolution::MergeSortLinkedListNodePtr(LinkedListNode *l)
       original->next->arbitrary = original->arbitrary->next;  /*TRAVERSE TWO NODES
 
     *  Restore the original linked LinkedListNode.
+    *
+   Approach 2:
+      Use a hash map where key is the original node and value is the clone node.
+      Iterate over the original ll and for every node's random pointer, gets its clone and
+      populate the clone's rand pointer.
 */
 
 LinkedListNode* IKSolution::cloneASpecialLinkedList(LinkedListNode *l)
 {
 
-    LinkedListNode *newHead = nullptr;
+    //LinkedListNode *newHead = nullptr;
 
-#if 0 //O(n) space and time.
-    map<int,LinkedListNode*> table;
-
-
-    LinkedListNode *l1Current = l;
-    LinkedListNode *prev = nullptr;
-
-    while(l1Current != nullptr)
-    {
-        LinkedListNode *newNode = new LinkedListNode;
-        newNode->val = l1Current->val;
-        if(newHead == nullptr)
-            newHead = newNode;
-        else
-            prev->next = newNode;
-        prev = newNode;
-
-        table.insert({l1Current->val,newNode});
-        l1Current = l1Current->next;
-    }
-
-    l1Current = l;
-    LinkedListNode *l2Current = newHead;
-    while(l1Current != nullptr)
-    {
-        l2Current->rand = table[l1Current->rand->val];
-        l1Current = l1Current->next;
-        l2Current = l2Current->next;
-    }
-#endif
-
+#if 0
 
     //Insert new node copy after every node in the original LinkedListNode
     LinkedListNode *l1Current = l;
@@ -1244,7 +1219,49 @@ LinkedListNode* IKSolution::cloneASpecialLinkedList(LinkedListNode *l)
 
 
     return newHead;
+#endif
+
+    LinkedListNode *newHead = nullptr;
+    LinkedListNode *tail = nullptr;
+    map<LinkedListNode*, LinkedListNode*> mp;
+    LinkedListNode *nn;
+
+    if(l == nullptr)
+        return nullptr;
+
+    LinkedListNode *temp = l;
+
+    while(temp != nullptr)
+    {
+        nn = new LinkedListNode;
+        nn->val = temp->val;
+        mp[temp]  = nn;
+
+        if(newHead == nullptr)
+            newHead = nn;
+        else
+            tail->next = nn;
+
+        tail = nn;
+        temp = temp->next;
+    }
+    tail->next = nullptr;
+
+    temp = l;
+    nn = newHead;
+
+    while(temp != nullptr)
+    {
+        nn->rand = mp[temp->rand];
+        temp = temp->next;
+        nn = nn->next;
+    }
+
+    return newHead;
 }
+
+
+
 /***********************************************************************************************************************************/
 
 /* Problem:

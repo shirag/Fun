@@ -1,5 +1,6 @@
 
 
+
 C++
 ----
 
@@ -32,9 +33,11 @@ C++
     * string to int - stoi()
     * int to string - to_string()
     * Is a string palindrome: os == string(os.rbegin(), os.rend());
-    * Min heap: priority_queue<int, vector<int>, greater<int>> q;
-      Second parameter: Container object is the second class template parameter 
-      (the type of the underlying container for the priority_queue; by default: vector<T>).
+    * Max heap: priority_queue<int> q;
+      Min heap: priority_queue<int, vector<int>, greater<int>> q;
+        Second parameter: Container object is the second class template parameter 
+        (the type of the underlying container for the priority_queue; by default: vector<T>).
+      Max heap creation using heap(O(n)): std::make_heap (v.begin(),v.end()), then push_heap and pop_heap();
     * If you want to store k top/max/largest values, then store it in a min heap of size k. If the value is larger than top, pop and then push new val.
       If you want to store k bottom/min/smallest values, then store it in a max heap of size k. If the value is smaller than top, then pop and then push new val.
       
@@ -109,23 +112,6 @@ C++
 
 16. What is 'this' pointer? Inside a member function, 'this' returns the pointer to the member object.   
 
-17. C/C++
-    1. C++ provides STL.
-    2. Very hard to achieve inheritance in C.
-    3. C does not provide exception handling.
-    4. C does not have the concept of references.
-    5. C does not allow function overloading.
-    
-18. What are virtual functions?
-    Virtual functions are used to achieve polymorphism. Virtual functions are called according to the type of 
-    object a pointer is pointing(referencing) to instead of type of the pointer(reference). 
-    Virtual functions are resolved at runtime.   
-    If a class has virtual functions then it is meant to be used a base class.
-    
-19. Difference between copy constructor and assignment operator.
-    The copy constructor is for creating a new object. It copies a existing object to a newly constructed object    
-    The assgignment operator is for assigning values to an existing object. This might mean desroying existing object.
-    
 20. What is Return Value Optimization(RVO)?
     string fn1(string b)
     {
@@ -151,6 +137,44 @@ C++
   
     }
     When is it not applied? return cond ? first : second; (first and second are two strings)
+
+24. How do you implement a factory class/method in C++?
+
+
+25. Skip list advantage is you dont have tolock the entire linked list. in case of a tree you have to.
+    Efficient alternative to balanced binary trees and easy to implement.
+    
+26. Object model is the framework. Four major elements of this model(Grady Booch);
+    * Abstraction: Focusses on essential characteristics of some object. Identify similarities.
+    * Encapsulation: hides the details of implementation of the object. Try to hide differences. 
+    * Modularity: Packaging abstractions into discrete units.
+    * Hierarchy: Ranking or ordering of abstractions.
+      Inheritance is a "is-a" heirarchy. It implies a generalization/specialization heirarchy.
+      Subclass specializes the behaviour of the super-class. Superclasses represent generalized abstractions.
+
+-------------------------------------------------------------------------------------
+
+17. C/C++
+    1. C++ provides STL.
+    2. Very hard to achieve inheritance in C.
+    3. C does not provide exception handling.
+    4. C does not have the concept of references.
+    5. C does not allow function overloading.
+    
+18. What are virtual functions?
+    Virtual functions are used to achieve polymorphism. Virtual functions are called according to the type of 
+    object a pointer is pointing(referencing) to instead of type of the pointer(reference). 
+    Virtual functions are resolved at runtime.   
+    If a class has virtual functions then it is meant to be used a base class.
+    
+*   What is polymorphism?    
+    Polymorphism gives you the ability to create one module calling another, and yet have the compile time
+    dependency point against the flow of control instead of with the flow of control. By using polymorphism, a high level module does not depend on
+    low-level module. Both depend on abstractions. This helps us to apply the dependency inversion. 
+    
+19. Difference between copy constructor and assignment operator.
+    The copy constructor is for creating a new object. It copies a existing object to a newly constructed object    
+    The assgignment operator is for assigning values to an existing object. This might mean desroying existing object.
     
 *.  What is a pure virtual function?
     A pure virtual function or pure virtual method is a virtual function that is required to be implemented by a derived class 
@@ -161,11 +185,6 @@ C++
     A class that contains atleast one pure virtual function is called abstract class.
     You cannot create an object of an abstract class type. Abstract classes act as expressions of general concepts 
     from which more specific classes can be derived. 
-
-24. How do you implement a factory class/method in C++?
-
-25. Skip list advantage is you dont have tolock the entire linked list. in case of a tree you have to.
-    Efficient alternative to balanced binary trees and easy to implement.
     
 26. Initializer list: Its an efficient way of initializing all memeber variables of a class in a constructor. Member variables are 
     initialized using a copy constructor rather than by calling the default constructor and then a copy assignment operator.   
@@ -174,7 +193,6 @@ C++
     2. Initialization of reference members.
     3. Initialization of data members that do not have default constructors.
   
-
 31. What is friend function? Its not a memeber function of a class. but, it has access to all private and 
     protected members of a class.
     
@@ -252,9 +270,18 @@ C++
     * You should never be able to free a singleton manually. How do you know who is keeping a reference to the singleton?
       If you don't know (or can't guarantee) nobody has a reference (in your case via a pointer) then you have no business freeing the object.
     * Use the static in a function method. This guarantees that it is created and destroyed only once. It also gives you lazy initialization for free. 
-    
+-------------------------------------------------------------------------------------
 
+ * DNS: They maintain a directory of domain names and translate them to Internet Protocol (IP) addresses. 
+        Domain Name Servers (DNS) are the Internet's equivalent of a phone book. 
+        This is necessary because, although domain names are easy for people to remember, computers or machines, access websites based on IP addresses.
+         
+ * NAT: Network address translation (NAT) is a method of remapping one IP address space into another.
+        This is done by modifying network address information in Internet Protocol (IP) datagram packet 
+        headers while they are in transit across a traffic routing device.
+        NAT devices are needed for security and IPv4 limitations on available public IP addresses.
 
+ * ARP: Used to map IP network addresses to the hardware addresses used by a data link protocol.
 
 -------------------------------------------------------------------------------------
 Scott Meyers:
@@ -389,8 +416,18 @@ C/Embedded interview questions:
   5. Bootloader now runs off RAM and then it loads the new image onto the internal flash.
   6. After loading the new image onto internal flash, bootloader transfers control to the newly loaded internal flash image.
   7. If anything is problem with newly loaded image then bootloader erases the newly loaded image and transfers the old image.
+---------------------------------------------------------------------------------
 
-
+Embedded Linux:
+  *. Same kernel as regular Linux. Lesser packages.
+  *. Buildroot is a tool that simplifies and automates the process of building a complete Linux system for an embedded system, using cross-compilation.
+     * The first step when using Buildroot is to create a configuration. You can do thsi using menuconfig. It is s nice configuration tool similar to the
+       one you can find in the Linux kernel or in BusyBox.
+  *. GDB debugging: A debugger mainly used for looking at backtrace and callstack.       
+  *. Two options to run: Running off of flash. or running off of NFS. If its NFS then it would use the host machine for root files system.
+  *. GNU Build system(helps with portability of source code to many unix like systems) consists of: 
+     Autoconf: Autoconf is a tool for producing configure scripts for building, installing and packaging software on computer systems.
+     Automake: aims to allow the p rogrammer to write a makefile in a higher-level language, 
 
 ---------------------------------------------------------------------------------
 C++ memory model/Concurrency:
@@ -498,6 +535,15 @@ UTF/Unicode
    Broadcast: from one source to all possible destinations i.e. One-to-All 
    Multicast: from one source to multiple destinations stating an interest in receiving the traffic i.e. One-to-Many 
    
+   * TCP(trasmission control protocol) and UDP(user datagram protocol) and transport layer protocols.
+   * IP is network layer protocol.
+   * TCP is connection oriented. UDP is connection less.
+   * TCP is about reliability, UDP is about speed(faster with best-effort protocol).   
+   * TCP ensures that that comes in order. UDP does not ensure that. Applcation has to ensure that.
+   * TCP is heavy weight. UDP is light weight. TCP takes two packets for setting up the connection itself.
+   * TCP provides flow control. i.e if the sender is sending too fast then you can always ask the sender to sent it slow.
+     This way slower devices can talk to faster network.
+   
    Why TCP against UDP for VoD streaming:
    1. TCP provides reliability. Sends the packet again if there is a drop of packet.
    2. TCP provides network buffers.
@@ -515,15 +561,33 @@ UTF/Unicode
    * With TCP server needs a socket connection for every TCP receivert where as with UDP server can talk to multiple UDP receivers
      using the same socket.   
       
-   RTSP: Realtime streaming protocol. Session control protocol for streaming video. TCP based.
-   RTP: Realtime Trasport protocol. used with RTSP to stream video data. UDP based.
-   RTCP: Realtime Trasport Control protocol. Goes with RTP. It provides QoS for RTP.
+   RTSP: Realtime streaming protocol. Session control protocol for streaming video. TCP based.(Application level)
+   RTP: Realtime Trasport protocol. used with RTSP to stream video data. UDP based.(Application level)
+   RTCP: Realtime Trasport Control protocol. Goes with RTP. It provides QoS for RTP(gather stat).
    RTMP: Realtime Messaging protocol. RTMP is a TCP-based protocol which maintains persistent connections and allows low-latency communication.
          Unlike HLS, RTMP uses a push model. Instead of the player requesting each segment, the server continuously sends video and audio data
+         
+   WebRTC: WebRTC can be used for multiple tasks, but real-time peer-to-peer audio and video (i.e., multimedia) communications is the primary benefit. 
+           WebRTC allows a desktop or mobile browser-based application to access the device’s microphone and video camera.  
+           WebRTC uses RTP to transfer audio and video.
+   SRTP (Secure Real-Time Transport Protocol or Secure RTP) is an extension to RTP (Real-Time Transport Protocol) that incorporates 
+   enhanced security features. Like RTP, it is intended particularly for VoIP (Voice over IP) communications.
+   STUN (Session Traversal Utilities for NAT): one way for your devide to query its public facing IP from the NAT device.
      
    What is the difference between HTTP POST and PUT
    PUT is replacing the current website(look and feel). Shivani - Put is update. I want to add.
    Post is adding some content to fields of a document. POST is modify an existing field. I want to change my address.
+   
+   The steps involved in establishing a socket on the client side are as follows:
+   * Create a socket with the socket() system call
+   * Connect the socket to the address of the server using the connect() system call
+   * Send and receive data. There are a number of ways to do this, but the simplest is to use the read() and write() system calls.
+   The steps involved in establishing a socket on the server side are as follows:
+   * Create a socket with the socket() system call
+   * Bind the socket to an address using the bind() system call. For a server socket on the Internet, an address consists of a port number on the host machine.
+   * Listen for connections with the listen() system call
+   * Accept a connection with the accept() system call. This call typically blocks until a client connects with the server.
+   * Send and receive data
 -----------------------------------------------------------------------------------------------------------------------------------
 
 Bufferuing Using Gstreamer:

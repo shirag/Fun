@@ -43,7 +43,7 @@ map<pair <int, int> , int> myMatrix;
 #define NO_OF_VERTEX 6
 //linkedList *ptr[NO_OF_VERTEX]; 
 
-int findKthLargest(vector<int> &v1, vector<int> &v2, int k,int& val);
+int findKthLargestFromTwoVec(vector<int> &v1, vector<int> &v2, int k,int& val);
 int getMiddleValue(vector<int> &v,int low,int high);
 int findKthLargestRecursive(vector<int> &v1, int low1, int high1, vector<int> &v2, int low2, int high2, int k);
 Solution mySolution;
@@ -53,55 +53,108 @@ int testZigZagConversion();
 int testAddTwoNos();
 int understandStringFuncs();
 void reverseWordsInAString(string &s);
-void myCountSortAlgorithm(vector<int>& v);
+int findKthLargest(vector<int> vec, int k);
 
-TEST_CASE( "Sort A bounded Array", "Sort A bounded Array")
+
+TEST_CASE( "Find Kth largest using quick select", "Find Kth largest using quick select")
 {
-    cout << "Sort A bounded Array \n";
+    cout << "Find Kth largest using quick select \n";
 
-    vector<int> v;
-    vector<int> res;
+    vector<int> ip;
 
-    v = {2, 1, 0, 5, 4, 3};
-    res = {0, 1, 2, 3, 4, 5};
-    myCountSortAlgorithm(v);
-    REQUIRE(v == res);
+    ip = {1, 2, 3, 4, 5};
+    REQUIRE(findKthLargest(ip, 1) == 5);
+    REQUIRE(findKthLargest(ip, 2) == 4);
+    REQUIRE(findKthLargest(ip, 3) == 3);
+    REQUIRE(findKthLargest(ip, 4) == 2);
+    REQUIRE(findKthLargest(ip, 5) == 1);
+    REQUIRE(findKthLargest(ip, 6) == 0);
 
-    v = {0, 1, 2, 3, 4, 5};
-    res = {0, 1, 2, 3, 4, 5};
-    myCountSortAlgorithm(v);
-    REQUIRE(v == res);
 
-    v = {5, 4, 3, 2, 1, 0};
-    res = {0, 1, 2, 3, 4, 5};
-    myCountSortAlgorithm(v);
-    REQUIRE(v == res);
+    ip = {5, 4, 3, 2, 1};
+    REQUIRE(findKthLargest(ip, 1) == 5);
+    REQUIRE(findKthLargest(ip, 2) == 4);
+    REQUIRE(findKthLargest(ip, 3) == 3);
+    REQUIRE(findKthLargest(ip, 4) == 2);
+    REQUIRE(findKthLargest(ip, 5) == 1);
+    REQUIRE(findKthLargest(ip, 6) == 0);
 
+
+    ip = {1, 5, 3, 4, 2};
+    REQUIRE(findKthLargest(ip, 1) == 5);
+    REQUIRE(findKthLargest(ip, 2) == 4);
+    REQUIRE(findKthLargest(ip, 3) == 3);
+    REQUIRE(findKthLargest(ip, 4) == 2);
+    REQUIRE(findKthLargest(ip, 5) == 1);
+    REQUIRE(findKthLargest(ip, 6) == 0);
+
+    ip = {1, 4, 3, 5, 2};
+    REQUIRE(findKthLargest(ip, 1) == 5);
+    REQUIRE(findKthLargest(ip, 2) == 4);
+    REQUIRE(findKthLargest(ip, 3) == 3);
+    REQUIRE(findKthLargest(ip, 4) == 2);
+    REQUIRE(findKthLargest(ip, 5) == 1);
+    REQUIRE(findKthLargest(ip, 6) == 0);
+
+    ip = {5, 3, 4, 1, 2};
+    REQUIRE(findKthLargest(ip, 1) == 5);
+    REQUIRE(findKthLargest(ip, 2) == 4);
+    REQUIRE(findKthLargest(ip, 3) == 3);
+    REQUIRE(findKthLargest(ip, 4) == 2);
+    REQUIRE(findKthLargest(ip, 5) == 1);
+    REQUIRE(findKthLargest(ip, 6) == 0);
+
+    ip = {1, 3, 4, 5, 2};
+    REQUIRE(findKthLargest(ip, 1) == 5);
+    REQUIRE(findKthLargest(ip, 2) == 4);
+    REQUIRE(findKthLargest(ip, 3) == 3);
+    REQUIRE(findKthLargest(ip, 4) == 2);
+    REQUIRE(findKthLargest(ip, 5) == 1);
+    REQUIRE(findKthLargest(ip, 6) == 0);
+    REQUIRE(findKthLargest(ip, 0) == 0);
+    REQUIRE(findKthLargest(ip, 7) == 0);
 
 }
 
-/* Problem:
- *     You have values  0 to n-1 values in an array of size n. No duplicates. Sort them in O(n)
- *
- */
-void myCountSortAlgorithm(vector<int>& v)
+
+/*  Quick select, variation of quick sort.
+ *  Given an array and a number k where k is smaller than size of array, we need to find the k’th smallest element in the given array.
+ *  It is given that ll array elements are distinct.
+ *  T(n) = T(n-) + O(n)
+ *  */
+int findKthLargestUtil(vector<int>& vec, int low, int high, int k)
 {
-    int sz = v.size();
-
-    for(int i = 0; i < sz; i++){
-        if(v[i] < sz){
-            int index = v[i];
-            swap(v[i], v[index]);
-            v[index] += sz;
-            i--;
-        }
+    if(low > high)
+    {
+        cout << "Error";
+        return 0;
     }
+    int size = high - low + 1;
+    int pivot = partition(vec, low, high);
+    cout << "pivot  = " << pivot << " size = " << size << " \n";
+    int pvt_distance_from_end = high - pivot;
 
-    for(int i = 0; i < sz; i++){
-        v[i] -= sz;
-    }
+    if(pvt_distance_from_end == k - 1)
+        return vec[pivot];
+
+    if(pvt_distance_from_end >  k - 1)
+        return findKthLargestUtil(vec, pivot + 1, high, k); //right side of pivot
+    else
+        return findKthLargestUtil(vec, low, pivot - 1, k - (pvt_distance_from_end + 1));
 
 }
+
+
+int findKthLargest(vector<int> vec, int k)
+{
+    if(vec.size() < k)
+    {
+        cout << "Error: Not enough elements in the array \n";
+        return 0;
+    }
+    return findKthLargestUtil(vec, 0, vec.size() - 1, k);
+}
+
 
 
 

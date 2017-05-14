@@ -56,7 +56,6 @@ int partition(vector<int>& a, int low, int high)
 {
 
     int lastEndIndex = low - 1;
-
     int pivot_loc = high;
     int currIndex;
 
@@ -65,18 +64,12 @@ int partition(vector<int>& a, int low, int high)
         if( a[currIndex] <= a[pivot_loc] )
         {
             lastEndIndex++;
-            int temp = a[currIndex];
-            a[currIndex] = a[lastEndIndex];
-            a[lastEndIndex] = temp;
-
+            swap(a[currIndex], a[lastEndIndex]);
         }
     }
 
     lastEndIndex++;
-    int temp = a[currIndex];
-    a[currIndex] = a[lastEndIndex];
-    a[lastEndIndex] = temp;
-
+    swap(a[currIndex], a[lastEndIndex]);
 
     DEBUG_DEBUG(cout << "Value at " << lastEndIndex << " " << a[lastEndIndex] << " is at its final location \n");
     return lastEndIndex;
@@ -104,8 +97,6 @@ vector<int> IKSolution::quickSort(vector<int>& a)
     quickSortUtil(a, 0, (a.size() - 1));
     return a;
 }
-
-
 
 /*******************************************************************************************************************************/
 

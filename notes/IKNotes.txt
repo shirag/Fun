@@ -188,7 +188,7 @@ TREES:
    *. Make previous/parent node's next/left/right point to this node.
    
  *
- *  On average, binary search trees with n nodes have O(log n) height.However, in the worst case, binary search trees can have O(n) height, 
+ *  On average, binary search trees with n nodes have O(log n) height. However, in the worst case, binary search trees can have O(n) height, 
     when the unbalanced tree resembles a linked list (degenerate tree
  *  In a tree with n nodes you will have n/2 leaves(roughly).
  *  The height of a node is the number of edges from the node to the deepest leaf.
@@ -208,9 +208,10 @@ TREES:
     Heap Array: Holes have to be at the end.
  *. Difference between Heap and BST.
     
-	                              Heap                  BST(Binary Search Tree)
+	                              Max Heap              BST(Binary Search Tree)
     Is sorted?                    No                    Yes
 	Get the max                   O(1)                  O(log n)
+	Building[from array]          O(n)                  
 	Insert/Delete                 O(log n)              O(log n)
 	Root is less than right       No                    Yes
 	Root is higher than children  Yes                   No
@@ -289,6 +290,7 @@ Geetha: recusrion/mock:
    T(n) = T(n-1) + T(n-2)    Fibbpnacci                               O(2 pow n)  [Exponential]
    T(n) = n*T(n-1) + O(n)    Generating permuations                   O(n!)    
 
+   Space complexity: O(log n) - A tree with n nodes have a height of log n. So, the stack space is the height of the tree.
 *  Find the majority element problem(frequency greater than n/2):
    * Hash Map/Bucket sort      - Time O(n), Space O(n)
    * Sort and scan             - Time O(nlogn), Space O(1)
@@ -375,13 +377,6 @@ Programming: Program is implemented as cooperative collection of objects.
 Design: Object oriented decomposition + static and dynamic models of the system. 
 Analysis: Requirements from the perspective of classes and objects.
 
-Object model is the framework. Four major elements of this model;
-* Abstraction: Focusses on essential characteristics of some object. Identify similarities.
-* Encapsulation: hides the details of implementation of the object. Try to hide differences. 
-* Modularity: Packaging abstractions into discrete units.
-* Hierarchy: Ranking or ordering of abstractions.
-  Inheritance is a "is-a" heirarchy. It implies a generalization/specialization heirarchy.
-  Subclass specializes the behaviour of the super-class. Superclasses represent generalized abstractions.
 
 * Callback: Server provides service. Client registers a callback with the server. 
   Server invokes the callback whenever appropriate conditions are met.
@@ -516,6 +511,8 @@ Dynamic programming:
 4. Now pull the rug and convert it to an iterative solution. This is very important as interviewes want to see a iterative soln.
    Iterative way is DP. If you are doing recursive its more of memoization approach. Not DP.
 *. You can memoize when there is a overlapping subproblem.   
+*. what happens when you memoize? You start pruning off all branches of a tree and then just do the processing on one branch.
+   That how you reduce the complexity to O(n).
 
 My approach until now:
 1. Write the recursive solution first.
@@ -557,7 +554,8 @@ My approach until now:
 * Space optimized presentation of tries you have compact suffix trees.
 * Looking up data in worst case in hash is O(n) where as in trie it is O(m) where m is the number of characters in the string. n is the number of entries in the hash set.
 
-    Some tries can require more space than a hash table, as memory may be allocated for each character in the search string, rather than a single chunk of memory for the whole entry, as in most hash tables.
+    Some tries can require more space than a hash table, as memory may be allocated for each character in the search string, rather than a single chunk of memory for the 
+    whole entry, as in most hash tables.
     By traversing a trie tree in preorder traversal you can retrieve thee lexicographical order.
 
 
@@ -582,8 +580,16 @@ A suffix tree T for a m-character string S is a rooted directed tree with exactl
 
 Sorting
 * Merger Sort: Left array are sorted. Merge them. Worst case compleity is O(n log n)
-* Qucik Sort: Pivot is the right place. Quick sort left and right of the pivot. Worst case O(n*n). Avg case is o(n log n)
+* Qucik Sort: Value at pivot index is the right place(All the values to the left of pivot are less and right are higher). 
+              Quick sort left and right of the pivot.
+              Lomuto partition scheme for partitioning: lastIndex = low - 1, for all -last, if less or equal, increment last index and then swap. 
+              swap outside the loop, return lastIndex.
+              Worst case O(n*n). Avg case is o(n log n)
               Getting a pivot equal to the lowest or highest number, should also trigger the worst case scenario of O(n2).
+              Finding the pivot is also finding the rank. Interview question: Find the rank of a element using O(n). 
+              Point here is you dont have to sort the entire array. 
+              * Lomuto partition scheme is used.
+              * Qucik sort loads the whole array to memory.
 * Merge case is better than quick sort why? Worst case complexity of merge sort is O(n log n) where as quick sort is O(n * n)
 * Bucket  sort. Learn more using hash tabkes.
 * If there are 3 leaves, then it will be log to the base 3.
@@ -591,15 +597,17 @@ Sorting
   rank will tell you the right loccation.
   Sortig is not needed.
 * While sorting greater equals as less than. Important to have a stratergy for equals.
-* What scenario qick sort will give you n square.
-  Have pivot as a different thing
 * What is a stable sort?
   Merge sort is a stable algorithm
 * Learn more about bucket sort?
+* Inverted index for looking up strings/text searching: reverse index: word to document.
+  When you are searching for a word, instead of going over all docs, you have a list of all docs that has this word. So, for every word there exists a list.
+  List of documents is maintained. If the word exists multiple times, then we store that info.
+* Given Two sorted arrays, find two numbers in two different arrays, that are closest(best) to each other.
+* When you have to sort data that does not fit in your memory, quick sort does not work. Merge sort is the way to go.
+  Since with merge sort you split it into smaller parts, each small unit can be performed on a different machine/thread/process/data center.
 
-Inverted index for looking up strings.
 
-Qucik sort loads the whole array to memory.
 Why why why
 Tables for GB and no of bytes etc..
 Memoization: convert two loops to one?
@@ -608,22 +616,38 @@ Machine 1MB ;
 
 How do you build?
 streaming data against constant data.
+
 /***************************************************************************************************************/   
+My problem cheat sheep.
 
+Find Kth largest value:    
+                            n * log n  - Sorting and find the last, n log n
+                            n * log k  - Maintain a heap of size k;
+                        n + k * log n  - Max Heap, (make_heap is n, then pop out k-1 times off max heap) 
+                                    n  - Quick select, Avg case n, worst case n * n. All the elements are distinct.          
 
-DFS PreOrder
-DFS PostOrder
-DFS Inorder
-Find Subset problems
-    1. 
-Find SubArray problems
-    1. Kadane's algorithm
-    2. 
-Missing element
-Duplicate eleemnts  
+Find a pair that adds to a k            - O(n)  
+Find a triplet that adds to a k         - O(n * n) 
+Find 4 elements(subset) that add to a k - O(n * n)                                       
+Finding a nmber in a sorted array       - O(log n)  - Binary search.  
+
+Find Max Sum SubArray -          O(n)  - Kadane's algorithm
+Find Zero sum sub array        - O(n)  - 
+                                 
+Missing element in a range       O(n)  - XOR
+One Duplicate elemnt in  a range  -   
+
+                                 
+                                                                        
+Find all Subsets in an array - 
+
 Values that add to a sum(one array, and multiple arrays)
+                                                               
+DFS PreOrder   - Print path, find a path that adds to K.
+DFS PostOrder  - LCA, balanced BST, BST.
+DFS Inorder    - To get sorted array.
 LRU Cache
 Magic Map  
-
+/***************************************************************************************************************/   
 
 

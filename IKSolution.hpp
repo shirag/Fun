@@ -131,7 +131,7 @@ int depthFirstSearchUtil(vvi& W, int node, vector<bool>& flag);
 int countComponents(int n, vector< pair<int, int> >& edges);
 void printVector(vector<int> v);
 bool identicalLinkedListNodes(LinkedListNode *l1, LinkedListNode *l2);
-
+int partition(vector<int>& a, int low, int high);
 
 struct BloomFilter {
 
