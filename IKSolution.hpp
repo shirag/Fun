@@ -29,6 +29,7 @@
 #include <unistd.h>
 #include <functional>
 #include <memory>
+#include <fstream>
 
 
 using namespace std;
@@ -152,31 +153,22 @@ struct BloomFilter {
 class LRUCache
 {
     public:
+        LRUCache();
         void set(int key, int val);
         int get(int key);
         void remove(int key);
+        ~LRUCache();
 
     private:
-        LinkedListNode *createANewNode(int key,int val);
-        void push_front(LinkedListNode *node);
-        void move_front(LinkedListNode *node);
-        void pop_back();
-        void remove_node(LinkedListNode* node);
-        int evict();
-
-        struct LRUNode
-        {
-            int val;
-            int key;
-            int index;
-        };
-
         unordered_map<int, LinkedListNode*> lrum;
-        LinkedListNode *lrul;
         LinkedListNode *head = nullptr;
         LinkedListNode *tail = nullptr;
         const unsigned int lRUMaxSizeCache = 2;
-        unsigned int lRUCachSize = 0;
+
+        LinkedListNode* push_front(int key, int val);
+        void move_front(LinkedListNode* node);
+        void pop_back();
+        void evict(int key);
 };
 
 

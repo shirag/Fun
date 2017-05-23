@@ -83,16 +83,9 @@
    
 *  Repeat the question four times. You might come out with a brute force soln.   
 
-*. P1: Ascii to integer
-   Do the simplest thing first.
-   
-*  P2: Find the missing number in 1 to 5(since 1 no is missing, 3 elements): 1 to n(n-2 elements)
-   1. Brute force(n*n): Pick one number go over the entire array.
-   2. sort based(nlog n): Sort it and then find then case where difference is not 1.
-   3. Complexit n based solution: Do a sum and then find the difference. 
-   4. Summation based solution: DO a XOR of all the numbers in the input array + sequece. Result is the missing no.
+  
 
-*  If a string is palindrome using recursion excluse punctuation.
+*  If a string is palindrome using recursion exclude punctuation.
   
    bool isPaliUtil(string s, int beingIndex, int endIdex)
    {
@@ -113,13 +106,14 @@
        return isPaliUtil(s, beginIndex, endIndex);
    }
 
-* Given an integer with n numbers, write a function that returns a permutation
-  * Generate all permuations, put it in an array, get a random index(using rand) and then 
+  * Given an array of size n, shuffle it such that all permutations are equally likely:
+    Generate all permuations, put it in an array, get a random index(using rand) and then 
     return the content of the random index of the array. 
     Uniformly picking the index.
-    Permuation with a probability of 1/n!
+    Equally likely means: Permuation with a probability of 1/n!
     Time complexity: n!
     Space complexity n * n!
+    Probability means if you do it infinite no times, no of times you see a number converges to that number.  
     
   *. Entropy is a measure of unpredictability of an outcome.
      uniform probability/distribution has max unpredictability.
@@ -141,6 +135,7 @@ TREES:
 *  Preorder traversal: preTraverse(){ print root->val; preTraverse(root->left); preTraverse(root->right); }
 *  Inorder traversal:  inoTraverse(){ inoTraverse(root->left); print root->val; inoTraverse(root->right); }
 *  Postorder traversal: proTravrse(){ proTraverse(root->left); proTraverse(root->right); print root->val; }
+
 *. Traversal DFS: Perform using Stack and Recursive. Process parent, process left node and its children, and then process right node and its children.
                                            Note that you are pushing siblings onto stack.
 										   Three types of traversal for a DFS: Preorder, inorder, postorder 
@@ -418,9 +413,19 @@ Analysis: Requirements from the perspective of classes and objects.
 
  
 /***********************************************************************************************************************/
-Scalability:
+Scalabilit/System design:
+
 1. First visualize how you would build a system and then read how those have been built. This way you will be able to 
-appreciate why they have built it in a certain fashion.
+   appreciate why they have built it in a certain fashion.
+   
+2. General guidelines(7 step):
+   * Requirement gathering: Find out the scope. Gives you a hint onto what part of the problem they want to focus?
+   * System Interface Desgin.
+   * Back-of-the-envelope: Capacity estimation. 
+   * Defining the data model.
+   * High level desgin: Block diagram showing core blocks of the your system.
+   * Detailed desgin for selected components.
+   * Resolving bottlenecks.
 
 1. Data model
    Design constraints.
@@ -487,12 +492,15 @@ appreciate why they have built it in a certain fashion.
    unordered_map to store the key and pointer to the DLL that has the value.
    Head of the DLL is the most recently used and tail is the least recently used.
 
-   set -  if the cache full, pop_back the tail of DLL, erase the entry from unorideredd_map
+   set -  if the cache full, pop_back the tail of DLL, erase the entry from unoridered_map
         push_front to the the DLL, new entry in the map.
         If already present, update the value, move to the front.
         
    get - Get it from the map, move it to the head of the DLL + update the map.
    delete - Get it from the map, delete it from the DLL, delete it from the map.
+   constructor - create a dummy head and a tail.
+   destructor - delete the dummy head and tail.
+   
 
    utility functions
    push_front to the front of the DLL
@@ -606,7 +614,9 @@ Sorting
 * Given Two sorted arrays, find two numbers in two different arrays, that are closest(best) to each other.
 * When you have to sort data that does not fit in your memory, quick sort does not work. Merge sort is the way to go.
   Since with merge sort you split it into smaller parts, each small unit can be performed on a different machine/thread/process/data center.
-
+* Heap is conceptually seen as a tree. Also it is very easy to explain in terms of a tree. But, the underlying data structure is array.  
+  Beauty of heap is it sorts for you. Kind of sorting in O(n).  
+* Heap Applications: Whenever there is sliding window.  
 
 Why why why
 Tables for GB and no of bytes etc..
@@ -629,16 +639,19 @@ Find Kth largest value:
 Find a pair that adds to a k            - O(n)  
 Find a triplet that adds to a k         - O(n * n) 
 Find 4 elements(subset) that add to a k - O(n * n)                                       
-Finding a nmber in a sorted array       - O(log n)  - Binary search.  
+Finding a number in a sorted array      - O(log n) - Binary search.  
 
 Find Max Sum SubArray -          O(n)  - Kadane's algorithm
-Find Zero sum sub array        - O(n)  - 
-                                 
-Missing element in a range       O(n)  - XOR
-One Duplicate elemnt in  a range  -   
+Find Zero sum sub array        - O(n)  - Map to store all cumulative sums and when you come across a sum again it 
+                                         means we have zero sum sub array.
+Find the missing number in a range: 1 to 5(since 1 no is missing, 3 elements): 1 to n(n-2 elements)
+                        n * n   -  Pick one number go over the entire array.
+                        n log n -  sort based(nlog n): Sort it and then find then case where difference is not 1.
+                        n       -  Complexity n based solution: Do a sum and then find the difference. n * n + 1/2 - sum of all elements.
+                        n       -  Summation based solution: DO a XOR of all the numbers in the input array + sequece. Result is the missing no.                                 
+                        
 
-                                 
-                                                                        
+One Duplicate elemnt in  a range  -   
 Find all Subsets in an array - 
 
 Values that add to a sum(one array, and multiple arrays)

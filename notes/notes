@@ -154,7 +154,7 @@ C++
 
 -------------------------------------------------------------------------------------
 
-17. C/C++
+17. C++
     1. C++ provides STL.
     2. Very hard to achieve inheritance in C.
     3. C does not provide exception handling.
@@ -270,8 +270,116 @@ C++
     * You should never be able to free a singleton manually. How do you know who is keeping a reference to the singleton?
       If you don't know (or can't guarantee) nobody has a reference (in your case via a pointer) then you have no business freeing the object.
     * Use the static in a function method. This guarantees that it is created and destroyed only once. It also gives you lazy initialization for free. 
+  
+42. What are some of the salient features of C++ 11(Uber Q)    
+    * auto is a place holder for type. Its type should be deduced from its initializer.
+    * Range based for loops: This is useful when you want to access each element of array/collection and dont care about index/iterator/number of elements in the container.
+    
 -------------------------------------------------------------------------------------
+Multi-threading:
 
+
+   * Deadlock:
+     Two (or more) threads have stopped execution or are spinning permanently. For example, a simple deadlock
+     situation: thread 1 locks lock A, thread 2 locks lock B, thread 1 wants lock B and thread 2 wants lock A.
+
+   * How can you prevent deadlocking from occurring?     
+     You can prevent deadlocks from happening by making sure threads acquire locks in an agreed order
+     (i.e. preservation of lock ordering). Deadlock can also happen if threads do not unlock mutexes properly.
+     Some techniques to prevent it:
+     * If you make sure that all locks are always taken in the same order by any thread, deadlocks cannot occur. 
+     * Another deadlock prevention mechanism is to put a timeout on lock attempts meaning a thread trying to obtain a lock will only try for so long before giving up.
+     * Deadlock detection is a heavier deadlock prevention mechanism aimed at cases in which lock ordering isn't possible, and lock timeout isn't feasible. 
+       This can be achieved using maps or graphs.
+     
+   * Define: race condition
+     A race condition is when non-deterministic behavior results from threads accessing shared data or resources 
+     without following a defined synchronization protocol for serializing such access.
+     
+   * Priority inversion:
+     A higher priority thread can wait behind a lower priority thread if the lower priority thread holds a lock for which the higher priority thread is waiting.
+     
+   * Thread Barriers:
+      are a method to synchronize a set of threads at some point in time by having all participating threads in the barrier 
+      wait until all threads have called the said barrier function. This, in essence, blocks all threads participating in the
+      barrier until the slowest participating thread reaches the barrier call.
+       
+   * Spin Lock:       
+     Spinlocks are locks which spin on mutexes. Spinning refers to continuously polling until a condition has been met.
+     In the case of spinlocks, if a thread cannot obtain the mutex, it will keep polling the lock until it is free. 
+   
+   * Busy Wait:
+     When one thread is waiting for another thread using an active looping structure that doesn't do anything. Example:
+     Thread task = new TheTask();
+     task.start();
+     while( task.isAlive() ){
+         ; // do nothing
+     }
+     This can be avoided using mutexes
+     
+   * Name three thread design patterns
+     1. Thread pool (Boss/Workers)
+     2. Peer (Work crew)
+     3. Pipeline
+     
+   * Explain how a thread pool works  
+     One thread dispatches other threads to do useful work which are usually part of a worker thread pool. 
+     This thread pool is usually pre-allocated before the boss (or master) begins dispatching threads to work.
+     Although threads are lightweight, they still incur overhead when they are created. If the boss thread becomes a worker thread once 
+     it's done starting other worker threads then this is a Peer Thread Design Pattern.
+     
+   * What are four mutex types? 
+      - Recursive: allows a thread holding the lock to acquire the same lock again which may be necessary for recursive algorithms.
+      - Queuing: allows for fairness in lock acquisition by providing FIFO ordering to the arrival of lock requests.
+        Such mutexes may be slower due to increased overhead and the possibility of having to wake threads next in line that may be sleeping.
+      - Reader/Writer: allows for multiple readers to acquire the lock simultaneously. If existing readers have the lock, a 
+        writer request on the lock will block until all readers have given up the lock. This can lead to writer starvation.
+      - Scoped: RAII-style semantics regarding lock acquisition and unlocking.
+
+-------------------------------------------------------------------------------------
+Linux OS:
+ * Difference between a thread and a process:
+   * One or more threads run in the context of the process. 
+   * Both processes and threads are independent sequences of execution. 
+   * Threads (of the same process) run in a shared memory space, while processes run in separate memory spaces.
+   * A thread can execute any part of the process code, including parts currently being executed by another thread.
+   
+ * Memory Management:
+   * Virtual memory makes it look as if there is lot more memory in the system than what really is. 
+   * Virtual address space is typically divided into 8K sized pages.
+   * Page Tables map virtaul address to phusical address.
+   * Valid page fault: Process tries to access a virtual address that is not present in memory.
+   * Invalid page fault: Process tries to access a virtual address that is not valid inside its address space also.
+   * Demad paging: Loading a only a part of the virtual memory into physical memory initially and loading the rest later
+                   as and when the need arises is called Demad paging.
+   * Swapping: When a new process want to get into memory and there is not enough memory, the old one needs to evacuvated. 
+               LRU caching techniques are used to get rid of older ones.                
+   * Physical/Virtual addressing mode: When in physical addressing mode, you dont use virtual tables and and virtuall addresses.
+          This is very useful for running OS etc. ITs very hard for OS to maintian a virtual table for itself.           
+   * Swap space: in Linux is used when the amount of physical memory (RAM) is full. If the system needs more memory resources
+     and the RAM is full, inactive pages in memory are moved to the swap space. While swap space can help machines with a
+     small amount of RAM, it should not be considered a replacement for more RAM.
+   * Roughly, swap space plus physical memory gives you your total possible virtual memory space
+   * Memory usage tools: free, top, (ps aux) and ps_mem.py
+   * OOM kiler: it is the job of the linux 'oom killer' to sacrifice one or more processes in order to free up memory for the system when all else fails.
+   * ps_mem.py: 
+     * Tries to determine how much RAM is currently being used per program. Note per _program_, not per process. 
+       So for example this script will report RAM used by all httpd process together. 
+     * determine how much RAM is currently being used per program, is useful when top command 
+       failed to report actual memory shared due to copy-on-write among multiple processes. 
+   * Linux Page cache:
+     The role of the Linux page cache is to speed up access to files on disk   
+   * Shared memory(olden way) 
+     * One process creates a segment using  
+       shmget(key, SHMSZ, IPC_CREAT | 0666)
+     * Once created, a shared segment can be attached to a process address space using shmat()
+       shm = shmat(shmid, NULL, 0)) == (char *) -1) 
+     * Shared memory(newer way)     
+       fd = open("foo", O_RDONLY);
+       pagesize = getpagesize();
+       data = mmap((caddr_t)0, pagesize, PROT_READ, MAP_SHARED, fd, pagesize);
+    
+-------------------------------------------------------------------------------------
  * DNS: They maintain a directory of domain names and translate them to Internet Protocol (IP) addresses. 
         Domain Name Servers (DNS) are the Internet's equivalent of a phone book. 
         This is necessary because, although domain names are easy for people to remember, computers or machines, access websites based on IP addresses.
@@ -348,14 +456,15 @@ Dummy nodes/Sentinel: very good when you want to have a dummy node in front of a
 Bit wise operator:
 1. Turn ON a bit(HONOR)
    x |= 0x01 => LSB is turned ON.
-   x |= (1 << n) => nth bit in the variable x is turned ON. n is no of moves.
+   x |= (1 << n) => nth bit in the variable x is turned ON. n = 0 to 7.
         (x >> n) => x is moved to RIGHT by n no of moves.
 2. Turn OFF a bit(OFFENDNOT)
-   x &= ~(1 << n) => nth bit is turned OFF
+   x &= ~(1 << n) => nth bit is turned OFF. n = 0 to 7.
 3. To test a bit is ON.
    if(x & (1 << n)) => TRUE is nth bit is ON
 4. Toggle a bit:
    x ^= (1 << n) => nth bit is flipped/toggled.
+   
 5.        OR   AND  XOR(when two are distinct)
     0  0   0   0    0   
     0  1   1   0    1
@@ -386,7 +495,12 @@ C/Embedded interview questions:
     4. An array of 10 pointers to functions that takes an integer as an argument and returns an integer: 
       typedef int (*func_p)(int)  ;
       func_p fp[10]; 
-    
+*  What is local, static and global variables?
+   local variables  - lifetime: inside the function, visibility- inside the function. Stored in stack.  
+   static variables - lifetime: entire program, visibility- inside the function/inside the file. Stored in .    
+   global variables - lifetime: entire program, visibility- entire code.     
+                      initialized global constant variable -----> stored in data segment.
+                      uninitialized global constant variable -----> stored in bss segment.
                                                                                       
       
 *  What do you mean by volatile:
@@ -397,6 +511,22 @@ C/Embedded interview questions:
    1. Memory-mapped peripheral registers
    2. Global variables modified by an interrupt service routine
    3. Global variables accessed by multiple tasks within a multi-threaded application
+   
+* How does a malloc work?
+  *  Get a block of memory from the OS through sbrk() (Unix call).
+  *  Create a header and a footer around that block of memory with some information such as size, permissions, and where the next and previous block are.
+  *  When a call to malloc comes in, a list is referenced which points to blocks of the appropriate size.
+  *  This block is then returned and headers and footers are updated accordingly.
+  *. When a prgram frees the memory allocated using malloc, memory mgment unit does not return it to system memory immediately. 
+     It has free list. It adds the memory to free list. This will prevent any fragementation that can take palce.
+  *  2nd explanation: Your process has a region of memory, from address x to address y, called the heap. All your malloc'd data lives in this area.
+     malloc() keeps some data structure, let's say a list, of all the free chunks of space in the heap. When you call malloc,
+     it looks through the list for a chunk that's big enough for you, returns a pointer to it, and records the fact that 
+     it's not free any more as well as how big it is. When you call free() with the same pointer, free() looks up how big that 
+     chunk is and adds it back into the list of free chunks(). If you call malloc() and it can't find any large enough chunk in the heap,
+     it uses the brk() syscall to grow the heap, i.e. increase address y and cause all the addresses between the old y and the new y 
+     to be valid memory. brk() must be a syscall; there is no way to do the same thing entirely from userspace.
+  * Malloc typically requests memory from OS in terms of page block(4K).   
 
 
 * DMA transfer begins
@@ -427,7 +557,7 @@ Embedded Linux:
   *. Two options to run: Running off of flash. or running off of NFS. If its NFS then it would use the host machine for root files system.
   *. GNU Build system(helps with portability of source code to many unix like systems) consists of: 
      Autoconf: Autoconf is a tool for producing configure scripts for building, installing and packaging software on computer systems.
-     Automake: aims to allow the p rogrammer to write a makefile in a higher-level language, 
+     Automake: aims to allow the programmer to write a makefile in a higher-level language, 
 
 ---------------------------------------------------------------------------------
 C++ memory model/Concurrency:
@@ -493,7 +623,18 @@ DASH:
   Bit rate info files contain link to actual video files(fragemented Mp4 files)
   
 Comparison between HLS and MPEG DASH:
-  HLS is sclable, Hard with MSE, and highest latency.  
+  HLS is sclable, Hard with MSE, and highest latency.
+  Why high latency? The player needs at least 3 segments to start the playback, 
+    so you can use segments of 1s length with keyframes each second.
+    This has disadvantages as it increases the stream size due to more frequent keyframes, adds a lot of overhead 
+    and requires more frequent playlist refreshes thus increasing the number of HTTP requests.
+    
+    If you keep the default ts segment size of 10 seconds, then you are wasting 10 seconds in generating the first ts segment itself. 
+    If you say min 3 segments are needed in the queue, then you are talking about 30 seconds latency there itself.
+  
+  MPEG DASH: Standardized. Supports MSE and latency better than HLS. RTP(UDP) and RTMP(TCP) offer better latency. Scalable.
+  RTMP: Very low latency. But not scalable.
+    
 MP4:
 
 
@@ -504,9 +645,33 @@ MP4:
   
 * Latest Video  - HLS/DASH using MSE. 
                   Codes: VP9, HEVC h.265 for low latency video coding, and then there is AV1 codec which is 20% more efficient than VP9. 
-  
+                  
+* What all CODEC configurations we do at OTV?   
+  H.265: 
+      /* Copy start code for Video Parameter Set. */
+      /* Copy Video Parameter Set. */
+      /* Copy start code for Sequence Parameter Set.(SPS) */
+      /* Copy Sequence Parameter Set. */
+      /* Copy start code for Picture Parameter Set.(PPS) */
+      /* Copy Picture Parameter Set. */
+
+* NAL: is a codec format for sending data over the network.
+* VCL(Video Control Layer) and Non-VCL NAL Units      
+    The VCL NAL units contain the data that represents the values of the samples in the video pictures, 
+    and the non-VCL NAL units contain any associated additional information such as parameter sets
+    (important header data that can apply to a large number of VCL NAL units) and supplemental enhancement information
+     (timing information and other supplemental data that may enhance usability of the decoded video signal but are not 
+     necessary for decoding the values of the samples in the video pictures).
+
+   The SPS and PPS are both types of NAL units.    
+   The SPS NAL unit contains parameters that apply to a series of consecutive coded video pictures, referred to as a “coded video sequence” in the h.264 standard. 
+   The PPS NAL unit contains parameters that apply to the decoding of one or more individual pictures inside a coded video sequence.
+
+
+
 * Norbert questions:
-  * What all hardware configurations we do? What is prerolling from device point of view?
+
+  * What is prerolling from device point of view?
   * How does Iframe only mode work?
   * fmp4 against regular MP4 
   * How do you initialize flow proxy and decoder proxy? What is the difference at a high level?
@@ -541,8 +706,9 @@ UTF/Unicode
    * TCP is about reliability, UDP is about speed(faster with best-effort protocol).   
    * TCP ensures that that comes in order. UDP does not ensure that. Applcation has to ensure that.
    * TCP is heavy weight. UDP is light weight. TCP takes two packets for setting up the connection itself.
-   * TCP provides flow control. i.e if the sender is sending too fast then you can always ask the sender to sent it slow.
+   * TCP provides flow control(sliding wndow protocol). i.e if the sender is sending too fast then you can always ask the sender to sent it slow.
      This way slower devices can talk to faster network.
+   * TCP on the sending side uses the congestion control(uses a congestion window). 
    
    Why TCP against UDP for VoD streaming:
    1. TCP provides reliability. Sends the packet again if there is a drop of packet.
@@ -611,9 +777,9 @@ GStreamer High Level Flow:
                       READY to PAUSED - Decoder resource allocation.
                        
 4. Once in paused state, it can receive events(seek, caps, newsegment event)
-   caps event says what kind of decoder it is?
-   newsegment indicates samples from new duration.
-5. Chain calls. Receives video samples..
+   caps event: says what kind of decoder it is?
+   newsegment event:indicates samples from new duration.
+5. Chain calls: Receives video samples..
 6. Now you can send messages to bus.
 7. Answer any query like duration etc.
 8. somebody can do a get property call.
@@ -630,7 +796,7 @@ GStreamer High Level Flow:
 System design:
 
 Measure stck usage:
-Design malloc:
+
 
 
 

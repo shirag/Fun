@@ -263,108 +263,6 @@ LinkedListNode *IKSolution::pointerToCycle(LinkedListNode *head)
 
 }
 /******************************************************************************************************/
-LinkedListNode* LRUCache::createANewNode(int key,int val)
-{
-    LinkedListNode *n = new(LinkedListNode);
-    n->val = val;
-    n->key = key;
-    n->next = nullptr;
-    n->prev = nullptr;
-
-    return n;
-}
-
-void LRUCache::push_front(LinkedListNode *node)
-{
-    DEBUG_DEBUG(cout << "Insert a new node at the head of the linked LinkedListNode \n");
-    if(head == nullptr)
-    {
-        head = node;
-        tail = head;
-    }
-    else
-    {
-        LinkedListNode *temp = head;
-        head = node;
-        node->next = temp;
-        temp->prev = node;
-    }
-}
-
-
-void LRUCache::move_front(LinkedListNode *node)
-{
-    DEBUG_DEBUG(cout << "Move an existing node to the head of the linked LinkedListNode \n");
-
-    LinkedListNode *prev = node->prev;
-    if(prev != nullptr)
-        prev->next = node->next;
-    else
-        head = nullptr;
-
-    LinkedListNode *next = node->next;
-    if(next != nullptr)
-        next->prev = node->prev;
-
-    if(node == tail)
-        tail = prev;
-
-    push_front(node);
-
-}
-
-void LRUCache::pop_back()
-{
-    DEBUG_DEBUG(cout << "Remove the tail of the linked LinkedListNode \n");
-    if(tail == nullptr)
-        return;
-
-    LinkedListNode *prev = tail->prev;
-    if(prev != nullptr)
-        prev->next = nullptr;
-    else
-        head = nullptr;
-
-    delete(tail);
-    tail = prev;
-}
-
-//Remove a node in the middle of the Linked LinkedListNode
-void LRUCache::remove_node(LinkedListNode* node)
-{
-
-    LinkedListNode *prev = node->prev;
-    if(prev != nullptr)
-        prev->next = node->next;
-    else
-        head = nullptr;
-
-    LinkedListNode *next = node->next;
-    if(next != nullptr)
-        next->prev = node->prev;
-    else
-        tail = nullptr;
-
-    delete(node);
-}
-
-/* Look at an entry in the top of the doubly linked LinkedListNode and then remove it */
-int LRUCache::evict()
-{
-    DEBUG_DEBUG(cout << "LRU cache is full. Time to evict \n");
-
-    auto it = lrum.find(tail->key);
-    if(it == lrum.end())
-    {
-        DEBUG_DEBUG(cout << "Value not found in the cache \n");
-        return -1;
-    }
-    lrum.erase(it);
-    pop_back();
-
-    return 0;
-}
-
 /* Problem:
        Implement a LRU cache with following methods in O(1).
        set(int key, int val);
@@ -374,7 +272,7 @@ int LRUCache::evict()
  * Example:
  *
  * Approach:
-       * Have a unordered_map and a Doubly linked list. Head of the list should be
+       * Have a unordered_map and a doubly linked list. Head of the list should be
        * most recently used and tail is the least recently used.
 
  *
@@ -383,66 +281,113 @@ int LRUCache::evict()
    Space Complexity:
  *
  **/
+/******************************************************************************************************/
+LinkedListNode* LRUCache::push_front(int key, int val)
+{
+    LinkedListNode* node = new LinkedListNode;
+    LinkedListNode* prevFirst = head->next;
+
+    head->next = node;
+    prevFirst->prev = node;
+
+    node->val = val;
+    node->key = key;
+
+    node->next = prevFirst;
+    node->prev = head;
+
+    lrum[key] = node;
+
+}
+
+
+void LRUCache::move_front(LinkedListNode* node)
+{
+    if(head->next == node) //very important, if the node is already at front, don't move.
+        return;
+
+    LinkedListNode *prevFirst = head->next;
+
+    head->next = node;
+    prevFirst->prev = node;
+
+    node->prev->next = node->next;
+    node->next->prev = node->prev;
+
+    node->next = prevFirst;
+    node->prev = head;
+}
+
+void LRUCache::pop_back()
+{
+    if(tail->prev == nullptr)
+        return;
+
+    evict(tail->prev->key);
+}
+
+
+void LRUCache::evict(int key)
+{
+    LinkedListNode *temp = lrum[key];
+    lrum.erase(key);
+
+    temp->prev->next = temp->next;
+    temp->next->prev = temp->prev;
+
+    delete(temp);
+}
+
+LRUCache::LRUCache()
+{
+    head = new LinkedListNode;
+    tail = new LinkedListNode;
+
+    head->next = tail;
+    head->prev = nullptr;
+    tail->next = nullptr;
+    tail->prev = head;
+}
+
 void LRUCache::set(int key, int val)
 {
-
-    DEBUG_DEBUG(cout << "set " << "key = " << key << " value = " << val << "\n");
-
-    auto it = lrum.find(key);
-    if(it == lrum.end())
+    if(lrum.count(key) == 0)
     {
-        if(lRUCachSize >= lRUMaxSizeCache)
-            evict();
-        lRUCachSize++;
-        LinkedListNode *temp = createANewNode(key,val);
-        push_front(temp);
-        lrum.insert(make_pair(key,temp));
+        if(lrum.size() >= lRUMaxSizeCache)
+            pop_back();
+        push_front(key, val);
     }
     else
     {
-        DEBUG_DEBUG(cout << "Key already exists. So, just moving to the top" << "\n");
-        LinkedListNode* node = it->second;
-        node->val = val;
-        move_front(node);
+        lrum[key]->val = val;
+        move_front(lrum[key]);
     }
-
-    return;
-
 }
 
 int LRUCache::get(int key)
 {
-    auto it = lrum.find(key);
-    if(it == lrum.end())
+    int val = -1;
+    if(lrum.count(key) > 0)
     {
-        DEBUG_DEBUG(cout << "Value not found in the cache \n");
-        return -1;
+         val = lrum[key]->val;
+         move_front(lrum[key]);
     }
-
-    LinkedListNode* node = it->second;
-    move_front(node);
-    return node->val;
+    return val;
 }
-
 
 void LRUCache::remove(int key)
 {
-    auto it = lrum.find(key);
-
-    if(it == lrum.end())
+    if(lrum.count(key) > 0)
     {
-        DEBUG_DEBUG(cout << "Value not found in the cache \n");
-        return;
+        evict(key);
     }
-
-    LinkedListNode* node = it->second;
-    remove_node(node);
-    lrum.erase(it);
-
 }
 
-
-
+LRUCache::~LRUCache()
+{
+    delete(head);
+    delete(tail);
+}
 
 /******************************************************************************************************/
 

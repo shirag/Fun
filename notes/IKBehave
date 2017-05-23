@@ -1,4 +1,42 @@
 
+*******************************************************************************************************************
+* Practice block diagrams for all challenging projects.
+* For scaling: Think how you can talk about your apman/WinMan prject.
+  From a devide point of view, not flooding the server can be one scalablity answer.
+* HLS algorithm(high level idea of how the algorithm might look like?)
+  YOu have  low water mark, watermark1, watermark 2 and watermark3:
+  Initially you would start playing back when you hit the watermark1. Now you are playing back the lowest bit stream.
+  When the buffer level hits the watermark2, you will move to the second fastest bit stream.
+  When you hit the third one, you move to the third bit stream.
+  
+* Why is that our seek is polling based? We turned off the prerolling after the initial setup. 
+  Because of the ASYNC_DONE will not go to the Gstramer app.
+  So, in the case of seek also, ASYNC_DONE will not be sent to the app. So, the app has to poll.
+* Conflict/Most difficult project/most difficult people:   
+  Escalation is good. Subtle escalation is very important. It is better than not doing anything. 
+  The worst thing that can happen is project getting delayed.
+* Two kinds of conflicts can arise when there is a bug:
+  * its my bug. But, I dont have time to fix.
+  * its not my bug.
+* What are the problem in my current company? or why you want to quit?
+  Flat, too close knit team, small and very less impact on the industry.
+  Highly disconnected. No proper vision.  No product stratergy.
+  Old: company and technology.
+  Revenue was not good. So, expense went down which impacted the quality.
+* How do you handle a scenario when the project is late?
+  * Project typically get delayed because of feature creep. So, proper care should be taken when defining the scope.
+    The way to handle this is to do a partial minimal implementation initially.
+    Video tag is so complicated. You dont implement the entire thing. You implement only a partial set.
+  * Complexity: When the complexity is not properly 
+  
+  
+
+*******************************************************************************************************************
+Why do you want to join a company? 
+1. Go over the role.
+2. Go over the company technology blog to find out what makes a company unique?
+3. Find the things company is proud of, understand those aspects, connect with them: Technical power/cloud/culture/awesome UI.     
+4. All the opensource projects company works on? 
 
 *******************************************************************************************************************
 Phone screen:
@@ -12,8 +50,22 @@ Phone screen:
    
 
 *******************************************************************************************************************
-What are the questions you would ask?
+HENRY - What are the questions you would ask?
+
+Mine
+
+ this is what do you do? whats next/roadmap?
+ team and role?(manager question)
+ what do you working enjoy here? favorite thing?
+ important challenges of being an engineer/manager?
+
+* What are some hard parts of the job or problems you try to solve?
 * What is the breakdown in terms of work? % development and % bug fixing?
+* What is that you think its OK for your subordinate to ask/expect from you? and what is not?
+
+
+
+IK
 * What is your developmental process?
 * What is your release process?
 * What is your typical day like?
@@ -21,15 +73,14 @@ What are the questions you would ask?
 * What is the culture of this place like?
 
 *******************************************************************************************************************
-Why do you want to join a company? 
-1. Go over the role.
-2. Go over the company technology blog to find out what makes a company unique?
-3. Find the things company is proud of, understand those aspects, connect with them: Technical power/cloud/culture/awesome UI.     
-4. All the opensource projects company works on? 
-
-
+What are your expectations out of your technical manager?
+* Prioritazation of the work.
+* Help resolve conflits with members of the other team and within member of the same team.
+* Empowerment. He gives me the power and trusts me with the power.
+* Career path/guidance or growth.
+* Regular feedback. Positive or negative. 
 *******************************************************************************************************************
-Give an example of where you had a conflict with your manager/Co-worket and how you resolved it?
+Give an example of where you had a conflict with your manager/Co-worker and how you resolved it?
 
 Conflicts are disagrements on design decisions or process decisions.
 Discuss the method. Not the outcome. It does not matter if you won or lost. What matters is how you handle.
@@ -42,12 +93,17 @@ If it was a process conflic, explain little bit about what the process did? Dont
 
 Emphasise on what you learnt. Win or lose, it should come as a humbing expericen.    
 
-* Respectful negotiation: Norbert create a new branch problem(process).
-* Respectful debate: Listen. Listen Listen. I dont react and try to understand the problem when people are emotional about  a prolem. 
+* Respectful negotiation: 
+          Process decision - Norbert create a new branch problem(process).
+                      Listen. Listen Listen. I dont react and try to understand the problem when people are emotional about  a prolem. 
                      Dont react. Just repond. Moce to mountain view office.
-* Gathering data patiently over a period of time: Show video window after the first Iframe. Develop some proof of concept/prototype to back up my argument.
+* Respectful debate: ?? 
+* Gathering data patiently over a period of time: 
+          Design decision - Show video window after the first Iframe. Develop some proof of concept/prototype to back up my argument.
+        
 * Gathering consensus: Subtilte delay with Henry Fang and Phuc. Conflict with Phuc .
-* Escalation: Conflict with Daniel(Escalation).
+* Escalation: 
+          Process decision -CC your managers in all email conversations.
 
 Things to avoid:
 * Avoid discussing resented or inconclusive conflicts.
@@ -58,7 +114,9 @@ Things to avoid:
 *******************************************************************************************************************
 What are my strengths and weakness?
 Strength: I am very food at focussing. I am also very good at triaging issues.
-Weakness is something you dont want to do....soldering is the best example...
+Weakness: is something you dont want to do....soldering is the best example...
+          I tend to solve all problems on my own without taking others help. At times, it can be bad.
+          If I know somebody is an expert at something, I do that. But, if I dont have that opinion, then I tend to focus on my own. 
 
 /******************************************************************************************************************/
 Elevator Pitch[1-2 minute intro, focus, something exciting to say, last line is what you are looking for?]
@@ -70,8 +128,8 @@ Elevator Pitch[1-2 minute intro, focus, something exciting to say, last line is 
   My most recent experience is building HTML5 based video player using GStreamer framework. 
   I have a deep interest in embedded systems, and OTT-streaming which is my main domain expertise.
   When it comes to programming language, C/C++ is my main forte.
-  I enjoy the challenges of working on software that has to run in a very resource constrained environment.
-  Im looking to join a company where people are smart, and then I help them to be successful.
+  Like Challenges of working on software that has to run in a very resource constrained environment.
+  Im looking to join a company where people are talented, and [then I help them to be successful] OR I want to work with them in a productive way.
   
   
 ********************************************************************************************************************    
@@ -90,24 +148,33 @@ Challenging project tips:
 /********************************************************************************************************************
 [Challenging Project: Video player development using Gstreamer Framework, OTT-MP4 playback]
 
-* Business context:
+* Business context(VP level):
     Need to build Opentv5 middleware on embedded Linux and using HTML5, with all digital tv components.
     Develop OTT-media player using Gstreamer. This enables all the FOSS plugins to be reused instead of developing from scratch.
+    
+    why? Company moving towards standards web based solutions. old tech was embedded native API player. New solution was W3C standard HTML 
     
 * Main design:
     Develop a GStreamer application that would be able to handle various OTT scenarios(Progressive, MSS, fMP4, etc). Basically, 
     develop relevant plugins and reuse some of the existing plugins.
     
 * My role:
-    OTT-MP4 feature develpment. Build src, decontainer and decoder plugins/bins for the pipeline, integrate them, and unit test.  
+    OTT-MP4 feature develpment.
+    Be the OTT-Mp4 pipeline owner. 
+    
+    Build src, decontainer(Mp4/QtDemux) and decoder plugins/bins for the pipeline, integrate them, and unit test.
+    Integrating with platform drivers.  
     Implement basic player features like seek etc. Also do research as to timings of the notifications to be sent to the application and Gstreamer states.
     
-* What was the problem? What made it challenging?
+    More details Mp4/qtdemux element. Describe details
+    
+    
+* What was the problem? What made it challenging?Non standard/other ways..(quantitative..)
   * The challenge here is to convert control only pipeline to control + data pipeline(Broadcast based solution that had lot of acceleration).
     Adapt the existing pipeline that was built for NON-OTT playback for OTT playback.  
   * Time constraints, Keeping all internal stakeholders happy(QA + other groups), + Telephnica the customer.
   * Integrating with various internal libraries(ResMan + WinMan + DevMan and Flowproxy).
-  * Nailing down seek logic. Extensive seek testing.
+  * Nailing down seek logic. Extensive seek testing. 
   * Help the India team regarding all the details and reuse the pipeline for MSS.
     [As soon as you set the pipeline to a playing state it goes through various interim states before reaching the PLAYING state.
      Proper resource allocation should be done in proper states(stream specific and non-stream specific). There can be events coming in that
@@ -117,11 +184,21 @@ Challenging project tips:
      If there is start from non-zero offset request, then upon the receipt of ASYNC_DONE we would do an immediate seek.
      We turn off pre-rolling after going to  playing state. Down side of it is we dont know when the set_position completion takes place.
      Then we came out with a polling mechanism to detect the position change.] 
+   * Later I would support moving onto newer versions of GStreamer. Optimization in terms of number of copies.   
+     Follow the cookbook techniques.
+     Use some of the new features.
+     Support all use cases.
+     Solid unit test frame work
+     Ensure all the OTT pipelines work properly and pass all unit tests.
+
 
 * What did you learn from it?    
     * GStreamer framework and plugin development, prerolling etc.
     * DBus communication.
     * Memory leak detection using scripts and Valgrind etc. Optimization and stabiliatione and productize.
+      Had to learn how the linux memory model works?
+      G_slice_alloc would keep the memoey still around. So, we would not know if its a leak.
+      type initialization..
     * GLib that OO and design patterns like pipeline, factory, Observer etc.
     * GDB Multithreading debugging(backtrace, deadlock and blocked threads), debugging FOSS components.
     * Javascript and HTML5 video tag.
@@ -137,8 +214,8 @@ Eride GPS experience:
    GPS data.
 *  Enahancements to GPS algorithms.
    There is BBRAM to which you write the RTC offset when the receiver is shut down. When the receiver is turned ON again,
-   it reads the offset from the BBRAM gets the accurate time and performs all the calculation. One of the application of time is to 
-   find out if the ephemeris is valid or not. 
+   it reads the offset from the BBRAM, adds the offset to RTC time and thus calculates the accurate time and performs
+   all the calculation. One of the application of time is to find out if the ephemeris is valid or not. 
 *. GPS diagnostics software support. Diagnostics software was used reproduce error scenarious, and to tune GPS algorithms. 
    You record measurements and record positions calculated. Later for the same measurements 
    you try to produce positions again and see if it makes a difference. We used memento design pattern in here. 
@@ -158,47 +235,46 @@ Eride GPS experience:
 *. MISRA C compliance: Guidelines for the Use of the C Language in Vehicle-Based Soft-ware," 
 *. Develop I2C and SPI drivers for eRide SoC.
 *. Stack Usage calculation: 
-   1. Testing based approach. Initialize it to a pattern.
-   2. Beginning of the polling loop check how much of that has been modified.
+   *. You have access to the memory address of stack.
+   * Testing based approach. Initialize it to a pattern.
+   2. Beginning of the every polling loop check how much of that has not been modified.
    3. Use recplay files to playback. After the crash we go ahead and diagnose the contents of the stack.
    
-
-
-********************************************************************************************************************    
-[Challenging Project: Update to a newer version of GStreamer] 
-
-Business context:
-    More support for soup for MPEG DASH
-    Optimization in terms of number of copies. 
-Main design:
-My role in it:
-    Follow the cookbook techniques.
-    Use some of the new features.
-    Support all use cases.
-    Solid unit test frame work
-    Ensure all the OTT pipelines work properly and pass all unit tests.
-    
     
 *********************************************************************************************************************
 [Challenging Project: YouTube PlayBack + DIAL Integration]
 Business context:
    Integration of YouTube App with STBs and pass all certification tests.
 Main design:
-   Modify/implement player functionality, MSE support in WebKIT and OpentV player and GStreamer framework. 
-   Use the existing OTT pipeline to playback YouTube video.
+   MSE support in WebKIT and OpentV player and GStreamer framework. 
+   Use the existing OTT pipeline to playback YouTube video. But, write more GStreamer plugin.
+   Integrate DIAL code. The DIAL REST Service enables a DIAL client to query, launch and optionally stop applications 
+   on a DIAL Server device.
+   
 My role in it:
-   Be accountible for some of the trick mode aspects of the certfication[Cancel a seek when a seek is going on]
-   Also, ensure that DIAL end to end features work. Inegrate Netflix DIAL code etc. 
-   and be accountible. Able to go over javasript test code to identify test cases and criterion for passing.
-   Also ensure live related Youtube aspects work properly. 
-   Resolve all the issues around start from non-zero offset when playing using DIAL.
-   Handle the part where data transfer between webkit process and pipeline porcess transfer takes place.
-   Feed the pipeline with the appropriate source segment and flush the shared memory when a seek takes place.
-   EOF logic. How to handle that properly?
+   * Write a simple app(JS) that would launch YouTube and do reserach as to what are the lauch parameters. DIAL needs this.
+      Also, ensure that DIAL end to end features work. Inegrate Netflix DIAL code etc. Ensure all the DIAL tests pass.
+     and be accountible. Able to go over javasript test code to identify test cases and criterion for passing.
+      Resolve all the issues around start from non-zero offset when playing using DIAL.
+   * Modify/implement player functionality, Be accountible for some of the trick mode aspects of the certfication[Cancel a seek when a seek is going on]
+     Also ensure live related Youtube aspects work properly. 
+   * Handle the part where data transfer between webkit process and pipeline porcess transfer takes place.
+     Feed the pipeline with the appropriate source segment and flush the shared memory when a seek takes place.
+   * EOF logic. How to handle that properly?
+   * When we upgraded to newer version of Gstreamer, do all the relevant porting.
+   
+What made it challenging?
+   * Miss MOov box in the case of youTube.
+   * NO access to the Youtube source code.
+
+What did I learn from it?   
+   * MSE
+   * DIAL prootocol
    
    
 **********************************************************************************************************************    
 [Challenging Project: Application Manager Window Manager Support for STBs]
+
 Business context:
    Ability to run multiple applications on an STB. There was a requirement to run Netflix in backfground mode.
 Main design:
@@ -211,16 +287,37 @@ My role in it:
    Own the WinMan code and design APIs and be the go to person.
    Restacking logic: When a window is raised to top all the associated windows also should be raised properly.
    Restacking takes place ensure that right window gets the focus.
+What made it challenging?
+What did I learn from it?   
+    DirectFB
+    Debugging directFB
+    Ownership with qucik turnaround times.
+    
     
 **********************************************************************************************************************    
 [Challenging Project: DVBST and DVB teletext Subtitle support for OpenTV framework]
+
 Business context:
-HLS streams have DVBST and DVB Teletext embedded in them.
+    Own and suport subrtitles. HLS streams have DVBST and DVB Teletext embedded in them. 
+    Player should be able to decode and render those subtitles.
 
 Main design:
-Main port existing libraries and integrate with our Gstreamer framework.
-My role in it: Ownership, talkingt to customers.
+    Main port existing libraries and integrate with our Gstreamer framework. Teletext for broadcast and Teletext for streaming.
+
+My role in it: 
+   Initially team member(Ownership,Text conversion utility), accountible for a component. Then team lead and technical lead interacting 
+   with QA team and project managers.
+   
+Challenges;
+    * Most of the team members moved onto other project.
+    * Corrupt stream/stream not available.
+    * Nail down the PTS library. You register with the PTS library and it renderes when it timehits the library.
+    * Be accountible for entire subtitle support.
+    * talkingt to customers.
+    * Write a C++ based encode conversion format. 
+
 What did I learn : Window manager
+
 ***********************************************************************************************************************       
 
 
@@ -309,10 +406,11 @@ Symantek 2:
     4. C++ what is virtual?
     5. What is QOS
     6. Difference between C and C++
-    
+    I think I did a bad job at answering the basics.
 NVIDIA2:   
     1. Use of volatile.
-    2. strcpy        
+    2. strcpy   
+    Your ability to go down a problem.     
      
 Akamai:
     1. Significance of copy contructor?
@@ -367,12 +465,24 @@ Krush:
 GetAround:
 
 RiverBed:
+         Solved the first part in 25 minutes. Struggled with the second part. 
+         Was going back and forth with the flashlight. Very bad mistake. 
+         May be should have drawn the thing on a book. 
+         Every problem think completly how you would solve it before writing the solution. you should also be able to explain 
+         it in simple english using data strucutre words. 
+           
 
 InFocus:
-
+         Missed the word linear search InFocus. Find the Kth largest.
 Conviva:
 
-Uber:
+Uber:   
+         Bit stressed. After the first solution relaxed and did not push myself for the better solution.
+         Asked about Boost. How come you did not use Boost or any other libraries provided by C++? I just used Catch.hpp.
+         Did not sell myself nicely there..
+         I think I lacked the energy for C++ 
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -389,15 +499,6 @@ The client is looking for candidates with the following technical skills:Web vid
 Video/audio streaming(SRTP, HLS, RTSP, RTMP) on top of server/client infrastructure(C++/C#, Objective-C, JavaScript, node.js, RESTful API).
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-GetAround - I am passionate about GSP and video parts of a car.
-            A contextual notification system that can deliver timely alerts without distracting the driver. When you are dangerosuly entering other lane.
-            Beign able to control your home devices. 
-            Connect is at your core. Install connect. And then renters can find, book, and unlock your car right from phone no key exchange. There is also an 
-            extra layer of security. 
-            
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 Preparation. Keep examples ready. Have binary tree example ready that you can quickly draw on white board.
 Have examples ready in your cheat sheet. Have trees with 2 n leaves.
 

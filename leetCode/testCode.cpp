@@ -12,6 +12,7 @@
 #include<algorithm>
 #include"Solution.h"
 #include<map>
+#include "parseServerLog.hpp"
 #define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "../IKSolution.hpp"
 
@@ -54,6 +55,7 @@ int testAddTwoNos();
 int understandStringFuncs();
 void reverseWordsInAString(string &s);
 int findKthLargest(vector<int> vec, int k);
+int giveMeNearestMultiple(int x, int y);
 
 
 TEST_CASE( "Find Kth largest using quick select", "Find Kth largest using quick select")
@@ -117,10 +119,228 @@ TEST_CASE( "Find Kth largest using quick select", "Find Kth largest using quick 
 }
 
 
+TEST_CASE( "Find the nearest multiple: Uber question", "Find the nearest multiple: Uber question")
+{
+    cout << "Find the nearest multiple: Uber question \n";
+
+    REQUIRE(giveMeNearestMultiple(19, 4) == 20);
+    REQUIRE(giveMeNearestMultiple(22, 4) == 24);
+    REQUIRE(giveMeNearestMultiple(5, 3) == 6);
+    REQUIRE(giveMeNearestMultiple(7, 3) == 6);
+    REQUIRE(giveMeNearestMultiple(24, 4) == 24);
+    REQUIRE(giveMeNearestMultiple(24, 0) == 0);
+
+
+}
+
+template <typename T>
+const bool Contains( std::vector<T>& Vec, const T& Element )
+{
+    if (std::find(Vec.begin(), Vec.end(), Element) != Vec.end())
+        return true;
+
+    return false;
+}
+
+TEST_CASE( "Ip with most \"Not Found\" Error","Ip with most \"Not Found\" Error:")
+{
+    cout << "Test: Ip with most \"Not Found\" Error \n";
+
+    {
+        ifstream in;
+        const char *fileName =  "./logFiles/u_ex170418.log";
+        vector<string> expectedRes1 = {"10.16.4.10","10.16.4.12"};
+        vector<string> expectedRes2 = {"10.16.4.12","10.16.4.10"};
+        in.open(fileName);
+        if (!in)
+            cout << "ERROR: Can't open the file named " << fileName << " \n";
+
+        LogTable log(in);
+        vector<string> res = log.getMostNotFoundIPs();
+
+        if(res != expectedRes1 && res != expectedRes2)
+            assert(0);
+        cout << "File: " << fileName << " \n";
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+
+    }
+
+    {
+        ifstream in;
+        vector<string> expectedRes = {};
+        LogTable log(in);
+
+        vector<string> res = log.getMostNotFoundIPs();
+        assert(res == expectedRes);
+
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+    }
+
+
+    {
+        ifstream in;
+        const char *fileName =  "dummy.log";
+        in.open(fileName);
+        if (!in)
+            cout << "ERROR: Can't open the file named " << fileName << " \n";
+
+        LogTable log(in);
+        vector<string> res = log.getMostNotFoundIPs();
+        cout << "File: " << fileName << " \n";
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+    }
+
+    {
+        ifstream in;
+        const char *fileName =  "./logFiles/u_ex1704181.log";
+        vector<string> expectedRes = {"10.16.4.14","10.16.4.12","10.16.4.10"};
+        in.open(fileName);
+        if (!in)
+            cout << "ERROR: Can't open the file named " << fileName << " \n";
+
+        LogTable log(in);
+        vector<string> res = log.getMostNotFoundIPs();
+
+        if (!Contains(res,expectedRes[0]) || !Contains(res,expectedRes[1]) || !Contains(res,expectedRes[2]))
+            assert(0);
+        cout << "File: " << fileName << " \n";
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+    }
+
+
+    {
+        ifstream in;
+        const char *fileName =  "./logFiles/dummy1.log";
+        vector<string> expectedRes = {};
+        in.open(fileName);
+        if (!in)
+            cout << "ERROR: Can't open the file named " << fileName << " \n";
+
+        LogTable log(in);
+        vector<string> res = log.getMostNotFoundIPs();
+
+        assert(res == expectedRes);
+        cout << "File: " << fileName << " \n";
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+    }
+
+    {
+        ifstream in;
+        const char *fileName =  "./logFiles/emptyResult1.log";
+        vector<string> expectedRes = {};
+        in.open(fileName);
+        if (!in)
+            cout << "ERROR: Can't open the file named " << fileName << " \n";
+
+        LogTable log(in);
+        vector<string> res = log.getMostNotFoundIPs();
+
+        assert(res == expectedRes);
+        cout << "File: " << fileName << " \n";
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+
+    }
+
+    {
+        ifstream in;
+        const char *fileName =  "./logFiles/emptyResult2.log";
+        vector<string> expectedRes = {};
+        in.open(fileName);
+        if (!in)
+            cout << "ERROR: Can't open the file named " << fileName << " \n";
+
+        LogTable log(in);
+        vector<string> res = log.getMostNotFoundIPs();
+
+        assert(res == expectedRes);
+        cout << "File: " << fileName << " \n";
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+
+    }
+
+    {
+        ifstream in;
+        const char *fileName =  "./logFiles/oneMaxResult1.log";
+        vector<string> expectedRes = {"127.0.0.1"};
+        in.open(fileName);
+        if (!in)
+            cout << "ERROR: Can't open the file named " << fileName << " \n";
+
+        LogTable log(in);
+        vector<string> res = log.getMostNotFoundIPs();
+
+        assert(res == expectedRes);
+        cout << "File: " << fileName << " \n";
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+
+    }
+
+    {
+        ifstream in;
+        const char *fileName =  "./logFiles/oneMaxResult2.log";
+        vector<string> expectedRes = {"127.0.0.1"};
+        in.open(fileName);
+        if (!in)
+            cout << "ERROR: Can't open the file named " << fileName << " \n";
+
+        LogTable log(in);
+        vector<string> res = log.getMostNotFoundIPs();
+
+        assert(res == expectedRes);
+        cout << "File: " << fileName << " \n";
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+
+    }
+
+
+    {
+        ifstream in;
+        const char *fileName =  "./logFiles/threeMaxResults.log";
+        vector<string> expectedRes = {"127.0.0.3", "127.0.0.2", "127.0.0.1"};
+        in.open(fileName);
+        if (!in)
+            cout << "ERROR: Can't open the file named " << fileName << " \n";
+
+        LogTable log(in);
+        vector<string> res = log.getMostNotFoundIPs();
+
+        if ( !(Contains(res,expectedRes[0]) && Contains(res,expectedRes[1]) &&
+             Contains(res,expectedRes[2]) && (res.size() == 3)) )
+            assert(0);
+        cout << "File: " << fileName << " \n";
+        for(auto val : res)
+            cout << "Ip with most \"Not Found\" Error: " << val << " \n";
+        cout << "*********************************************\n";
+
+    }
+
+
+}
+
+
 /*  Quick select, variation of quick sort.
  *  Given an array and a number k where k is smaller than size of array, we need to find the k’th smallest element in the given array.
  *  It is given that ll array elements are distinct.
  *  T(n) = T(n-) + O(n)
+ *  The worst case time complexity of this method is O(n2), but it works in O(n) on average.
  *  */
 int findKthLargestUtil(vector<int>& vec, int low, int high, int k)
 {
@@ -155,9 +375,46 @@ int findKthLargest(vector<int> vec, int k)
     return findKthLargestUtil(vec, 0, vec.size() - 1, k);
 }
 
+/**********************************************************************************************************/
+/*
+  Write a function to round x to the nearest multiple of y.
+  Examples:
+     x = 5, y = 3, answer = 6
+     x = 7, y = 3, answer = 6
+     TODO: Should handle float, double and should use templates
+           Upaload it onto Stackoverlfow sight.
+     Approach: Find the distance between last multiplier and x, and x and next multiplier.
+               Use the minimum of the two.
+  */
+int giveMeNearestMultiple(int x,  int y)
+{
 
 
+#if 0
+    //This also works great!!!
+    int result = 0;
+    int i = 1;
 
+    i = x/y;
+
+    int diff1 = abs(x - (i + 1 * y));
+    int diff2 = x - (i) * y;
+
+    i = diff1 < diff2 ? i + 1 : i;
+    result = (i * y);
+#endif
+
+    if (y == 0) return 0;
+
+    int distance_from_last_multiplier = x % y;
+    int distance_to_next_multiplier = y - distance_from_last_multiplier;
+
+    return distance_from_last_multiplier < distance_to_next_multiplier ? x - distance_from_last_multiplier : x + distance_to_next_multiplier;
+}
+/********************************************************************************************************
+   Nelson FB: Two sorted arrays and merge one with another. First one has enough space to handle the second one.
+   Peter question: The problem was "derive a list of diagonals of an nxm matrix", not too bad
+*********************************************************************************************************/
 #if 0
 int main()
 {
