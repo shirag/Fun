@@ -277,7 +277,9 @@ C++
     
 -------------------------------------------------------------------------------------
 Multi-threading:
-
+ 
+   * What is mutli-threaded programming?
+   * Can you declare a volatile for a structure?
 
    * Deadlock:
      Two (or more) threads have stopped execution or are spinning permanently. For example, a simple deadlock

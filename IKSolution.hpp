@@ -347,7 +347,7 @@ class IKSolution
         vector<int> groupNumbers(vector<int> intArr);
         vector<int> quickSort(vector<int>& a);
         vector<pair<pci,pci>> nutsNBolts(vector<pci>& nuts, vector<pci>& bolts);
-        vector<int> mergearrays(vector<vector<int>> iarray);
+        vector<int> mergeSortedArrays(vector<vector<int>> iarray);
         vector<int> twitterTopK(vector<int>iStream, int iK);
         vector<string> printTriplets(vector<int> intArr);
         bool findIf4NumbersSumToK(vector<int> v, int k);

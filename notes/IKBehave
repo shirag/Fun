@@ -30,6 +30,12 @@
   * Complexity: When the complexity is not properly 
   
   
+*******************************************************************************************************************
+What makes you a Senior s/w engineer
+
+*  I own stuff. I am responsible and accountible.
+*  I write unit tests first.
+
 
 *******************************************************************************************************************
 Why do you want to join a company? 
@@ -98,11 +104,14 @@ Emphasise on what you learnt. Win or lose, it should come as a humbing expericen
                       Listen. Listen Listen. I dont react and try to understand the problem when people are emotional about  a prolem. 
                      Dont react. Just repond. Moce to mountain view office.
 * Respectful debate: ?? 
-* Gathering data patiently over a period of time: 
+* Gathering data patiently over a period of time(design conflict): 
           Design decision - Show video window after the first Iframe. Develop some proof of concept/prototype to back up my argument.
         
-* Gathering consensus: Subtilte delay with Henry Fang and Phuc. Conflict with Phuc .
+* Gathering consensus:
+               seek with Amar's team 
+               Subtilte delay with Henry Fang and Phuc. Conflict with Phuc .
 * Escalation: 
+          They wanted me to fly to Europe sevelral times for the Vodaphone bugs.
           Process decision -CC your managers in all email conversations.
 
 Things to avoid:
@@ -123,8 +132,10 @@ Elevator Pitch[1-2 minute intro, focus, something exciting to say, last line is 
    
   I used to work as Sr Software Engineer at Nagra where I would build and own s/w components. 
   My responsibilities included gather requirements, designing, developing, unit-testing s/w  and then integrate it with rest of STB system.
+  
   I also very good root-cause analysis skills. I am very comfortable at debugging and trouble shooting open-source code and code written by others.
   Before Nagra, I used to work with a Fabless semiconductor company where I would integrate algorithms, and applications with customer device platforms.
+  
   My most recent experience is building HTML5 based video player using GStreamer framework. 
   I have a deep interest in embedded systems, and OTT-streaming which is my main domain expertise.
   When it comes to programming language, C/C++ is my main forte.
@@ -320,7 +331,6 @@ What did I learn : Window manager
 
 ***********************************************************************************************************************       
 
-
 Similarities between I2C and SPI
 * Protocols are well-suited for communications between integrated circuits, for slow communication with on-board peripherals.
 * Both are master slave protocol. Communication is always initiated by a master.
@@ -363,7 +373,7 @@ Behavioral:
 
 Concurrency:    
 
-
+************************************************************************************************************************
 2008 - 
 2009 - 
 2010 - 
@@ -473,9 +483,12 @@ RiverBed:
            
 
 InFocus:
-         Missed the word linear search InFocus. Find the Kth largest.
+     
 Conviva:
-
+      Missed the word linear search InFocus. Find the Kth largest.
+      Onsite:
+      * What do you mean by excellent multi-threading skills
+      * Can you make structure volatile?
 Uber:   
          Bit stressed. After the first solution relaxed and did not push myself for the better solution.
          Asked about Boost. How come you did not use Boost or any other libraries provided by C++? I just used Catch.hpp.
@@ -483,20 +496,6 @@ Uber:
          I think I lacked the energy for C++ 
 
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-INFOCUS
- Required experience:
-• Should have at least 6 years of software development experience
-• Experience developing software and firmware in C/C++/C# for Windows and Linux environment
-• Development experience with multithreaded programming and Real time OS
-• Experience with networking, TCP/IP stack and socket programming
-• Experience with low level embedded software design and implementation
-• Experience with processes/methodologies used in an Engineering organization such as Agile or Waterfall
-• Good understanding of unit testing, automation testing, code coverage, build tools etc.
-The client is looking for candidates with the following technical skills:Web video collaboration software(RTP/RTCP, WebRTC, etc.).
-Video/audio streaming(SRTP, HLS, RTSP, RTMP) on top of server/client infrastructure(C++/C#, Objective-C, JavaScript, node.js, RESTful API).
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Preparation. Keep examples ready. Have binary tree example ready that you can quickly draw on white board.

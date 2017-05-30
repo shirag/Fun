@@ -272,6 +272,7 @@ TREES:
 	
 /***********************************************************************************************************************/
 Geetha: recusrion/mock:
+   Slow and steady wins the race. Doing it slowly while practicing is the key.
 1. Return a duplicate from an array of integers that has many duplicates( 0 to n-1 vals, n size). 
 2. Recurrence	             Algorithm	                              Big-Oh Solution
    T(n) = T(n/2) + O(1)	     Binary Search	                          O(log n)
@@ -608,6 +609,7 @@ Sorting
 * What is a stable sort?
   Merge sort is a stable algorithm
 * Learn more about bucket sort?
+* Whenever there is sliding window kind of situation, heaps are best suited for that.
 * Inverted index for looking up strings/text searching: reverse index: word to document.
   When you are searching for a word, instead of going over all docs, you have a list of all docs that has this word. So, for every word there exists a list.
   List of documents is maintained. If the word exists multiple times, then we store that info.
@@ -647,7 +649,7 @@ Find Zero sum sub array        - O(n)  - Map to store all cumulative sums and wh
 Find the missing number in a range: 1 to 5(since 1 no is missing, 3 elements): 1 to n(n-2 elements)
                         n * n   -  Pick one number go over the entire array.
                         n log n -  sort based(nlog n): Sort it and then find then case where difference is not 1.
-                        n       -  Complexity n based solution: Do a sum and then find the difference. n * n + 1/2 - sum of all elements.
+                        n       -  Complexity n based solution: Do a sum and then find the difference. (n * (n + 1))/2 - sum of all elements.
                         n       -  Summation based solution: DO a XOR of all the numbers in the input array + sequece. Result is the missing no.                                 
                         
 

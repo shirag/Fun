@@ -285,7 +285,14 @@ vector<int> mergeSortedArrays(vector<int> a, vector<int> b)
  *
  */
 
-vector<int> IKSolution::mergearrays(vector<vector<int>> iarray)
+class CompareDist
+{
+public:
+    bool operator()(pair<int,int> n1,pair<int,int> n2) {
+        return n1.second>n2.second;
+    }
+};
+vector<int> IKSolution::mergeSortedArrays(vector<vector<int>> iarray)
 {
     vector<int> arr3;
     int K = iarray.size();
@@ -304,6 +311,7 @@ vector<int> IKSolution::mergearrays(vector<vector<int>> iarray)
     }
 #endif
 
+#if 0
     priority_queue<int,vector<int>,greater<int> > q;
     for(int i = 0; i < (K); i++)
     {
@@ -321,9 +329,39 @@ vector<int> IKSolution::mergearrays(vector<vector<int>> iarray)
         q.pop();
     }
     DEBUG_DEBUG(cout << " \n");
+#endif
+    priority_queue<pii,vector<pii>, CompareDist> q;
+    vector<int> tableIndex(iarray.size());
+
+    for(int i = 0; i < iarray.size(); i++){
+        tableIndex[i] = 0;
+        q.push(make_pair(iarray[i][0],i));
+        tableIndex[i]++;
+    }
+
+    while(true)
+    {
+        if(q.empty())
+            break;
+
+        pii p = q.top();
+        arr3.push_back(p.first);
+        int ti = p.second;
+        q.pop();
+        if(tableIndex[ti] < iarray[ti].size())
+        {
+            q.push(make_pair(iarray[ti][tableIndex[ti]],ti));
+            tableIndex[ti]++;
+        }
+    }
+
 
     return arr3;
+
 }
+
+
+
 /******************************************************************************************************/
 
 /*

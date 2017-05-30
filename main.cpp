@@ -4083,7 +4083,7 @@ TEST_CASE( "Merge Sorted Arrays", "Merge Sorted Arrays")
     iarray.push_back(v2);
     iarray.push_back(v3);
     res = { 2, 3, 4, 7, 8, 9, 9, 17, 17, 18, 27, 32, 100, 101, 102, 105, 111, 501, 520, 750, 1001};
-    REQUIRE(soln.mergearrays(iarray) == res);
+    REQUIRE(soln.mergeSortedArrays(iarray) == res);
     iarray.clear();
 
     //1
@@ -4094,7 +4094,7 @@ TEST_CASE( "Merge Sorted Arrays", "Merge Sorted Arrays")
     iarray.push_back(v2);
     iarray.push_back(v3);
     res = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-    REQUIRE(soln.mergearrays(iarray) == res);
+    REQUIRE(soln.mergeSortedArrays(iarray) == res);
     iarray.clear();
 
     //2
@@ -4103,7 +4103,7 @@ TEST_CASE( "Merge Sorted Arrays", "Merge Sorted Arrays")
     iarray.push_back(v1);
     iarray.push_back(v2);
     res = {-8, -7, -6, -5, -4, -3, -2, -1};
-    REQUIRE(soln.mergearrays(iarray) == res);
+    REQUIRE(soln.mergeSortedArrays(iarray) == res);
     iarray.clear();
 
     //3
@@ -4112,7 +4112,7 @@ TEST_CASE( "Merge Sorted Arrays", "Merge Sorted Arrays")
     iarray.push_back(v1);
     iarray.push_back(v2);
     res = {-10, -8, -7, -6, -5, -3, -2, -1};
-    REQUIRE(soln.mergearrays(iarray) == res);
+    REQUIRE(soln.mergeSortedArrays(iarray) == res);
 
 }
 
