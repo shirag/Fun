@@ -30,6 +30,8 @@
 #include <functional>
 #include <memory>
 #include <fstream>
+#include <bitset>
+#include <math.h>
 
 
 using namespace std;
@@ -205,6 +207,13 @@ class LinkedList
 
 };
 
+struct Point
+{
+    int x;
+    int y;
+    int z;
+};
+
 class IKSolution
 {
     private:
@@ -213,6 +222,7 @@ class IKSolution
 
     public:
 
+        //Magic Map
         int getValue(string s);
         void setVal(string str, int val);
         void deleteVal(string s);
@@ -232,7 +242,13 @@ class IKSolution
 	    int findMinimum(vector<int> arr);
 	    int printCountOfBitsSet(vector<int> intArr);
 	    int findMaxSumSubArray(vector<int> arr); //Kadane's algorithm
-	    int findDuplicateThatOccursOnce(vector<int> v);
+
+
+	    int findDuplicateThatOccursOnce(vector<int> v); //Prudhvi
+	    int findADuplicate(); /*Geeta*//* Array of n integers values between 0 and n-1 and there are duplicate. Find a duplicate
+	                                    * 1. Bucket method. - Add a value and then subtract when you want to check.
+	                                    * 2. Swapping method - As you iterate over the array keep swapping.
+	                                    */
 
 
 	    /* Trees: Class problems */
@@ -275,12 +291,10 @@ class IKSolution
 	    int knightsTourOnChessBoard(int rows, int columns, int sx, int sy, int ex, int ey);
 	    string topologicalSort(vector<string>);
 	    int countNoOfIslands(vvi matrix); /* Basically a connected components problem */
+	    int snakeNLadder(int m, int n, unordered_map<int,int> locations, map<int,int>& prevMap);
 
         /* Mock/Recursion/Homework4 */
-	    int findADuplicate(); /* Array of n integers values between 0 and n-1 and there are duplicate. Find a duplicate
-	                           * 1. Bucket method. - Add a value and then subtract when you want to check.
-	                           * 2. Swapping method - As you iterate over the array keep swapping.
-	                           */
+
 	    int findMajority();  /* Array of n elements. Many duplicates. frequency greater than n/2. NOt within the range. */
 	    int MaxPath(vvi); /* n x n matrix find the sum of max sum path */
 	    vector<string> generateAllPermutations(string s);
@@ -348,11 +362,13 @@ class IKSolution
         vector<int> quickSort(vector<int>& a);
         vector<pair<pci,pci>> nutsNBolts(vector<pci>& nuts, vector<pci>& bolts);
         vector<int> mergeSortedArrays(vector<vector<int>> iarray);
+        bool findMissingInteger(vector<int> v, int ragngeBegin, int rangeEnd, int memorySize, int& missingInt);
         vector<int> twitterTopK(vector<int>iStream, int iK);
         vector<string> printTriplets(vector<int> intArr);
         bool findIf4NumbersSumToK(vector<int> v, int k);
         vector<int> mergeFirstIntoAnother(vector<int> intArrShort, vector<int> intArrLong);
         string sortCharacters(string inString);
+        vector<pair<int,int>> findClosestNeighbors(vector<Point>& vec, Point p, int k);
         /* ? Dutch National Flag timed test problem */
         /* ? Two sorted arrays. Find a duplicate. Use a Hash. Time 2n. Try the merging logic used for merge sort.*/
 

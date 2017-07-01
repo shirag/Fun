@@ -11,6 +11,12 @@ using namespace std;
 
 
 IKSolution soln;
+Node root;
+Node node1; Node node3; Node node2;
+Node node4; Node node5; Node node6; Node node7;
+Node node8; Node node9; Node node10; Node node11; Node node12; Node node13; Node node14; Node node15;
+Node node41; Node node51; Node node61; Node node71; Node node21; Node node31;
+
 
 
 TEST_CASE( "Magic Map", "Magic Map")
@@ -124,6 +130,75 @@ TEST_CASE( "Find the duplicate that occurs once", "Find the duplicate that occur
     REQUIRE(soln.findDuplicateThatOccursOnce(v) == 5);
 
 }
+
+TEST_CASE("Find Missing Integer")
+{
+    cout << "Find Missing Integer \n";
+    int missingInt = 0;
+
+    vector<int> v = {1,2,3,5}; int rangeBegin = v[0]; int rangeEnd = 5;
+    int memorySize = 5;
+    bool res = soln.findMissingInteger(v, rangeBegin, rangeEnd, memorySize, missingInt);
+    REQUIRE(res == true);
+    REQUIRE(missingInt == 4);
+
+
+    v = {1,2,3,4,5,7,8,9,10}; rangeBegin = v[0]; rangeEnd = 10;
+    memorySize = 10;
+    res = soln.findMissingInteger(v, rangeBegin, rangeEnd, memorySize, missingInt);
+    REQUIRE(res == true);
+    REQUIRE(missingInt == 6);
+
+
+    v = {1,2,3,4,5,7,8,9,10}; rangeBegin = v[0]; rangeEnd = 10;
+    memorySize = 5;
+    res = soln.findMissingInteger(v, rangeBegin, rangeEnd, memorySize, missingInt);
+    REQUIRE(res == true);
+    REQUIRE(missingInt == 6);
+
+
+    v = {2,2,2,2,2,2,2,2,2}; rangeBegin = 1; rangeEnd = 10;
+    memorySize = (v.size() + 1)/2;
+    res = soln.findMissingInteger(v,  rangeBegin, rangeEnd, memorySize, missingInt);
+    REQUIRE(res == true);
+    REQUIRE(missingInt == 1);
+
+    v = {1,2,2,2,2,2,2,2,2}; rangeBegin = v[0]; rangeEnd = 10;
+    memorySize = (v.size() + 1)/2;
+    res = soln.findMissingInteger(v, rangeBegin, rangeEnd, memorySize, missingInt);
+    REQUIRE(res == true);
+    REQUIRE(missingInt == 3);
+
+
+    v = {-3, -2, -1, 1, 2}; rangeBegin = -3; rangeEnd = 2;
+    memorySize = v.size() + 1;
+    res = soln.findMissingInteger(v, rangeBegin, rangeEnd, memorySize, missingInt);
+    REQUIRE(res == true);
+    REQUIRE(missingInt == 0);
+
+    v = {-3, -2, -1, 1, 2}; rangeBegin = -3; rangeEnd = 2;
+    memorySize = (v.size() + 1)/2;
+    res = soln.findMissingInteger(v, rangeBegin, rangeEnd, memorySize, missingInt);
+    REQUIRE(res == true);
+    REQUIRE(missingInt == 0);
+
+    v = {10, 11, 12, 13}; rangeBegin = 10; rangeEnd = 13;
+    memorySize = (v.size() + 1)/2;
+    res = soln.findMissingInteger(v, rangeBegin, rangeEnd, memorySize, missingInt);
+    REQUIRE(res == false);
+
+    v = {10, 11, 12, 13}; rangeBegin = 10; rangeEnd = 14;
+    memorySize = (v.size() + 1)/2;
+    res = soln.findMissingInteger(v, rangeBegin, rangeEnd, memorySize, missingInt);
+    REQUIRE(res == true);
+    REQUIRE(missingInt == 14);
+
+
+
+
+}
+
+
 
 TEST_CASE( "Arrays tests", "Arrays tests" )
 {
@@ -485,12 +560,6 @@ TEST_CASE( "How Many bits set(Hamming Weight)", "How Many bits set(Hamming Weigh
 
 
 
-
-Node root;
-Node node1; Node node3; Node node2;
-Node node4; Node node5; Node node6; Node node7;
-Node node8; Node node9; Node node10; Node node11; Node node12; Node node13; Node node14; Node node15;
-Node node41; Node node51; Node node61; Node node71; Node node21; Node node31;
 
 
 TEST_CASE( "Trees tests", "Trees tests" )
@@ -1385,7 +1454,52 @@ TEST_CASE( "Bloom filter tests", "[Bloom]" )
 
 }
 
+TEST_CASE( "Snake and Ladder", "Snake and Ladder")
+{
+    int m;
+    int n;
+    unordered_map<int,int> locations;
+    map<int,int> prevMap;
+    int temp;
 
+    m = 3; n = 3;
+    REQUIRE(soln.snakeNLadder(m, n, locations, prevMap) == 2);
+    temp = m * n;
+    while(prevMap.count(temp) != 0)
+    {
+        cout << " " << temp << " "; temp = prevMap[temp];
+    }
+    cout << "\n";
+
+    m = 6; n = 6;
+    prevMap.clear();
+    locations[2] = 15; locations[5] = 7;    locations[12] = 4;    locations[18]= 29;    locations[20] = 6;    locations[24] = 16;
+    locations[25] = 35; locations[32] = 30; locations[34] = 12;
+    REQUIRE(soln.snakeNLadder(m, n, locations, prevMap) == 4);
+    temp = m * n;
+    while(prevMap.count(temp) != 0)
+    {
+        cout << " " << temp << " "; temp = prevMap[temp];
+    }
+    cout << "\n";
+
+
+    m = 6; n = 5;
+    prevMap.clear();
+    locations.clear();
+    locations[3] = 22; locations[5] = 8;    locations[11] = 26;    locations[20]= 29;
+    locations[27] = 1; locations[21] = 9; locations[17] = 4; locations[19] = 7;
+    REQUIRE(soln.snakeNLadder(m, n, locations, prevMap) == 3);
+    temp = m * n;
+    while(prevMap.count(temp) != 0)
+    {
+        cout << " " << temp << " "; temp = prevMap[temp];
+    }
+    cout << "\n";
+
+
+
+}
 
 
 /* Recursion */
@@ -4098,8 +4212,8 @@ TEST_CASE( "Merge Sorted Arrays", "Merge Sorted Arrays")
     iarray.clear();
 
     //2
-    v1 = {-1, -2, -3, -4};
-    v2 = {-5, -6, -7, -8};
+    v1 = {-4, -3, -2, -1};
+    v2 = {-8, -7, -6, -5};
     iarray.push_back(v1);
     iarray.push_back(v2);
     res = {-8, -7, -6, -5, -4, -3, -2, -1};
@@ -4107,12 +4221,44 @@ TEST_CASE( "Merge Sorted Arrays", "Merge Sorted Arrays")
     iarray.clear();
 
     //3
-    v1 = {-1, -2, -3, -5};
-    v2 = {-6, -7, -8, -10};
+    v1 = {-5, -3, -2, -1};
+    v2 = {-10, -8, -7, -6};
     iarray.push_back(v1);
     iarray.push_back(v2);
     res = {-10, -8, -7, -6, -5, -3, -2, -1};
     REQUIRE(soln.mergeSortedArrays(iarray) == res);
+    iarray.clear();
+
+    //4
+    v1 = {11, 14, 55, 77};
+    v2 = {2, 5, 11, 16};
+    v3 = {21, 23, 36, 41};
+    vector<int> v4 = {4, 7, 9, 100};
+    iarray.push_back(v1);
+    iarray.push_back(v2);
+    iarray.push_back(v3);
+    iarray.push_back(v4);
+    res = { 2, 4, 5, 7, 9, 11, 11, 14, 16, 21, 23, 36, 41, 55, 77, 100 };
+    REQUIRE(soln.mergeSortedArrays(iarray) == res);
+    iarray.clear();
+
+    //5
+    v1 = {11, 14, 55, 77};
+    v2 = {2, 5, 11, 16, 100};
+    v3 = {21, 23, 41};
+    v4 = {4, 7, 9};
+    iarray.push_back(v1);
+    iarray.push_back(v2);
+    iarray.push_back(v3);
+    iarray.push_back(v4);
+    res = { 2, 4, 5, 7, 9, 11, 11, 14, 16, 21, 23, 41, 55, 77, 100};
+    REQUIRE(soln.mergeSortedArrays(iarray) == res);
+    iarray.clear();
+
+
+
+
+
 
 }
 
@@ -4321,6 +4467,43 @@ TEST_CASE( "Merge First Into Second", "Merge First Into Second")
 
 
 }
+
+
+
+TEST_CASE( "Find nearest neighbors", "Find nearest neighbors")
+{
+
+    vector<Point> vec;
+    Point p1;
+    Point p;
+    bool res1;
+
+    p.x = 8; p.y = 8; p.z = 8;
+
+    p1.x = 10; p1.y = 10; p1.z = 10;
+    vec.push_back(p1);
+    p1.x = 9; p1.y = 9; p1.z = 9;
+    vec.push_back(p1);
+    p1.x = 8; p1.y = 8; p1.z = 8;
+    vec.push_back(p1);
+    p1.x = 7; p1.y = 7; p1.z = 7;
+    vec.push_back(p1);
+
+    //2, 3, 1, 0
+    vector<pair<int,int>> res = soln.findClosestNeighbors(vec, p, 3);
+    REQUIRE(res.size() == 3);
+    res1 = (res[0].first == 1) || (res[0].first == 2) || (res[0].first == 3);
+    REQUIRE(res1 == true);
+    res1 = (res[1].first == 1) || (res[1].first == 2) || (res[1].first == 3);
+    REQUIRE(res1 == true);
+    res1 = (res[2].first == 1) || (res[2].first == 2) || (res[2].first == 3);
+    REQUIRE(res1 == true);
+
+
+}
+
+
+
 
 
 TEST_CASE( "Producer Consumer", "Producer Consumer")

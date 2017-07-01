@@ -37,9 +37,14 @@ C++
       Min heap: priority_queue<int, vector<int>, greater<int>> q;
         Second parameter: Container object is the second class template parameter 
         (the type of the underlying container for the priority_queue; by default: vector<T>).
+        Third paramer is a functor. 
       Max heap creation using heap(O(n)): std::make_heap (v.begin(),v.end()), then push_heap and pop_heap();
     * If you want to store k top/max/largest values, then store it in a min heap of size k. If the value is larger than top, pop and then push new val.
       If you want to store k bottom/min/smallest values, then store it in a max heap of size k. If the value is smaller than top, then pop and then push new val.
+      
+      Problem          Heap    Condition to pop
+      Top(Twitter)     Min     Greater
+      Bottom           Max     Lesser   
       
     * You can not iterate over queue elements. You can accuess only front() and back()
     * To concatenate vector b to another one a: a.insert(a.end(), b.begin(), b.end());
@@ -141,8 +146,10 @@ C++
 24. How do you implement a factory class/method in C++?
 
 
-25. Skip list advantage is you dont have tolock the entire linked list. in case of a tree you have to.
+25. Skip list advantage is you dont have to lock the entire linked list. in case of a tree you have to.
     Efficient alternative to balanced binary trees and easy to implement.
+    Concurrency and locking is the key. 
+    Srinivas Devadas, MIT video: https://www.youtube.com/watch?v=2g9OSRKJuzM
     
 26. Object model is the framework. Four major elements of this model(Grady Booch);
     * Abstraction: Focusses on essential characteristics of some object. Identify similarities.
@@ -795,9 +802,34 @@ GStreamer High Level Flow:
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
-System design:
+System design 1: Architect a world-wide video distribution system:
+   
+   Three components of a video systeM: Server, Network, Device, and analytics.
+   Server: Caching. 
+           * Not a whole lot of writes going on. So, its good.
+   Network congestion: Encoding/compression, Bit rate adaptation
+   Device: profiles, Different resolution.
+   
 
-Measure stck usage:
+   Dimension 1: System scalability
+   1. Geographical location of the original content server may introduce latency.
+   2. Load on the original server.
+   Can be integration of caches into the distribution infrastructure.
+   
+   Dimension 2: Content scalbility
+   Adaptation of the video stream to the existing conditions of the network by applying scalable video.
+   
+
+   General guidelines(7 step):
+   * Requirement gathering: Find out the scope. Gives you a hint onto what part of the problem they want to focus?
+   
+   * System Interface Desgin.
+   * Back-of-the-envelope: Capacity estimation. 
+   * Defining the data model.
+   * High level desgin: Block diagram showing core blocks of the your system.
+   * Detailed desgin for selected components.
+   * Resolving bottlenecks.
+
 
 
 

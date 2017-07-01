@@ -427,6 +427,8 @@ Scalabilit/System design:
    * High level desgin: Block diagram showing core blocks of the your system.
    * Detailed desgin for selected components.
    * Resolving bottlenecks.
+   
+3. Caching, Caching, Caching...   
 
 1. Data model
    Design constraints.
@@ -646,12 +648,17 @@ Finding a number in a sorted array      - O(log n) - Binary search.
 Find Max Sum SubArray -          O(n)  - Kadane's algorithm
 Find Zero sum sub array        - O(n)  - Map to store all cumulative sums and when you come across a sum again it 
                                          means we have zero sum sub array.
-Find the missing number in a range: 1 to 5(since 1 no is missing, 3 elements): 1 to n(n-2 elements)
+                                         
+Find the missing integer in a range without integer  repetetion: In a range 1 to n, there are n elements. This problem is about range 1 to n and there are n-1 elements.  
                         n * n   -  Pick one number go over the entire array.
-                        n log n -  sort based(nlog n): Sort it and then find then case where difference is not 1.
-                        n       -  Complexity n based solution: Do a sum and then find the difference. (n * (n + 1))/2 - sum of all elements.
+                        n log n -  Sort based: Sort it and then find then case where difference is not 1.
+                        n       -  Have a bucket/array of booleans. Linear traversal of input array, mark elements as true. Then do a linear traversal of bucket to find the missing.          
+                        n       -  Do a sum and then find the difference. (n * (n + 1))/2 - sum of all elements.
                         n       -  Summation based solution: DO a XOR of all the numbers in the input array + sequece. Result is the missing no.                                 
-                        
+Given an input file with four billion integers, provide an algorithm to generate an integer which is not contained in the file. Assume you have 1 GB memory. 
+                                   (Same as the above problem and with memory sconstraint)
+                                   Follow up with what you would do if you have only 10 MB of memory.
+                        n       -  Have a bucket/array of booleans. Linear traversal of input array, mark elements as true. Then do a linear traversal of bucket to find the missing.                                    
 
 One Duplicate elemnt in  a range  -   
 Find all Subsets in an array - 

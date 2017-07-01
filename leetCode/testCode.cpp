@@ -56,6 +56,8 @@ int understandStringFuncs();
 void reverseWordsInAString(string &s);
 int findKthLargest(vector<int> vec, int k);
 int giveMeNearestMultiple(int x, int y);
+LinkedListNode* refactorIntoOddEven(LinkedListNode **head);
+vector<int> printShortestPath(vvi g, int src, int dest);
 
 
 TEST_CASE( "Find Kth largest using quick select", "Find Kth largest using quick select")
@@ -335,7 +337,128 @@ TEST_CASE( "Ip with most \"Not Found\" Error","Ip with most \"Not Found\" Error:
 
 }
 
+TEST_CASE( "Refactor into Odd and Even")
+{
+    cout << "Refactor into Odd and Even \n";
 
+    LinkedListNode node1; LinkedListNode node2; LinkedListNode node3; LinkedListNode node4;
+    LinkedListNode node5; LinkedListNode node6; LinkedListNode node7; LinkedListNode node8;
+
+    node1.next = &node2;node2.next = &node3; node3.next = &node4; node4.next = &node5;
+    node5.next = &node6; node6.next = &node7; node7.next = &node8; node8.next = nullptr;
+    node1.val = 3; node2.val = 5; node3.val = 7; node4.val = 57;
+    node5.val = 9; node6.val = 11; node7.val = 13; node8.val = 15;
+
+    LinkedListNode *head = &node1;
+    LinkedListNode *evenList = refactorIntoOddEven(&head);
+    LinkedListNode *current = head;
+    cout << "Odd List \n";
+    while(current != nullptr)
+    {
+        cout << "val = " << current->val << " \n";
+        current = current->next;
+    }
+    current = evenList;
+    cout << "Even List \n";
+    while(current != nullptr)
+    {
+        cout << "val = " << current->val << " \n";
+        current = current->next;
+    }
+
+
+    node1.next = &node2;node2.next = &node3; node3.next = &node4; node4.next = &node5;
+    node5.next = &node6; node6.next = &node7; node7.next = &node8; node8.next = nullptr;
+    node1.val = 2; node2.val = 4; node3.val = 6; node4.val = 8;
+    node5.val = 10; node6.val = 12; node7.val = 14; node8.val = 16;
+
+    head = &node1;
+    evenList = refactorIntoOddEven(&head);
+    current = head;
+    cout << "Odd List \n";
+    while(current != nullptr)
+    {
+        cout << "val = " << current->val << " \n";
+        current = current->next;
+    }
+    current = evenList;
+    cout << "Even List \n";
+    while(current != nullptr)
+    {
+        cout << "val = " << current->val << " \n";
+        current = current->next;
+    }
+
+
+}
+
+
+TEST_CASE( "Print Shortest Path")
+{
+    cout << "Print Shortest Path\n";
+
+    vvi ip;
+    vi temp;
+    vector<int> expected;
+    vector<int> res;
+
+    temp = {1, 2};ip.push_back(temp); //0
+    temp = {0, 3};ip.push_back(temp); //1
+    temp = {0};   ip.push_back(temp); //2
+    temp = {4, 1};ip.push_back(temp); //3
+    temp = {3};   ip.push_back(temp); //4
+    temp = {6};   ip.push_back(temp); //5
+    temp = {5};   ip.push_back(temp); //6
+
+    res = printShortestPath(ip, 0, 4);
+    expected = {4, 3, 1, 0};
+    REQUIRE(res == expected);
+
+    res = printShortestPath(ip, 3, 0);
+    expected = {0, 1, 3};
+    REQUIRE(res == expected);
+
+    res = printShortestPath(ip, 0, 7); //node does not exist
+    expected = {};
+    REQUIRE(res == expected);
+
+    res = printShortestPath(ip, 0, 5); //path does not exist
+    expected = {};
+    REQUIRE(res == expected);
+
+    res = printShortestPath(ip, 0, 2); //direct path
+    expected = {2, 0};
+    REQUIRE(res == expected);
+
+    res = printShortestPath(ip, 0, 3); //direct path
+    expected = {3, 1, 0};
+    REQUIRE(res == expected);
+
+    ip.clear();
+
+    temp = {1, 2, 8};ip.push_back(temp); //0
+    temp = {0, 3, 7};ip.push_back(temp); //1
+    temp = {0};   ip.push_back(temp); //2
+    temp = {4, 1};ip.push_back(temp); //3
+    temp = {3};   ip.push_back(temp); //4
+    temp = {6};   ip.push_back(temp); //5
+    temp = {5};   ip.push_back(temp); //6
+    temp = {1, 8};ip.push_back(temp); //7
+    temp = {7};ip.push_back(temp);    //8
+
+    res = printShortestPath(ip, 0, 8); //direct path
+    expected = {8, 0};
+    REQUIRE(res == expected);
+
+    res = printShortestPath(ip, 1, 8); //direct path
+    expected = {8, 0, 1};
+    REQUIRE(res == expected);
+
+
+
+
+
+}
 /*  Quick select, variation of quick sort.
  *  Given an array and a number k where k is smaller than size of array, we need to find the k’th smallest element in the given array.
  *  It is given that ll array elements are distinct.
@@ -349,15 +472,14 @@ int findKthLargestUtil(vector<int>& vec, int low, int high, int k)
         cout << "Error";
         return 0;
     }
-    int size = high - low + 1;
+
     int pivot = partition(vec, low, high);
-    cout << "pivot  = " << pivot << " size = " << size << " \n";
     int pvt_distance_from_end = high - pivot;
 
-    if(pvt_distance_from_end == k - 1)
+    if((pvt_distance_from_end + 1) == k)
         return vec[pivot];
 
-    if(pvt_distance_from_end >  k - 1)
+    if((pvt_distance_from_end + 1) >  k )
         return findKthLargestUtil(vec, pivot + 1, high, k); //right side of pivot
     else
         return findKthLargestUtil(vec, low, pivot - 1, k - (pvt_distance_from_end + 1));
@@ -372,6 +494,8 @@ int findKthLargest(vector<int> vec, int k)
         cout << "Error: Not enough elements in the array \n";
         return 0;
     }
+
+    //k  = vec.size() - 1 - k + 1;
     return findKthLargestUtil(vec, 0, vec.size() - 1, k);
 }
 
@@ -415,6 +539,103 @@ int giveMeNearestMultiple(int x,  int y)
    Nelson FB: Two sorted arrays and merge one with another. First one has enough space to handle the second one.
    Peter question: The problem was "derive a list of diagonals of an nxm matrix", not too bad
 *********************************************************************************************************/
+//Take a linked list and refactor into 2 lists, one Even and one Odd, based on values.
+//Input: Pointer to pointer to head. Points to the head of the odd list when the function returns.
+//Return value: Pointer to new even list.
+LinkedListNode* refactorIntoOddEven(LinkedListNode **head)
+{
+    LinkedListNode *dummyHead = new LinkedListNode;
+    dummyHead->next = *head;
+    LinkedListNode *prev = dummyHead; //Points to the last odd value or Dummy Head;
+
+    LinkedListNode *newEvenListHead = nullptr;
+    LinkedListNode *newEvenListTail = nullptr;
+
+    LinkedListNode *current = *head;
+
+    while(current != nullptr)
+    {
+        if(!(current->val % 2)) //even
+        {
+            prev->next = current->next;
+            if(newEvenListHead == nullptr)
+                newEvenListHead = current;
+            else
+                newEvenListTail->next = current;
+
+            newEvenListTail = current;
+        }
+        else
+            prev = current;
+
+        current = current->next;
+    }
+
+    *head = dummyHead->next;
+    if(newEvenListTail != nullptr)
+        newEvenListTail->next = nullptr;
+
+    return newEvenListHead;
+}
+
+vector<int> printShortestPath(vvi g, int src, int dest)
+{
+    set<int> vis;
+    map<int, int> paths;
+    int level = 0;
+    vector<int> res;
+
+    cout << "Find shortest path from " << src << " to " << dest << " \n";
+
+    if(dest >= g.size())
+    {
+        cout << "Error \n";
+        return res;
+    }
+    if(src == dest)
+        return res;
+
+    queue<int> mQ;
+
+    mQ.push(src);
+    vis.insert(src);
+
+    while(!mQ.empty())
+    {
+        int item = mQ.front();
+        mQ.pop();
+
+
+        if(item == dest)
+            break;
+
+        for(auto val : g[item])
+        {
+            if(vis.find(val) != vis.end())
+                continue;
+            mQ.push(val);
+            vis.insert(val);
+            paths[val] = item;
+        }
+    }
+
+
+    int temp = dest;
+    while(paths.count(temp) != 0)
+    {
+        res.push_back(temp);
+        temp = paths[temp];
+    }
+    if(res.size())
+        res.push_back(src);
+    else
+        cout << "no path \n";
+
+    return res;
+}
+
+
+/*********************************************************************************************************/
 #if 0
 int main()
 {
@@ -721,7 +942,7 @@ int findKthLargestRecursive(vector<int> &v1, int low1, int high1, vector<int> &v
 		return findKthLargestRecursive(v1,low1+k/2,high1,v2,low2,low2+(k/2-1),k-(k/2));
 	
 }
-
+/*********************************************************************************************************
 /* Build with g++ -std=c++11 testCode.cpp */
 int addValueToMatrx(unsigned int row,unsigned int column,int value)
 {

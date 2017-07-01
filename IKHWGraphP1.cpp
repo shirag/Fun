@@ -384,6 +384,7 @@ vector<string> IKSolution::convertAString(ls& dict, string& begin, string& end)
         lpop = qm.front();
         qm.pop();
 
+
         for(auto it : lpop)
         {
             if(flags.find(it) != flags.end())
@@ -819,3 +820,83 @@ bool BloomFilter::possiblyContains(const uint8_t *data, std::size_t len) const
 }
 /*****************************************************************************************************/
 
+
+void giveMeAllLocations(int currentCell, list<int>& dest, unordered_map<int,int>& locations, int totalLocations,  set<int>& vis)
+{
+
+    unordered_map<int,int> ladders;
+    unordered_map<int,int> snakes;
+
+    //cout << "Get all destinations from " << currentCell << "\n";
+
+    for(int i = 1; i <= 6; i++)
+    {
+
+        if(locations.count(currentCell + i))
+        {
+            if(!vis.count(locations[currentCell + i]))
+            {
+                dest.push_back(locations[currentCell + i]);
+                vis.insert(locations[currentCell + i]);
+            }
+
+        }
+        else
+        {
+            if(currentCell + i <= totalLocations)
+                if(!vis.count(currentCell + i))
+                {
+                    dest.push_back(currentCell + i);
+                    vis.insert(currentCell + i);
+                }
+        }
+    }
+}
+
+
+void populatePrev(int prev, list<int>pushl, map<int,int>& prevMap)
+{
+    for(auto val : pushl)
+    {
+        if(prevMap.count(val) == 0)
+            prevMap[val] = prev;
+    }
+}
+
+int IKSolution:: snakeNLadder(int m, int n, unordered_map<int,int> locations, map<int,int>& prevMap)
+{
+    queue<list<int>> mQ;
+    list<int> popl;
+    list<int> pushl;
+    int level = 0;
+    int finalLoc = m * n;
+    set<int> vis;
+
+    pushl.push_back(1);
+    mQ.push(pushl);
+    vis.insert(1);
+    pushl.clear();
+
+    while(!mQ.empty())
+    {
+        popl = mQ.front();
+        mQ.pop();
+
+        for(auto val : popl)
+        {
+            if(val == finalLoc)
+                return level;
+
+            list<int> nl;
+            giveMeAllLocations(val, nl, locations, finalLoc, vis);
+            pushl.insert(pushl.end(), nl.begin(), nl.end());
+            populatePrev(val, nl, prevMap);
+
+        }
+        mQ.push(pushl);
+        pushl.clear();
+        level++;
+    }
+
+    return 0;
+}

@@ -280,18 +280,19 @@ vector<int> mergeSortedArrays(vector<int> a, vector<int> b)
        3. Repeat following steps n*k times.
           a) Get minimum element from heap (minimum is always at root) and store it in output array.
           b) Replace heap root with next element from the array from which the element is extracted.
-          If the array doesn’t have any more elements, then replace root with infinite.
           After replacing the root, heapify the tree.
  *
  */
 
 class CompareDist
 {
-public:
-    bool operator()(pair<int,int> n1,pair<int,int> n2) {
-        return n1.second>n2.second;
-    }
+    public:
+        bool operator()(pair<int,int> n1,pair<int,int> n2)
+        {
+            return n1.first > n2.first;
+        }
 };
+
 vector<int> IKSolution::mergeSortedArrays(vector<vector<int>> iarray)
 {
     vector<int> arr3;
@@ -312,7 +313,7 @@ vector<int> IKSolution::mergeSortedArrays(vector<vector<int>> iarray)
 #endif
 
 #if 0
-    priority_queue<int,vector<int>,greater<int> > q;
+    priority_queue<int,vector<int>,greater<int>> q;
     for(int i = 0; i < (K); i++)
     {
         for(int j = 0; j < (n); j++)
@@ -330,20 +331,21 @@ vector<int> IKSolution::mergeSortedArrays(vector<vector<int>> iarray)
     }
     DEBUG_DEBUG(cout << " \n");
 #endif
+
+    //nk*Logk based solution
     priority_queue<pii,vector<pii>, CompareDist> q;
     vector<int> tableIndex(iarray.size());
 
-    for(int i = 0; i < iarray.size(); i++){
-        tableIndex[i] = 0;
+    int totalElements = 0;
+    for(int i = 0; i < iarray.size(); i++)
+    {
         q.push(make_pair(iarray[i][0],i));
         tableIndex[i]++;
+        totalElements += iarray[i].size();
     }
 
-    while(true)
+    while(totalElements > 0)
     {
-        if(q.empty())
-            break;
-
         pii p = q.top();
         arr3.push_back(p.first);
         int ti = p.second;
@@ -353,6 +355,7 @@ vector<int> IKSolution::mergeSortedArrays(vector<vector<int>> iarray)
             q.push(make_pair(iarray[ti][tableIndex[ti]],ti));
             tableIndex[ti]++;
         }
+        totalElements--;
     }
 
 
@@ -360,6 +363,69 @@ vector<int> IKSolution::mergeSortedArrays(vector<vector<int>> iarray)
 
 }
 
+
+/*
+ * Problem: Find an integer not among four billion given ones
+ *
+ * Example:
+ *
+ * Approach: Create a bucket of size equal to the memory size. Multiple linear scan of input vector
+ *           and in each scan looking for window of elements(of bucket size). Mark the appropriate field in the bucket.
+ *           After each scan go over the bucket to identify the missing element.
+ *
+ *           Here use vector<bool> bucket(memorySize) to create bit array since with C++ there is no proper way to create
+ *           a dynamic bit array
+ *
+ * Complexity:
+
+ * Space Complexity:
+ * Any other approach:
+ *           * Read to memory chunk and do a sort.
+ *           * write the sorted chunks back to file.
+ *           * Now you have k chunks of sorted memory. You have to merge them
+ *           * Once you sort the entire content, fond the missing number
+ *
+ */
+bool IKSolution::findMissingInteger(vector<int> v, int rangeBegin, int rangeEnd, int memorySize, int& missingInt)
+{
+    cout << "memorySize = " << memorySize << " \n";
+    vector<bool> bucket(memorySize);
+
+    int noOfProcessedInts = rangeEnd - rangeBegin + 1;
+    int pass = 0;
+
+    while(noOfProcessedInts > 0)
+    {
+        cout << "next iteration \n";
+        int currentWindowBegin = pass * memorySize + rangeBegin;
+        int currentWindowEnd = currentWindowBegin + memorySize;
+
+        for(int i = 0; i < v.size(); i++)
+        {
+            if((v[i] >= (currentWindowBegin)) && (v[i] < currentWindowEnd))
+            {
+                bucket[(v[i] - currentWindowBegin)] = true;
+                noOfProcessedInts--;
+            }
+        }
+
+        for(int i = 0; i < bucket.size(); i++)
+        {
+            if(bucket[i] == false)
+            {
+                missingInt = currentWindowBegin + i;
+                return true;
+            }
+            bucket[i] = false;
+        }
+
+        pass++;
+    }
+
+
+    return false;
+
+}
 
 
 /******************************************************************************************************/
@@ -652,6 +718,93 @@ string IKSolution::sortCharacters(string inString) {
 
     return outString;
 }
+/**************************************************************************************************************/
+
+
+
+int partitionP(vector<pair<int,int>>& a, int low, int high)
+{
+
+    int lastEndIndex = low - 1;
+    int pivot_loc = high;
+    int currIndex;
+
+    for(currIndex = low; currIndex < high; currIndex++)
+    {
+        if( a[currIndex].second <= a[pivot_loc].second )
+        {
+            lastEndIndex++;
+            swap(a[currIndex].second, a[lastEndIndex].second);
+            swap(a[currIndex].first, a[lastEndIndex].first);
+        }
+    }
+
+    lastEndIndex++;
+    swap(a[currIndex].second, a[lastEndIndex].second);
+    swap(a[currIndex].first, a[lastEndIndex].first);
+
+    DEBUG_DEBUG(cout << "Value at " << lastEndIndex << " " << a[lastEndIndex].second << " is at its final location \n");
+    return lastEndIndex;
+}
+
+void findClosestNeighborsUtil(vector<pair<int,int>>& vec, int low, int high, int k)
+{
+    if(low > high)
+    {
+        cout << "Error";
+        return;
+    }
+    int pivot = partitionP(vec, low, high);
+    cout << "pivot = " << pivot << "\n";
+
+    if(pivot == k)
+        return;
+
+    if(pivot >  k )
+        return findClosestNeighborsUtil(vec, low, pivot - 1, k);
+    else
+        return findClosestNeighborsUtil(vec, pivot + 1, high, k);
+}
+
+/*
+ * Problem: Find K nearest Points to Point P in 2-dimensional plane
+ *
+ * Solution:
+ * A quick select based approach. Quick sort partitioning algorithm is used until we find the pivot or a corresponding index. Now we have all
+ * values less to the left of the pivot and all values higher to the right of the pivot.
+ *
+ * The vector returned has the index to the original input array.
+ * */
+vector<pair<int,int>>  IKSolution::findClosestNeighbors(vector<Point>& vec, Point p, int k)
+{
+
+    vector<pair<int,int>> distVec;
+    int sum;
+    int index = 0;
+    for(auto p2 : vec)
+    {
+        sum = pow((p.x - p2.x), 2)  + pow((p.y - p2.y), 2) + pow((p.z - p2.z), 2);
+        cout << "distance = " << sqrt(sum) << "\n";
+        distVec.push_back({index, sqrt(sum)});
+        index++;
+    }
+
+    k  = k - 1;
+    cout << "k = " << k << "\n";
+
+    int size = distVec.size();
+    findClosestNeighborsUtil(distVec, 0, size - 1, k);
+    for(auto val : distVec)
+    {
+        cout << "Original vector's " << val.first << " \n";
+    }
+
+    distVec.erase(distVec.begin() + (k + 1), distVec.end());
+    cout << distVec.size() << " \n";
+    return distVec;
+
+}
+
 
 
 /*******************************************************************************************************************************/
