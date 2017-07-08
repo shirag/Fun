@@ -1496,10 +1496,79 @@ TEST_CASE( "Snake and Ladder", "Snake and Ladder")
         cout << " " << temp << " "; temp = prevMap[temp];
     }
     cout << "\n";
+}
 
 
+TEST_CASE( "Rainfall Challenge", "Rainfall Challenge")
+{
+    vvi ip;
+    vi temp;
+    priority_queue<int> res;
+    vi required;
+    int index = 0;
+
+    cout << "next set \n";
+    temp = {1,5,2}; ip.push_back(temp);
+    temp = {2,4,7}; ip.push_back(temp);
+    temp = {3,6,9}; ip.push_back(temp);
+    required = {7, 2};
+    res = soln.detectBasins(ip);
+    REQUIRE(res.size() == 2);
+    while(!res.empty())
+    {
+        REQUIRE(required[index] == res.top()); index++;
+        res.pop();
+    }
+    cout << "\n";
+    ip.clear();
+
+    cout << "next set \n";
+    temp = {1}; ip.push_back(temp);
+    temp = {10}; ip.push_back(temp);
+    required = {2}; index = 0;
+    res = soln.detectBasins(ip);
+    while(!res.empty())
+    {
+        REQUIRE(required[index] == res.top()); index++;
+        res.pop();
+    }
+    cout << "\n";
+    ip.clear();
+
+    cout << "next set \n";
+    temp = {1,0,2,5,8}; ip.push_back(temp);
+    temp = {2,3,4,7,9}; ip.push_back(temp);
+    temp = {3,5,7,8,9}; ip.push_back(temp);
+    temp = {1,2,5,4,3}; ip.push_back(temp);
+    temp = {3,3,5,2,1}; ip.push_back(temp);
+    required = {11, 7, 7}; index = 0;
+    res = soln.detectBasins(ip);
+    while(!res.empty())
+    {
+        REQUIRE(required[index] == res.top()); index++;
+        res.pop();
+    }
+    cout << "\n";
+    ip.clear();
+
+    cout << "next set \n";
+    temp = {0,2,1,3}; ip.push_back(temp);
+    temp = {2,1,0,4}; ip.push_back(temp);
+    temp = {3,3,3,3}; ip.push_back(temp);
+    temp = {5,5,2,1}; ip.push_back(temp);
+    required = {7, 5, 4}; index = 0;
+    res = soln.detectBasins(ip);
+    while(!res.empty())
+    {
+        REQUIRE(required[index] == res.top()); index++;
+        res.pop();
+    }
+    cout << "\n";
+    ip.clear();
 
 }
+
+
 
 
 /* Recursion */

@@ -263,6 +263,8 @@ int IKSolution::knightsTourOnChessBoard(int rows, int columns, int sx, int sy, i
     lpush.push_back(make_pair(sx, sy));
     qm.push(lpush);
     lpush.clear();
+    //flags.insert(make_pair(sx, sy));
+
 
     while(!qm.empty())
     {
@@ -819,15 +821,23 @@ bool BloomFilter::possiblyContains(const uint8_t *data, std::size_t len) const
     return true;
 }
 /*****************************************************************************************************/
-
-
+/*
+ * Problem:
+ *     Given a snake and ladder board, find the minimum number of dice throws required to reach the destination
+ *     or last cell from source or 1st cell. Basically, the player has total control over outcome of dice throw
+ *     and wants to find out minimum number of throws required to reach last cell.
+ *     If the player reaches a cell which is base of a ladder, the player has to climb up that ladder and if
+ *     reaches a cell is mouth of the snake, has to go down to the tail of snake without a dice throw.
+ * Approach:
+ * Time Complexity:
+ *
+ * Alternate approach:
+ *
+*/
 void giveMeAllLocations(int currentCell, list<int>& dest, unordered_map<int,int>& locations, int totalLocations,  set<int>& vis)
 {
-
     unordered_map<int,int> ladders;
     unordered_map<int,int> snakes;
-
-    //cout << "Get all destinations from " << currentCell << "\n";
 
     for(int i = 1; i <= 6; i++)
     {
@@ -863,7 +873,7 @@ void populatePrev(int prev, list<int>pushl, map<int,int>& prevMap)
     }
 }
 
-int IKSolution:: snakeNLadder(int m, int n, unordered_map<int,int> locations, map<int,int>& prevMap)
+int IKSolution::snakeNLadder(int m, int n, unordered_map<int,int> locations, map<int,int>& prevMap)
 {
     queue<list<int>> mQ;
     list<int> popl;
@@ -874,8 +884,8 @@ int IKSolution:: snakeNLadder(int m, int n, unordered_map<int,int> locations, ma
 
     pushl.push_back(1);
     mQ.push(pushl);
-    vis.insert(1);
     pushl.clear();
+    vis.insert(1);
 
     while(!mQ.empty())
     {
@@ -887,11 +897,8 @@ int IKSolution:: snakeNLadder(int m, int n, unordered_map<int,int> locations, ma
             if(val == finalLoc)
                 return level;
 
-            list<int> nl;
-            giveMeAllLocations(val, nl, locations, finalLoc, vis);
-            pushl.insert(pushl.end(), nl.begin(), nl.end());
-            populatePrev(val, nl, prevMap);
-
+            giveMeAllLocations(val, pushl, locations, finalLoc, vis);
+            populatePrev(val, pushl, prevMap);
         }
         mQ.push(pushl);
         pushl.clear();
@@ -900,3 +907,195 @@ int IKSolution:: snakeNLadder(int m, int n, unordered_map<int,int> locations, ma
 
     return 0;
 }
+/**********************************************************************************************************************/
+class CompareDist1
+{
+    public:
+        bool operator()(pair<int,int> n1,pair<int,int> n2)
+        {
+            return n1.second > n2.second;
+        }
+};
+
+
+int getValueFromIndex(vvi ip, int index)
+{
+    int columns = ip[0].size();
+    int rows = ip.size();
+
+    assert( (index >= 0) && index < (rows * columns));
+
+    int row = index/columns;
+    int column = index % columns;
+
+    return ip[row][column];
+}
+
+
+int getMin(vvi ip, int index)
+{
+    priority_queue<pii, vector<pii>, CompareDist1> q;
+    int leftOffSet = index % ip[0].size();
+    int elements = ip[0].size() * ip.size();
+    int columns = ip[0].size();
+
+    q.push({index, getValueFromIndex(ip, index)});
+
+    if((leftOffSet - 1) >= 0 )
+        q.push({index - 1, getValueFromIndex(ip, index - 1)});
+
+    if((leftOffSet + 1) < columns)
+        q.push({index + 1, getValueFromIndex(ip, index + 1)});
+
+    if(index - columns >= 0)
+        q.push({(index - columns), getValueFromIndex(ip, index - columns)} );
+
+    if(index + columns < elements)
+        q.push({(index + columns), getValueFromIndex(ip, index + columns)} );
+
+    int top = q.top().first;
+
+    return top;
+}
+
+
+int getTheSink(vvi ip, map<int, int>& res, int myIndex)
+{
+    int sinkVal;
+
+    int lowIndex = getMin(ip, myIndex);
+    if(lowIndex == myIndex) //If i'm the lowest val compared to all my neighbors, make me the sink
+    {
+        res[myIndex] = myIndex;
+        return myIndex;
+    }
+
+    if(res.count(lowIndex)) //if the lowest neighbor has a sink, then
+    {
+        res[myIndex] = res[lowIndex];
+        return res[lowIndex];
+    }
+
+    sinkVal = getTheSink(ip, res, lowIndex);
+    res[myIndex] = res[sinkVal];
+
+    return sinkVal;
+}
+
+bool myfunction(pair<int,int> p1, pair<int, int> p2)
+{
+    return (p1.second < p2.second);
+}
+
+
+/* Problem:
+ *     A group of farmers has some elevation data, and we're going to help them understand how rainfall flows over their farmland.
+       We'll represent the land as a two-dimensional array of altitudes and use the following model, based on the idea that water flows downhill:
+       If a cell’s four neighboring cells all have higher altitudes, we call this cell a sink; water collects in sinks.
+       Otherwise, water will flow to the neighboring cell with the lowest altitude. If a cell is not a sink, you may assume it has a
+       unique lowest neighbor and that this neighbor will be lower than the cell.
+       Cells that drain into the same sink – directly or indirectly – are said to be part of the same basin.
+
+       Your challenge is to partition the map into basins. In particular, given a map of elevations, your code should partition the map
+       into basins and output the sizes of the basins, in descending order.
+       Assume the elevation maps are square. Input will begin with a line with one integer, S, the height (and width) of the map.
+       The next S lines will each contain a row of the map, each with S integers – the elevations of the S cells in the row.
+       Some farmers have small land plots such as the examples below, while some have larger plots. However, in no case will a farmer
+       have a plot of land larger than S = 5000.
+
+       Your code should output a space-separated list of the basin sizes, in descending order. (Trailing spaces are ignored.)
+
+   Approach:
+       Go over each and every element of the input array. For each cell recursively calculate the sink. Store the result in a map(cellno, sink)
+       go over the map again to count the no of occurance. Return the result in a heap.
+       As you pop the contents of the heap, you will get the result in descending order.
+
+   Complexity:
+       Its O(n)
+
+   Example:
+
+          -----------------------------------------
+          Input:                 Output:
+             3                      7 2
+          1 5 2
+          2 4 7
+          3 6 9
+
+          The basins, labeled with A’s and B’s, are:
+          A A B
+          A A B
+          A A A
+          -----------------------------------------
+          Input:                  Output:
+             1
+            10
+
+          There is only one basin in this case.
+          The basin, labeled with A’s is:
+             A
+          -----------------------------------------
+          Input:                  Output:
+             5                    11 7 7
+         1 0 2 5 8
+         2 3 4 7 9
+         3 5 7 8 9
+         1 2 5 4 3
+         3 3 5 2 1
+
+         The basins, labeled with A’s, B’s, and C’s, are:
+         A A A A A
+         A A A A A
+         B B A C C
+         B B B C C
+         B B C C C
+         -----------------------------------------
+          Input:                  Output:
+            4                       7 5 4
+         0 2 1 3
+         2 1 0 4
+         3 3 3 3
+         5 5 2 1
+
+         The basins, labeled with A’s, B’s, and C’s, are:
+         A A B B
+         A B B B
+         A B B C
+         A C C C
+         -----------------------------------------
+ *
+ * */
+
+
+priority_queue<int> IKSolution::detectBasins(vvi ip)
+{
+    map<int, int> res;
+    unordered_map<int, int> retVal;
+    int index = 0;
+    priority_queue<int> pq;
+    int columns = ip[0].size();
+    int rows = ip.size();
+
+    //calculate width and height and make it global or a member objects
+    //so that you dont have to calculate size everywhere.
+    for(int i = 0; i < rows; i++)
+        for(int j = 0; j < columns; j++)
+        {
+            if(!res.count(index)) //If the sink has not been found
+                getTheSink(ip, res, index);
+            index++;
+        }
+
+    for(auto val : res)
+    {
+        retVal[val.second] += 1;
+    }
+
+    for(auto val : retVal)
+    {
+        pq.push(val.second);
+    }
+
+    return pq;
+}
+

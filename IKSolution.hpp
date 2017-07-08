@@ -292,6 +292,7 @@ class IKSolution
 	    string topologicalSort(vector<string>);
 	    int countNoOfIslands(vvi matrix); /* Basically a connected components problem */
 	    int snakeNLadder(int m, int n, unordered_map<int,int> locations, map<int,int>& prevMap);
+	    priority_queue<int> detectBasins(vvi ip);
 
         /* Mock/Recursion/Homework4 */
 

@@ -133,9 +133,12 @@
 TREES:
 										  
 *  Preorder traversal: preTraverse(){ print root->val; preTraverse(root->left); preTraverse(root->right); }
+   Procees yourself and then all your children.
 *  Inorder traversal:  inoTraverse(){ inoTraverse(root->left); print root->val; inoTraverse(root->right); }
 *  Postorder traversal: proTravrse(){ proTraverse(root->left); proTraverse(root->right); print root->val; }
-
+   Procees all your children and then yourself.
+*  DFS searches - preorder, inorder and postorder.
+   BFS - Level order searches.
 *. Traversal DFS: Perform using Stack and Recursive. Process parent, process left node and its children, and then process right node and its children.
                                            Note that you are pushing siblings onto stack.
 										   Three types of traversal for a DFS: Preorder, inorder, postorder 
