@@ -205,6 +205,9 @@ TREES:
     Max heap: parent is more than children at every level. Every root must have two children.
     Heap Array: Holes have to be at the end.
  *. Difference between Heap and BST.
+ 
+    if you have an array and then if you want to pop it in descending order, one way to do it
+    call make_heap(). This would do it in O(n). Now you keep popping one at a time. Overall its still n log n.
     
 	                              Max Heap              BST(Binary Search Tree)
     Is sorted?                    No                    Yes
@@ -213,6 +216,8 @@ TREES:
 	Insert/Delete                 O(log n)              O(log n)
 	Root is less than right       No                    Yes
 	Root is higher than children  Yes                   No
+	
+	
 	
  *. BSTs dont allow for duplicates. This will lead to lot of problems during rotation. But, according to CLRS, you are supposed to handle duplicates. 
  *. How do you make a unbalanced BST to BST?
@@ -237,14 +242,31 @@ TREES:
  /*******************************************************************************************************************/
  
  Graph:
+ *. Three traversal techniques: 
+    BFS,
+    DFS,
+    "union-find data structure" or "disjoint sets data structure". 
  *. All the components that are connected. All the vertices that are reachable.
  *. Weighted graph. Edges have weights associated with them.
  *. Sparse graph way too edges.
- *. Topological sort is just like DFS. But when you traverse
-    In topological sorting, we use a temporary stack. We don’t print the vertex immediately, we first recursively call topological 
-    sorting for all its adjacent vertices, then push it to a stack. Finally, print contents of stack. Note that a vertex is 
+ *. Topological sort:
+    (Sequence in which you want to wear clothes: undergarment before shirt and pant.)
+    Thinok of it this way: Do a DFS. after you process all its neighbourrs, you put the node into a stack. Then pop out all the contents.
+    This will give you the order. 
+    0 1 2
+    1
+    2
+    Above graoh, 0 has to tak place before 1 and 2 can take place. Thats what the graph says. Now somebody says give me a linear list providing the 
+    entire sequence. In this case do a DFS and pop out contnets of the stack.
+     Topological sorting for Directed Acyclic Graph (DAG) is a linear ordering of vertices such that for every directed edge uv,
+    vertex u comes before v in the ordering. Topological Sorting for a graph is not possible if the graph is not a DAG.
+    Is just like DFS. But when you traverse
+    In topological sorting, we use a temporary stack. We don’t print the vertex immediately, 
+    we first recursively call topological sorting for all its adjacent vertices, 
+    then push it to a stack. Finally, print contents of stack. Note that a vertex is 
     pushed to stack only when all of its adjacent vertices (and their adjacent vertices and so on) are already in stack. 
     One type of problem: Given a sorted dictionary (array of words) of an alien language, find order of characters in the language.
+    I think its one way to flatten the grph.
  *. Time complexity to find if two vertex are connected in a Adjacency matrix is O(1)
  *. Time complexity to find if two vertex(one is v) are connected in a Adjacency  list is O(degree(v))
  *. Adjacency matrix for dense graph. And list for parse graph.

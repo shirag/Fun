@@ -1345,6 +1345,64 @@ TEST_CASE( "BST Iterator", "BST Iterator")
        REQUIRE(res[i] == temp->val);
        i++;
    }
+}
+
+TEST_CASE( "Print all paths from a src to dest", "Print all paths from a src to dest")
+{
+    vector<int> temp;
+    vvi ip;
+
+    temp = {1, 2, 3};ip.push_back(temp); //0
+    temp = {0, 3};ip.push_back(temp); //1
+    temp = {0};   ip.push_back(temp); //2
+    temp = {4, 1};ip.push_back(temp); //3
+    temp = {3};   ip.push_back(temp); //4
+    temp = {6};   ip.push_back(temp); //5
+    temp = {5};   ip.push_back(temp); //6
+    soln.printAllPathsInAGraph(ip, 0, 2);
+    soln.printAllPathsInAGraph(ip, 0, 4);
+
+}
+
+void printATwoDimensionalVector(vvi vec)
+{
+    for(unsigned int i = 0; i < vec.size(); i++)
+    {
+        cout << "\n size of path " << i << ":"  << vec[i].size() << " Elements: ";
+        for(auto val : vec[i])
+        {
+            cout << " " << val << " ";
+        }
+    }
+
+    cout << "\n";
+
+}
+
+TEST_CASE( "Print all paths from a src to dest Alternate", "Print all paths from a src to dest Alternate")
+{
+    vector<int> temp;
+    vvi ip;
+    vvi paths;
+    vvi expected;
+
+    temp = {1, 2, 3};ip.push_back(temp); //0
+    temp = {0, 3};ip.push_back(temp); //1
+    temp = {0};   ip.push_back(temp); //2
+    temp = {4, 1};ip.push_back(temp); //3
+    temp = {3};   ip.push_back(temp); //4
+    temp = {6};   ip.push_back(temp); //5
+    temp = {5};   ip.push_back(temp); //6
+    expected.push_back({0,2});
+    paths = soln.printAllPathsInAGraphAlter(ip, 0, 2);
+    REQUIRE(paths == expected);
+    expected.clear();
+
+    expected.push_back({0,1,3,4});
+    expected.push_back({0,3,4});
+    paths = soln.printAllPathsInAGraphAlter(ip, 0, 4);
+    REQUIRE(paths == expected);
+    expected.clear();
 
 }
 
@@ -1414,18 +1472,34 @@ TEST_CASE( "Convert a string from src to dest", "[Convert a string]" ) {
     string s1 = "hit";
     string s2 = "kit";
     vector<string> dest = {"hit","kit"};
-
-    cout << "src = " << s1;
-    cout << " dest = " <<  s2 << "\n";
-
     REQUIRE( soln.convertAString(dict, s1, s2) == dest);
 
     ls dict1 = {"cat", "bat", "hat", "bad", "had"};
     string s11 = "bat";
     string s12 = "had";
     vector<string> dest1 = {"bat","hat","had"};
-
     REQUIRE( soln.convertAString(dict1, s11, s12) == dest1);
+
+    dict = {"abcd", "ebcd", "efcd", "efgd", "efgh"};
+    s1 = "abcd";
+    s2 = "efgh";
+    dest = {"abcd", "ebcd", "efcd", "efgd", "efgh"};;
+    REQUIRE( soln.convertAString(dict, s1, s2) == dest);
+
+    dict = {"abcd", "cat", "ebcd", "bat", "efcd", "rat", "efgd", "efgh"};
+    s1 = "abcd";
+    s2 = "efgh";
+    dest = {"abcd", "ebcd", "efcd", "efgd", "efgh"};;
+    REQUIRE( soln.convertAString(dict, s1, s2) == dest);
+
+
+    dict = {"abcd", "cat", "ebcd", "bat", "efcd", "rat", "efgd", "efgh"};
+    s1 = "abcd";
+    s2 = "zzzz";
+    dest = {};;
+    REQUIRE( soln.convertAString(dict, s1, s2) == dest);
+
+
 
 }
 
@@ -1567,6 +1641,93 @@ TEST_CASE( "Rainfall Challenge", "Rainfall Challenge")
     ip.clear();
 
 }
+
+TEST_CASE( "Detect cycles in a graph")
+{
+    cout << "Detect cycles in a graph\n";
+
+    vvi ip;
+    vi temp;
+
+    temp = {1, 2};ip.push_back(temp); //0
+    temp = {0, 3};ip.push_back(temp); //1
+    temp = {0};   ip.push_back(temp); //2
+    temp = {4, 1};ip.push_back(temp); //3
+    temp = {3};   ip.push_back(temp); //4
+    temp = {6};   ip.push_back(temp); //5
+    temp = {5};   ip.push_back(temp); //6
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == true);
+
+
+    ip.clear();
+    temp = {1, 2, 8};ip.push_back(temp); //0
+    temp = {0, 3, 7};ip.push_back(temp); //1
+    temp = {0};   ip.push_back(temp); //2
+    temp = {4, 1};ip.push_back(temp); //3
+    temp = {3};   ip.push_back(temp); //4
+    temp = {6};   ip.push_back(temp); //5
+    temp = {5};   ip.push_back(temp); //6
+    temp = {1, 8};ip.push_back(temp); //7
+    temp = {7};ip.push_back(temp);    //8
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == true);
+
+    ip.clear();
+    temp = {1, 2, 8};ip.push_back(temp); //0
+    temp = {3, 7};ip.push_back(temp); //1
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == false);
+
+    ip.clear();
+    temp = {1, 2};ip.push_back(temp); //0
+    temp = {2};ip.push_back(temp); //1
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == false);
+
+    ip.clear();
+    temp = {1, 2};ip.push_back(temp); //0
+    temp = {2};ip.push_back(temp); //1
+    temp = {0};ip.push_back(temp); //2
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == true);
+
+    ip.clear();
+    temp = {1, 2};ip.push_back(temp); //0
+    temp = {2};ip.push_back(temp); //1
+    temp = {2, 0};ip.push_back(temp); //2
+    temp = {3, 3};ip.push_back(temp); //3
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == true);
+
+    ip.clear();
+    temp = {1, 2};ip.push_back(temp); //0
+    temp = {2};ip.push_back(temp); //1
+    temp = {2};ip.push_back(temp); //2
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == true);
+
+    ip.clear();
+    temp = {1, 2};ip.push_back(temp); //0
+    temp = {2};ip.push_back(temp); //1
+    temp = {2, 0};ip.push_back(temp); //2
+    temp = {3, 0};ip.push_back(temp); //3
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == true);
+
+
+    ip.clear();
+    temp = {1};ip.push_back(temp); //0
+    temp = {2};ip.push_back(temp); //1
+    temp = {3};ip.push_back(temp); //2
+    temp = {4};ip.push_back(temp); //3
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == false);
+
+
+    ip.clear();
+    temp = {1};ip.push_back(temp); //0
+    temp = {2};ip.push_back(temp); //1
+    temp = {3};ip.push_back(temp); //2
+    temp = {4};ip.push_back(temp); //3
+    temp = {1};ip.push_back(temp); //3
+    REQUIRE(soln.detectACycleInADirectedGraph(ip) == true);
+
+
+}
+
+
 
 
 

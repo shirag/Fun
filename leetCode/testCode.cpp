@@ -57,7 +57,8 @@ void reverseWordsInAString(string &s);
 int findKthLargest(vector<int> vec, int k);
 int giveMeNearestMultiple(int x, int y);
 LinkedListNode* refactorIntoOddEven(LinkedListNode **head);
-vector<int> printShortestPath(vvi g, int src, int dest);
+vector<int> detectShortestPath(vvi g, int src, int dest);
+bool searchUsingDFS(vvi g, int src, int dest);
 
 
 TEST_CASE( "Find Kth largest using quick select", "Find Kth largest using quick select")
@@ -393,9 +394,11 @@ TEST_CASE( "Refactor into Odd and Even")
 }
 
 
-TEST_CASE( "Print Shortest Path")
+TEST_CASE( "Search for a path and detect shortest Path")
 {
+    cout << "Find if a path exists using DFS";
     cout << "Print Shortest Path\n";
+
 
     vvi ip;
     vi temp;
@@ -410,29 +413,36 @@ TEST_CASE( "Print Shortest Path")
     temp = {6};   ip.push_back(temp); //5
     temp = {5};   ip.push_back(temp); //6
 
-    res = printShortestPath(ip, 0, 4);
-    expected = {4, 3, 1, 0};
+    res = detectShortestPath(ip, 0, 4);
+    expected = {0, 1, 3, 4};
     REQUIRE(res == expected);
+    REQUIRE(searchUsingDFS(ip, 0, 4) == true);
 
-    res = printShortestPath(ip, 3, 0);
-    expected = {0, 1, 3};
-    REQUIRE(res == expected);
 
-    res = printShortestPath(ip, 0, 7); //node does not exist
-    expected = {};
-    REQUIRE(res == expected);
-
-    res = printShortestPath(ip, 0, 5); //path does not exist
-    expected = {};
-    REQUIRE(res == expected);
-
-    res = printShortestPath(ip, 0, 2); //direct path
-    expected = {2, 0};
-    REQUIRE(res == expected);
-
-    res = printShortestPath(ip, 0, 3); //direct path
+    res = detectShortestPath(ip, 3, 0);
     expected = {3, 1, 0};
     REQUIRE(res == expected);
+    REQUIRE(searchUsingDFS(ip, 0, 3) == true);
+
+    res = detectShortestPath(ip, 0, 7); //node does not exist
+    expected = {};
+    REQUIRE(res == expected);
+    REQUIRE(searchUsingDFS(ip, 0, 7) == false);
+
+    res = detectShortestPath(ip, 0, 5); //path does not exist
+    expected = {};
+    REQUIRE(res == expected);
+    REQUIRE(searchUsingDFS(ip, 0, 5) == false);
+
+    res = detectShortestPath(ip, 0, 2); //direct path
+    expected = {0, 2};
+    REQUIRE(res == expected);
+    REQUIRE(searchUsingDFS(ip, 0, 2) == true);
+
+    res = detectShortestPath(ip, 0, 3); //direct path
+    expected = {0, 1, 3};
+    REQUIRE(res == expected);
+    REQUIRE(searchUsingDFS(ip, 0, 3) == true);
 
     ip.clear();
 
@@ -446,19 +456,18 @@ TEST_CASE( "Print Shortest Path")
     temp = {1, 8};ip.push_back(temp); //7
     temp = {7};ip.push_back(temp);    //8
 
-    res = printShortestPath(ip, 0, 8); //direct path
-    expected = {8, 0};
+    res = detectShortestPath(ip, 0, 8); //direct path
+    expected = {0, 8};
     REQUIRE(res == expected);
+    REQUIRE(searchUsingDFS(ip, 0, 8) == true);
 
-    res = printShortestPath(ip, 1, 8); //direct path
-    expected = {8, 0, 1};
+    res = detectShortestPath(ip, 1, 8); //direct path
+    expected = {1, 0, 8};
     REQUIRE(res == expected);
-
-
-
-
-
+    REQUIRE(searchUsingDFS(ip, 1, 8) == true);
 }
+
+
 /*  Quick select, variation of quick sort.
  *  Given an array and a number k where k is smaller than size of array, we need to find the k’th smallest element in the given array.
  *  It is given that ll array elements are distinct.
@@ -578,7 +587,8 @@ LinkedListNode* refactorIntoOddEven(LinkedListNode **head)
     return newEvenListHead;
 }
 
-vector<int> printShortestPath(vvi g, int src, int dest)
+/*******************************************************************************************************************/
+vector<int> detectShortestPath(vvi g, int src, int dest)
 {
     set<int> vis;
     map<int, int> paths;
@@ -599,6 +609,7 @@ vector<int> printShortestPath(vvi g, int src, int dest)
 
     mQ.push(src);
     vis.insert(src);
+    paths[src] = -1;
 
     while(!mQ.empty())
     {
@@ -621,19 +632,49 @@ vector<int> printShortestPath(vvi g, int src, int dest)
 
 
     int temp = dest;
-    while(paths.count(temp) != 0)
+    while(paths.count(temp))
     {
         res.push_back(temp);
         temp = paths[temp];
     }
-    if(res.size())
-        res.push_back(src);
-    else
-        cout << "no path \n";
+    res = vector<int>(res.rbegin(), res.rend());
 
     return res;
 }
 
+/*******************************************************************************************************************/
+bool searchUsingDFSUtil(vvi g, int src, int dest, set<int>& visited)
+{
+    if(src == dest)
+    {
+        cout << "Node found \n";
+        return true;
+    }
+
+    for(auto val : g[src])
+    {
+        if(!visited.count(val))
+        {
+            visited.insert(val);
+            bool retVal = searchUsingDFSUtil(g, val, dest,visited);
+            if(retVal == true)
+                return retVal;
+
+        }
+
+    }
+    return false;
+
+}
+/*
+ * Problem: Using DFS search for the presence of a key node.
+ * */
+bool searchUsingDFS(vvi g, int src, int dest)
+{
+    set<int> visited;
+    visited.insert(src);
+    return searchUsingDFSUtil(g, src, dest, visited);
+}
 
 /*********************************************************************************************************/
 #if 0

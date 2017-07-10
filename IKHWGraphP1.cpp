@@ -20,26 +20,27 @@
 
 
 /************************************************************************************************/
-int printAllPathsInAGraphUtil(vi& g, vector<int>& v, int &src, int& dest, vvi& paths)
+int printAllPathsInAGraphUtil(vvi& g, vector<int>& v, int &src, int& dest, vvi& paths)
 {
+    int size =  g.size();
+    if(src >= size)
+        return 0;
+    //cout << "next src " << src << "\n";
 
+    for(auto val : v)
+        if(val == src)
+            return 0;
+
+    v.push_back(src);
     if(src == dest)
     {
-
-        for(unsigned int i = 0; i < v.size(); i++ )
-        {
-            cout << "path = " << v[i];
-        }
-        cout << " " << src;
-        vi path(v);
-        paths.push_back(path);
+        paths.push_back(v);
+        v.erase(v.end()-1);
         return 1;
     }
 
-    v.push_back(src);
-
-    for(unsigned int i = 0; i < g.size(); i++)
-        printAllPathsInAGraphUtil(g, v, g[i], dest,paths);
+    for(auto val : g[src])
+        printAllPathsInAGraphUtil(g, v, val, dest, paths);
 
     v.erase(v.end()-1);
 
@@ -49,7 +50,7 @@ int printAllPathsInAGraphUtil(vi& g, vector<int>& v, int &src, int& dest, vvi& p
 
 /* Problem: Print all paths.
  * Example:
- * Approach:Do a DFS search
+ * Approach: Push the node to a vector. Do a pre-order DFS search. Erase after processing children.
  * Complexity:
  * Space Complexity:
  * Any other better approach:
@@ -58,47 +59,97 @@ int printAllPathsInAGraphUtil(vi& g, vector<int>& v, int &src, int& dest, vvi& p
  */
 int IKSolution::printAllPathsInAGraph(vvi& g, int src, int dest)
 {
-    cout << "no of vertex = " << g.size();
+    cout << "no of vertex = " << g.size() << "\n";
 
-    vector<int> s;
+    vector<int> v;
     vvi paths;
 
-    printAllPathsInAGraphUtil(g[src], s, src, dest,paths);
+    printAllPathsInAGraphUtil(g, v, src, dest, paths);
 
     for(unsigned int i = 0; i < paths.size(); i++)
     {
-        cout << " size of path " << i << " = "  << paths[i].size();
+        cout << "\n size of path " << i << ":"  << paths[i].size() << " Elements: ";
+        for(auto val : paths[i])
+        {
+            cout << " " << val << " ";
+        }
     }
 
+    cout << "\n";
     return 0;
 }
 
 
-/************************************************************************************************/
 
-/* Problem: Count the number of islands
+
+vvi printAllPathsInAGraphUtilAlter(vvi& g, vector<int>& v, int &src, int& dest)
+{
+    vvi paths;
+
+    int size =  g.size();
+    if(src >= size)
+        return paths;
+
+
+    for(auto val : v)
+        if(val == src)
+            return paths;
+
+    v.push_back(src);
+    if(src == dest)
+    {
+        paths.push_back(v);
+        v.erase(v.end()-1);
+        return paths;
+    }
+
+    for(auto val : g[src])
+    {
+        vvi temp = printAllPathsInAGraphUtilAlter(g, v, val, dest);
+        paths.insert(paths.end(),temp.begin(), temp.end());
+    }
+
+    v.erase(v.end()-1);
+
+    return paths;
+}
+
+
+/* Problem: Print all paths(Alternate approach. Recursively copy).
  * Example:
- * Approach:
+ * Approach: Push the node to a vector. Do a pre-order DFS search. Erase after processing children.
  * Complexity:
  * Space Complexity:
  * Any other better approach:
  * Corner case:
  * Take away:
  */
+vvi IKSolution::printAllPathsInAGraphAlter(vvi& g, int src, int dest)
+{
+    cout << "no of vertex = " << g.size() << "\n";
+    vector<int> v;
+    return printAllPathsInAGraphUtilAlter(g, v, src, dest);
+}
 
 
 /************************************************************************************************/
-int depthFirstSearchUtil(vvi & W, int node, vector<bool>& flag)
+
+
+int countComponentsUtil(vvi & W, int node, vector<bool>& flag)
 {
 
+    if(node >= W.size())
+        return 0;
+
     cout << "processing node " << node << "\n";
-    flag[node] = 1;
+
 
     for(vector<int>::iterator it = W[node].begin(); it != W[node].end(); it++)
     {
         if(flag[*it] == 0)
         {
-            depthFirstSearchUtil(W,*it,flag);
+            flag[*it] = 1;
+            countComponentsUtil(W,*it,flag);
         }
     }
 
@@ -106,9 +157,11 @@ int depthFirstSearchUtil(vvi & W, int node, vector<bool>& flag)
 
 }
 
+
+
 /* Problem: Count the number of connected components
  * Example:
- * Approach:
+ * Approach: DFS search. After every main loop if any vertex is not visited, then do a DFS traversal again.
  * Complexity:
  * Space Complexity:
  * Any other better approach:
@@ -136,20 +189,9 @@ int countComponents(int n, vector< pair<int, int> >& edges)
     {
         if(flag[i] == 0)
         {
-            depthFirstSearchUtil(W,i,flag);
-
-            for(j = 0; j < n; j++ )
-            {
-                if(flag[j] == 0)
-                {
-                    cout << " j = " << j << " not processed \n";
-                    counter++;
-                    break;
-                }
-
-                if(j == n)
-                    break;
-            }
+            flag[i] = 1;
+            countComponentsUtil(W,i,flag);
+            counter++;
         }
     }
 
@@ -334,7 +376,9 @@ int getNextLevelStrings(ls& dict, string& begin, ls& l, map<string,string>& mp)
         {
             l.push_back(*it);
             if(mp.find(*it) == mp.end())
+            {
                 mp[*it] = begin;
+            }
         }
     }
 
@@ -344,7 +388,7 @@ int getNextLevelStrings(ls& dict, string& begin, ls& l, map<string,string>& mp)
 
 
 /* Problem:
-           Convert string a to b using a dictionary of words
+           Convert string a to b using a dictionary of words. Each hop can have only one difference of character.
  * Example:
  *         dictionary: {"cat", "bat", "hat", "bad", "had"}
            a = "bat"
@@ -387,19 +431,19 @@ vector<string> IKSolution::convertAString(ls& dict, string& begin, string& end)
         qm.pop();
 
 
-        for(auto it : lpop)
+        for(auto val : lpop)
         {
-            if(flags.find(it) != flags.end())
+            if(flags.count(val))
                 continue;
 
-            if(it == end)
+            if(val == end)
             {
                 DEBUG_DEBUG(cout << "line# "<< __LINE__<< ": "; cout<< " We found the destination at level = " << level << "\n");
                 break;
             }
 
-            flags.insert(it);
-            getNextLevelStrings(dict, it, lpush, mp);
+            flags.insert(val);
+            getNextLevelStrings(dict, val, lpush, mp);
 
         }
         if(!lpush.empty()) // important check
@@ -411,32 +455,16 @@ vector<string> IKSolution::convertAString(ls& dict, string& begin, string& end)
         level++;
     }
 
-    stack<string> s;
-    string toF(end);
-
-    while(1)
-    {
-        if(!toF.empty())
-            s.push(toF);
-
-        map<string, string>::iterator it = mp.find(toF);
-        if(it == mp.end())
-        {
-            break;
-        }
-        toF = it->second;
-    }
-    cout << "\n";
-
     vector<string> ret;
 
-    do{
-        cout << s.top();
-        ret.push_back(s.top());
-        s.pop();
-    }while(!s.empty() && (cout << " --> ") );
+    string temp = end;
+    while(mp.count(temp))
+    {
+        ret.push_back(temp);
+        temp = mp[temp];
+    }
 
-    cout << "\n";
+    ret = vector<string>(ret.rbegin(), ret.rend());
 
     return ret;
 }
@@ -685,8 +713,7 @@ int getAllNeighbors(vvi& matrix, int row , int column, lpii& n, int maxRows, int
     return 0;
 
 }
-
-
+/***************************************************************************************************************/
 
 int countNoOfIslandsUtil(vvi matrix, set<pair<int,int>>& flags, int row, int column, int maxRows, int maxColumns)
 {
@@ -959,25 +986,25 @@ int getMin(vvi ip, int index)
 }
 
 
-int getTheSink(vvi ip, map<int, int>& res, int myIndex)
+int getTheSink(vvi ip, map<int, int>& sinks, int myIndex)
 {
     int sinkVal;
 
     int lowIndex = getMin(ip, myIndex);
     if(lowIndex == myIndex) //If i'm the lowest val compared to all my neighbors, make me the sink
     {
-        res[myIndex] = myIndex;
+        sinks[myIndex] = myIndex;
         return myIndex;
     }
 
-    if(res.count(lowIndex)) //if the lowest neighbor has a sink, then
+    if(sinks.count(lowIndex)) //if the lowest neighbor has a sink, then
     {
-        res[myIndex] = res[lowIndex];
-        return res[lowIndex];
+        sinks[myIndex] = sinks[lowIndex];
+        return sinks[lowIndex];
     }
 
-    sinkVal = getTheSink(ip, res, lowIndex);
-    res[myIndex] = res[sinkVal];
+    sinkVal = getTheSink(ip, sinks, lowIndex);
+    sinks[myIndex] = sinks[sinkVal];
 
     return sinkVal;
 }
@@ -1006,6 +1033,9 @@ bool myfunction(pair<int,int> p1, pair<int, int> p2)
        Your code should output a space-separated list of the basin sizes, in descending order. (Trailing spaces are ignored.)
 
    Approach:
+
+       The interviewer might certainly looking for one answer: "union-find data structure" or "disjoint sets data structure".
+
        Go over each and every element of the input array. For each cell recursively calculate the sink. Store the result in a map(cellno, sink)
        go over the map again to count the no of occurance. Return the result in a heap.
        As you pop the contents of the heap, you will get the result in descending order.
@@ -1086,16 +1116,73 @@ priority_queue<int> IKSolution::detectBasins(vvi ip)
             index++;
         }
 
-    for(auto val : res)
+    for(auto val : res) //Counting the no of elements in a basin/elements that have this element as sink.
     {
         retVal[val.second] += 1;
     }
 
-    for(auto val : retVal)
+    for(auto val : retVal) //Put the result in a priority queue
     {
         pq.push(val.second);
     }
 
     return pq;
 }
+/*******************************************************************************************************************/
+
+bool detectACycleInADirectedGraphUtil(vvi g, int src, set<int>& visited, set<int>& currentSet)
+{
+    if(src >= g.size())
+        return false;
+
+    for(auto val : g[src])
+    {
+        if(!visited.count(val))
+        {
+            visited.insert(val);
+            currentSet.insert(val);
+            bool retVal = detectACycleInADirectedGraphUtil(g, val, visited, currentSet);
+            if(retVal == true)
+                return retVal;
+            currentSet.erase(val);
+
+        }
+        else
+            if(currentSet.count(val))
+                return true;
+
+    }
+    return false;
+
+}
+/*
+ * Problem: Using DFS search for the presence of a key node.
+ * */
+bool IKSolution::detectACycleInADirectedGraph(vvi g)
+{
+    set<int> visited;
+    set<int> currentSet;
+    int index = 0;
+
+    for(auto val : g)
+    {
+        if(!visited.count(index))
+        {
+            visited.insert(index);
+            currentSet.insert(index);
+            if(detectACycleInADirectedGraphUtil(g, index, visited, currentSet) == true)
+                return true;
+            currentSet.erase(index);
+        }
+
+        index++;
+    }
+
+    return false;
+}
+
+
+/*******************************************************************************************************************/
+
+
 

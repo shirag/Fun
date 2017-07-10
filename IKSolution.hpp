@@ -282,17 +282,18 @@ class IKSolution
 	    void PopulateSiblingPointers(Node *root);
 
 	    /* Graph/Homework3 */
-	    void bfsTemplete();
         int printAllPathsInAGraph(vvi& g, int src, int dest);
+        vvi printAllPathsInAGraphAlter(vvi& g, int src, int dest);
         int cloneAGraph(); /* You have to ensure cycles are taken care of properly */
 	                       /* Not just a set. You have to use a hash map */
-        int findTheBasin(); /* Rainfal problem. Find the basin to which the water flows. */
         vector<string> convertAString(ls&, string& begin, string& end); /* Convert string a to b using a dictionary of words*/
 	    int knightsTourOnChessBoard(int rows, int columns, int sx, int sy, int ex, int ey);
 	    string topologicalSort(vector<string>);
 	    int countNoOfIslands(vvi matrix); /* Basically a connected components problem */
+
 	    int snakeNLadder(int m, int n, unordered_map<int,int> locations, map<int,int>& prevMap);
 	    priority_queue<int> detectBasins(vvi ip);
+	    bool detectACycleInADirectedGraph(vvi g);
 
         /* Mock/Recursion/Homework4 */
 
