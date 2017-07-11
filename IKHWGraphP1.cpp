@@ -1129,7 +1129,19 @@ priority_queue<int> IKSolution::detectBasins(vvi ip)
     return pq;
 }
 /*******************************************************************************************************************/
-
+/*
+ * Problem:
+ *     Given a directed graph, check whether the graph contains a cycle or not.
+ *     Your function should return true if the given graph contains at least one cycle,
+ *     else return false. For example, the following graph contains three cycles 0->2->0, 0->1->2->0 and 3->3,
+ *     so your function must return true.
+ *
+ *
+ * Solution:
+ *     To detect a back edge, we can keep track of vertices currently in recursion stack of function for DFS traversal.
+ *     If we reach a vertex that is already in the recursion stack, then there is a cycle in the tree.
+ *
+ * */
 bool detectACycleInADirectedGraphUtil(vvi g, int src, set<int>& visited, set<int>& currentSet)
 {
     if(src >= g.size())
@@ -1180,9 +1192,59 @@ bool IKSolution::detectACycleInADirectedGraph(vvi g)
 
     return false;
 }
+/*******************************************************************************************************************/
+/*  Problem:
+ *      A file has all the nodes and edges stored as x, y coordinates. You have to find the distance between two coordinates.
+ *
+ *
+ * */
 
+
+typedef map<pii,lpii> mplii;
+typedef set<pii> spii;
+
+int getDistance(pii src, pii val)
+{
+    return 0;
+}
+
+int findDistanceUtil(mplii g, pii src, pii dest, spii visited, int cDist)
+{
+    if(!g.count(src))
+        return -1;
+
+    if(src == dest)
+        return cDist;
+
+    for(auto val : g[src])
+    {
+        if(visited.count(val))
+            continue;
+        visited.insert(val);
+
+        int dist = getDistance(src,val);
+        if(findDistanceUtil(g, val, dest, visited, cDist + dist) != -1)
+            return cDist;
+
+    }
+
+    return -1;
+}
+
+
+/*
+ *
+ *
+ * */
+int findDistance(mplii g, pii src, pii dest)
+{
+    spii visited;
+    int cDist = 0;
+
+    visited.insert(src);
+    return findDistanceUtil(g, src, dest, visited, cDist);
+}
 
 /*******************************************************************************************************************/
-
 
 
