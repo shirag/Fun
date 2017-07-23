@@ -82,6 +82,8 @@ typedef set<si> ssi;
 typedef queue<list<Node*>> qln;
 typedef list<Node*> ln;
 
+typedef map<pii,lpii> mplii; //graph for x,y
+typedef set<pii> spii;
 
 
 #define DEBUG_LEVEL_FATAL       5    //Somebody is going to die if this happens
@@ -294,6 +296,7 @@ class IKSolution
 	    int snakeNLadder(int m, int n, unordered_map<int,int> locations, map<int,int>& prevMap);
 	    priority_queue<int> detectBasins(vvi ip);
 	    bool detectACycleInADirectedGraph(vvi g);
+	    int findDistanceBetweenPoints(mplii g, pii src, pii dest);
 
         /* Mock/Recursion/Homework4 */
 

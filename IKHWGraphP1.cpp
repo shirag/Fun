@@ -1149,19 +1149,18 @@ bool detectACycleInADirectedGraphUtil(vvi g, int src, set<int>& visited, set<int
 
     for(auto val : g[src])
     {
-        if(!visited.count(val))
+        if(visited.count(val))
         {
-            visited.insert(val);
-            currentSet.insert(val);
-            bool retVal = detectACycleInADirectedGraphUtil(g, val, visited, currentSet);
-            if(retVal == true)
-                return retVal;
-            currentSet.erase(val);
-
-        }
-        else
             if(currentSet.count(val))
                 return true;
+            continue;
+        }
+        visited.insert(val);
+        currentSet.insert(val);
+        bool retVal = detectACycleInADirectedGraphUtil(g, val, visited, currentSet);
+        if(retVal == true)
+            return retVal;
+        currentSet.erase(val);
 
     }
     return false;
@@ -1194,27 +1193,37 @@ bool IKSolution::detectACycleInADirectedGraph(vvi g)
 }
 /*******************************************************************************************************************/
 /*  Problem:
+ *      This was asked during the mock at IK
  *      A file has all the nodes and edges stored as x, y coordinates. You have to find the distance between two coordinates.
  *
  *
  * */
 
 
-typedef map<pii,lpii> mplii;
-typedef set<pii> spii;
 
 int getDistance(pii src, pii val)
 {
-    return 0;
+    int sum = pow((src.first - val.first), 2)  + pow((src.second - val.second), 2);
+    cout << "distance = " << sqrt(sum) << "\n";
+
+    return sqrt(sum);
 }
 
-int findDistanceUtil(mplii g, pii src, pii dest, spii visited, int cDist)
+int findDistanceBetweenPointsUtil(mplii g, pii src, pii dest, spii visited, int cDist)
 {
+    cout << src.first << " " << src.second << " " << dest.first << " " << dest.second << " \n";
+
     if(!g.count(src))
+    {
+        cout << "src is not a part of map \n";
         return -1;
+    }
 
     if(src == dest)
+    {
+        cout << "Meet the destination " << cDist << " \n";
         return cDist;
+    }
 
     for(auto val : g[src])
     {
@@ -1223,8 +1232,11 @@ int findDistanceUtil(mplii g, pii src, pii dest, spii visited, int cDist)
         visited.insert(val);
 
         int dist = getDistance(src,val);
-        if(findDistanceUtil(g, val, dest, visited, cDist + dist) != -1)
-            return cDist;
+        cDist += dist;
+        int retVal = findDistanceBetweenPointsUtil(g, val, dest, visited, cDist);
+        if(retVal != -1)
+            return retVal;
+        cDist -= dist;
 
     }
 
@@ -1236,13 +1248,15 @@ int findDistanceUtil(mplii g, pii src, pii dest, spii visited, int cDist)
  *
  *
  * */
-int findDistance(mplii g, pii src, pii dest)
+int IKSolution::findDistanceBetweenPoints(mplii g, pii src, pii dest)
 {
-    spii visited;
     int cDist = 0;
-
+    spii visited;
+    cout << "\n     ******* findDistanceBetweenPoints \n";
     visited.insert(src);
-    return findDistanceUtil(g, src, dest, visited, cDist);
+    int resVal = findDistanceBetweenPointsUtil(g, src, dest, visited, cDist);
+    cout << "resVal =  " << resVal << " \n";
+    return resVal;
 }
 
 /*******************************************************************************************************************/

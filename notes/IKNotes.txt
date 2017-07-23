@@ -438,14 +438,40 @@ Analysis: Requirements from the perspective of classes and objects.
     At regular intervals health of all the sensors should be monitred.
 
  
+ 
 /***********************************************************************************************************************/
 Scalabilit/System design:
 
 1. First visualize how you would build a system and then read how those have been built. This way you will be able to 
    appreciate why they have built it in a certain fashion.
    
+   * Its not always a scalability problem
+   * What is this problem represent? There is a specific hot path/critical path. Identify it.
+     Google drive/Drop box: Storage system.
+     Uber/lyft: implement Dispatch.   
+     Checkins- Mappings. 
+     URL Shortner is about mapping: One URL to another URL. How to optmiize it at scale?
+     FB Live video - Concurrent viewers. Infrastructure problem.
+                     CDN ensure that we dont overload one server and also handle the latency.
+                     Video encoding and decoding introduce some delay. We have to come out with a smart algorithm in here.
+                     Device fragmentation
+                     Quality of the video/Format that needs to be supported(resolution) - higher bit rate stream needs more bandwidth and storage space.
+                     Number of users means number of connections:  What is the mode? Unicast/Multicast/briadcast?
+                      What does it mean to the server in terms of overhead?
+                      If SF has one POP server and then 200 thousand people are connecting to the same PoP then 
+                      
+                            
+     HBO Live GoT - 1.02 concurrent viewer. PCV
+     Netflix - recommendation system, bandwidth/quality(4k content), security
+   * What is the typical load? Is there a way we can get there?  
+   * What are the tradeoffs?
+   
 2. General guidelines(7 step):
-   * Requirement gathering: Find out the scope. Gives you a hint onto what part of the problem they want to focus?
+   * Requirement gathering: Find out the scope.
+     Asking more questions.  Gives you a hint onto what part of the problem they want to focus?
+     Determine which parts of the problem are important and will affect the overall design.
+     Describe which parts of the system are most interesting/difficult to deign.
+     
    * System Interface Desgin.
    * Back-of-the-envelope: Capacity estimation. 
    * Defining the data model.
@@ -656,6 +682,94 @@ Machine 1MB ;
 How do you build?
 streaming data against constant data.
 
+-----------------------------------------------------------------------------------------------------------------------------------
+
+System design 1: Architect a world-wide video distribution system:
+  
+   Requiurements?
+   1. Latency?
+   2. Should be able to handle differet devices?
+   3. Content delivery mechanism
+   4. No of readeres. 
+   5. NO of writers.
+   
+   
+   
+   Three components of a video systeM: Server, Network, Device, and analytics.
+   Server: Caching. 
+           * Not a whole lot of writes going on. So, its good.
+   Network congestion: Encoding/compression, Bit rate adaptation
+   Device: profiles, Different resolution.
+   
+
+   Dimension 1: System scalability
+   1. Geographical location of the original content server may introduce latency.
+   2. Load on the original server.
+   Can be integration of caches into the distribution infrastructure.
+   
+   Dimension 2: Content scalbility
+   Adaptation of the video stream to the existing conditions of the network by applying scalable video.
+   
+
+   General guidelines(7 step):
+   * Requirement gathering: Find out the scope. Gives you a hint onto what part of the problem they want to focus?
+   
+   * System Interface Desgin.
+   * Back-of-the-envelope: Capacity estimation. 
+   * Defining the data model.
+   * High level desgin: Block diagram showing core blocks of the your system.
+   * Detailed desgin for selected components.
+   * Resolving bottlenecks.
+-----------------------------------------------------------------------------------------------------------------------------------
+* Netflix Personal recommendation system:
+  1. Requirements Optimized for - diversity as well as accuracy. Freshness is also important.
+     Customers should be aware as to why a certain content was selected. We expalin why a certain content was selecter for them.
+     this is done based on your past viewing habbits.
+  2. Ranking (depends on)  ---> poplularity + predicted personal rating 
+  3. Data sources - That we need as the input for ranking.  
+  4. Models - machine learning approaches to model the data.
+     Unsupervised methods: Clustering algortihsm  
+     Supervized classifiers: Linear regression, Logistic regression, Elastic nets, Singular value decomposition, restricted Botlzmann machines
+                             Markov chains,Latent Dirichlet Allocation, Association  Rules, Matrix  factorization, Gradient Boosted Decision Trees,
+                             Random Forests, and Clustering techniques from the simple k-means to graphical approaches such as Affinity Propagation.
+  5. Architectures - How do you combine data + models? We want something that is scalable and reactive enough.
+                     Simplest solution: Store data and process it offline. Hadoop is a very good Offline computation.
+                     Offline processing: Pros: No limit on amount of data and computational complexity. 
+                                         Cons: Stale data.
+                     Online processing: Can respond quickly. But for online processing there is a latency limit. You cant have a latency above 
+                     a particular value.                                                   
+
+                     Nearline computation is seen as a compromise between two forms.Processed immediately. But, is not provided to the user immediately.  
+-----------------------------------------------------------------------------------------------------------------------------------                     
+* Messanger Service:
+
+  Whatapp:
+  Requiurements:
+  * 
+  * SMS experience without the high cost of experience.
+  * Goal is to connect people, Secure connection.
+  * Media content should be delivered.
+  * User profile related settings. How is it stored and distributed?
+  * Individual status message. How is stored and sent?
+  * Address book management. How is it synced from client to the server.
+  * Some of the smaller functionality like: typing, last seen, online etc. 
+  
+  * 50B Messages per day.
+  * How is media encoded? A separate server for media. 
+  * What protocoal: SSL socket to whatsapp server pool.
+  * Registraton process work?
+  * How do you handle user growth?
+  * How do you handle bumps in traffic?   
+  * User id using phone no.
+  
+  *
+  * store and forward 
+  * Client is the canonical message store. Server is the message router. Server deletes the message as soon as the message is sent to the server.
+  -----------------------------------------------------------------------------------------------------------------------------------                     
+Twitter:
+  Use cases:
+  1. Subscriber twe
+  
 /***************************************************************************************************************/   
 My problem cheat sheep.
 

@@ -1728,7 +1728,67 @@ TEST_CASE( "Detect cycles in a graph")
 }
 
 
+TEST_CASE( "Find distance between points")
+{
 
+    cout << "Find distance between points \n";
+    lpii coOrds;
+    pii dest;
+    mplii g;
+    pii src;
+
+    //Invalid input test
+    coOrds.push_back({1,2}); coOrds.push_back({3,4}); coOrds.push_back({5,6});
+    g.insert({{0,0}, coOrds});
+    coOrds.push_back({3,4}); coOrds.push_back({5,6}); coOrds.push_back({1,1});
+    g.insert({{1,1}, coOrds});
+    coOrds.push_back({1,2}); coOrds.push_back({3,4}); coOrds.push_back({5,6});
+    g.insert({{2,2}, coOrds});
+    src = {1, 2}; dest = {3, 4};
+    REQUIRE(soln.findDistanceBetweenPoints(g, src, dest) == -1);
+    src = {1, 1}; dest = {3, 4};
+    REQUIRE(soln.findDistanceBetweenPoints(g, src, dest) == -1);
+
+    g.clear();
+    coOrds.clear();
+    coOrds.push_back({1,2}); coOrds.push_back({3,4}); coOrds.push_back({5,6});
+    g.insert({{0,0}, coOrds});
+    coOrds.push_back({3,4}); coOrds.push_back({5,6}); coOrds.push_back({1,1});
+    g.insert({{1,1}, coOrds});
+    coOrds.push_back({1,2}); coOrds.push_back({3,4}); coOrds.push_back({5,6});
+    g.insert({{2,2}, coOrds});
+    g.insert({{1,2}, {}});
+    src = {0, 0}; dest = {1, 2};
+    int res = sqrt(pow(1, 2) + pow(2, 2)); cout << "res in " << res << " ";
+    REQUIRE(soln.findDistanceBetweenPoints(g, src, dest) == res);
+
+    g.clear();
+    coOrds.clear();
+
+    coOrds.push_back({1,2}); coOrds.push_back({3,4}); coOrds.push_back({5,6}); coOrds.push_back({1,1});
+    g.insert({{0,0}, coOrds});
+
+    coOrds.push_back({3,4}); coOrds.push_back({5,6}); coOrds.push_back({7,8});
+    g.insert({{1,1}, coOrds});
+
+    coOrds.push_back({1,2}); coOrds.push_back({3,4}); coOrds.push_back({5,6});
+    g.insert({{2,2}, coOrds});
+
+    coOrds.push_back({1,2}); coOrds.push_back({3,4}); coOrds.push_back({11,12});
+    g.insert({{7,8}, coOrds});
+
+    g.insert({{1,2}, {}});
+    g.insert({{11,12}, {}});
+
+    src = {0, 0}; dest = {11, 12};
+    res = sqrt(pow(1, 2) + pow(1, 2)) +
+          sqrt(pow(1-7, 2) + pow(1-8, 2)) +
+          sqrt(pow(7-11, 2) + pow(8-12, 2));
+    cout << sqrt(pow(1, 2) + pow(1, 2)) << " "  <<  sqrt(pow(1-7, 2) + pow(1-8, 2))  << " " << sqrt(pow(7-11, 2) + pow(8-12, 2)) << " ";
+    cout << "res in " << res << " ";
+    REQUIRE(soln.findDistanceBetweenPoints(g, src, dest) == res);
+
+}
 
 
 
