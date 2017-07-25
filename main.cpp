@@ -11,11 +11,11 @@ using namespace std;
 
 
 IKSolution soln;
-Node root;
-Node node1; Node node3; Node node2;
-Node node4; Node node5; Node node6; Node node7;
-Node node8; Node node9; Node node10; Node node11; Node node12; Node node13; Node node14; Node node15;
-Node node41; Node node51; Node node61; Node node71; Node node21; Node node31;
+TreeNode root;
+TreeNode node1; TreeNode node3; TreeNode node2;
+TreeNode node4; TreeNode node5; TreeNode node6; TreeNode node7;
+TreeNode node8; TreeNode node9; TreeNode node10; TreeNode node11; TreeNode node12; TreeNode node13; TreeNode node14; TreeNode node15;
+TreeNode node41; TreeNode node51; TreeNode node61; TreeNode node71; TreeNode node21; TreeNode node31;
 
 
 
@@ -624,8 +624,8 @@ TEST_CASE( "Trees tests", "Trees tests" )
     node21.val = 50;  node21.left = &node41; node21.right = &node51;
     node31.val = 150; node31.left = &node61; node31.right = &node71;
     node11.val = 100; node11.left = &node21; node11.right = &node31;
-    Node* ret = soln.treeToDoubleLL(&node11);
-    Node* temp = ret;
+    TreeNode* ret = soln.treeToDoubleLL(&node11);
+    TreeNode* temp = ret;
     cout << "\n ";
     do
     {
@@ -1276,7 +1276,7 @@ TEST_CASE( "BST Iterator", "BST Iterator")
     int i = 0;
     while(tree.hasNext() == true)
     {
-        Node *temp = tree.next();
+        TreeNode *temp = tree.next();
         REQUIRE(res[i] == temp->val);
         i++;
     }
@@ -1308,7 +1308,7 @@ TEST_CASE( "BST Iterator", "BST Iterator")
     i = 0;
     while(tree.hasNext() == true)
     {
-        Node *temp = tree.next();
+        TreeNode *temp = tree.next();
         REQUIRE(res[i] == temp->val);
         i++;
     }
@@ -1341,7 +1341,7 @@ TEST_CASE( "BST Iterator", "BST Iterator")
    i = 0;
    while(tree.hasNext() == true)
    {
-       Node *temp = tree.next();
+       TreeNode *temp = tree.next();
        REQUIRE(res[i] == temp->val);
        i++;
    }
@@ -2109,7 +2109,45 @@ TEST_CASE( "find All Different Ways To Add Parentheses", "find All Different Way
     REQUIRE(soln.diffWaysToCompute("2*3-4*5") == res);
 }
 
+TEST_CASE( "Diameter of a tree", "Diameter of a tree" )
+{
+    node1.val = 3; node2.val = 4;
+    node3.val = 5;
+    node2.left = &node1;
+    node2.right = &node3;
+    node1.left = nullptr; node1.right = nullptr;
+    node3.left = nullptr; node3.right = nullptr;
+    REQUIRE(soln.diameterOfATree(&node2) == 3);
 
+    node1.left = &node2;
+    node1.right = &node3;
+    node2.left = &node4; node4.left = nullptr; node4.right = nullptr;
+    node2.right = &node5; node5.left = &node7; node5.right = &node8;
+    node7.left = nullptr; node7.right = nullptr; node8.left = nullptr; node8.right = nullptr;
+    node3.left = nullptr; node3.right = &node6;
+    node6.left = nullptr; node6.right = &node9;
+    node9.left = &node10; node9.right = &node11;
+    node10.left = &node12; node10.right = &node13;
+    node12.left = nullptr; node12.right = nullptr; node13.left = nullptr; node13.right = nullptr;
+    node9.right = &node11; node11.left = nullptr; node11.right = nullptr;
+    REQUIRE(soln.diameterOfATree(&node1) == 9);
+
+
+    node1.left = &node2;
+    node1.right = &node3;
+    node2.left = &node4; node4.left = &node7; node4.right =  &node8;
+    node2.right = &node5; node5.left = nullptr; node5.right = &node9;
+    node7.left = nullptr; node7.right = nullptr;
+    node8.left = &node10; node10.left = &node13; node10.right = &node14; node8.right = nullptr;
+    node13.left = nullptr; node13.right = nullptr; node14.left = nullptr; node14.right = nullptr;
+    node9.left = &node11; node9.right = &node12; node12.left = nullptr; node12.right = &node15;
+    node15.left = nullptr; node15.right = nullptr;
+    node1.right = &node3; node3.left = nullptr; node3.right = &node6;
+    node6.left = nullptr; node6.right = nullptr;
+    REQUIRE(soln.diameterOfATree(&node1) == 9);
+
+
+}
 
 
 
@@ -2569,9 +2607,9 @@ TEST_CASE( "Implement the min stack", "Min Stack" )
         REQUIRE(soln.getMinMS() == 1);
 }
 
-TEST_CASE( "Swap Kth Node", "Swap Nodes" )
+TEST_CASE( "Swap Kth TreeNode", "Swap Nodes" )
 {
-    cout << "Swap Kth Node \n\n";
+    cout << "Swap Kth TreeNode \n\n";
     LinkedListNode node1; LinkedListNode node2; LinkedListNode node3; LinkedListNode node4; LinkedListNode node5; LinkedListNode node6;
 
     //TEST CASE: Nullptr case

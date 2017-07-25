@@ -928,4 +928,46 @@ vector<int> IKSolution::diffWaysToCompute(string input)
 }
 /********************************************************************************************/
 
+/********************************************************************************************/
+/*
+ * Post order processing becuase this is like getting the information from children.
+ * left: Give me your Max diameter + height
+ * right: Give me your max diameter + height
+ * myDiameter = leftHeight + rHeight
+ * if myDiameter is the max
+ *     return mYDiameter + 1
+ * otherwise return the max of my left and right.
+ *
+ * */
+int diameterOfATreeUtil(TreeNode *root, int& height)
+{
+
+    int lheight = 0;
+    int rheight = 0;
+    int myDiameter = 0;
+
+    if(root == nullptr)
+        return 0;
+
+    int leftDiameter =  diameterOfATreeUtil(root->left, lheight);
+    int rightDiameter = diameterOfATreeUtil(root->right, rheight);
+    cout << "leftDiameter = " << leftDiameter <<  "lheight  = " << lheight << "\n";
+    cout << "rightDiameter = " << rightDiameter <<  "rheight  = " << rheight << "\n";
+
+    height = (lheight > rheight ? lheight : rheight) + 1;
+
+    myDiameter = lheight + rheight;
+    if((myDiameter >= leftDiameter) && (myDiameter >= rightDiameter))
+        return myDiameter + 1;
+
+    return (leftDiameter > rightDiameter ? leftDiameter : rightDiameter);
+}
+
+int IKSolution::diameterOfATree(TreeNode *root)
+{
+    int height = 0;
+    return diameterOfATreeUtil(root, height);
+}
+
+/********************************************************************************************/
 

@@ -19,13 +19,13 @@
  *
  *
  * */
-Node* IKSolution::cloneATree(Node *root)
+TreeNode* IKSolution::cloneATree(TreeNode *root)
 {
     if(root == nullptr)
         return nullptr;
 
 
-    Node *nnode = new(Node);
+    TreeNode *nnode = new(TreeNode);
     nnode->val = root->val;
     nnode->right = cloneATree(root->right);
     nnode->left = cloneATree(root->left);
@@ -64,7 +64,7 @@ Node* IKSolution::cloneATree(Node *root)
  *
  */
 
-Node* IKSolution::flipATree(Node *root)
+TreeNode* IKSolution::flipATree(TreeNode *root)
 {
     if(root == nullptr)
         return nullptr;
@@ -133,7 +133,7 @@ Node* IKSolution::flipATree(Node *root)
  *
  * */
 
-int largestBSTUtil(Node *root, bool& isBST, int& min, int& max)
+int largestBSTUtil(TreeNode *root, bool& isBST, int& min, int& max)
 {
     bool isBSTL; bool isBSTR; bool amIRootOfABST; int minL, maxL, minR, maxR;
 
@@ -170,7 +170,7 @@ int largestBSTUtil(Node *root, bool& isBST, int& min, int& max)
 }
 
 
-int IKSolution::largestBST(Node *root)
+int IKSolution::largestBST(TreeNode *root)
 {
 
     bool isBST;
@@ -211,7 +211,7 @@ int IKSolution::largestBST(Node *root)
  */
 
 
-Node * constrctTreeUtil(vector<int>& iInOrderArray, vector<int>& iPreOrderArray, int pOB, int pOE, int iOB, int iOE)
+TreeNode * constrctTreeUtil(vector<int>& iInOrderArray, vector<int>& iPreOrderArray, int pOB, int pOE, int iOB, int iOE)
 {
 
     DEBUG_TRACE(cout << "pOB " << pOB << " pOE " <<pOE << " iOB = "<< iOB << " iOE = " << iOE << "\n");
@@ -223,7 +223,7 @@ Node * constrctTreeUtil(vector<int>& iInOrderArray, vector<int>& iPreOrderArray,
     /* Root is the first element of preOrder Array  */
     int rtValue = iPreOrderArray[pOB];
 
-    Node *root = new Node();
+    TreeNode *root = new TreeNode();
     root->val = rtValue ;
     root->left = nullptr;
     root->right = nullptr;
@@ -247,7 +247,7 @@ Node * constrctTreeUtil(vector<int>& iInOrderArray, vector<int>& iPreOrderArray,
 vvi IKSolution::constrctTree(vector<int> iInOrderArray, vector<int> iPreOrderArray)
 {
 
-    Node* temp = constrctTreeUtil(iInOrderArray, iPreOrderArray, 0, iPreOrderArray.size() - 1 , 0, iInOrderArray.size() - 1);
+    TreeNode* temp = constrctTreeUtil(iInOrderArray, iPreOrderArray, 0, iPreOrderArray.size() - 1 , 0, iInOrderArray.size() - 1);
 
     //vvi res = treeLevelOrderPrint(temp);
 
@@ -260,7 +260,7 @@ vvi IKSolution::constrctTree(vector<int> iInOrderArray, vector<int> iPreOrderArr
 /**************************************************************************************************************************************/
 
 /* Problem:
- *        Populating Next Right Pointers in Each Node. What if the given tree could be any binary tree?
+ *        Populating Next Right Pointers in Each TreeNode. What if the given tree could be any binary tree?
  *        Would your previous solution still work?
  *
  * Example:
@@ -283,12 +283,12 @@ vvi IKSolution::constrctTree(vector<int> iInOrderArray, vector<int> iPreOrderArr
         Tree BFS traversal. While traversing a particular level, populate the previous node.
  *
  * */
-void IKSolution::PopulateSiblingPointers(Node *root)
+void IKSolution::PopulateSiblingPointers(TreeNode *root)
 {
 
-    queue<list<Node *>> mQ;
-    list<Node *> pushl;
-    list<Node *> popl;
+    queue<list<TreeNode *>> mQ;
+    list<TreeNode *> pushl;
+    list<TreeNode *> popl;
 
     if(root == nullptr)
     {
@@ -305,7 +305,7 @@ void IKSolution::PopulateSiblingPointers(Node *root)
         mQ.pop();
 
         int i = 0;
-        Node *prevNode;
+        TreeNode *prevNode;
         for(auto val : popl)
         {
             if(val->left != nullptr) //IMPORTANT
@@ -360,14 +360,14 @@ void IKSolution::PopulateSiblingPointers(Node *root)
  * */
 
 
-void Tree::init(Node *root)
+void Tree::init(TreeNode *root)
 {
     if(root == nullptr)
         return;
 
     nextlowestStack.push(root);
 
-    Node *temp = root->left;
+    TreeNode *temp = root->left;
     while(temp != nullptr)
     {
         nextlowestStack.push(temp);
@@ -376,9 +376,9 @@ void Tree::init(Node *root)
 }
 
 
-Node* Tree::next()
+TreeNode* Tree::next()
 {
-    Node* tn = nullptr;
+    TreeNode* tn = nullptr;
 
     if(!nextlowestStack.empty())
     {
@@ -389,7 +389,7 @@ Node* Tree::next()
     if((tn != nullptr) && (tn->right != nullptr))
     {
         nextlowestStack.push(tn->right);
-        Node *temp = tn->right->left;
+        TreeNode *temp = tn->right->left;
         while(temp != nullptr)
         {
             nextlowestStack.push(temp);

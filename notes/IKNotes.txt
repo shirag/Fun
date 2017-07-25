@@ -238,6 +238,37 @@ TREES:
         return -1;
          
     return ((lHeight > rHeight ? lHeight : rHeight) + 1);      
+    
+ *  To get the height of a node - do a post order.
+    height of the main roor node is 1.
+    int getHeight(root, toFind, &height)
+    {
+        if(root == nullptr)
+            return 0;
+        lHeight = getHeight(leftNode);
+        rHeight = getHeigth(rightNode);    
+        
+        myHeight = (lHeight ? rHeight : lHeight : rHeight) + 1;
+        
+        if(root == toFind)
+            height = myHeight;
+        return myHeight;     
+            
+    }
+ *  To get the depth do a pre-order - 
+    int getHeight(root, toFind, int depth)
+    {
+        if(root == nullptr)
+            return 0;
+
+        if(root == toFind)
+            return depth + 1;
+                    
+
+        lHeight = getHeight(leftNode, depth + 1);
+        rHeight = getHeigth(rightNode, depth + 1);    
+    }
+
   	
  /*******************************************************************************************************************/
  
@@ -769,6 +800,154 @@ System design 1: Architect a world-wide video distribution system:
 Twitter:
   Use cases:
   1. Subscriber twe
+-----------------------------------------------------------------------------------------------------------------------------------                     
+
+
+/***********************************************************************************************************************/
+ Architect!a!world6wide!video!distribution!system !![FaceBook Live]
+   
+ 
+ 1. Determine which parts of the problem are important and will affect the overall design.
+ 3. Explain andf focus which pieces of the system are most interesting or difficult to design
+ 
+    * Needs to be able to serve up millions of simultaneous streams without crashing(publishers). 
+    * Concurrent viewers(PCV), low latency, mostly live(recorded content, 360 degrees) 
+      PCV can be upto 1.5billion. Hard infrastructure problem.
+    * Traffic can be spiky.   
+    * Video upload reliabilty.
+    * Device fragmentation(what kind of devices you are planning on showing to)
+    * ABR for heteriginialiyt of devices and network conditions.
+    * Hard publshing(We would go for on-demand caching) workflow problem and playback workflow is not in scope.
+    * Also Needs recommendation system.
+    * Good analytics system.
+      RTMP Used: Realtime Messaging protocol. RTMP is a TCP-based protocol which maintains persistent connections and allows low-latency communication.
+         Unlike HLS, RTMP uses a push model. Instead of the player requesting each segment, the server continuously sends video and audio data
+         RTMP does not scale. So, A new RTMP proxy need to be developed to make it scale. 
+    * Analytics: Feedback loop that can be used to switch CDN info.     
+ 
+ 
+ 
+ 2. Describe the system at a high level, explaining the overall architecture.
+
+    This is how a live stream goes from one broadcaster to millions of viewers.
+    A broadcaster starts a live video on their phone.
+    The phone sends a RTMP stream to a Live Stream server.
+    The Live Stream server decodes the video and transcodes to multiple bit rates.
+    For each bit rate a set of one-second MPEG-DASH segments is continuously produced.
+    Segments are stored in a datacenter cache.
+    From the datacenter cache segments are sent to caches located in the points of presence (a PoP cache).
+    On the view side the viewer receives a Live Story.
+    The player on their device starts fetching segments from a PoP cache at a rate of one per second.
+
+ 4. Draw diagrams that clearly describe the relationship among different systemc omponents.
+ 
+ 5. Identify!trade6offs!in!your!design!(such!as!consistency,!availability,!partitioning,!
+    performance),!and!describe!how!you!make!a!decision!around!them.!
+    * 
+    * Adaptive streaming against
+      Pros: Reduction of the delivery bandwidth cost.   
+      Cons: Video should be transcoded into multiple live streams. Computing resources cost money.
+      Eager load or lazy loading.Upon  acahed miss push it to CDN.
+                      what is the criterion for pushing?  
+    
+    * Do you really want to use CDN- Cost is high.
+    * TCP based protocol/UDP based protocols - tradeofs?
+    * How do you design the server 
+    * The choice of protocol between the content provider and the data centre
+      The choice of protocol between the content PoP and the device.
+      the video chunk duration etc.
+    * How many types of encoding to use and the file storage.  
+    
+    Encoding for Facebook Live is done on both the client and the server. 
+    The trade-off between encoding on the client side and the server side is mostly around the quality of the video vs. latency and reliability.
+    
+ 6. Calculate back of the envelope and physical resources necessary.
+ 
+ 7. Adjust!the!design!of!your!system!when!requirements!or!constraints!change.!
+ 
+ 8. Determine how your system will perform at Facebook's scale, and identify any bottlenecks
+    and limitations in yourdesign.
+    
+    There is one point of multiplication between the datacenter cache and the many PoP caches. 
+    Users access PoP caches, not the datacenter, and there are many PoP caches distributed around the world.
+
+    Another multiplication factor is within each PoP. Within the PoP there are two layers: a layer of HTTP proxies and a layer of cache.
+    Viewers request the segment from a HTTP proxy. The proxy checks if the segment is in cache. If it’s in cache the segment is returned. 
+    If it’s not in cache a request for the segment is sent to the datacenter.
+
+    Different segments are stored in different caches so that helps with load balancing across different caching hosts.
+
+    
+ 9. Explain how your system handles both success and failure cases.
+ 
+/***********************************************************************************************************************/
+  Architect!a!world6wide!video!distribution!system !![Netflix VOD]
+  
+   1. Determine which parts of the problem are important and will affect the overall design.
+   3. Explain and focus which pieces of the system are most interesting or difficult to design
+
+    * 100 million customers. worldwide. The site pumps out more than 1 billion hours of streaming video a month.
+    * Content type(4K, HD)
+    * Concurrent viewers(PCV), Infrastructure, 
+    * Device fragmentation is a challenge:   various Codecs + bite rates : Decide how many types of encoding you have to provide?
+                                               ABR for heteriginialiyt of devices and network conditions.
+                                             Never push a 4K content to a mobile device.  
+    * Control plane and data plane breakdown:
+          The majority of our technology is operated in the Amazon Web Services (AWS) cloud platform. 
+          AWS offers us unprecedented global scale, hosting tens of thousands of virtual instances and many petabytes of data across several cloud regions.
+          The audio-video media itself is delivered from “Open Connect” content servers, 
+          which are forward positioned close to, or inside of, ISP networks for efficient delivery.
+                                               
+    * We would go for proactive caching: Upstream network utilization during peak times can be reduced.
+    
+    
+                                        aggregate proxy calculation is more accurate than single one trying to cache it. 
+                                        Movies are copied to data centres(one per continent) and then to PoPs.(Undersea cables are used to the min extent.)
+                                        Frees up backbones with all the intense traffic and the entire traffic is in the edge.
+                                        More details to come.
+    * Needs a strong recommendation system: Puts users in various clusters(depending upon various factors) and then recommends within the cluster.
+    * Acceptable 1080p stream using H.264 (AVC) compression at around 6 Mbps. 
+      All else being equal, a 4K video would require 4x the bandwidth of a 1080p video (24 Mbps).
+    * With efficient Codec you can bring it down to 15mbps. Average download speed in the US is 18.6 Mbps.
+    
+    * How do you design the server 
+    * The choice of protocol between the content provider and the data centre
+      The choice of protocol between the content PoP and the device.
+      the video chunk duration etc.
+    * How many types of encoding to use and the file storage.  
+ 
+ 2. Describe the system at a high level, explaining the overall architecture.
+ 4. Draw!diagrams!that!clearly!describe!the!relationship!among!different!system!components.!  
+ 
+ 
+ 5. Identify!trade6offs!in!your!design!(such!as!consistency,!availability,!partitioning,!
+    performance),!and!describe!how!you!make!a!decision!around!them.!
+ 
+    * Adaptive streaming against
+      Pros: Reduction of the delivery bandwidth cost.   
+      Cons: Video should be transcoded into multiple live streams. Computing resources cost money.
+    
+    * Do you really want to use CDN- Cost is high.
+    * TCP based protocol/UDP based protocols - tradeofs?
+    
+    
+ 6. Calculate back of the envelope and physical resources!necessary.
+     A typical netflix highend OCA box that sits at POP ISP last mile facility would be 160TB(entire catalog) and 2.5Tbps of traffic. 
+     How did we come out with 160TB: HD video streams are 3GB of data per hour. 160 TB would hold 6.2 years of HD video. weighs approxiamately 120 pounds.
+     Most recent would hold 200TB 8 years of HD video. Best part is Netflix preloads the content.
+     When you have a pair of them, you can exceed the entire Netflix catalog for a region. But, Netflix adds and removes stuff all the time.
+     Most OCAs(Open Connect Appliances)take a 2.5TB update every day.
+   
+ 
+ 7. Adjust the design of your system when requirements or constraints!change.
+ 
+ 8. Determine!how!your!system!will!perform!at!Facebook's!scale,!and!identify!any!bottlenecks!
+    and!limitations!in!your!design.!
+    
+ 9. Explain how your system handles both success and failure cases.
+
+
+    
   
 /***************************************************************************************************************/   
 My problem cheat sheep.

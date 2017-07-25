@@ -36,20 +36,20 @@
 
 using namespace std;
 
-class Node
+class TreeNode
 {
     public:
 	    int val;
-	    struct Node *left, *right;
-	    struct Node *nextRight; //Pointer to the right sibling
+	    struct TreeNode *left, *right;
+	    struct TreeNode *nextRight; //Pointer to the right sibling
 };
 
 class Tree
 {
     public:
-        stack<Node *> nextlowestStack;
-        void init(Node *root);
-        Node* next();
+        stack<TreeNode *> nextlowestStack;
+        void init(TreeNode *root);
+        TreeNode* next();
         bool hasNext();
 };
 
@@ -79,8 +79,8 @@ typedef list<string> ls;
 typedef queue<ls> qls;
 typedef set<string> ss;
 typedef set<si> ssi;
-typedef queue<list<Node*>> qln;
-typedef list<Node*> ln;
+typedef queue<list<TreeNode*>> qln;
+typedef list<TreeNode*> ln;
 
 typedef map<pii,lpii> mplii; //graph for x,y
 typedef set<pii> spii;
@@ -130,7 +130,7 @@ typedef set<pii> spii;
 
 
 
-Node *createTreeNode(int key);
+TreeNode *createTreeNode(int key);
 vector<int> mergeVector(vector<int> v1, vector<int> v2);
 int depthFirstSearchUtil(vvi& W, int node, vector<bool>& flag);
 int countComponents(int n, vector< pair<int, int> >& edges);
@@ -254,34 +254,34 @@ class IKSolution
 
 
 	    /* Trees: Class problems */
-	    void treeBFS(Node *root);
-	    Node* bSTTreeInsert(Node *root, int key);
-	    int deleteANode(Node *root, int key); /* 3:20 at Gayathri vid */
-	    int findSuccessor(Node*, int key); //Recursive DFS inrder soln. when you hit a value lesser print the last one.
+	    void treeBFS(TreeNode *root);
+	    TreeNode* bSTTreeInsert(TreeNode *root, int key);
+	    int deleteANode(TreeNode *root, int key); /* 3:20 at Gayathri vid */
+	    int findSuccessor(TreeNode*, int key); //Recursive DFS inrder soln. when you hit a value lesser print the last one.
 	    int checkIfPalindromeRotate(string&); //time test problem
 
 	    /* Homework2 - Trees */
-	    bool isBST(Node*);
-	    Node* mergeTwoBSTs(Node* node1, Node* node2);
-	    void printAllPathsInATee(Node *node);
-	    vvi printAllPathsInATeeToASum(Node* root, int k);
-	    int countUniValSubtrees(Node *node);
-	    Node* treeToDoubleLL(Node*);
-	    Node* findLCA(Node* root, int n1, int n2);
-	    void postorderTraversal(Node* root);
+	    bool isBST(TreeNode*);
+	    TreeNode* mergeTwoBSTs(TreeNode* node1, TreeNode* node2);
+	    void printAllPathsInATee(TreeNode *node);
+	    vvi printAllPathsInATeeToASum(TreeNode* root, int k);
+	    int countUniValSubtrees(TreeNode *node);
+	    TreeNode* treeToDoubleLL(TreeNode*);
+	    TreeNode* findLCA(TreeNode* root, int n1, int n2);
+	    void postorderTraversal(TreeNode* root);
 	    /* Tree time test problem */
 	    void createBalancedBST(vector<int> iArray);
-	    int findKThSmallest(Node* root, unsigned int k);
+	    int findKThSmallest(TreeNode* root, unsigned int k);
 	    /* K' successor problem */
 	    /* Interval trees? */
 	    /* Segment trees? */
-	    vvi treeLevelOrderPrint(Node *root);
-	    vvi treeLevelOrderPrintUsingList(Node *root);
-	    Node* cloneATree(Node *root);
-	    Node* flipATree(Node *root);
-	    int largestBST(Node *root);
+	    vvi treeLevelOrderPrint(TreeNode *root);
+	    vvi treeLevelOrderPrintUsingList(TreeNode *root);
+	    TreeNode* cloneATree(TreeNode *root);
+	    TreeNode* flipATree(TreeNode *root);
+	    int largestBST(TreeNode *root);
 	    vvi constrctTree(vector<int> iInOrderArray, vector<int> iPreOrderArray);
-	    void PopulateSiblingPointers(Node *root);
+	    void PopulateSiblingPointers(TreeNode *root);
 
 	    /* Graph/Homework3 */
         int printAllPathsInAGraph(vvi& g, int src, int dest);
@@ -313,6 +313,7 @@ class IKSolution
 	    int wellFormedBrackComb(int n);
 	    vector<int> diffWaysToCompute(string s);
 	    void getSimilarMovies(int K);
+	    int diameterOfATree(TreeNode *root);
 
 
         /* LinkedLinkedListNode */

@@ -1,11 +1,5 @@
 
-*******************************************************************************************************************
-    Why do you want sign in bonus?
-    * My 401K loan.
-    * I want to send my daughter to private school.
-    * I want to buy a new car.
- 
-*******************************************************************************************************************
+
 * Practice block diagrams for all challenging projects.
 * For scaling: Think how you can talk about your apman/WinMan prject.
   From a devide point of view, not flooding the server can be one scalablity answer.
@@ -108,11 +102,15 @@ Emphasise on what you learnt. Win or lose, it should come as a humbing expericen
 
 * Respectful negotiation: 
           Process decision - Norbert create a new branch problem(process).
-                      Listen. Listen Listen. I dont react and try to understand the problem when people are emotional about  a prolem. 
+                      Listen. Listen Listen. I dont react and try to understand the problem when people are emotional about  a problem. 
                      Dont react. Just repond. Moce to mountain view office.
-* Respectful debate: ?? 
+                     
+* Respectful debate:  Don't present objections as flat dismissals (leave open the possibility that there's a response). 
+                      Always go to white board and use block diagrams and sequence diagrrams. 
 * Gathering data patiently over a period of time(design conflict): 
-          Design decision - Show video window after the first Iframe. Develop some proof of concept/prototype to back up my argument.
+          Design decision - Show video window after the first Iframe. Show numbers. Develop some proof of concept/prototype to back up my argument.
+                            Show logs clearing indicating the flow of events.
+          Process decision - The product team would always want to release the product without adequate testing. Push back a bit. Emphasize on the process.                  
         
 * Gathering consensus:
                seek with Amar's team 
@@ -527,5 +525,11 @@ After the interviewer says, go ahead and code:
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
+*******************************************************************************************************************
+    Why do you want sign in bonus?
+    * My 401K loan.
+    * I want to send my daughter to private school.
+    * I want to buy a new car.
+ 
+*******************************************************************************************************************
 

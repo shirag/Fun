@@ -16,9 +16,9 @@
 
 #define ORDER_OF_TRAVERSAL PRE_ORDER
 
-Node* createTreeNode(int key)
+TreeNode* createTreeNode(int key)
 {
-    Node* node = new(Node);
+    TreeNode* node = new(TreeNode);
     node->val = key;
     node->left = NULL;
     node->right = NULL;
@@ -30,10 +30,10 @@ Node* createTreeNode(int key)
 /*
  * A tree BFS implementation using Queue
  */
-void IKSolution::treeBFS(Node *root)
+void IKSolution::treeBFS(TreeNode *root)
 {
-    queue<Node *> mQ;
-    Node* tn;
+    queue<TreeNode *> mQ;
+    TreeNode* tn;
 
     if(root == NULL)
         return;
@@ -59,7 +59,7 @@ void IKSolution::treeBFS(Node *root)
  * Function that creates a new and returns its pointer.
  * Each node returns its pointer.
  *  */
-Node* IKSolution::bSTTreeInsert(Node *root, int key)
+TreeNode* IKSolution::bSTTreeInsert(TreeNode *root, int key)
 {
     if (root == NULL)
         return createTreeNode(key);
@@ -127,7 +127,7 @@ int IKSolution::checkIfPalindromeRotate(string& str)
 }
 
 /**********************************************************************************************************************/
-void printAllPathsRecurse(Node *node, vi& p)
+void printAllPathsRecurse(TreeNode *node, vi& p)
 {
     if(node == NULL)
         return;
@@ -169,7 +169,7 @@ void printAllPathsRecurse(Node *node, vi& p)
  *
  *
  */
-void IKSolution::printAllPathsInATee(Node* root)
+void IKSolution::printAllPathsInATee(TreeNode* root)
 {
    vi p;
    printAllPathsRecurse(root, p);
@@ -177,7 +177,7 @@ void IKSolution::printAllPathsInATee(Node* root)
 }
 /*********************************************************************************************************/
 
-vvi printAllPathsInATeeToASumUtil(Node *node, int k, vi& p, int currSum)
+vvi printAllPathsInATeeToASumUtil(TreeNode *node, int k, vi& p, int currSum)
 {
     vvi resl, resr;
 
@@ -217,7 +217,7 @@ vvi printAllPathsInATeeToASumUtil(Node *node, int k, vi& p, int currSum)
  *
  *
  */
-vvi IKSolution::printAllPathsInATeeToASum(Node* root, int k)
+vvi IKSolution::printAllPathsInATeeToASum(TreeNode* root, int k)
 {
    vi p;
    int currSum = 0;
@@ -226,14 +226,14 @@ vvi IKSolution::printAllPathsInATeeToASum(Node* root, int k)
 }
 /******************************************************************************************************************/
 
-Node* generateBBST(vector<int>& vals, int low, int high)
+TreeNode* generateBBST(vector<int>& vals, int low, int high)
 {
     if(low > high)
         return 0;
 
     int middle = (low + high)/2;
 
-    Node *root = createTreeNode(vals[middle]);
+    TreeNode *root = createTreeNode(vals[middle]);
 
     root->left = generateBBST(vals,low,middle-1);
     root->right = generateBBST(vals,middle+1,high);
@@ -242,7 +242,7 @@ Node* generateBBST(vector<int>& vals, int low, int high)
 }
 
 
-int storeInOrder(Node *node, vector<int>& vals)
+int storeInOrder(TreeNode *node, vector<int>& vals)
 {
     if(node == NULL)
         return 0;
@@ -270,14 +270,14 @@ int storeInOrder(Node *node, vector<int>& vals)
  * Corner case:
  * Take away:
  */
-Node* IKSolution::mergeTwoBSTs(Node* node1, Node* node2)
+TreeNode* IKSolution::mergeTwoBSTs(TreeNode* node1, TreeNode* node2)
 {
 
     vector<int> v1;
     vector<int> v2;
     vector<int> v3;
 
-    Node* node3;
+    TreeNode* node3;
 
     storeInOrder(node1, v1);
     storeInOrder(node2, v2);
@@ -306,19 +306,19 @@ Node* IKSolution::mergeTwoBSTs(Node* node1, Node* node2)
  * Corner case:
  * Take away:
  */
-void IKSolution::postorderTraversal(Node* root)
+void IKSolution::postorderTraversal(TreeNode* root)
 {
     if(root == NULL)
         return;
 
-    stack<Node*> v1;
+    stack<TreeNode*> v1;
     vector<int>v2;
 
     v1.push(root);
 
     while(!v1.empty())
     {
-        Node *tn = v1.top();
+        TreeNode *tn = v1.top();
         v1.pop();
 
         v2.push_back(tn->val);
@@ -338,7 +338,7 @@ void IKSolution::postorderTraversal(Node* root)
 }
 /**************************************************************************************************/
 
-int countUniValSubtreesRec(Node *node, int& counter)
+int countUniValSubtreesRec(TreeNode *node, int& counter)
 {
 
    if(node == NULL)
@@ -397,7 +397,7 @@ int countUniValSubtreesRec(Node *node, int& counter)
  * Corner case:
  * Take away:
  */
-int IKSolution::countUniValSubtrees(Node *node)
+int IKSolution::countUniValSubtrees(TreeNode *node)
 {
     int counter = 0;
     int val = countUniValSubtreesRec(node,counter);
@@ -454,7 +454,7 @@ int IKSolution::countUniValSubtrees(Node *node)
  * Take away:
  */
 
-void treeToDoubleLLUtil(Node* root, Node*& tail, Node* &head)
+void treeToDoubleLLUtil(TreeNode* root, TreeNode*& tail, TreeNode* &head)
 {
     if(root == NULL)
         return;
@@ -475,10 +475,10 @@ void treeToDoubleLLUtil(Node* root, Node*& tail, Node* &head)
     return;
 }
 
-Node* IKSolution::treeToDoubleLL(Node* root)
+TreeNode* IKSolution::treeToDoubleLL(TreeNode* root)
 {
-    Node* tail = NULL;
-    Node* head = NULL;
+    TreeNode* tail = NULL;
+    TreeNode* head = NULL;
 
     treeToDoubleLLUtil(root, tail, head);
 
@@ -491,7 +491,7 @@ Node* IKSolution::treeToDoubleLL(Node* root)
 
 
 /****************************************************************************************************************/
-int lcaUtilRec(Node* node, vector<Node*>&v, int n)
+int lcaUtilRec(TreeNode* node, vector<TreeNode*>&v, int n)
 {
     if(node == NULL)
         return 0;
@@ -522,9 +522,9 @@ int lcaUtilRec(Node* node, vector<Node*>&v, int n)
  * Corner case:
  * Take away:
  */
-Node* IKSolution::findLCA(Node* root, int n1, int n2)
+TreeNode* IKSolution::findLCA(TreeNode* root, int n1, int n2)
 {
-    vector<Node*> v1, v2;
+    vector<TreeNode*> v1, v2;
 
     if(!(lcaUtilRec(root,v1,n1) && lcaUtilRec(root,v2,n2)))
         return NULL;
@@ -542,7 +542,7 @@ Node* IKSolution::findLCA(Node* root, int n1, int n2)
 }
 
 /****************************************************************************************************************/
-bool isBSTUtil(Node *node,int min, int max)
+bool isBSTUtil(TreeNode *node,int min, int max)
 {
     if(node == NULL) //Empty tree is a BST.
         return true;
@@ -582,20 +582,20 @@ bool isBSTUtil(Node *node,int min, int max)
  * Any corner cases:
  * Take away:
  */
-bool IKSolution::isBST(Node* node)
+bool IKSolution::isBST(TreeNode* node)
 {
     return isBSTUtil(node, INT_MIN, INT_MAX);
 }
 /**************************************************************************************************************************/
 
-Node* createBalancedBSTUtil(vector<int> &iArray, int low, int high)
+TreeNode* createBalancedBSTUtil(vector<int> &iArray, int low, int high)
 {
 
     if(low > high)
         return NULL;
 
     int mid = (low + high)/2;
-    Node* temp = createTreeNode(iArray[mid]);
+    TreeNode* temp = createTreeNode(iArray[mid]);
 
     temp->left = createBalancedBSTUtil(iArray, low, mid-1);
     temp->right = createBalancedBSTUtil(iArray, mid+1, high);
@@ -639,10 +639,10 @@ void IKSolution::createBalancedBST(vector < int > iArray)
  * Take away:
  */
 
-vvi IKSolution::treeLevelOrderPrint(Node *root)
+vvi IKSolution::treeLevelOrderPrint(TreeNode *root)
 {
-    queue<pair<Node*,int>> mQ;
-    pair<Node*,int> tn;
+    queue<pair<TreeNode*,int>> mQ;
+    pair<TreeNode*,int> tn;
     int currLevel = 0;
     vi temp;
     vvi res;
@@ -684,12 +684,12 @@ vvi IKSolution::treeLevelOrderPrint(Node *root)
 }
 
 
-vvi IKSolution::treeLevelOrderPrintUsingList(Node *root)
+vvi IKSolution::treeLevelOrderPrintUsingList(TreeNode *root)
 {
-    queue<list<Node *>> mQ;
+    queue<list<TreeNode *>> mQ;
 
-    list<Node *> pushl;
-    list<Node *> popl;
+    list<TreeNode *> pushl;
+    list<TreeNode *> popl;
     vi temp;
     vvi res;
 
@@ -745,7 +745,7 @@ vvi IKSolution::treeLevelOrderPrintUsingList(Node *root)
  *     In-order traversal prints no in sorting order. When you are done processing k nos, return the val.
  *     We do a DFS in here.
  */
-bool findKThSmallestUtil(Node* root, unsigned int& k, unsigned int& counter, int& val)
+bool findKThSmallestUtil(TreeNode* root, unsigned int& k, unsigned int& counter, int& val)
 {
     if(root == NULL)
         return false;
@@ -772,7 +772,7 @@ bool findKThSmallestUtil(Node* root, unsigned int& k, unsigned int& counter, int
 }
 
 
-int IKSolution::findKThSmallest(Node* root, unsigned int k)
+int IKSolution::findKThSmallest(TreeNode* root, unsigned int k)
 {
     int val = 0;
     unsigned int counter = 0;
