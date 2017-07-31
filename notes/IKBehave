@@ -1,40 +1,20 @@
 
 
-* Practice block diagrams for all challenging projects.
-* For scaling: Think how you can talk about your apman/WinMan prject.
-  From a devide point of view, not flooding the server can be one scalablity answer.
-* HLS algorithm(high level idea of how the algorithm might look like?)
-  YOu have  low water mark, watermark1, watermark 2 and watermark3:
-  Initially you would start playing back when you hit the watermark1. Now you are playing back the lowest bit stream.
-  When the buffer level hits the watermark2, you will move to the second fastest bit stream.
-  When you hit the third one, you move to the third bit stream.
-  
-* Why is that our seek is polling based? We turned off the prerolling after the initial setup. 
-  Because of the ASYNC_DONE will not go to the Gstramer app.
-  So, in the case of seek also, ASYNC_DONE will not be sent to the app. So, the app has to poll.
-* Conflict/Most difficult project/most difficult people:   
-  Escalation is good. Subtle escalation is very important. It is better than not doing anything. 
-  The worst thing that can happen is project getting delayed.
-* Two kinds of conflicts can arise when there is a bug:
-  * its my bug. But, I dont have time to fix.
-  * its not my bug.
-* What are the problem in my current company? or why you want to quit?
-  Flat, too close knit team, small and very less impact on the industry.
-  Highly disconnected. No proper vision.  No product stratergy.
-  Old: company and technology.
-  Revenue was not good. So, expense went down which impacted the quality.
-* How do you handle a scenario when the project is late?
-  * Project typically get delayed because of feature creep. So, proper care should be taken when defining the scope.
-    The way to handle this is to do a partial minimal implementation initially.
-    Video tag is so complicated. You dont implement the entire thing. You implement only a partial set.
-  * Complexity: When the complexity is not properly 
-  
-  
+
+*******************************************************************************************************************
+AMAZON
+Give me an instance where project got delayed and how you handled it?
+* We thought synchronous seek would work. But. it did not. So, we had to go for a polling base solution.
+Give me an instance where you gave an idea and you pushed it.
+
 *******************************************************************************************************************
 What makes you a Senior s/w engineer
 
 *  I own stuff. I am responsible and accountible.
 *  I write unit tests first.
+*  I write design docs and go through the review process(high level and low level)
+*  I mentor juniors at the same time Im constantly learning from them.
+*  I keep track of the latest stuff in industry and talk to product people.
 
 
 *******************************************************************************************************************
@@ -87,6 +67,8 @@ What are your expectations out of your technical manager?
 * Career path/guidance or growth.
 * Regular feedback. Positive or negative. 
 *******************************************************************************************************************
+Give an instance where you gave an idea.
+*******************************************************************************************************************
 Give an example of where you had a conflict with your manager/Co-worker and how you resolved it?
 
 Conflicts are disagrements on design decisions or process decisions.
@@ -104,6 +86,9 @@ Emphasise on what you learnt. Win or lose, it should come as a humbing expericen
           Process decision - Norbert create a new branch problem(process).
                       Listen. Listen Listen. I dont react and try to understand the problem when people are emotional about  a problem. 
                      Dont react. Just repond. Moce to mountain view office.
+                     Power of white board
+Weekly design meetings
+
                      
 * Respectful debate:  Don't present objections as flat dismissals (leave open the possibility that there's a response). 
                       Always go to white board and use block diagrams and sequence diagrrams. 
@@ -187,6 +172,9 @@ Challenging project tips:
     
     
 * What was the problem? What made it challenging?Non standard/other ways..(quantitative..)
+  [Linkedin manager feedback - YOu want to throw some big technology jargons in here..
+    with video the challenge is format fragmentation.
+  ]
   * The challenge here is to convert control only pipeline to control + data pipeline(Broadcast based solution that had lot of acceleration).
     Adapt the existing pipeline that was built for NON-OTT playback for OTT playback.  
   * Time constraints, Keeping all internal stakeholders happy(QA + other groups), + Telephnica the customer.
@@ -300,13 +288,14 @@ Main design:
    states in terms of visibility, z-order and focis. Application manager queries the 
    state of the app with WinMan performs action accordingly. Listen to DirectFB graphics calls using SaWMan interface 
    and control the GUI and what applications are running. 
+
 My role in it:
    Own the WinMan code and design APIs and be the go to person.
    Restacking logic: When a window is raised to top all the associated windows also should be raised properly.
    Restacking takes place ensure that right window gets the focus.
 What made it challenging?
 What did I learn from it?   
-    DirectFB
+    DirectFB, I understood graphics stack in a pointer less device
     Debugging directFB
     Ownership with qucik turnaround times.
     
@@ -337,29 +326,35 @@ What did I learn : Window manager
 
 ***********************************************************************************************************************       
 
-Similarities between I2C and SPI
-* Protocols are well-suited for communications between integrated circuits, for slow communication with on-board peripherals.
-* Both are master slave protocol. Communication is always initiated by a master.
-* Both are synchronous protocols.
-
-Differences between I2C and SPI
-* SPI is faster.  Used for writing to Flash. For Flash programming SPI is used since SPI is very fast.
-  Used to connect the microcontroller peripherals with 4 wires. 
-* I2C uses 2 wires. Clock and Data. Clock is unidirectional. Data is bidirectional. More than 2 devices can exist on the same bus.
-  Using 2 wires you can connect a peripheral to a microcontroller.
-  SPI uses 4 wires. Clock, Data In, Data out, and Chip select. Clock is always an output going from master to slave. CS selects the device.
-* I2C: Addressing is software based.
-  SPI: Addressing is hardware based.
-* I2C: More than one master can exist.
-  SPI: Only one master can exist.
-* I2C: Max 3.5Mbps.
-  SPI: Can go over 10Mbps and upto 20Mbps.
-* I2C: Is half duplex(At any point, you are either sending or receiving).
-  SPI: Is full duplex(sending and receiving at the same time).
-  Winner?
-  * I²C(less pins and lines) is a clear winner over SPI in sparing pins, board routing and how easy it is to build an I²C network.  
-  * Both SPI and I2C offer good support for communication with low-speed devices, but SPI is better suited to applications in which 
-    devices transfer data streams, while I²C is better at multi master ‘register access’ application.
+* Practice block diagrams for all challenging projects.
+* For scaling: Think how you can talk about your apman/WinMan prject.
+  From a devide point of view, not flooding the server can be one scalablity answer.
+* HLS algorithm(high level idea of how the algorithm might look like?)
+  YOu have  low water mark, watermark1, watermark 2 and watermark3:
+  Initially you would start playing back when you hit the watermark1. Now you are playing back the lowest bit stream.
+  When the buffer level hits the watermark2, you will move to the second fastest bit stream.
+  When you hit the third one, you move to the third bit stream.
+  
+* Why is that our seek is polling based? We turned off the prerolling after the initial setup. 
+  Because of the ASYNC_DONE will not go to the Gstramer app.
+  So, in the case of seek also, ASYNC_DONE will not be sent to the app. So, the app has to poll.
+* Conflict/Most difficult project/most difficult people:   
+  Escalation is good. Subtle escalation is very important. It is better than not doing anything. 
+  The worst thing that can happen is project getting delayed.
+* Two kinds of conflicts can arise when there is a bug:
+  * its my bug. But, I dont have time to fix.
+  * its not my bug.
+* What are the problem in my current company? or why you want to quit?
+  Flat, too close knit team, small and very less impact on the industry.
+  Highly disconnected. No proper vision.  No product stratergy.
+  Old: company and technology.
+  Revenue was not good. So, expense went down which impacted the quality.
+* How do you handle a scenario when the project is late?
+  * Project typically get delayed because of feature creep. So, proper care should be taken when defining the scope.
+    The way to handle this is to do a partial minimal implementation initially.
+    Video tag is so complicated. You dont implement the entire thing. You implement only a partial set.
+  * Complexity: When the complexity is not properly 
+ ***********************************************************************************************************************        
 
   
 ************************************************************************************************************************
@@ -501,6 +496,11 @@ Uber:
          Did not sell myself nicely there..
          I think I lacked the energy for C++ 
 
+Amazon : Phone screen:
+         1. Challenging project.
+         2. Give an instance where you gave an idea. 
+            Should have given this example. When is a good time to raise the curtain/make the video window tranparent? Iframe decode.
+         3. Complexity of this problem where he wanted to find the manager of two people(LCA problem).   
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

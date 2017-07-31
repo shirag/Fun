@@ -242,11 +242,11 @@ bool myComparefunc(vector<int> p1, vector<int> p2)
  * Approach:
  *     We use a heap to store all the processed buildings(height and end x coordinate). So, at any point the top of the heap represents the tallest building.
  *     Use this information to produce the output array.
+ *
  *     1. Sort by the first element(x). For equal start positions sort then by their height. But, the higher one's come first.
- *     2. In a loop, process one of the following:
+ *     2. In a loop, process one of the following, whichever comes first.:
  *        * Next beginning of a building. OR
  *        * End of the building on the top of a heap.
- *        whichever comes first.
  *     3. If its the next beginning of a building, push it to heap and then see if the addition makes a difference.
  *     4. If its the end of an existing building on the top of heap, then pop the building and all buildings that are
  *        not relevant anymore from the the heap.
@@ -503,18 +503,71 @@ int findMinimumUtil(vector<int>& arr, int low, int high)
  *
  * Time Complexity: logn
  */
-int IKSolution::findMinimum(vector<int> arr)
+int IKSolution::findMinInRotatedSorted(vector<int> arr)
 {
     int minVal;
-
-
     minVal = findMinimumUtil(arr, 0, arr.size()-1);
 
     return minVal;
 }
 
-/*********************************************************************************************************************/
 
+/*********************************************************************************************************************/
+int binarySearch(vector<int>& nums, int low, int high, int target)
+{
+    if(low > high)
+        return -1;
+
+    int middle = (low + high)/2;
+
+    if(nums[middle] == target)
+        return middle;
+
+    if(target < nums[middle])
+        return binarySearch(nums, low, middle - 1, target);
+    else
+        return binarySearch(nums, middle + 1, high, target);
+
+    return -1;
+}
+/*
+ * Problem: Find a value in rotated sorted array.
+ * Approach: find the tipping point.
+ *           Then depending on where the value lies compared to tipping point do a bibary search
+ * Passed leet code.
+ * Note: Find a very clean and smart way to find the tipping point
+ * */
+
+int IKSolution::findKInRotatedSorted(vector<int>& nums, int target) {
+
+    if(nums.size() == 0)
+        return -1;
+
+    int low = 0; int high = nums.size() - 1;
+    while(low < high){
+        int mid = (low + high)/2;
+        if(nums[mid] > nums[high])
+            low = mid + 1;
+        else high = mid;
+    }
+    int tipPoint = low;
+
+    if(target == nums[tipPoint])
+        return tipPoint;
+
+    low = 0;
+    high = nums.size() - 1;
+
+    if(target > nums[tipPoint] && target <= nums[high])
+        return binarySearch(nums, tipPoint + 1, high, target);
+    else if(target >= nums[low] && target <= nums[tipPoint-1])
+        return binarySearch(nums, low, tipPoint - 1, target);
+
+
+    return -1;
+}
+
+/*********************************************************************************************************************/
 /*
  * Problem:
  *     Given a large array of 4-byte integers. Find out how many total bits are turned ON in such an array?

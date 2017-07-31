@@ -139,12 +139,14 @@ void NQueensUtil(vector<char>& arr, unsigned int index, long& count)
 }
 
 /* Problem: N-Queens
-        Solve the N-Queens problem using recursion. (There may be other ways of solving this
-            problem, but for the purpose of this exercise, please use recursion only).
+
         Problem statement: Place N queens on a NxN chessboard, such that no two queens are in
         line of attack of each other.
 
-        Input N:
+        Solve the N-Queens problem using recursion. (There may be other ways of solving this
+        problem, but for the purpose of this exercise, please use recursion only).
+
+        Input N: number of queens
         Output: All possible arrangements of N queens on the board. Each arrangement can be
         represented by a matrix. Print the entire matrix, one per valid arrangement.
         For example,
@@ -971,3 +973,61 @@ int IKSolution::diameterOfATree(TreeNode *root)
 
 /********************************************************************************************/
 
+//copy 'size' values from 'src' to 'dest' using the 'spare'
+//si is the source array index
+//di is the dest array index
+//spi is the spare array index
+
+//in the case of 5 elements
+//Copy 4 elements to spare array
+//Copy the 5th element to dest array from src. Increase the dest array index.
+//Copy 4 elements from spare to dest.
+int moveDiscs(int* src, int si, int* dest, int di, int* spare, int spi, int size)
+{
+    if(size == 0)
+        return 1;
+
+    if(size == 1)
+    {
+        dest[di++] = src[si];
+        return 0;
+    }
+
+    moveDiscs(src, si + 1, spare, spi, dest, di, size - 1); //Copy all values except the bottom-most to spare
+    dest[di++] = src[si]; //copy the bottom most to dest. increment the dest.
+    moveDiscs(spare, spi, dest, di, src, si, size - 1); //Copy from spare to dest.
+
+    return 0;
+
+
+}
+
+/*
+ * Problem:
+ *     move discs from src tower to dest tower using a spare tower.
+ *     1. You can move only one disc at a time.
+ *     2. At no point a bigger disc should be above a smaller disc.
+ *     3. You are always moving a disc that is at the top of the tower.
+ *
+ * Approach:
+ *     http://www.cs.cmu.edu/~cburch/survey/recurse/hanoiimpl.html
+ *     1. You move all the discs above the bottom-most disc to spare(recursively)
+ *     2. Move the bottom-most disc to dest.
+ *     3. Now you move all discs from spare to dest(recursively).
+ *
+ *     Challenge here is how you use a data struct?
+       Use three arrays. and use their index at any point. Idea is to copy values from
+       src array to dest array using a spare array.
+ *
+ *     Note: This is a case of in-order recursion.
+ * Complexity:
+ *     T(n) = 2T(n-1) + 1. Solving this leads to O(2 ** n). 2 to the power n.
+ *
+ * */
+int IKSolution::towersOfHanoi(int* src, int* dest, int* spare, int size)
+{
+    int si = 0;
+    int di = 0;
+    int spi = 0;
+    return moveDiscs(src, si, dest, di, spare, spi, size);
+}

@@ -8,7 +8,7 @@
 
 
 
-#define DEBUG_LEVEL DEBUG_LEVEL_MAINSTATUS
+#define DEBUG_LEVEL DEBUG_LEVEL_DEBUG
 #include "IKSolution.hpp"
 
 
@@ -271,6 +271,8 @@ void IKSolution::printPascal(int n)
  * Time Complexity:O(n)
  * Space Complexity:O(n). Since we use a map.
  * Any other better approach:
+ *
+ * Corner case: initial zeros.
  */
 vector<string> IKSolution::sumZero(vector < int > intArr)
 {
@@ -390,7 +392,7 @@ int IKSolution::findLargestRectangle(vi v1)
         	    val = (v1[beginIn]) * (index-s1.top()-1); //element begins after s1.top()-1 and ends one before index.
         	DEBUG_DEBUG(cout << "val = " << val << "\n");
 
-           if(maxVal < val)
+            if(maxVal < val)
         		maxVal = val;
         }
 	}
@@ -492,7 +494,7 @@ bool myComparefunc(pair<int,int> p1, pair<int,int> p2)
  * Example:{1,3}, {2,4}, {5,7}, {6,8} }. should return {1, 4} and {5, 8}
  * Approach: is to first sort the intervals according to starting time.
  *         Once we have the sorted intervals, we can combine all intervals in a linear traversal.
- *         Use a vector store the new merged intervals. You always compare with top of the stack.
+ *
  *         If there is no merge at all then push a new interval to the vector.
  *         Three type of the cases for the second step:
  *         1. Second one's begin and end is within the first one.
@@ -505,34 +507,38 @@ bool myComparefunc(pair<int,int> p1, pair<int,int> p2)
  * */
 vpii IKSolution::mergeIntervals(vpii v1)
 {
-	vpii vf;
+	sort(v1.begin(), v1.end(), myComparefunc);
 
-	sort(v1.begin(), v1.end(),myComparefunc);
+    vpii res;
+    if(v1.empty())
+        return res;
 
-    vf.push_back(make_pair(v1.begin()->first,v1.begin()->second));
-    vpii::iterator itf = vf.end()-1;
-
-    for(vpii::iterator its = (v1.begin()) + 1; its != v1.end(); its++)
+    pair<int, int> old;
+    for(auto val : v1)
     {
-    	if(its->first <= itf->second) //overlap
-    	{
-    	    if(its->second > itf->second)
-    	    	itf->second = its->second;
-    	}
-    	else //disconnect. Push it into stack.
-    	{
-    		vf.push_back(make_pair(its->first,its->second)) ;
-            itf = vf.end()-1;
-    	}
-    }
+        if(*(v1.begin()) == val)
+        {
+            old = val;
+            continue;
+        }
 
-    cout << "\n" ;
-    for(vpii::iterator it = (vf.begin()); it != vf.end(); it++)
-    {
-    	DEBUG_DEBUG(cout << "pair->first = " << it->first << " pair->second = " << it->second << "\n");
-    }
+        if(val.first <= old.second)
+        {
+            if(val.second > old.second)
+                old = make_pair(old.first, val.second);
+        }
+        else
+        {
+            res.push_back(old);
+            old = val;
+        }
 
-	return vf;
+    }
+    res.push_back(old);
+
+
+    return res;
+
 }
 
 /* Problem:

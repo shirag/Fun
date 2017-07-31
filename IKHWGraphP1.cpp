@@ -1260,5 +1260,58 @@ int IKSolution::findDistanceBetweenPoints(mplii g, pii src, pii dest)
 }
 
 /*******************************************************************************************************************/
+/* IK Narasimhan questrion Clone a cyclic undirected graph */
+/* IMportant: Use a hash map*/
+/* This has passed LeetCode tests*/
+ /* Definition for undirected graph.*/
+struct UndirectedGraphNode {
+    int label;
+    vector<UndirectedGraphNode *> neighbors;
+    UndirectedGraphNode(int x) : label(x) {};
+};
 
+
+void cloneGraphUtil(UndirectedGraphNode *node, UndirectedGraphNode *gn, set<int>& visited, map<int, UndirectedGraphNode *>& created)
+{
+        if(node == nullptr)
+            return;
+
+        for(auto val : node->neighbors)
+        {
+            UndirectedGraphNode *gn1;
+            if(!created.count(val->label)){
+                gn1 =  new UndirectedGraphNode(val->label);
+                created.insert({val->label, gn1});
+            }
+            else{
+                gn1 = created[val->label];
+            }
+            gn->neighbors.push_back(gn1);
+            if(visited.count(val->label))
+                continue;
+            visited.insert(val->label);
+
+            cloneGraphUtil(val, gn1, visited, created);
+        }
+
+        return;
+}
+
+
+UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+
+        if(node == nullptr)
+            return nullptr;
+
+        map<int, UndirectedGraphNode *> created;
+        set<int> visited;
+
+        UndirectedGraphNode *gn =  new UndirectedGraphNode(node->label);
+        created.insert({node->label, gn});
+
+        visited.insert(node->label);
+
+        cloneGraphUtil(node, gn, visited, created);
+        return gn;
+}
 

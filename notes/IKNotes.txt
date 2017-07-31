@@ -332,14 +332,20 @@ Geetha: recusrion/mock:
 1. Return a duplicate from an array of integers that has many duplicates( 0 to n-1 vals, n size). 
 2. Recurrence	             Algorithm	                              Big-Oh Solution
    T(n) = T(n/2) + O(1)	     Binary Search	                          O(log n)
+   
    T(n) = T(n-1) + O(1)	     Sequential Search	                      O(n)
    T(n) = 2T(n/2) + O(1)	 tree traversal	                          O(n)
+   
    T(n) = 2 T(n/2) + O(n)	 Mergesort (average case Quicksort)	      O(n log n)
+   
    T(n) = T(n-1) + O(n)	     Selection Sort (other n square sorts)	  O(n square) [quadratic]
                                                                       O(n power c)[polynomial]
+                                                                      
    T(n) = 2 T(n-1) + 2       Generate all combinations                O(2 pow n)  [Exponential]
                              Generate all subsets                     O(2 pow n)  [Exponential]
-   T(n) = T(n-1) + T(n-2)    Fibbpnacci                               O(2 pow n)  [Exponential]
+   T(n) = 2 T(n-1) + 1       Towers of hanoi                          O(2 pow n)  [Exponential]
+   T(n) = T(n-1) + T(n-2)    Fibbonacci                               O(2 pow n)  [Exponential]
+
    T(n) = n*T(n-1) + O(n)    Generating permuations                   O(n!)    
 
    Space complexity: O(log n) - A tree with n nodes have a height of log n. So, the stack space is the height of the tree.
@@ -960,12 +966,14 @@ Find Kth largest value:
 
 Find a pair that adds to a k            - O(n)  
 Find a triplet that adds to a k         - O(n * n) 
-Find 4 elements(subset) that add to a k - O(n * n)                                       
+Find 4 elements(subset) that add to a k - O(n * n)  - Make all pairs(n * n). For every pair, calculate the complement and see if it exists.                                     
 Finding a number in a sorted array      - O(log n) - Binary search.  
 
-Find Max Sum SubArray -          O(n)  - Kadane's algorithm
-Find Zero sum sub array        - O(n)  - Map to store all cumulative sums and when you come across a sum again it 
-                                         means we have zero sum sub array.
+Find the Max Sum SubArray -          O(n)  - Kadane's algorithm
+Find Zero sum sub array        -     O(n)  - Map to store all cumulative sums and when you come across a sum again it 
+                                             means we have zero sum sub array.
+Find K sum sub array        
+Increasing subsequnce  with 3 values O(n)                              
                                          
 Find the missing integer in a range without integer  repetetion: In a range 1 to n, there are n elements. This problem is about range 1 to n and there are n-1 elements.  
                         n * n   -  Pick one number go over the entire array.

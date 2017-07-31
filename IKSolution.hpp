@@ -62,6 +62,14 @@ struct LinkedListNode
     struct LinkedListNode *rand;
 };
 
+
+struct MultiChildTreeNode
+{
+    string name;
+    MultiChildTreeNode *parent;
+    vector<MultiChildTreeNode *>subOrds;
+};
+
 typedef vector<int> vi;
 typedef pair<int, int> pii;
 typedef set<int> si;
@@ -241,17 +249,16 @@ class IKSolution
 	    vector<int> AlternatePosNegative(vector<int> vec);
 	    vector<pair<int,int>> skyLine(vvi vec);
 	    string RLE(string strInput);
-	    int findMinimum(vector<int> arr);
+	    int findMinInRotatedSorted(vector<int> arr);
+	    int findKInRotatedSorted(vector<int>& nums, int target);
 	    int printCountOfBitsSet(vector<int> intArr);
 	    int findMaxSumSubArray(vector<int> arr); //Kadane's algorithm
-
-
 	    int findDuplicateThatOccursOnce(vector<int> v); //Prudhvi
 	    int findADuplicate(); /*Geeta*//* Array of n integers values between 0 and n-1 and there are duplicate. Find a duplicate
 	                                    * 1. Bucket method. - Add a value and then subtract when you want to check.
 	                                    * 2. Swapping method - As you iterate over the array keep swapping.
 	                                    */
-
+	    int findMajority();  /* Array of n elements. Many duplicates. frequency greater than n/2. NOt within the range. */
 
 	    /* Trees: Class problems */
 	    void treeBFS(TreeNode *root);
@@ -269,12 +276,8 @@ class IKSolution
 	    TreeNode* treeToDoubleLL(TreeNode*);
 	    TreeNode* findLCA(TreeNode* root, int n1, int n2);
 	    void postorderTraversal(TreeNode* root);
-	    /* Tree time test problem */
 	    void createBalancedBST(vector<int> iArray);
 	    int findKThSmallest(TreeNode* root, unsigned int k);
-	    /* K' successor problem */
-	    /* Interval trees? */
-	    /* Segment trees? */
 	    vvi treeLevelOrderPrint(TreeNode *root);
 	    vvi treeLevelOrderPrintUsingList(TreeNode *root);
 	    TreeNode* cloneATree(TreeNode *root);
@@ -282,28 +285,27 @@ class IKSolution
 	    int largestBST(TreeNode *root);
 	    vvi constrctTree(vector<int> iInOrderArray, vector<int> iPreOrderArray);
 	    void PopulateSiblingPointers(TreeNode *root);
+	    /* K' successor problem */
+	    /* Interval trees? */
+	    /* Segment trees? */
+
 
 	    /* Graph/Homework3 */
         int printAllPathsInAGraph(vvi& g, int src, int dest);
         vvi printAllPathsInAGraphAlter(vvi& g, int src, int dest);
-        int cloneAGraph(); /* You have to ensure cycles are taken care of properly */
-	                       /* Not just a set. You have to use a hash map */
         vector<string> convertAString(ls&, string& begin, string& end); /* Convert string a to b using a dictionary of words*/
 	    int knightsTourOnChessBoard(int rows, int columns, int sx, int sy, int ex, int ey);
 	    string topologicalSort(vector<string>);
 	    int countNoOfIslands(vvi matrix); /* Basically a connected components problem */
-
 	    int snakeNLadder(int m, int n, unordered_map<int,int> locations, map<int,int>& prevMap);
 	    priority_queue<int> detectBasins(vvi ip);
 	    bool detectACycleInADirectedGraph(vvi g);
 	    int findDistanceBetweenPoints(mplii g, pii src, pii dest);
+	    int cloneAGraph(); /* You have to ensure cycles are taken care of properly */
+	                              /* Not just a set. You have to use a hash map */
 
-        /* Mock/Recursion/Homework4 */
-
-	    int findMajority();  /* Array of n elements. Many duplicates. frequency greater than n/2. NOt within the range. */
-	    int MaxPath(vvi); /* n x n matrix find the sum of max sum path */
+        /* Recursion/Homework4 */
 	    vector<string> generateAllPermutations(string s);
-
 	    set< set<int> > provideSubSets(vector<int> ip);
 	    vector<string> expressionEvaluator(string strDigits, int iK); //Very similar to providesubsets(for all places plug in all operators).
 	    vector<string> palindromicDecomposition(string strInput);
@@ -314,7 +316,8 @@ class IKSolution
 	    vector<int> diffWaysToCompute(string s);
 	    void getSimilarMovies(int K);
 	    int diameterOfATree(TreeNode *root);
-
+	    int towersOfHanoi(int* src, int* dest, int* spare, int size);
+        int MaxPath(vvi); /* n x n matrix find the sum of max sum path */
 
         /* LinkedLinkedListNode */
 	    LinkedListNode* AddTwoLinkedListNodes(LinkedListNode *LinkedListNode1, LinkedListNode *LinkedListNode2);

@@ -59,6 +59,7 @@ int giveMeNearestMultiple(int x, int y);
 LinkedListNode* refactorIntoOddEven(LinkedListNode **head);
 vector<int> detectShortestPath(vvi g, int src, int dest);
 bool searchUsingDFS(vvi g, int src, int dest);
+string findLeastCommonManager(MultiChildTreeNode *root, string name1, string name2);
 
 
 TEST_CASE( "Find Kth largest using quick select", "Find Kth largest using quick select")
@@ -468,6 +469,75 @@ TEST_CASE( "Search for a path and detect shortest Path")
 }
 
 
+
+
+TEST_CASE("Find closest manager")
+{
+    cout << "Find closest manager";
+
+
+
+    MultiChildTreeNode root0;
+    root0.name = "Steve Jobs";
+
+    MultiChildTreeNode root1;
+    root1.name = "Narain";
+
+    MultiChildTreeNode root2;
+    root2.name = "Gopal";
+
+    MultiChildTreeNode root3;
+    root3.name = "Subbarao";
+
+    MultiChildTreeNode root4;
+    root4.name = "Ramesh";
+    root4.parent = &root1;
+
+    MultiChildTreeNode root5;
+    root5.name = "Naras";
+
+    MultiChildTreeNode root6;
+    root6.name = "Krish";
+
+    MultiChildTreeNode root7;
+    root7.name = "Raghav";
+
+    MultiChildTreeNode root8;
+    root8.name = "Shivani";
+
+    MultiChildTreeNode root9;
+    root9.name = "Vish";
+
+    MultiChildTreeNode root10;
+    root10.name = "Smi";
+
+
+    root0.subOrds.push_back(&root1);
+    root0.subOrds.push_back(&root2);
+    root0.subOrds.push_back(&root3);
+
+    root1.subOrds.push_back(&root4);
+    root1.subOrds.push_back(&root5);
+    root1.subOrds.push_back(&root6);
+
+    root4.subOrds.push_back(&root7);
+    root4.subOrds.push_back(&root8);
+
+    root5.subOrds.push_back(&root9);
+    root5.subOrds.push_back(&root10);
+
+
+    REQUIRE(findLeastCommonManager(&root0, "Narain", "Subbarao") == "Steve Jobs");
+    REQUIRE(findLeastCommonManager(&root0, "Hui", "Sameer") == "");
+    REQUIRE(findLeastCommonManager(&root0, "Ramesh", "Krish") == "Narain");
+    REQUIRE(findLeastCommonManager(&root0, "Raghav", "Krish") == "Narain");
+    REQUIRE(findLeastCommonManager(&root0, "Shivani", "Smi") == "Narain");
+    REQUIRE(findLeastCommonManager(&root0, "Shi", "Smi") == "");
+    REQUIRE(findLeastCommonManager(&root0, "Raghav", "Ramesh") == "Narain");
+}
+
+/****************************************************************************************************************************/
+
 /*  Quick select, variation of quick sort.
  *  Given an array and a number k where k is smaller than size of array, we need to find the k’th smallest element in the given array.
  *  It is given that ll array elements are distinct.
@@ -677,6 +747,77 @@ bool searchUsingDFS(vvi g, int src, int dest)
 }
 
 /*********************************************************************************************************/
+
+/*
+ * Problem: Detect the common manager. Variation of the LCA problem.
+ * Approach: Post order DFS.
+ * Complexity: O(n). You have to simple traverse the entire tree.
+ * If your child finds the common manager, then simply propagate it up.
+ * Otherwise, find if you are the common one.
+ * Otherwise, find if child found one and you are the second employee.
+ * Otherwise, find if you are one of the employee.
+ *
+ *
+ * */
+
+
+string findLeastCommonManagerUtil(MultiChildTreeNode *root, string emp1, string emp2, bool& found)
+{
+    string manager;
+    bool found1 = false;
+    bool found2 = false;
+
+    if(root == nullptr)
+    {
+        found = false;
+        return manager;
+    }
+
+    for(auto val : root->subOrds)
+    {
+        manager = findLeastCommonManagerUtil(val,emp1, emp2, found);
+
+        if(manager.size() != 0)
+            return manager; //If some child finds it simple propagate it up.
+
+        if(found == true){
+            if(found1 == false){
+                found1 = true;
+                continue;
+            }
+            if(found2 == false)
+                found2 = true;
+        }
+    }
+    if(found1 == true && found2 == true) //One child found one and the other found another
+        return root->name;
+
+    if(found1 == true || found2 == true){ //One child found one
+        found = true;
+        if(root->name == emp1 || root->name == emp2) //Other is myself
+            return root->parent->name;
+        else
+            return manager;
+    }
+    if(root->name == emp1 || root->name == emp2) //Im one of the employees
+    {
+        found = true;
+        return manager;
+    }
+
+    found = false;
+    return manager;
+
+
+}
+
+string findLeastCommonManager(MultiChildTreeNode *root, string name1, string name2)
+{
+   bool found;
+   return findLeastCommonManagerUtil(root, name1, name2, found);
+
+}
+/*********************************************************************************************************************/
 #if 0
 int main()
 {

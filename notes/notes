@@ -798,7 +798,31 @@ GStreamer High Level Flow:
   Pull based mode, the src pad would start a task and every src pad would support a function where you would get a range of bytes. 
   This would be used in cases where downstream element wants the control the data flow and requests only those many byes from the 
   upstream element.
+-----------------------------------------------------------------------------------------------------------------------------------
+  
+Similarities between I2C and SPI
+* Protocols are well-suited for communications between integrated circuits, for slow communication with on-board peripherals.
+* Both are master slave protocol. Communication is always initiated by a master.
+* Both are synchronous protocols.
 
+Differences between I2C and SPI
+* SPI is faster.  Used for writing to Flash. For Flash programming SPI is used since SPI is very fast.
+  Used to connect the microcontroller peripherals with 4 wires. 
+* I2C uses 2 wires. Clock and Data. Clock is unidirectional. Data is bidirectional. More than 2 devices can exist on the same bus.
+  Using 2 wires you can connect a peripheral to a microcontroller.
+  SPI uses 4 wires. Clock, Data In, Data out, and Chip select. Clock is always an output going from master to slave. CS selects the device.
+* I2C: Addressing is software based.
+  SPI: Addressing is hardware based.
+* I2C: More than one master can exist.
+  SPI: Only one master can exist.
+* I2C: Max 3.5Mbps.
+  SPI: Can go over 10Mbps and upto 20Mbps.
+* I2C: Is half duplex(At any point, you are either sending or receiving).
+  SPI: Is full duplex(sending and receiving at the same time).
+  Winner?
+  * I²C(less pins and lines) is a clear winner over SPI in sparing pins, board routing and how easy it is to build an I²C network.  
+  * Both SPI and I2C offer good support for communication with low-speed devices, but SPI is better suited to applications in which 
+    devices transfer data streams, while I²C is better at multi master ‘register access’ application.
 
 
 

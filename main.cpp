@@ -206,7 +206,7 @@ TEST_CASE( "Arrays tests", "Arrays tests" )
     vi vr;
     vi intArr;
     vector<string> vs;
-
+#if 0
     soln.prLR();
 
     vpii v1; vpii res;
@@ -216,9 +216,28 @@ TEST_CASE( "Arrays tests", "Arrays tests" )
     v1.push_back(make_pair(6,8));
     res.push_back(make_pair(1,4));
     res.push_back(make_pair(5,8));
-    soln.mergeIntervals(v1);
-
     REQUIRE(soln.mergeIntervals(v1) == res);
+    v1.clear(); res.clear();
+
+    v1.push_back(make_pair(1,10));
+    v1.push_back(make_pair(2,4));
+    res.push_back(make_pair(1,10));
+    REQUIRE(soln.mergeIntervals(v1) == res);
+    v1.clear(); res.clear();
+
+    v1.push_back(make_pair(1,10));
+    v1.push_back(make_pair(2,15));
+    res.push_back(make_pair(1,15));
+    REQUIRE(soln.mergeIntervals(v1) == res);
+    v1.clear(); res.clear();
+
+    v1.push_back(make_pair(1,10));
+    v1.push_back(make_pair(20,30));
+    res.push_back(make_pair(1,10));
+    res.push_back(make_pair(20,30));
+    REQUIRE(soln.mergeIntervals(v1) == res);
+    v1.clear(); res.clear();
+
 
     cout << "Largest rectangle test \n";
     vr = {10,20,30};
@@ -231,12 +250,15 @@ TEST_CASE( "Arrays tests", "Arrays tests" )
     REQUIRE(soln.findLargestRectangle(vr) == 60);
 
     soln.printPascal(6);
+#endif
 
     cout << "********* Sum zero tests *****************\n";
+    cout << "Begin\n";
     vr = {1,2,3,-10,8,-8,6,10};
     vs = soln.sumZero(intArr);
     for(unsigned int i = 0; i < vs.size(); i++)
-        cout << vs[i] << " ";
+        cout << vs[i] << "   ";
+    cout << "End\n";
     cout << "\n";
 
     intArr = {1,2,3,-10,8,6,10};
@@ -461,89 +483,117 @@ TEST_CASE( "Find minimum in a rotated sorted array", "Find minimum in a rotated 
     //0
     vector<int> i1 = {85,87,88,98,99,55,56,57,58};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 55);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 55);
     cout << "\n\n\n";
 
     //1
     i1 = {1,2,3};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //2
     i1 = {3,1,2};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //3
     i1 = {2,3,1};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //4
     i1 = {1,2};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //5
     i1 = {2,1};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //6
     i1 = {5, 6, 1, 2, 3, 4};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //7
     i1 = {5, 6, 1, 2, 3};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //8
     i1 = {3, 5, 6, 1, 2};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //9
     i1 = {5, 1, 2, 3, 4};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //10
     i1 = {1, 2, 3, 4};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //11
     i1 = {2, 3, 4, 1};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //12
     i1 = {1, 2, 3, 4};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
     //13
     i1 = {1, 2, 3, 4, 5};
     cout << "next test \n"; for(auto it:i1) cout << it << " ";;cout << "\n";
-    REQUIRE(soln.findMinimum(i1) == 1);
+    REQUIRE(soln.findMinInRotatedSorted(i1) == 1);
     cout << "\n\n\n";
 
 
 }
+
+TEST_CASE( "Find K in a rotated sorted array", "Find K in a rotated sorted array" )
+{
+    vector<int> i1;
+
+    i1 = {1, 3};
+    REQUIRE(soln.findKInRotatedSorted(i1, 3) == 1);
+    cout << "\n\n\n";
+
+    i1 = {1, 3, 5};
+    REQUIRE(soln.findKInRotatedSorted(i1, 1) == 0);
+    cout << "\n\n\n";
+
+    i1 = {5, 1, 3};
+    REQUIRE(soln.findKInRotatedSorted(i1, 5) == 0);
+    cout << "\n\n\n";
+
+    i1 = {5, 1, 3};
+    REQUIRE(soln.findKInRotatedSorted(i1, 3) == 2);
+    cout << "\n\n\n";
+
+    i1 = {6, 7, 1, 2, 3, 4, 5};
+    REQUIRE(soln.findKInRotatedSorted(i1, 7) == 1);
+    cout << "\n\n\n";
+
+
+}
+
 
 
 TEST_CASE( "How Many bits set(Hamming Weight)", "How Many bits set(Hamming Weight)" )
@@ -2146,6 +2196,46 @@ TEST_CASE( "Diameter of a tree", "Diameter of a tree" )
     node6.left = nullptr; node6.right = nullptr;
     REQUIRE(soln.diameterOfATree(&node1) == 9);
 
+
+}
+
+
+TEST_CASE( "Hanoi Tower", "Hanoi Tower" )
+{
+    int size;
+    int dest[6]; int spare[6];
+
+    int src[6] = {2, 1};
+    size = 2;
+    soln.towersOfHanoi(src, dest, spare, size);
+    REQUIRE(dest[0] == 2); REQUIRE(dest[1] == 1);
+
+    size = 0;
+    dest[0] = 2; dest[1] = 2; dest[2] = 2;
+    REQUIRE(soln.towersOfHanoi(src, dest, spare, size) == 1);
+
+
+    src[0] = 3; src[1] = 2; src[2] = 1;
+    dest[0] = 0; dest[1] = 0; dest[2] = 0;
+    spare[0] = 0; spare[1] = 0; spare[2] = 0;
+    size = 3;
+    soln.towersOfHanoi(src, dest, spare, size);
+    REQUIRE(dest[0] == 3); REQUIRE(dest[1] == 2); REQUIRE(dest[2] == 1);
+
+
+    src[0] = 4; src[1] = 3; src[2] = 2; src[3] = 1;
+    dest[0] = 0; dest[1] = 0; dest[2] = 0; dest[3] = 0;
+    spare[0] = 0; spare[1] = 0; spare[2] = 0; spare[3] = 0;
+    size = 4;
+    soln.towersOfHanoi(src, dest, spare, size);
+    REQUIRE(dest[0] == 4); REQUIRE(dest[1] == 3); REQUIRE(dest[2] == 2); REQUIRE(dest[3] == 1);
+
+    src[0] = 5; src[1] = 4; src[2] = 3; src[3] = 2; src[4] = 1;
+    dest[0] = 0; dest[1] = 0; dest[2] = 0; dest[3] = 0;
+    spare[0] = 0; spare[1] = 0; spare[2] = 0; spare[3] = 0;
+    size = 5;
+    soln.towersOfHanoi(src, dest, spare, size);
+    REQUIRE(dest[0] == 5); REQUIRE(dest[1] == 4); REQUIRE(dest[2] == 3); REQUIRE(dest[3] == 2); REQUIRE(dest[4] == 1);
 
 }
 
